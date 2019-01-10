@@ -22,4 +22,15 @@ class BraveRewardsTests: XCTestCase {
     let ads = BraveAds(appVersion: "1.0", enabled: true)
     XCTAssertTrue(ads.isEnabled, "Brave Ads was enabled at creation")
   }
+  
+  func testSupportedLocales() {
+    // Should support all the locales in the `locales` directory
+    let supportedLocales = BraveAds(appVersion: "1.0").supportedLocales
+    guard let localesPath = Bundle(for: BraveAds.self).path(forResource: "locales", ofType: nil) else {
+      XCTFail("Could not locate locales path in bundle")
+      return
+    }
+    let contents = try! FileManager.default.contentsOfDirectory(atPath: localesPath)
+    XCTAssertEqual(Set<String>(contents), Set<String>(supportedLocales))
+  }
 }

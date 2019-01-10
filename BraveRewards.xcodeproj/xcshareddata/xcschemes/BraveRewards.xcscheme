@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "27FD38DF21E6B69700443796"
+               BuildableName = "BraveRewardsTests.xctest"
+               BlueprintName = "BraveRewardsTests"
+               ReferencedContainer = "container:BraveRewards.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A1FDE6D020D2AA7400F92CAF"
+            BuildableName = "BraveRewards.framework"
+            BlueprintName = "BraveRewards"
+            ReferencedContainer = "container:BraveRewards.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

@@ -4,7 +4,6 @@
 
 #import "BATBraveAds.h"
 
-//#include "bat/ads/ads.h"
 #import "NativeAdsClient.h"
 
 // Create a getter/setter that syncs with a given property in the NativeAdsClient C++ object
@@ -51,5 +50,14 @@
 
 BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerHour, setNumberOfAllowableAdsPerHour, adsPerHour);
 BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfAllowableAdsPerDay, adsPerDay);
+
+- (NSArray<NSString *> *)supportedLocales
+{
+  auto locales = [[NSMutableArray alloc] init];
+  for (const auto& l : adsClient->GetLocales()) {
+    [locales addObject:[NSString stringWithUTF8String:l.c_str()]];
+  }
+  return [locales copy];
+}
 
 @end

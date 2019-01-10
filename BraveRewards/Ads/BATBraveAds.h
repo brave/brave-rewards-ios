@@ -25,6 +25,9 @@ NS_SWIFT_NAME(BraveAds)
 /// The max number of ads the user can see in a day
 @property (nonatomic, assign) NSInteger numberOfAllowableAdsPerDay;
 
+/// The locales Brave Ads supports currently
+@property (nonatomic, readonly) NSArray<NSString *> *supportedLocales;
+
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithAppVersion:(NSString *)version;
 /// Create an instance of brave native ads and set its enabled state right away

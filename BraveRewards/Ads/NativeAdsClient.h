@@ -24,7 +24,6 @@ namespace ads {
     
 #pragma mark - AdsClient methods
     
-  private:
     const std::string& applicationVersion;
     
     /// the idle threshold specified in seconds, TODO: Should notify the app about the change in idle time

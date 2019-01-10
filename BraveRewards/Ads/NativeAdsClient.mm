@@ -9,6 +9,12 @@
 
 #include "NativeAdsClient.h"
 
+// Simply for pulling the NSBundle
+@interface _BATBundleClass : NSObject
+@end
+@implementation _BATBundleClass
+@end
+
 class LogStreamImpl : public ads::LogStream {
 public:
   LogStreamImpl(
@@ -107,6 +113,22 @@ namespace ads {
   // dependency of the application and should be bundled accordingly, the
   // following file structure could be used:
   void NativeAdsClient::LoadUserModelForLocale(const std::string& locale, OnLoadCallback callback) const {
+    const auto bundle = [NSBundle bundleForClass:[_BATBundleClass class]];
+    const auto localeKey = [[[NSString stringWithUTF8String:locale.c_str()] substringToIndex:2] lowercaseString];
+    const auto path = [[bundle pathForResource:@"locales" ofType:nil]
+                       stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/user_model.json", localeKey]];
+    if (!path || path.length == 0) {
+      callback(FAILED, "");
+      return;
+    }
+    
+    NSError *error = nil;
+    const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    if (!contents || error) {
+      callback(FAILED, "");
+      return;
+    }
+    callback(SUCCESS, std::string(contents.UTF8String));
   }
   
   // Should generate return a v4 UUID
@@ -168,16 +190,16 @@ namespace ads {
                   URLRequestCallback callback) { }
   
   // Should save a value to persistent storage
-  void NativeAdsClient::Save(const std::string& name,
-            const std::string& value,
-            OnSaveCallback callback) { }
+  void NativeAdsClient::Save(const std::string& name, const std::string& value, OnSaveCallback callback) {
+  }
   
   // Should save the bundle state to persistent storage
-  void NativeAdsClient::SaveBundleState(std::unique_ptr<BundleState> state,
-                       OnSaveCallback callback) { }
+  void NativeAdsClient::SaveBundleState(std::unique_ptr<BundleState> state, OnSaveCallback callback) {
+  }
   
   // Should load a value from persistent storage
-  void NativeAdsClient::Load(const std::string& name, OnLoadCallback callback) { }
+  void NativeAdsClient::Load(const std::string& name, OnLoadCallback callback) {
+  }
   
   // Should load a JSON schema from persistent storage, schemas are a dependency
   // of the application and should be bundled accordingly
@@ -187,6 +209,19 @@ namespace ads {
   
   // Should load the sample bundle from persistent storage
   void NativeAdsClient::LoadSampleBundle(OnLoadSampleBundleCallback callback) {
+    const auto bundle = [NSBundle bundleForClass:[_BATBundleClass class]];
+    const auto path = [bundle pathForResource:@"sample_bundle" ofType:@"json"];
+    if (!path || path.length == 0) {
+      callback(FAILED, "");
+      return;
+    }
+    NSError *error = nil;
+    const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    if (!contents || error) {
+      callback(FAILED, "");
+      return;
+    }
+    callback(SUCCESS, std::string(contents.UTF8String));
   }
   
   // Should reset a previously saved value, i.e. remove the file from persistent
