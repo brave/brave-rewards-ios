@@ -10,8 +10,8 @@
 		275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A521E547C2005A0EAF /* UIKit.framework */; };
 		275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A721E547C6005A0EAF /* Foundation.framework */; };
 		275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779AD21E6984D005A0EAF /* SystemConfiguration.framework */; };
-		275779D021E6B15D005A0EAF /* libusermodel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B821E6B15D005A0EAF /* libusermodel.a */; };
-		275779D121E6B15D005A0EAF /* libbatnativeads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B921E6B15D005A0EAF /* libbatnativeads.a */; };
+		275779D021E6B15D005A0EAF /* libbat-native-usermodel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B821E6B15D005A0EAF /* libbat-native-usermodel.a */; };
+		275779D121E6B15D005A0EAF /* libbat-native-ads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B921E6B15D005A0EAF /* libbat-native-ads.a */; };
 		275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C721E6B15D005A0EAF /* NativeAdsClient.mm */; };
 		275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C821E6B15D005A0EAF /* BATBraveAds.mm */; };
 		275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779C921E6B15D005A0EAF /* NativeAdsClient.h */; };
@@ -21,6 +21,12 @@
 		275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CE21E6B15D005A0EAF /* BraveRewards.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
+		27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD393321E7D80100443796 /* libbat-native-ledger.a */; };
+		27FD393621E7DF7700443796 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 27FD393521E7DF7700443796 /* include */; };
+		27FD394121E7FF8D00443796 /* catalog-schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD393821E7FF8D00443796 /* catalog-schema.json */; };
+		27FD394521E7FF8D00443796 /* bundle-schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394021E7FF8D00443796 /* bundle-schema.json */; };
+		27FD394721E8004400443796 /* locales in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394621E8004400443796 /* locales */; };
+		27FD394921E80DE900443796 /* sample_bundle.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394821E80DE900443796 /* sample_bundle.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,8 +43,8 @@
 		275779A521E547C2005A0EAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		275779A721E547C6005A0EAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		275779AD21E6984D005A0EAF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		275779B821E6B15D005A0EAF /* libusermodel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libusermodel.a; sourceTree = "<group>"; };
-		275779B921E6B15D005A0EAF /* libbatnativeads.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbatnativeads.a; sourceTree = "<group>"; };
+		275779B821E6B15D005A0EAF /* libbat-native-usermodel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-usermodel.a"; sourceTree = "<group>"; };
+		275779B921E6B15D005A0EAF /* libbat-native-ads.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-ads.a"; sourceTree = "<group>"; };
 		275779C721E6B15D005A0EAF /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
 		275779C821E6B15D005A0EAF /* BATBraveAds.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAds.mm; sourceTree = "<group>"; };
 		275779C921E6B15D005A0EAF /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
@@ -51,6 +57,12 @@
 		27FD38E021E6B69700443796 /* BraveRewardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BraveRewardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27FD38E221E6B69700443796 /* AdsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTests.swift; sourceTree = "<group>"; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27FD393321E7D80100443796 /* libbat-native-ledger.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-ledger.a"; sourceTree = "<group>"; };
+		27FD393521E7DF7700443796 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		27FD393821E7FF8D00443796 /* catalog-schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "catalog-schema.json"; sourceTree = "<group>"; };
+		27FD394021E7FF8D00443796 /* bundle-schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "bundle-schema.json"; sourceTree = "<group>"; };
+		27FD394621E8004400443796 /* locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locales; sourceTree = "<group>"; };
+		27FD394821E80DE900443796 /* sample_bundle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample_bundle.json; sourceTree = "<group>"; };
 		A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BraveRewards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -70,8 +82,9 @@
 				275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */,
 				275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */,
 				275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */,
-				275779D121E6B15D005A0EAF /* libbatnativeads.a in Frameworks */,
-				275779D021E6B15D005A0EAF /* libusermodel.a in Frameworks */,
+				27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */,
+				275779D121E6B15D005A0EAF /* libbat-native-ads.a in Frameworks */,
+				275779D021E6B15D005A0EAF /* libbat-native-usermodel.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +105,7 @@
 		275779B621E6B15D005A0EAF /* Ads */ = {
 			isa = PBXGroup;
 			children = (
+				27FD393721E7FF7500443796 /* resources */,
 				275779B721E6B15D005A0EAF /* bat-native-ads */,
 				275779CA21E6B15D005A0EAF /* BATBraveAds.h */,
 				275779C821E6B15D005A0EAF /* BATBraveAds.mm */,
@@ -105,8 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				275779E421E6B172005A0EAF /* include */,
-				275779B821E6B15D005A0EAF /* libusermodel.a */,
-				275779B921E6B15D005A0EAF /* libbatnativeads.a */,
+				275779B821E6B15D005A0EAF /* libbat-native-usermodel.a */,
+				275779B921E6B15D005A0EAF /* libbat-native-ads.a */,
 			);
 			path = "bat-native-ads";
 			sourceTree = "<group>";
@@ -114,6 +128,7 @@
 		275779CB21E6B15D005A0EAF /* Ledger */ = {
 			isa = PBXGroup;
 			children = (
+				27FD393221E7D7D900443796 /* bat-native-ledger */,
 				275779CD21E6B15D005A0EAF /* BATNativeLedger.h */,
 				275779CC21E6B15D005A0EAF /* BATNativeLedger.mm */,
 			);
@@ -127,6 +142,26 @@
 				27FD38E421E6B69700443796 /* Info.plist */,
 			);
 			path = BraveRewardsTests;
+			sourceTree = "<group>";
+		};
+		27FD393221E7D7D900443796 /* bat-native-ledger */ = {
+			isa = PBXGroup;
+			children = (
+				27FD393521E7DF7700443796 /* include */,
+				27FD393321E7D80100443796 /* libbat-native-ledger.a */,
+			);
+			path = "bat-native-ledger";
+			sourceTree = "<group>";
+		};
+		27FD393721E7FF7500443796 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				27FD394821E80DE900443796 /* sample_bundle.json */,
+				27FD394021E7FF8D00443796 /* bundle-schema.json */,
+				27FD393821E7FF8D00443796 /* catalog-schema.json */,
+				27FD394621E8004400443796 /* locales */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 		A1FDE6C720D2AA7400F92CAF = {
@@ -260,6 +295,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27FD394121E7FF8D00443796 /* catalog-schema.json in Resources */,
+				27FD393621E7DF7700443796 /* include in Resources */,
+				27FD394721E8004400443796 /* locales in Resources */,
+				27FD394521E7FF8D00443796 /* bundle-schema.json in Resources */,
+				27FD394921E80DE900443796 /* sample_bundle.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +508,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads/include",
+					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger/include",
 				);
 				INFOPLIST_FILE = BraveRewards/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -480,6 +521,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads",
+					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.brave.ios.rewards;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -504,6 +546,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads/include",
+					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger/include",
 				);
 				INFOPLIST_FILE = BraveRewards/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -516,6 +559,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads",
+					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.brave.ios.rewards;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
