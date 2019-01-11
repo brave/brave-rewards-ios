@@ -7,6 +7,8 @@
 
 #import "NativeAdsClient.h"
 
+#import <Network/Network.h>
+
 // Create a getter/setter that syncs with a given property in the NativeAdsClient C++ object
 #define BATNativeBasicPropertyBridge(__type, __objc_getter, __objc_setter, cpp_name) \
   - (__type)__objc_getter { return adsClient->cpp_name; } \
@@ -18,6 +20,8 @@
 
 @interface BATBraveAds () {
   ads::NativeAdsClient *adsClient;
+  nw_path_monitor_t networkMonitor;
+  dispatch_queue_t monitorQueue;
 }
 @property (nonatomic, assign) uint32_t currentTimerID;
 @property (nonatomic, copy) NSMutableDictionary<NSNumber *, NSTimer *> *timers; // ID: Timer
@@ -34,8 +38,11 @@
 {
   if ((self = [super init])) {
     adsClient = new ads::NativeAdsClient(std::string(version.UTF8String));
+    
     self.enabled = enabled;
     self.timers = [[NSMutableDictionary alloc] init];
+    
+    [self setupNetworkMonitoring];
     
     auto const __weak weakSelf = self;
     adsClient->makeTimerBlock = ^uint32_t(uint64_t offset){
@@ -56,6 +63,7 @@
 
 - (void)dealloc
 {
+  nw_path_monitor_cancel(networkMonitor);
   delete adsClient;
 }
 
@@ -72,6 +80,22 @@
 
 BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerHour, setNumberOfAllowableAdsPerHour, adsPerHour);
 BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfAllowableAdsPerDay, adsPerDay);
+
+- (void)setupNetworkMonitoring
+{
+  auto const __weak weakSelf = self;
+  
+  monitorQueue = dispatch_queue_create("bat.nw.monitor", DISPATCH_QUEUE_SERIAL);
+  networkMonitor = nw_path_monitor_create();
+  nw_path_monitor_set_queue(networkMonitor, monitorQueue);
+  nw_path_monitor_set_update_handler(networkMonitor, ^(nw_path_t  _Nonnull path) {
+    const auto strongSelf = weakSelf;
+    if (!strongSelf) { return; }
+    strongSelf->adsClient->isNetworkConnectivityAvailable = (nw_path_get_status(path) == nw_path_status_satisfied ||
+                                                             nw_path_get_status(path) == nw_path_status_satisfiable);
+  });
+  nw_path_monitor_start(networkMonitor);
+}
 
 - (NSArray<NSString *> *)supportedLocales
 {

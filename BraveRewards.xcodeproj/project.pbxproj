@@ -28,6 +28,7 @@
 		27FD394921E80DE900443796 /* sample_bundle.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394821E80DE900443796 /* sample_bundle.json */; };
 		27FD394C21E9208000443796 /* BATBraveAdsNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 27FD394A21E9208000443796 /* BATBraveAdsNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27FD394D21E9208000443796 /* BATBraveAdsNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */; };
+		27FD395621E9317400443796 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD395521E9317400443796 /* Network.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		27FD394A21E9208000443796 /* BATBraveAdsNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATBraveAdsNotification.h; sourceTree = "<group>"; };
 		27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAdsNotification.mm; sourceTree = "<group>"; };
 		27FD395321E92F9C00443796 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		27FD395521E9317400443796 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
 		A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BraveRewards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -83,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */,
+				27FD395621E9317400443796 /* Network.framework in Frameworks */,
 				275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */,
 				275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */,
 				27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */,
@@ -191,6 +194,7 @@
 		A1FDEB7720D2B2E200F92CAF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27FD395521E9317400443796 /* Network.framework */,
 				275779AD21E6984D005A0EAF /* SystemConfiguration.framework */,
 				275779A721E547C6005A0EAF /* Foundation.framework */,
 				275779A521E547C2005A0EAF /* UIKit.framework */,

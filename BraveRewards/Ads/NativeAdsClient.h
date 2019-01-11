@@ -20,8 +20,8 @@ namespace ads {
     uint64_t adsPerHour;
     /// The number of ads that can be shown per day
     uint64_t adsPerDay;
-    /// Called to determine if newtork connectivity is available
-    std::function<bool(void)> isNetworkConnectivityAvailableBlock;
+    /// Called to determine if newtork connectivity is available. By Default assume we have a connection
+    bool isNetworkConnectivityAvailable = true;
     /// Called when the ads client wants to make a timer given the offset (1st arg)
     /// Should return the timer's unique id
     std::function<uint32_t(uint64_t)> makeTimerBlock;

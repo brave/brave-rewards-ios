@@ -93,7 +93,7 @@ namespace ads {
   
   // Should return true if there is a network connection otherwise returns false
   bool NativeAdsClient::IsNetworkConnectionAvailable() {
-    return isNetworkConnectivityAvailableBlock();
+    return isNetworkConnectivityAvailable;
   }
   
   // Should get information about the client
