@@ -93,7 +93,7 @@ namespace ads {
   
   // Should return true if there is a network connection otherwise returns false
   bool NativeAdsClient::IsNetworkConnectionAvailable() {
-    return isNetworkConnectivityAvailable();
+    return isNetworkConnectivityAvailableBlock();
   }
   
   // Should get information about the client
@@ -175,11 +175,13 @@ namespace ads {
   // seconds. If the timer was created successfully a unique identifier should
   // be returned, otherwise returns 0
   uint32_t NativeAdsClient::SetTimer(const uint64_t time_offset) {
-    return 0;
+    return makeTimerBlock(time_offset);
   }
   
   // Should destroy the timer associated with the specified timer identifier
-  void NativeAdsClient::KillTimer(uint32_t timer_id) { }
+  void NativeAdsClient::KillTimer(uint32_t timer_id) {
+    killTimerBlock(timer_id);
+  }
   
   // Should start a URL request
   void NativeAdsClient::URLRequest(const std::string& url,
@@ -264,9 +266,7 @@ namespace ads {
   }
   
   // Should log diagnostic information
-  std::unique_ptr<LogStream> NativeAdsClient::Log(const char* file,
-                                                       const int line,
-                                                       const LogLevel log_level) const {
+  std::unique_ptr<LogStream> NativeAdsClient::Log(const char* file, const int line, const LogLevel log_level) const {
     return std::make_unique<LogStreamImpl>(file, line, log_level);
   }
 }

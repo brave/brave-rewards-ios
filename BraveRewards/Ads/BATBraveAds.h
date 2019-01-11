@@ -20,10 +20,10 @@ NS_SWIFT_NAME(BraveAds)
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 /// The max number of ads the user can see in an hour
-@property (nonatomic, assign) NSInteger numberOfAllowableAdsPerHour;
+@property (nonatomic, assign) NSInteger numberOfAllowableAdsPerHour NS_SWIFT_NAME(adsPerHour);
 
 /// The max number of ads the user can see in a day
-@property (nonatomic, assign) NSInteger numberOfAllowableAdsPerDay;
+@property (nonatomic, assign) NSInteger numberOfAllowableAdsPerDay NS_SWIFT_NAME(adsPerDay);
 
 /// The locales Brave Ads supports currently
 @property (nonatomic, readonly) NSArray<NSString *> *supportedLocales;

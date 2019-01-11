@@ -14,6 +14,8 @@
 @interface BATBraveAds () {
   ads::NativeAdsClient *adsClient;
 }
+@property (nonatomic, assign) uint32_t currentTimerID;
+@property (nonatomic, copy) NSMutableDictionary<NSNumber *, NSTimer *> *timers; // ID: Timer
 @end
 
 @implementation BATBraveAds
@@ -28,6 +30,18 @@
   if ((self = [super init])) {
     adsClient = new ads::NativeAdsClient(std::string(version.UTF8String));
     self.enabled = enabled;
+    self.timers = [[NSMutableDictionary alloc] init];
+    
+    auto const __weak weakSelf = self;
+    adsClient->makeTimerBlock = ^uint32_t(uint64_t offset){
+      if (!weakSelf) { return 0; }
+      return [weakSelf createTimerForOffset:offset];
+    };
+    
+    adsClient->killTimerBlock = ^(uint32_t timerID){
+      if (!weakSelf) { return; }
+      [weakSelf killTimerForID:timerID];
+    };
   }
   return self;
 }
@@ -58,6 +72,29 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
     [locales addObject:[NSString stringWithUTF8String:l.c_str()]];
   }
   return [locales copy];
+}
+
+- (uint32_t)createTimerForOffset:(uint64_t)offset
+{
+  self.currentTimerID++;
+  const auto timerID = self.currentTimerID;
+  
+  auto const __weak weakSelf = self;
+  self.timers[[NSNumber numberWithUnsignedInt:timerID]] =
+  [NSTimer scheduledTimerWithTimeInterval:offset repeats:true block:^(NSTimer * _Nonnull timer) {
+    const auto strongSelf = weakSelf;
+    if (!strongSelf) { return; }
+    strongSelf->adsClient->ads->OnTimer(timerID);
+  }];
+  return timerID;
+}
+
+- (void)killTimerForID:(uint32_t)timerID
+{
+  const auto key = [NSNumber numberWithUnsignedInteger:timerID];
+  const auto timer = self.timers[key];
+  [timer invalidate];
+  [self.timers removeObjectForKey:key];
 }
 
 @end
