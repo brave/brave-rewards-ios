@@ -11,8 +11,9 @@ namespace ads {
   public:
     NativeAdsClient(const std::string& applicationVersion);
     
-    void Initialize();
+#pragma mark - Obj-C bridge methods/properties
     
+    void Initialize();
     /// Whether or not Brave Ads is enabled
     bool isEnabled = false;
     /// The number of ads that can be shown per hour
@@ -26,6 +27,8 @@ namespace ads {
     std::function<uint32_t(uint64_t)> makeTimerBlock;
     /// Called when the ads client wants to kill a timer given the timer id
     std::function<void(uint32_t)> killTimerBlock;
+    /// Called on ShowNotification
+    std::function<void(const NotificationInfo&)> showNotificationBlock;
     
 #pragma mark - AdsClient methods
     

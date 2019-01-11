@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATBraveAds.h"
+#import "BATBraveAdsNotification.h"
 
 #import "NativeAdsClient.h"
 
@@ -10,6 +11,10 @@
 #define BATNativeBasicPropertyBridge(__type, __objc_getter, __objc_setter, cpp_name) \
   - (__type)__objc_getter { return adsClient->cpp_name; } \
   - (void)__objc_setter:(__type)newValue { adsClient->cpp_name = newValue; }
+
+@interface BATBraveAdsNotification ()
+- (instancetype)initWithNotificationInfo:(const ads::NotificationInfo&)info;
+@end
 
 @interface BATBraveAds () {
   ads::NativeAdsClient *adsClient;
@@ -39,8 +44,11 @@
     };
     
     adsClient->killTimerBlock = ^(uint32_t timerID){
-      if (!weakSelf) { return; }
       [weakSelf killTimerForID:timerID];
+    };
+    
+    adsClient->showNotificationBlock = ^(const ads::NotificationInfo& info){
+      [weakSelf showNotification:info];
     };
   }
   return self;
@@ -95,6 +103,12 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
   const auto timer = self.timers[key];
   [timer invalidate];
   [self.timers removeObjectForKey:key];
+}
+
+- (void)showNotification:(const ads::NotificationInfo&)info
+{
+  const auto notification = [[BATBraveAdsNotification alloc] initWithNotificationInfo:info];
+  [self.delegate braveAds:self showNotification:notification];
 }
 
 @end

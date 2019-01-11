@@ -168,7 +168,10 @@ namespace ads {
   
   // Should show a notification
   void NativeAdsClient::ShowNotification(std::unique_ptr<NotificationInfo> info) {
-    
+    const auto& notification = info.get();
+    if (notification != nullptr) {
+      showNotificationBlock(*notification);
+    }
   }
   
   // Should create a timer to trigger after the time offset specified in
@@ -206,7 +209,17 @@ namespace ads {
   // Should load a JSON schema from persistent storage, schemas are a dependency
   // of the application and should be bundled accordingly
   const std::string NativeAdsClient::LoadJsonSchema(const std::string& name) {
-    return "";
+    const auto bundle = [NSBundle bundleForClass:[_BATBundleClass class]];
+    const auto path = [bundle pathForResource:[NSString stringWithUTF8String:name.c_str()] ofType:@"json"];
+    if (!path || path.length == 0) {
+      return "";
+    }
+    NSError *error = nil;
+    const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    if (!contents || error) {
+      return "";
+    }
+    return std::string(contents.UTF8String);
   }
   
   // Should load the sample bundle from persistent storage

@@ -6,15 +6,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(BraveAdsDelegate)
-@protocol BATNativeAdsDelegate <NSObject>
+@class BATBraveAdsNotification, BATBraveAds;
 
-//- (void)nativeAds:(BATNativeAds *)nativeAds shouldShow
+NS_SWIFT_NAME(BraveAdsDelegate)
+@protocol BATBraveAdsDelegate <NSObject>
+
+- (void)braveAds:(BATBraveAds *)braveAds showNotification:(BATBraveAdsNotification *)notification;
 
 @end
 
 NS_SWIFT_NAME(BraveAds)
 @interface BATBraveAds : NSObject
+
+@property (nonatomic, weak, nullable) id<BATBraveAdsDelegate> delegate;
 
 /// Whether or not Brave Ads is enabled
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;

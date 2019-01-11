@@ -22,11 +22,12 @@
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
 		27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD393321E7D80100443796 /* libbat-native-ledger.a */; };
-		27FD393621E7DF7700443796 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 27FD393521E7DF7700443796 /* include */; };
 		27FD394121E7FF8D00443796 /* catalog-schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD393821E7FF8D00443796 /* catalog-schema.json */; };
 		27FD394521E7FF8D00443796 /* bundle-schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394021E7FF8D00443796 /* bundle-schema.json */; };
 		27FD394721E8004400443796 /* locales in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394621E8004400443796 /* locales */; };
 		27FD394921E80DE900443796 /* sample_bundle.json in Resources */ = {isa = PBXBuildFile; fileRef = 27FD394821E80DE900443796 /* sample_bundle.json */; };
+		27FD394C21E9208000443796 /* BATBraveAdsNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 27FD394A21E9208000443796 /* BATBraveAdsNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27FD394D21E9208000443796 /* BATBraveAdsNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,11 +59,13 @@
 		27FD38E221E6B69700443796 /* AdsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTests.swift; sourceTree = "<group>"; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27FD393321E7D80100443796 /* libbat-native-ledger.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-ledger.a"; sourceTree = "<group>"; };
-		27FD393521E7DF7700443796 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		27FD393821E7FF8D00443796 /* catalog-schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "catalog-schema.json"; sourceTree = "<group>"; };
 		27FD394021E7FF8D00443796 /* bundle-schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "bundle-schema.json"; sourceTree = "<group>"; };
 		27FD394621E8004400443796 /* locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locales; sourceTree = "<group>"; };
 		27FD394821E80DE900443796 /* sample_bundle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample_bundle.json; sourceTree = "<group>"; };
+		27FD394A21E9208000443796 /* BATBraveAdsNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATBraveAdsNotification.h; sourceTree = "<group>"; };
+		27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAdsNotification.mm; sourceTree = "<group>"; };
+		27FD395321E92F9C00443796 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BraveRewards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -109,6 +112,8 @@
 				275779B721E6B15D005A0EAF /* bat-native-ads */,
 				275779CA21E6B15D005A0EAF /* BATBraveAds.h */,
 				275779C821E6B15D005A0EAF /* BATBraveAds.mm */,
+				27FD394A21E9208000443796 /* BATBraveAdsNotification.h */,
+				27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */,
 				275779C921E6B15D005A0EAF /* NativeAdsClient.h */,
 				275779C721E6B15D005A0EAF /* NativeAdsClient.mm */,
 			);
@@ -147,7 +152,7 @@
 		27FD393221E7D7D900443796 /* bat-native-ledger */ = {
 			isa = PBXGroup;
 			children = (
-				27FD393521E7DF7700443796 /* include */,
+				27FD395321E92F9C00443796 /* include */,
 				27FD393321E7D80100443796 /* libbat-native-ledger.a */,
 			);
 			path = "bat-native-ledger";
@@ -201,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
+				27FD394C21E9208000443796 /* BATBraveAdsNotification.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATNativeLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
@@ -296,7 +302,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				27FD394121E7FF8D00443796 /* catalog-schema.json in Resources */,
-				27FD393621E7DF7700443796 /* include in Resources */,
 				27FD394721E8004400443796 /* locales in Resources */,
 				27FD394521E7FF8D00443796 /* bundle-schema.json in Resources */,
 				27FD394921E80DE900443796 /* sample_bundle.json in Resources */,
@@ -320,6 +325,7 @@
 			files = (
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
+				27FD394D21E9208000443796 /* BATBraveAdsNotification.mm in Sources */,
 				275779E021E6B15D005A0EAF /* BATNativeLedger.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
