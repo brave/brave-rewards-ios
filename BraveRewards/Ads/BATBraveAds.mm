@@ -57,6 +57,23 @@
     adsClient->showNotificationBlock = ^(const ads::NotificationInfo& info){
       [weakSelf showNotification:info];
     };
+    
+    adsClient->loadFileBlock = ^std::unique_ptr<std::string>(const std::string& name) {
+      const auto filename = [NSString stringWithUTF8String:name.c_str()];
+      const auto contents = std::string([weakSelf loadAdsData:filename].UTF8String);
+      return std::make_unique<std::string>(contents);
+    };
+    
+    adsClient->saveFileBlock = ^BOOL(const std::string& name, const std::string& contents) {
+      const auto filename = [NSString stringWithUTF8String:name.c_str()];
+      const auto nscontents = [NSString stringWithUTF8String:contents.c_str()];
+      return [weakSelf saveAdsData:filename contents:nscontents];
+    };
+    
+    adsClient->removeFileBlock = ^BOOL(const std::string& name) {
+      const auto filename = [NSString stringWithUTF8String:name.c_str()];
+      return [weakSelf removeAdsData:filename];
+    };
   }
   return self;
 }
@@ -133,6 +150,48 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
 {
   const auto notification = [[BATBraveAdsNotification alloc] initWithNotificationInfo:info];
   [self.delegate braveAds:self showNotification:notification];
+}
+
+- (NSString *)adsDataPathForFilename:(NSString *)filename
+{
+  const auto directories = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true);
+  const auto pathComponent = [NSString stringWithFormat:@"brave_ads/%@", filename];
+  return [directories.firstObject stringByAppendingPathComponent:pathComponent];
+}
+
+- (BOOL)saveAdsData:(NSString *)filename contents:(NSString *)contents
+{
+  NSError *error = nil;
+  const auto path = [self adsDataPathForFilename:filename];
+  const auto result = [contents writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+  if (error) {
+    NSLog(@"Failed to save ads data for %@: %@", filename, error.localizedDescription);
+  }
+  return result;
+}
+
+- (NSString *)loadAdsData:(NSString *)filename
+{
+  NSError *error = nil;
+  const auto path = [self adsDataPathForFilename:filename];
+  const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+  if (error) {
+    NSLog(@"Failed to load ads data for %@: %@", filename, error.localizedDescription);
+    return @"";
+  }
+  return contents;
+}
+
+- (BOOL)removeAdsData:(NSString *)filename
+{
+  NSError *error = nil;
+  const auto path = [self adsDataPathForFilename:filename];
+  const auto result = [NSFileManager.defaultManager removeItemAtPath:path error:&error];
+  if (error) {
+    NSLog(@"Failed to remove ads data for filename: %@", filename);
+    return false;
+  }
+  return result;
 }
 
 @end

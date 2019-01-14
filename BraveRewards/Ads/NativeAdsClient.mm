@@ -196,14 +196,31 @@ namespace ads {
   
   // Should save a value to persistent storage
   void NativeAdsClient::Save(const std::string& name, const std::string& value, OnSaveCallback callback) {
+    if (saveFileBlock(name, value)) {
+      callback(SUCCESS);
+    } else {
+      callback(FAILED);
+    }
   }
   
   // Should save the bundle state to persistent storage
   void NativeAdsClient::SaveBundleState(std::unique_ptr<BundleState> state, OnSaveCallback callback) {
+    bundleState.reset(state.release());
+    if (saveFileBlock("bundle.json", state->ToJson())) {
+      callback(SUCCESS);
+    } else {
+      callback(FAILED);
+    }
   }
   
   // Should load a value from persistent storage
   void NativeAdsClient::Load(const std::string& name, OnLoadCallback callback) {
+    const auto contents = loadFileBlock(name);
+    if (contents->length() == 0) {
+      callback(FAILED, "");
+    } else {
+      callback(SUCCESS, *contents);
+    }
   }
   
   // Should load a JSON schema from persistent storage, schemas are a dependency
@@ -242,12 +259,23 @@ namespace ads {
   // Should reset a previously saved value, i.e. remove the file from persistent
   // storage
   void NativeAdsClient::Reset(const std::string& name, OnResetCallback callback) {
+    if (removeFileBlock(name)) {
+      callback(SUCCESS);
+    } else {
+      callback(FAILED);
+    }
   }
   
   // Should get ads for the specified region and category from the previously
   // persisted bundle state
   void NativeAdsClient::GetAds(const std::string& region, const std::string& category, OnGetAdsCallback callback) {
+    auto categories = bundleState->categories.find(category);
+    if (categories == bundleState->categories.end()) {
+      callback(FAILED, region, category, {});
+      return;
+    }
     
+    callback(SUCCESS, region, category, categories->second);
   }
   
   // Should get the components of the specified URL

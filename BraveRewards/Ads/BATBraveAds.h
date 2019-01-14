@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(BraveAdsDelegate)
 @protocol BATBraveAdsDelegate <NSObject>
+@required
 
 - (void)braveAds:(BATBraveAds *)braveAds showNotification:(BATBraveAdsNotification *)notification;
 

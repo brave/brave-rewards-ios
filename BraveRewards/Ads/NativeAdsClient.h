@@ -29,13 +29,14 @@ namespace ads {
     std::function<void(uint32_t)> killTimerBlock;
     /// Called on ShowNotification
     std::function<void(const NotificationInfo&)> showNotificationBlock;
+    /// Called when the ads client wants to persist some data
+    std::function<bool(const std::string& name, const std::string& contents)> saveFileBlock;
+    /// Called when the ads client wants to load some saved data
+    std::function<std::unique_ptr<std::string>(const std::string& name)> loadFileBlock;
+    /// Called when the ads client wants to remove some persisted data
+    std::function<bool(const std::string& name)> removeFileBlock;
     
 #pragma mark - AdsClient methods
-    
-    const std::string& applicationVersion;
-    
-    /// the idle threshold specified in seconds, TODO: Should notify the app about the change in idle time
-    int idleThreshold;
     
     std::unique_ptr<Ads> ads;
     
@@ -151,5 +152,13 @@ namespace ads {
     std::unique_ptr<LogStream> Log(const char* file,
                                    const int line,
                                    const LogLevel log_level) const;
+    
+  private:
+    const std::string& applicationVersion;
+    
+    std::unique_ptr<BundleState> bundleState;
+    
+    /// the idle threshold specified in seconds, TODO: Should notify the app about the change in idle time
+    int idleThreshold;
   };
 }
