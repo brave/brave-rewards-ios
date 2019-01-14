@@ -40,11 +40,6 @@
   if ((self = [super init])) {
     adsClient = new ads::NativeAdsClient(std::string(version.UTF8String));
     
-    self.enabled = enabled;
-    self.timers = [[NSMutableDictionary alloc] init];
-    
-    [self setupNetworkMonitoring];
-    
     auto const __weak weakSelf = self;
     adsClient->makeTimerBlock = ^uint32_t(uint64_t offset){
       if (!weakSelf) { return 0; }
@@ -78,6 +73,12 @@
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    [self setupNetworkMonitoring];
+    self.timers = [[NSMutableDictionary alloc] init];
+    
+    // Last thing we do is enable/disable it (since it will call `Initialize()` on the ads client)
+    self.enabled = enabled;
   }
   return self;
 }
@@ -85,7 +86,7 @@
 - (void)dealloc
 {
   [NSNotificationCenter.defaultCenter removeObserver:self];
-  nw_path_monitor_cancel(networkMonitor);
+  if (networkMonitor) { nw_path_monitor_cancel(networkMonitor); }
   delete adsClient;
 }
 
