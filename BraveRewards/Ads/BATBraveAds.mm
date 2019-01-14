@@ -8,6 +8,7 @@
 #import "NativeAdsClient.h"
 
 #import <Network/Network.h>
+#import <UIKit/UIKit.h>
 
 // Create a getter/setter that syncs with a given property in the NativeAdsClient C++ object
 #define BATNativeBasicPropertyBridge(__type, __objc_getter, __objc_setter, cpp_name) \
@@ -74,12 +75,16 @@
       const auto filename = [NSString stringWithUTF8String:name.c_str()];
       return [weakSelf removeAdsData:filename];
     };
+    
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
   }
   return self;
 }
 
 - (void)dealloc
 {
+  [NSNotificationCenter.defaultCenter removeObserver:self];
   nw_path_monitor_cancel(networkMonitor);
   delete adsClient;
 }
@@ -123,6 +128,18 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
   return [locales copy];
 }
 
+- (void)removeAllHistory
+{
+  adsClient->ads->RemoveAllHistory();
+}
+
+- (void)serveSampleAd
+{
+  adsClient->ads->ServeSampleAd();
+}
+
+#pragma mark -
+
 - (uint32_t)createTimerForOffset:(uint64_t)offset
 {
   self.currentTimerID++;
@@ -150,6 +167,8 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
 {
   const auto notification = [[BATBraveAdsNotification alloc] initWithNotificationInfo:info];
   [self.delegate braveAds:self showNotification:notification];
+  
+  adsClient->ads->GenerateAdReportingNotificationShownEvent(info);
 }
 
 - (NSString *)adsDataPathForFilename:(NSString *)filename
@@ -192,6 +211,47 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
     return false;
   }
   return result;
+}
+
+#pragma mark - Observers
+
+- (void)applicationDidBecomeActive
+{
+  adsClient->ads->OnForeground();
+}
+
+- (void)applicationDidBackground
+{
+  adsClient->ads->OnBackground();
+}
+
+#pragma mark - Reporting
+
+- (void)reportLoadedPageWithURL:(NSURL *)url html:(NSString *)html
+{
+  const auto urlString = std::string(url.absoluteString.UTF8String);
+  adsClient->ads->ClassifyPage(urlString, std::string(html.UTF8String));
+}
+
+- (void)reportMediaStartedWithTabId:(NSInteger)tabId
+{
+  adsClient->ads->OnMediaPlaying((int32_t)tabId);
+}
+
+- (void)reportMediaStoppedWithTabId:(NSInteger)tabId
+{
+  adsClient->ads->OnMediaStopped((int32_t)tabId);
+}
+
+- (void)reportTabUpdated:(NSInteger)tabId url:(NSURL *)url isSelected:(BOOL)isSelected isPrivate:(BOOL)isPrivate
+{
+  const auto urlString = std::string(url.absoluteString.UTF8String);
+  adsClient->ads->TabUpdated((int32_t)tabId, urlString, isSelected, isPrivate);
+}
+
+- (void)reportTabClosedWithTabId:(NSInteger)tabId
+{
+  adsClient->ads->TabClosed((int32_t)tabId);
 }
 
 @end

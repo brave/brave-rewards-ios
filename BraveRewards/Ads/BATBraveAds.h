@@ -12,7 +12,9 @@ NS_SWIFT_NAME(BraveAdsDelegate)
 @protocol BATBraveAdsDelegate <NSObject>
 @required
 
-- (void)braveAds:(BATBraveAds *)braveAds showNotification:(BATBraveAdsNotification *)notification;
+/// The client should show the notification to the user. Return true if the notification was successfully shown,
+/// otherwise, return false.
+- (BOOL)braveAds:(BATBraveAds *)braveAds showNotification:(BATBraveAdsNotification *)notification;
 
 @end
 
@@ -32,6 +34,32 @@ NS_SWIFT_NAME(BraveAds)
 
 /// The locales Brave Ads supports currently
 @property (nonatomic, readonly) NSArray<NSString *> *supportedLocales;
+
+/// Remove all cached history (should be called when the user clears their browser history)
+- (void)removeAllHistory;
+
+/// Should be called when the user invokes "Show Sample Ad" on the Client; a Notification is then sent
+/// to the Client for processing
+- (void)serveSampleAd;
+
+#pragma mark - Reporting
+
+/// Report that a page has loaded in the current browser tab, and the HTML is available for analysis
+- (void)reportLoadedPageWithURL:(NSURL *)url html:(NSString *)html;
+
+/// Report that media has started on a tab with a given id
+- (void)reportMediaStartedWithTabId:(NSInteger)tabId NS_SWIFT_NAME(reportMediaStarted(tabId:));
+
+/// Report that media has stopped on a tab with a given id
+- (void)reportMediaStoppedWithTabId:(NSInteger)tabId NS_SWIFT_NAME(reportMediaStopped(tabId:));
+
+/// Report that a tab with a given id was updated
+- (void)reportTabUpdated:(NSInteger)tabId url:(NSURL *)url isSelected:(BOOL)isSelected isPrivate:(BOOL)isPrivate;
+
+/// Report that a tab with a given id was closed by the user
+- (void)reportTabClosedWithTabId:(NSInteger)tabId NS_SWIFT_NAME(reportTabClosed(tabId:));
+
+#pragma mark -
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithAppVersion:(NSString *)version;
