@@ -25,7 +25,8 @@
   dispatch_queue_t monitorQueue;
 }
 @property (nonatomic, assign) uint32_t currentTimerID;
-@property (nonatomic, copy) NSMutableDictionary<NSNumber *, NSTimer *> *timers; // ID: Timer
+@property (nonatomic, copy) NSMutableDictionary<NSNumber *, NSTimer *> *timers; // {ID: Timer}
+@property (nonatomic, copy) NSMutableArray<NSURLSessionDataTask *> *runningTasks;
 @end
 
 @implementation BATBraveAds
@@ -38,45 +39,12 @@
 - (instancetype)initWithAppVersion:(NSString *)version enabled:(BOOL)enabled
 {
   if ((self = [super init])) {
+    _timers = [[NSMutableDictionary alloc] init];
+    _runningTasks = [[NSMutableArray alloc] init];
     adsClient = new ads::NativeAdsClient(std::string(version.UTF8String));
     
-    auto const __weak weakSelf = self;
-    adsClient->makeTimerBlock = ^uint32_t(uint64_t offset){
-      if (!weakSelf) { return 0; }
-      return [weakSelf createTimerForOffset:offset];
-    };
-    
-    adsClient->killTimerBlock = ^(uint32_t timerID){
-      [weakSelf killTimerForID:timerID];
-    };
-    
-    adsClient->showNotificationBlock = ^(const ads::NotificationInfo& info){
-      [weakSelf showNotification:info];
-    };
-    
-    adsClient->loadFileBlock = ^std::string(const std::string& name) {
-      const auto filename = [NSString stringWithUTF8String:name.c_str()];
-      const auto contents = std::string([weakSelf loadAdsData:filename].UTF8String);
-      return std::string(contents);
-    };
-    
-    adsClient->saveFileBlock = ^BOOL(const std::string& name, const std::string& contents) {
-      const auto filename = [NSString stringWithUTF8String:name.c_str()];
-      const auto nscontents = [NSString stringWithUTF8String:contents.c_str()];
-      return [weakSelf saveAdsData:filename contents:nscontents];
-    };
-    
-    adsClient->removeFileBlock = ^BOOL(const std::string& name) {
-      const auto filename = [NSString stringWithUTF8String:name.c_str()];
-      return [weakSelf removeAdsData:filename];
-    };
-    
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
+    [self setupCppBridgeMethods];
     [self setupNetworkMonitoring];
-    
-    _timers = [[NSMutableDictionary alloc] init];
     
     // Setup the ads directory for persistant storage
     const auto adsDirectory = [self adsParentDirectory];
@@ -87,16 +55,69 @@
                                                     error:nil];
     }
     
+    // Add notifications for standard app foreground/background
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
     // Last thing we do is enable/disable it (since it will call `Initialize()` on the ads client)
     self.enabled = enabled;
   }
   return self;
 }
 
+- (void)setupCppBridgeMethods
+{
+  auto const __weak weakSelf = self;
+  adsClient->makeTimerBlock = ^uint32_t(uint64_t offset){
+    if (!weakSelf) { return 0; }
+    return [weakSelf createTimerForOffset:offset];
+  };
+  
+  adsClient->killTimerBlock = ^(uint32_t timerID){
+    [weakSelf killTimerForID:timerID];
+  };
+  
+  adsClient->showNotificationBlock = ^(const ads::NotificationInfo& info){
+    [weakSelf showNotification:info];
+  };
+  
+  adsClient->loadFileBlock = ^std::string(const std::string& name) {
+    const auto filename = [NSString stringWithUTF8String:name.c_str()];
+    const auto contents = std::string([weakSelf loadAdsData:filename].UTF8String);
+    return std::string(contents);
+  };
+  
+  adsClient->saveFileBlock = ^BOOL(const std::string& name, const std::string& contents) {
+    const auto filename = [NSString stringWithUTF8String:name.c_str()];
+    const auto nscontents = [NSString stringWithUTF8String:contents.c_str()];
+    return [weakSelf saveAdsData:filename contents:nscontents];
+  };
+  
+  adsClient->removeFileBlock = ^BOOL(const std::string& name) {
+    const auto filename = [NSString stringWithUTF8String:name.c_str()];
+    return [weakSelf removeAdsData:filename];
+  };
+  
+  adsClient->urlRequestBlock = ^(const std::string& url,
+                                 const std::vector<std::string>& headers,
+                                 const std::string& content,
+                                 const std::string& content_type,
+                                 const ads::URLRequestMethod method,
+                                 ads::URLRequestCallback callback) {
+    [weakSelf loadURLRequest:url
+                     headers:headers
+                     content:content
+                content_type:content_type
+                      method:method
+                    callback:callback];
+  };
+}
+
 - (void)dealloc
 {
   [NSNotificationCenter.defaultCenter removeObserver:self];
   if (networkMonitor) { nw_path_monitor_cancel(networkMonitor); }
+  [self.runningTasks makeObjectsPerformSelector:@selector(cancel)];
   delete adsClient;
 }
 
@@ -191,6 +212,64 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
 - (NSString *)adsDataPathForFilename:(NSString *)filename
 {
   return [[self adsParentDirectory] stringByAppendingPathComponent:filename];
+}
+
+- (void)loadURLRequest:(const std::string&)url headers:(const std::vector<std::string>&)headers content:(const std::string&)content content_type:(const std::string&)content_type method:(const ads::URLRequestMethod)method callback:(ads::URLRequestCallback)callback
+{
+  const auto session = NSURLSession.sharedSession;
+  const auto nsurl = [NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]];
+  const auto request = [[NSMutableURLRequest alloc] initWithURL:nsurl];
+  
+  // At the moment `headers` is ignored, as I'm not sure how to use an array of strings to setup HTTP headers...
+  
+  if (content_type.length() > 0) {
+    [request setValue:[NSString stringWithUTF8String:content_type.c_str()] forHTTPHeaderField:@"Content-Type"];
+  }
+  
+  switch (method) {
+    case ads::GET:
+      request.HTTPMethod = @"GET";
+      break;
+    case ads::POST:
+      request.HTTPMethod = @"POST";
+      break;
+    case ads::PUT:
+      request.HTTPMethod = @"PUT";
+      break;
+  }
+  if (method != ads::GET && content.length() > 0) {
+    // Assumed http body
+    request.HTTPBody = [[NSString stringWithUTF8String:content.c_str()] dataUsingEncoding:NSUTF8StringEncoding];
+  }
+  
+  const auto __weak weakSelf = self;
+  NSURLSessionDataTask *task = nil;
+  task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
+    const auto strongSelf = weakSelf;
+    if (!strongSelf) { return; };
+    [strongSelf.runningTasks removeObject:task];
+    
+    const auto response = (NSHTTPURLResponse *)urlResponse;
+    std::string json;
+    if (data) {
+      // Might be no reason to convert to an NSString back to a UTF8 pointer...
+      json = std::string([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].UTF8String);
+    }
+    // For some reason I couldn't just do `std::map<std::string, std::string> responseHeaders;` due to std::map's
+    // non-const key insertion
+    auto responseHeaders = new std::map<std::string, std::string>();
+    [response.allHeaderFields enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+      if (![key isKindOfClass:NSString.class] || ![obj isKindOfClass:NSString.class]) { return; }
+      std::string stringKey(((NSString *)key).UTF8String);
+      std::string stringValue(((NSString *)obj).UTF8String);
+      responseHeaders->insert(std::make_pair(stringKey, stringValue));
+    }];
+    callback((int)response.statusCode, json, *responseHeaders);
+    delete responseHeaders;
+  }];
+  // dataTaskWithRequest returns _Nonnull, so no need to worry about initialized variable being nil
+  [self.runningTasks addObject:task];
+  [task resume];
 }
 
 - (BOOL)saveAdsData:(NSString *)filename contents:(NSString *)contents

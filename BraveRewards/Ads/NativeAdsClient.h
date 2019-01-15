@@ -29,6 +29,13 @@ namespace ads {
     std::function<void(uint32_t)> killTimerBlock;
     /// Called on ShowNotification
     std::function<void(const NotificationInfo&)> showNotificationBlock;
+    /// Called to load a URL request. Use callback when the call is completed.
+    std::function<void(const std::string& url,
+                       const std::vector<std::string>& headers,
+                       const std::string& content,
+                       const std::string& content_type,
+                       const URLRequestMethod method,
+                       URLRequestCallback callback)> urlRequestBlock;
     /// Called when the ads client wants to persist some data
     std::function<bool(const std::string& name, const std::string& contents)> saveFileBlock;
     /// Called when the ads client wants to load some saved data

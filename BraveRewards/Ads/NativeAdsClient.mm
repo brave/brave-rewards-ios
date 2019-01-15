@@ -193,49 +193,7 @@ namespace ads {
                                    const std::string& content_type,
                                    const URLRequestMethod method,
                                    URLRequestCallback callback) {
-    const auto session = NSURLSession.sharedSession;
-    const auto nsurl = [NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]];
-    const auto request = [[NSMutableURLRequest alloc] initWithURL:nsurl];
-    if (content_type.length() > 0) {
-      request.allHTTPHeaderFields = @{ @"Content-Type": [NSString stringWithUTF8String:content_type.c_str()] };
-    }
-    switch (method) {
-    case GET:
-        request.HTTPMethod = @"GET";
-        break;
-    case POST:
-        request.HTTPMethod = @"POST";
-        break;
-    case PUT:
-        request.HTTPMethod = @"PUT";
-        break;
-    }
-    if (method != GET && content.length() > 0) {
-      // Assumed http body
-      request.HTTPBody = [[NSString stringWithUTF8String:content.c_str()] dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    const auto task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable urlResponse, NSError * _Nullable error) {
-      const auto response = (NSHTTPURLResponse *)urlResponse;
-      std::string json;
-      if (data) {
-        // Might be no reason to convert to an NSString back to a UTF8 pointer...
-        json = std::string([[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding].UTF8String);
-      }
-      // For some reason I couldn't just do `std::map<std::string, std::string> responseHeaders;` due to std::map's
-      // non-const key insertion
-      auto responseHeaders = new std::map<std::string, std::string>();
-      [response.allHeaderFields enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![key isKindOfClass:NSString.class] || ![obj isKindOfClass:NSString.class]) { return; }
-        std::string stringKey(((NSString *)key).UTF8String);
-        std::string stringValue(((NSString *)obj).UTF8String);
-        responseHeaders->insert(std::make_pair(stringKey, stringValue));
-      }];
-      dispatch_async(dispatch_get_main_queue(), ^{
-        callback((int)response.statusCode, json, *responseHeaders);
-        delete responseHeaders;
-      });
-    }];
-    [task resume];
+    urlRequestBlock(url, headers, content, content_type, method, callback);
   }
   
   // Should save a value to persistent storage
@@ -250,7 +208,7 @@ namespace ads {
   // Should save the bundle state to persistent storage
   void NativeAdsClient::SaveBundleState(std::unique_ptr<BundleState> state, OnSaveCallback callback) {
     bundleState.reset(state.release());
-    if (saveFileBlock("bundle.json", state->ToJson())) {
+    if (saveFileBlock("bundle.json", bundleState->ToJson())) {
       callback(SUCCESS);
     } else {
       callback(FAILED);
