@@ -54,10 +54,10 @@
       [weakSelf showNotification:info];
     };
     
-    adsClient->loadFileBlock = ^std::unique_ptr<std::string>(const std::string& name) {
+    adsClient->loadFileBlock = ^std::string(const std::string& name) {
       const auto filename = [NSString stringWithUTF8String:name.c_str()];
       const auto contents = std::string([weakSelf loadAdsData:filename].UTF8String);
-      return std::make_unique<std::string>(contents);
+      return std::string(contents);
     };
     
     adsClient->saveFileBlock = ^BOOL(const std::string& name, const std::string& contents) {
@@ -75,7 +75,17 @@
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     
     [self setupNetworkMonitoring];
-    self.timers = [[NSMutableDictionary alloc] init];
+    
+    _timers = [[NSMutableDictionary alloc] init];
+    
+    // Setup the ads directory for persistant storage
+    const auto adsDirectory = [self adsParentDirectory];
+    if (![NSFileManager.defaultManager fileExistsAtPath:adsDirectory isDirectory:nil]) {
+      [NSFileManager.defaultManager createDirectoryAtPath:adsDirectory
+                              withIntermediateDirectories:true
+                                               attributes:nil
+                                                    error:nil];
+    }
     
     // Last thing we do is enable/disable it (since it will call `Initialize()` on the ads client)
     self.enabled = enabled;
@@ -172,11 +182,15 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
   adsClient->ads->GenerateAdReportingNotificationShownEvent(info);
 }
 
-- (NSString *)adsDataPathForFilename:(NSString *)filename
+- (NSString *)adsParentDirectory
 {
   const auto directories = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true);
-  const auto pathComponent = [NSString stringWithFormat:@"brave_ads/%@", filename];
-  return [directories.firstObject stringByAppendingPathComponent:pathComponent];
+  return [directories.firstObject stringByAppendingPathComponent:@"brave_ads"];
+}
+
+- (NSString *)adsDataPathForFilename:(NSString *)filename
+{
+  return [[self adsParentDirectory] stringByAppendingPathComponent:filename];
 }
 
 - (BOOL)saveAdsData:(NSString *)filename contents:(NSString *)contents

@@ -11,6 +11,19 @@ import XCTest
 
 class BraveRewardsTests: XCTestCase {
   
+  override func setUp() {
+    super.setUp()
+    
+    // Purge the persistant storage directory
+    if let directory = NSSearchPathForDirectoriesInDomains(
+      .cachesDirectory,
+      .userDomainMask,
+      true
+      ).first?.appending("/brave_ads") {
+      try? FileManager.default.removeItem(atPath: directory)
+    }
+  }
+  
   func testDisabledByDefault() {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -32,5 +45,28 @@ class BraveRewardsTests: XCTestCase {
     }
     let contents = try! FileManager.default.contentsOfDirectory(atPath: localesPath)
     XCTAssertEqual(Set<String>(contents), Set<String>(supportedLocales))
+  }
+  
+  func testServingSampleAd() {
+    let expect = expectation(description: "Serving Sample Ad")
+    
+    let ads = BraveAds(appVersion: "1.0", enabled: true)
+    
+    let delegate = MockAdsDelegate()
+    delegate.showNotification = { notification in
+      defer { expect.fulfill() }
+      return true
+    }
+    ads.delegate = delegate
+    ads.serveSampleAd()
+    waitForExpectations(timeout: 5.0, handler: nil)
+  }
+}
+
+class MockAdsDelegate: NSObject, BraveAdsDelegate {
+  var showNotification: ((BraveAdsNotification) -> Bool)?
+  
+  func braveAds(_ braveAds: BraveAds, show notification: BraveAdsNotification) -> Bool {
+    return self.showNotification?(notification) ?? false
   }
 }

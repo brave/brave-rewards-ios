@@ -230,8 +230,10 @@ namespace ads {
         std::string stringValue(((NSString *)obj).UTF8String);
         responseHeaders->insert(std::make_pair(stringKey, stringValue));
       }];
-      callback((int)response.statusCode, json, *responseHeaders);
-      delete responseHeaders;
+      dispatch_async(dispatch_get_main_queue(), ^{
+        callback((int)response.statusCode, json, *responseHeaders);
+        delete responseHeaders;
+      });
     }];
     [task resume];
   }
@@ -258,10 +260,10 @@ namespace ads {
   // Should load a value from persistent storage
   void NativeAdsClient::Load(const std::string& name, OnLoadCallback callback) {
     const auto contents = loadFileBlock(name);
-    if (contents->length() == 0) {
+    if (contents.empty()) {
       callback(FAILED, "");
     } else {
-      callback(SUCCESS, *contents);
+      callback(SUCCESS, contents);
     }
   }
   
@@ -269,7 +271,7 @@ namespace ads {
   // of the application and should be bundled accordingly
   const std::string NativeAdsClient::LoadJsonSchema(const std::string& name) {
     const auto bundle = [NSBundle bundleForClass:[_BATBundleClass class]];
-    const auto path = [bundle pathForResource:[NSString stringWithUTF8String:name.c_str()] ofType:@"json"];
+    const auto path = [bundle pathForResource:[NSString stringWithUTF8String:name.c_str()] ofType:nil];
     if (!path || path.length == 0) {
       return "";
     }

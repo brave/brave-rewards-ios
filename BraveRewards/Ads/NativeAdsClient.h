@@ -32,7 +32,7 @@ namespace ads {
     /// Called when the ads client wants to persist some data
     std::function<bool(const std::string& name, const std::string& contents)> saveFileBlock;
     /// Called when the ads client wants to load some saved data
-    std::function<std::unique_ptr<std::string>(const std::string& name)> loadFileBlock;
+    std::function<std::string(const std::string& name)> loadFileBlock;
     /// Called when the ads client wants to remove some persisted data
     std::function<bool(const std::string& name)> removeFileBlock;
     
