@@ -136,24 +136,6 @@ namespace ads {
     return std::string([NSUUID UUID].UUIDString.UTF8String);
   }
   
-  // Should return the network SSID or an empty string if not available
-  const std::string NativeAdsClient::GetSSID() const {
-    const auto interfaces = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
-    if (interfaces.firstObject) {
-      const auto interface = (__bridge CFStringRef)interfaces.firstObject;
-      // Important:
-      // To use this function in iOS 12 and later, enable the Access WiFi Information capability for your app in Xcode.
-      // When you enable this capability, Xcode automatically adds the Access WiFi Information entitlement to your
-      // entitlements file and App ID.
-      const auto networkInfo = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo(interface);
-      const auto ssid = (NSString *)networkInfo[@"SSID"];
-      if (ssid.length > 0) {
-        return std::string(ssid.UTF8String);
-      }
-    }
-    return "";
-  }
-  
   // Should return true if the browser is in the foreground otherwise returns
   // false
   bool NativeAdsClient::IsForeground() const {

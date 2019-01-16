@@ -81,9 +81,6 @@ namespace ads {
     /// Should generate return a v4 UUID
     const std::string GenerateUUID() const;
     
-    /// Should return the network SSID or an empty string if not available
-    const std::string GetSSID() const;
-    
     /// Should return true if the browser is in the foreground otherwise returns
     /// false
     bool IsForeground() const;
