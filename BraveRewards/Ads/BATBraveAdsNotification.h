@@ -1,10 +1,6 @@
-//
-//  BATBraveAdsNotification.h
-//  BraveRewards
-//
-//  Created by Kyle Hickinson on 2019-01-11.
-//  Copyright © 2019 Kyle Hickinson. All rights reserved.
-//
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <Foundation/Foundation.h>
 

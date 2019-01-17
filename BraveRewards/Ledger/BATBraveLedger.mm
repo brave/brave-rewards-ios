@@ -2,21 +2,30 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BATNativeLedger.h"
+#import "BATBraveLedger.h"
 
-@interface BATNativeLedger () {
-//  bat_ledger::LedgerImpl ledger;
+#import "NativeLedgerClient.h"
+
+@interface BATBraveLedger () {
+  ledger::NativeLedgerClient *ledgerClient;
 }
 @end
 
-@implementation BATNativeLedger
+@implementation BATBraveLedger
 
 - (instancetype)init
 {
   if ((self = [super init])) {
 //    ledger.initSynopsis();
+    
+    ledgerClient = new ledger::NativeLedgerClient();
   }
   return self;
+}
+
+- (void)dealloc
+{
+  delete ledgerClient;
 }
 
 /*

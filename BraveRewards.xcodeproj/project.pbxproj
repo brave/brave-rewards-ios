@@ -16,8 +16,8 @@
 		275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C821E6B15D005A0EAF /* BATBraveAds.mm */; };
 		275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779C921E6B15D005A0EAF /* NativeAdsClient.h */; };
 		275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CA21E6B15D005A0EAF /* BATBraveAds.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		275779E021E6B15D005A0EAF /* BATNativeLedger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779CC21E6B15D005A0EAF /* BATNativeLedger.mm */; };
-		275779E121E6B15D005A0EAF /* BATNativeLedger.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CD21E6B15D005A0EAF /* BATNativeLedger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */; };
+		275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CD21E6B15D005A0EAF /* BATBraveLedger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CE21E6B15D005A0EAF /* BraveRewards.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
@@ -29,6 +29,8 @@
 		27FD394C21E9208000443796 /* BATBraveAdsNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 27FD394A21E9208000443796 /* BATBraveAdsNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27FD394D21E9208000443796 /* BATBraveAdsNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */; };
 		27FD395621E9317400443796 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD395521E9317400443796 /* Network.framework */; };
+		27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27FD395E21EFD88500443796 /* NativeLedgerClient.h */; };
+		27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27FD395F21EFD88500443796 /* NativeLedgerClient.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,8 +53,8 @@
 		275779C821E6B15D005A0EAF /* BATBraveAds.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAds.mm; sourceTree = "<group>"; };
 		275779C921E6B15D005A0EAF /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
 		275779CA21E6B15D005A0EAF /* BATBraveAds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BATBraveAds.h; sourceTree = "<group>"; };
-		275779CC21E6B15D005A0EAF /* BATNativeLedger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATNativeLedger.mm; sourceTree = "<group>"; };
-		275779CD21E6B15D005A0EAF /* BATNativeLedger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BATNativeLedger.h; sourceTree = "<group>"; };
+		275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveLedger.mm; sourceTree = "<group>"; };
+		275779CD21E6B15D005A0EAF /* BATBraveLedger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BATBraveLedger.h; sourceTree = "<group>"; };
 		275779CE21E6B15D005A0EAF /* BraveRewards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BraveRewards.h; sourceTree = "<group>"; };
 		275779CF21E6B15D005A0EAF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		275779E421E6B172005A0EAF /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		27FD394B21E9208000443796 /* BATBraveAdsNotification.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAdsNotification.mm; sourceTree = "<group>"; };
 		27FD395321E92F9C00443796 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		27FD395521E9317400443796 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
+		27FD395E21EFD88500443796 /* NativeLedgerClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeLedgerClient.h; sourceTree = "<group>"; };
+		27FD395F21EFD88500443796 /* NativeLedgerClient.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeLedgerClient.mm; sourceTree = "<group>"; };
 		A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BraveRewards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -91,6 +95,7 @@
 				27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */,
 				275779D121E6B15D005A0EAF /* libbat-native-ads.a in Frameworks */,
 				275779D021E6B15D005A0EAF /* libbat-native-usermodel.a in Frameworks */,
+				27C58CFE21EFFCEF00F8E0D5 /* libBoringSSL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,8 +142,10 @@
 			isa = PBXGroup;
 			children = (
 				27FD393221E7D7D900443796 /* bat-native-ledger */,
-				275779CD21E6B15D005A0EAF /* BATNativeLedger.h */,
-				275779CC21E6B15D005A0EAF /* BATNativeLedger.mm */,
+				275779CD21E6B15D005A0EAF /* BATBraveLedger.h */,
+				275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */,
+				27FD395E21EFD88500443796 /* NativeLedgerClient.h */,
+				27FD395F21EFD88500443796 /* NativeLedgerClient.mm */,
 			);
 			path = Ledger;
 			sourceTree = "<group>";
@@ -211,8 +218,9 @@
 			files = (
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27FD394C21E9208000443796 /* BATBraveAdsNotification.h in Headers */,
-				275779E121E6B15D005A0EAF /* BATNativeLedger.h in Headers */,
+				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
+				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +338,8 @@
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATBraveAdsNotification.mm in Sources */,
-				275779E021E6B15D005A0EAF /* BATNativeLedger.mm in Sources */,
+				27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */,
+				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

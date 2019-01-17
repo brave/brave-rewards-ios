@@ -6,7 +6,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATNativeLedger : NSObject
+NS_SWIFT_NAME(BraveLedger)
+@interface BATBraveLedger : NSObject
 
 /*
 #pragma mark - Wallet
