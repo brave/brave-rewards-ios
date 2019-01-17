@@ -12,4 +12,4 @@ FOUNDATION_EXPORT const unsigned char BraveRewardsVersionString[];
 
 #import <BraveRewards/BATBraveAds.h>
 #import <BraveRewards/BATBraveAdsNotification.h>
-#import <BraveRewards/BATNativeLedger.h>
+#import <BraveRewards/BATBraveLedger.h>
