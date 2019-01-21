@@ -19,6 +19,7 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 {
   if ((self = [super init])) {    
     ledgerClient = new ledger::NativeLedgerClient(self);
+    ledgerClient->ledger->Initialize();
   }
   return self;
 }
@@ -73,5 +74,44 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
     return;
   }
 }
+
+#pragma mark - Preferences
+
+#define BATLedgerReadonlyPreferenceBridge(__type, __objc_getter, __cpp_getter) \
+- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); }
+
+#define BATLedgerPreferenceBridge(__type, __objc_getter, __objc_setter, __cpp_getter, __cpp_setter) \
+- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); } \
+- (void)__objc_setter:(__type)newValue { ledgerClient->ledger->__cpp_setter(newValue); }
+
+BATLedgerPreferenceBridge(BOOL,
+                          isEnabled, setEnabled,
+                          GetRewardsMainEnabled, SetRewardsMainEnabled);
+
+BATLedgerPreferenceBridge(UInt64,
+                          minimumVisitDuration, setMinimumVisitDuration,
+                          GetPublisherMinVisitTime, SetPublisherMinVisitTime);
+
+BATLedgerPreferenceBridge(UInt32,
+                          minimumNumberOfVisits, setMinimumNumberOfVisits,
+                          GetPublisherMinVisits, SetPublisherMinVisits);
+
+BATLedgerPreferenceBridge(BOOL,
+                          allowUnverifiedPublishers, setAllowUnverifiedPublishers,
+                          GetPublisherAllowNonVerified, SetPublisherAllowNonVerified);
+
+BATLedgerPreferenceBridge(BOOL,
+                          allowVideos, setAllowVideos,
+                          GetPublisherAllowVideos, SetPublisherAllowVideos);
+
+BATLedgerPreferenceBridge(double,
+                          contributionAmount, setContributionAmount,
+                          GetContributionAmount, SetContributionAmount);
+
+BATLedgerPreferenceBridge(BOOL,
+                          isAutoContributeEnabled, setAutoContributeEnabled,
+                          GetAutoContribute, SetAutoContribute);
+
+BATLedgerReadonlyPreferenceBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
 
 @end

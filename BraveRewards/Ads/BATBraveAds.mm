@@ -6,6 +6,7 @@
 #import "BATAdsNotification.h"
 
 #import "NativeAdsClient.h"
+#import "NSArray+Vector.h"
 
 #import <Network/Network.h>
 #import <UIKit/UIKit.h>
@@ -89,11 +90,7 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
 
 - (NSArray<NSString *> *)supportedLocales
 {
-  auto locales = [[NSMutableArray alloc] init];
-  for (const auto& l : adsClient->GetLocales()) {
-    [locales addObject:[NSString stringWithUTF8String:l.c_str()]];
-  }
-  return [locales copy];
+  return NSArrayFromVector(adsClient->GetLocales());
 }
 
 - (void)removeAllHistory

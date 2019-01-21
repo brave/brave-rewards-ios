@@ -31,7 +31,24 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Publishers
 
+@property (readonly) UInt32 numberOfExcludedSites;
+
 #pragma mark - Preferences
+
+/// Whether or not brave rewards is enabled
+@property (nonatomic, assign, getter=isEnabled) BOOL enabled;
+/// The number of seconds before a publisher is added.
+@property (nonatomic, assign) UInt64 minimumVisitDuration;
+/// The minimum number of visits before a publisher is added
+@property (nonatomic, assign) UInt32 minimumNumberOfVisits;
+/// Whether or not to add unverified publishers
+@property (nonatomic, assign) BOOL allowUnverifiedPublishers;
+/// ??
+@property (nonatomic, assign) BOOL allowVideos;
+/// ??
+@property (nonatomic, assign) double contributionAmount;
+/// Whether or not the user will automatically contribute
+@property (nonatomic, assign, getter=isAutoContributeEnabled) BOOL autoContributeEnabled;
 
 @end
 
