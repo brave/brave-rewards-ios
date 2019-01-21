@@ -7,7 +7,11 @@
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <iostream>
 
-#include "NativeAdsClient.h"
+#import "NativeAdsClient.h"
+#import "BATCommonOperations.h"
+#import "BATBraveAds+Private.h"
+
+@class BATBraveAds;
 
 // Simply for pulling the NSBundle
 @interface _BATBundleClass : NSObject
@@ -56,10 +60,17 @@ private:
 };
 
 namespace ads {
-  NativeAdsClient::NativeAdsClient(const std::string& applicationVersion)
-    : ads(Ads::CreateInstance(this)),
+  NativeAdsClient::NativeAdsClient(BATBraveAds *objcAds, const std::string& applicationVersion)
+    : objcAds(objcAds),
+      common([[BATCommonOperations alloc] initWithStoragePath:@"brave_ads"]),
+      ads(Ads::CreateInstance(this)),
       applicationVersion(applicationVersion) {
   };
+  
+  NativeAdsClient::~NativeAdsClient() {
+    objcAds = nil;
+    common = nil;
+  }
   
   void NativeAdsClient::Initialize() {
     ads->Initialize();
@@ -133,7 +144,7 @@ namespace ads {
   
   // Should generate return a v4 UUID
   const std::string NativeAdsClient::GenerateUUID() const {
-    return std::string([NSUUID UUID].UUIDString.UTF8String);
+    return [common generateUUID];
   }
   
   // Should return true if the browser is in the foreground otherwise returns
@@ -152,7 +163,7 @@ namespace ads {
   void NativeAdsClient::ShowNotification(std::unique_ptr<NotificationInfo> info) {
     const auto& notification = info.get();
     if (notification != nullptr) {
-      showNotificationBlock(*notification);
+      [objcAds showNotification:*notification];
     }
   }
   
@@ -160,12 +171,17 @@ namespace ads {
   // seconds. If the timer was created successfully a unique identifier should
   // be returned, otherwise returns 0
   uint32_t NativeAdsClient::SetTimer(const uint64_t time_offset) {
-    return makeTimerBlock(time_offset);
+    return [common createTimerWithOffset:time_offset timerFired:^(uint32_t timer_id) {
+      // If this object dies, common will get nil'd out
+      if (common != nil) {
+        ads->OnTimer(timer_id);
+      }
+    }];
   }
   
   // Should destroy the timer associated with the specified timer identifier
   void NativeAdsClient::KillTimer(uint32_t timer_id) {
-    killTimerBlock(timer_id);
+    [common removeTimerWithID:timer_id];
   }
   
   // Should start a URL request
@@ -175,12 +191,19 @@ namespace ads {
                                    const std::string& content_type,
                                    const URLRequestMethod method,
                                    URLRequestCallback callback) {
-    urlRequestBlock(url, headers, content, content_type, method, callback);
+    std::map<ads::URLRequestMethod, std::string> methodMap {
+      {ads::GET, "GET"},
+      {ads::POST, "POST"},
+      {ads::PUT, "PUT"}
+    };
+    return [common loadURLRequest:url headers:headers content:content content_type:content_type method:methodMap[method] callback:^(int statusCode, const std::string &response, const std::map<std::string, std::string> &headers) {
+      callback(statusCode, response, headers);
+    }];
   }
   
   // Should save a value to persistent storage
   void NativeAdsClient::Save(const std::string& name, const std::string& value, OnSaveCallback callback) {
-    if (saveFileBlock(name, value)) {
+    if ([common saveContents:value name:name]) {
       callback(SUCCESS);
     } else {
       callback(FAILED);
@@ -190,7 +213,7 @@ namespace ads {
   // Should save the bundle state to persistent storage
   void NativeAdsClient::SaveBundleState(std::unique_ptr<BundleState> state, OnSaveCallback callback) {
     bundleState.reset(state.release());
-    if (saveFileBlock("bundle.json", bundleState->ToJson())) {
+    if ([common saveContents:bundleState->ToJson() name:"bundle.json"]) {
       callback(SUCCESS);
     } else {
       callback(FAILED);
@@ -199,7 +222,7 @@ namespace ads {
   
   // Should load a value from persistent storage
   void NativeAdsClient::Load(const std::string& name, OnLoadCallback callback) {
-    const auto contents = loadFileBlock(name);
+    const auto contents = [common loadContentsFromFileWithName:name];
     if (contents.empty()) {
       callback(FAILED, "");
     } else {
@@ -243,7 +266,7 @@ namespace ads {
   // Should reset a previously saved value, i.e. remove the file from persistent
   // storage
   void NativeAdsClient::Reset(const std::string& name, OnResetCallback callback) {
-    if (removeFileBlock(name)) {
+    if ([common removeFileWithName:name]) {
       callback(SUCCESS);
     } else {
       callback(FAILED);

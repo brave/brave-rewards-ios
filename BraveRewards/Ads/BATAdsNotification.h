@@ -6,8 +6,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(BraveAdsNotification)
-@interface BATBraveAdsNotification : NSObject
+NS_SWIFT_NAME(AdsNotification)
+@interface BATAdsNotification : NSObject
 @property (nonatomic, readonly, copy) NSString *creativeSetID;
 @property (nonatomic, readonly, copy) NSString *category;
 @property (nonatomic, readonly, copy) NSString *advertiser;

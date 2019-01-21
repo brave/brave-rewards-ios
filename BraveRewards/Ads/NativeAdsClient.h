@@ -6,10 +6,13 @@
 
 #include "bat/ads/ads.h"
 
+@class BATBraveAds, BATCommonOperations;
+
 namespace ads {
   class NativeAdsClient : public AdsClient {
   public:
-    NativeAdsClient(const std::string& applicationVersion);
+    NativeAdsClient(BATBraveAds *objcAds, const std::string& applicationVersion);
+    ~NativeAdsClient();
     
 #pragma mark - Obj-C bridge methods/properties
     
@@ -22,30 +25,17 @@ namespace ads {
     uint64_t adsPerDay;
     /// Called to determine if newtork connectivity is available. By Default assume we have a connection
     bool isNetworkConnectivityAvailable = true;
-    /// Called when the ads client wants to make a timer given the offset (1st arg)
-    /// Should return the timer's unique id
-    std::function<uint32_t(uint64_t)> makeTimerBlock;
-    /// Called when the ads client wants to kill a timer given the timer id
-    std::function<void(uint32_t)> killTimerBlock;
-    /// Called on ShowNotification
-    std::function<void(const NotificationInfo&)> showNotificationBlock;
-    /// Called to load a URL request. Use callback when the call is completed.
-    std::function<void(const std::string& url,
-                       const std::vector<std::string>& headers,
-                       const std::string& content,
-                       const std::string& content_type,
-                       const URLRequestMethod method,
-                       URLRequestCallback callback)> urlRequestBlock;
-    /// Called when the ads client wants to persist some data
-    std::function<bool(const std::string& name, const std::string& contents)> saveFileBlock;
-    /// Called when the ads client wants to load some saved data
-    std::function<std::string(const std::string& name)> loadFileBlock;
-    /// Called when the ads client wants to remove some persisted data
-    std::function<bool(const std::string& name)> removeFileBlock;
     
 #pragma mark - AdsClient methods
     
     std::unique_ptr<Ads> ads;
+    
+    /// Should return a list of supported User Model locales
+    const std::vector<std::string> GetLocales() const;
+    
+  private:
+    BATBraveAds *__weak objcAds;
+    BATCommonOperations *common;
     
     /// Should return true if Brave Ads is enabled otherwise returns false
     bool IsAdsEnabled() const;
@@ -68,9 +58,6 @@ namespace ads {
     
     /// Should get information about the client
     void GetClientInfo(ClientInfo* info) const;
-    
-    /// Should return a list of supported User Model locales
-    const std::vector<std::string> GetLocales() const;
     
     /// Should load the User Model for the specified locale, user models are a
     /// dependency of the application and should be bundled accordingly, the

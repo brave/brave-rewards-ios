@@ -2,10 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BATBraveAdsNotification.h"
+#import "BATAdsNotification.h"
 #include "bat/ads/notification_info.h"
 
-@interface BATBraveAdsNotification ()
+@interface BATAdsNotification ()
 @property (nonatomic, copy) NSString *creativeSetID;
 @property (nonatomic, copy) NSString *category;
 @property (nonatomic, copy) NSString *advertiser;
@@ -14,7 +14,7 @@
 @property (nonatomic, copy) NSString *uuid;
 @end
 
-@implementation BATBraveAdsNotification
+@implementation BATAdsNotification
 
 - (instancetype)initWithNotificationInfo:(const ads::NotificationInfo&)info
 {

@@ -64,9 +64,9 @@ class BraveRewardsTests: XCTestCase {
 }
 
 class MockAdsDelegate: NSObject, BraveAdsDelegate {
-  var showNotification: ((BraveAdsNotification) -> Bool)?
+  var showNotification: ((AdsNotification) -> Bool)?
   
-  func braveAds(_ braveAds: BraveAds, show notification: BraveAdsNotification) -> Bool {
+  func braveAds(_ braveAds: BraveAds, show notification: AdsNotification) -> Bool {
     return self.showNotification?(notification) ?? false
   }
 }

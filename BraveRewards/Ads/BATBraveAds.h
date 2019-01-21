@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class BATBraveAdsNotification, BATBraveAds;
+@class BATAdsNotification, BATBraveAds;
 
 NS_SWIFT_NAME(BraveAdsDelegate)
 @protocol BATBraveAdsDelegate <NSObject>
@@ -14,7 +14,7 @@ NS_SWIFT_NAME(BraveAdsDelegate)
 
 /// The client should show the notification to the user. Return true if the notification was successfully shown,
 /// otherwise, return false.
-- (BOOL)braveAds:(BATBraveAds *)braveAds showNotification:(BATBraveAdsNotification *)notification;
+- (BOOL)braveAds:(BATBraveAds *)braveAds showNotification:(BATAdsNotification *)notification;
 
 @end
 

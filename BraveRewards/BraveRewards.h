@@ -10,6 +10,7 @@ FOUNDATION_EXPORT double BraveRewardsVersionNumber;
 //! Project version string for Ledger.
 FOUNDATION_EXPORT const unsigned char BraveRewardsVersionString[];
 
+// Ads
 #import <BraveRewards/BATBraveAds.h>
-#import <BraveRewards/BATBraveAdsNotification.h>
+#import <BraveRewards/BATAdsNotification.h>
 #import <BraveRewards/BATBraveLedger.h>
