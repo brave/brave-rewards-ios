@@ -187,7 +187,11 @@ namespace ledger {
   void NativeLedgerClient::GetGrantCaptcha() { }
   
   std::string NativeLedgerClient::URIEncode(const std::string& value) {
-    return std::string();
+    const auto allowedCharacters = [NSMutableCharacterSet alphanumericCharacterSet];
+    [allowedCharacters addCharactersInString:@"-._~"];
+    const auto string = [NSString stringWithUTF8String:value.c_str()];
+    const auto encoded = [string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+    return std::string(encoded.UTF8String);
   }
   
   void NativeLedgerClient::SetContributionAutoInclude(const std::string& publisher_key,

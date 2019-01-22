@@ -59,7 +59,7 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
       NS_SWIFT_NAME(addRecurringPayment(publisherId:amount:));
 
-- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency;
+- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency NS_SWIFT_NAME(makeDirectDonation(to:amount:currency:));
 
 /// Update a publishers exclusion state
 - (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
