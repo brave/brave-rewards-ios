@@ -23,8 +23,8 @@ public:
       {ledger::LOG_RESPONSE, "RESPONSE"}
     };
     std::string level = map[log_level];
-    log_message_ = level + ": in " + file + " on line "
-    + std::to_string(line) + ": ";
+//    log_message_ = level + ": in " + file + " on line " + std::to_string(line) + ": ";
+    log_message_ = level + ": ";
   }
   
   std::ostream& stream() override {

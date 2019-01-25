@@ -42,10 +42,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A1FDE6D020D2AA7400F92CAF"
-            BuildableName = "BraveRewards.framework"
-            BlueprintName = "BraveRewards"
-            ReferencedContainer = "container:BraveRewards.xcodeproj">
+            BlueprintIdentifier = "27F3E54C21FB763F009A54D5"
+            BuildableName = "BraveRewardsExample.app"
+            BlueprintName = "BraveRewardsExample"
+            ReferencedContainer = "container:BraveRewardsExample/BraveRewardsExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -61,15 +61,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A1FDE6D020D2AA7400F92CAF"
-            BuildableName = "BraveRewards.framework"
-            BlueprintName = "BraveRewards"
-            ReferencedContainer = "container:BraveRewards.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
