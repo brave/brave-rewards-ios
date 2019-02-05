@@ -72,7 +72,7 @@
     [self addSubview:self.enableRewardsButton];
     
     [NSLayoutConstraint activateConstraints:@[
-      [self.batLogoImageView.topAnchor constraintEqualToAnchor:self.topAnchor],
+      [self.batLogoImageView.topAnchor constraintEqualToAnchor:self.topAnchor constant:15.0],
       [self.batLogoImageView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
       
       [self.titleLabel.topAnchor constraintEqualToAnchor:self.batLogoImageView.bottomAnchor constant:10.0],
@@ -91,7 +91,7 @@
       [self.enableRewardsButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:40.0],
       [self.enableRewardsButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-40.0],
       [self.enableRewardsButton.heightAnchor constraintEqualToConstant:40.0],
-      [self.enableRewardsButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
+      [self.enableRewardsButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-25.0],
     ]];
   }
   return self;

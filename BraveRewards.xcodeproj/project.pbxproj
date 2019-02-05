@@ -211,8 +211,6 @@
 				2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */,
 				2752429622049EA60035C895 /* UIImage+Convenience.h */,
 				2752429722049EA60035C895 /* UIImage+Convenience.m */,
-				2752428721FFAC220035C895 /* BATGradientView.h */,
-				2752428821FFAC220035C895 /* BATGradientView.m */,
 				2752428B22036AD80035C895 /* UIColor+RBG.h */,
 			);
 			path = Shared;
@@ -329,6 +327,8 @@
 		27F3E5BE21FBB21F009A54D5 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2752428721FFAC220035C895 /* BATGradientView.h */,
+				2752428821FFAC220035C895 /* BATGradientView.m */,
 				27F3E5BF21FBB232009A54D5 /* BATActionButton.h */,
 				27F3E5C021FBB232009A54D5 /* BATActionButton.m */,
 			);

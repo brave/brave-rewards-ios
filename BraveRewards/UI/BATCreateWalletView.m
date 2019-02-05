@@ -25,7 +25,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    self.backgroundView = [[BATGradientView alloc] init]; {
+    self.backgroundView = [BATGradientView purpleRewardsGradientView]; {
       self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     

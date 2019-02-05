@@ -7,6 +7,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BATGradientView : UIView
+@property (readonly) CAGradientLayer *gradientLayer;
++ (instancetype)purpleRewardsGradientView;
++ (instancetype)softBlueToClearGradientView;
 @end
 
 NS_ASSUME_NONNULL_END
