@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rn5-Tc-ZWe">
-                                <rect key="frame" x="44" y="35" width="315" height="38"/>
+                                <rect key="frame" x="44" y="25" width="315" height="38"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-pz-fiK">
                                         <rect key="frame" x="269" y="0.0" width="46" height="38"/>
@@ -41,7 +41,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPD-d0-f26">
-                                <rect key="frame" x="0.0" y="35" width="46" height="38"/>
+                                <rect key="frame" x="0.0" y="25" width="46" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="OzD-3F-3f0"/>
                                 </constraints>
@@ -55,8 +55,8 @@
                         <constraints>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="height" secondItem="Rn5-Tc-ZWe" secondAttribute="height" id="0w2-Mi-EqX"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QKC-yA-2Y9"/>
-                            <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="XUl-Lz-boD"/>
-                            <constraint firstItem="fPD-d0-f26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="Xh7-Tg-kpe"/>
+                            <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="XUl-Lz-boD"/>
+                            <constraint firstItem="fPD-d0-f26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="Xh7-Tg-kpe"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="leading" secondItem="fPD-d0-f26" secondAttribute="trailing" constant="-2" id="g73-1o-XqK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rn5-Tc-ZWe" secondAttribute="trailing" constant="16" id="kx6-mc-c6y"/>
                         </constraints>

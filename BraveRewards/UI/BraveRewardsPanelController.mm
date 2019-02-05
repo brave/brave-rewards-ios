@@ -11,6 +11,7 @@
 #import "BATActionButton.h"
 
 @interface BraveRewardsPanelController ()
+@property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
 @property (nonatomic) BATCreateWalletView *createWalletView;
@@ -19,11 +20,11 @@
 
 @implementation BraveRewardsPanelController
 
-- (instancetype)init
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
-    self.ledger = [[BATBraveLedger alloc] init];
-    self.walletController = [[BATWalletViewController alloc] init];
+    self.ledger = ledger;
+    self.walletController = [[BATWalletViewController alloc] initWithLedger:ledger];
   }
   return self;
 }

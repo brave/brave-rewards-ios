@@ -16,8 +16,6 @@ FOUNDATION_EXPORT const unsigned char BraveRewardsVersionString[];
 
 // Ledger
 #import <BraveRewards/BATBraveLedger.h>
-#import <BraveRewards/BATLedgerWalletInfo.h>
-#import <BraveRewards/BATLedgerGrant.h>
 
 // UI
 #import <BraveRewards/BraveRewardsPanelController.h>

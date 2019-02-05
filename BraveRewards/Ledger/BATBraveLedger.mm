@@ -7,7 +7,6 @@
 #import "bat/ledger/ledger.h"
 
 #import "BATBraveLedger.h"
-#import "BATPublisher+Private.h"
 #import "NSURL+Extensions.h"
 
 #import "NativeLedgerClient.h"
@@ -168,16 +167,16 @@ BATLedgerReadonlyBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
   ledgerClient->ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
 }
 
-- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency
-{
-  ledgerClient->ledger->DoDirectDonation(publisher.publisherInfo, amount, std::string(currency.UTF8String));
-}
-
-- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
-{
-  ledgerClient->ledger->SetPublisherExclude(std::string(publisherId.UTF8String),
-                                            (ledger::PUBLISHER_EXCLUDE)excludeState);
-}
+//- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency
+//{
+//  ledgerClient->ledger->DoDirectDonation(publisher.publisherInfo, amount, std::string(currency.UTF8String));
+//}
+//
+//- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
+//{
+//  ledgerClient->ledger->SetPublisherExclude(std::string(publisherId.UTF8String),
+//                                            (ledger::PUBLISHER_EXCLUDE)excludeState);
+//}
 
 #pragma mark -
 

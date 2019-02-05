@@ -9,6 +9,8 @@ import UIKit
 protocol PopoverContentComponent {
     /// Whether or not the pan to dismiss gesture is enabled. Optional, true by defualt
     var isPanToDismissEnabled: Bool { get }
+    /// Whether or not to pin to screens left and right edges despite the size of the content controller
+    var pinToScreenHorizontalEdges: Bool { get }
     /// Allows the component to decide whether or not the popover should dismiss based on some gestural action (tapping
     /// the background around the popover or dismissing via pan). Optional, true by defualt
     func popoverShouldDismiss(_ popoverController: PopoverController) -> Bool
@@ -19,6 +21,10 @@ protocol PopoverContentComponent {
 extension PopoverContentComponent {
     var isPanToDismissEnabled: Bool {
         return true
+    }
+  
+    var pinToScreenHorizontalEdges: Bool {
+        return false
     }
     
     func popoverShouldDismiss(_ popoverController: PopoverController) -> Bool {

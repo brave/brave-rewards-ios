@@ -58,7 +58,7 @@ class PopoverController: UIViewController {
     var addsConvenientDismissalMargins = true
     
     /// The amount of space to add for convenient dismissals
-    private let convenientDismissalMargin: CGFloat = 80.0
+    var convenientDismissalMargin: CGFloat = 80.0
     
     /// The distance from the popover arrow to the origin view
     var arrowDistance: CGFloat = -5.0
@@ -373,8 +373,13 @@ extension PopoverController: BasicAnimationControllerDelegate {
             }
             $0.top.greaterThanOrEqualTo(self.view.safeArea.top).offset(outerMargins.top)
             $0.bottom.lessThanOrEqualTo(self.view.safeArea.bottom).offset(-outerMargins.bottom)
-            $0.left.greaterThanOrEqualTo(self.view.safeArea.left).offset(outerMargins.left)
-            $0.right.lessThanOrEqualTo(self.view.safeArea.right).offset(-outerMargins.right)
+            if (contentController.pinToScreenHorizontalEdges) {
+                $0.left.equalTo(self.view.safeArea.left).offset(outerMargins.left)
+                $0.right.equalTo(self.view.safeArea.right).offset(-outerMargins.right)
+            } else {
+                $0.left.greaterThanOrEqualTo(self.view.safeArea.left).offset(outerMargins.left)
+                $0.right.lessThanOrEqualTo(self.view.safeArea.right).offset(-outerMargins.right)
+            }
             $0.centerX.equalTo(originLayoutGuide).priority(.high)
         }
         

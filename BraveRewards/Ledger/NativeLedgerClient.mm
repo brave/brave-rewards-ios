@@ -6,7 +6,6 @@
 
 #import <iostream>
 #import "NativeLedgerClient.h"
-#import "BATLedgerGrant+Private.h"
 #import "NSArray+Vector.h"
 
 class LogStreamImpl : public ledger::LogStream {
@@ -68,10 +67,10 @@ namespace ledger {
   
   void NativeLedgerClient::OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) {
     if (walletRecoveredBlock != nullptr) {
-      NSArray<BATLedgerGrant *> *grantList = NSArrayFromVector(grants, ^BATLedgerGrant *(const Grant grant){
-        return [[BATLedgerGrant alloc] initWithGrant:grant];
-      });
-      walletRecoveredBlock(result, balance, grantList);
+//      NSArray<BATLedgerGrant *> *grantList = NSArrayFromVector(grants, ^BATLedgerGrant *(const Grant grant){
+//        return [[BATLedgerGrant alloc] initWithGrant:grant];
+//      });
+//      walletRecoveredBlock(result, balance, grantList);
     }
   }
   

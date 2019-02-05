@@ -6,6 +6,9 @@ import UIKit
 import BraveRewards
 
 extension BraveRewardsPanelController: PopoverContentComponent {
+  var pinToScreenHorizontalEdges: Bool {
+    return true
+  }
 }
 
 class ViewController: UIViewController {
@@ -19,8 +22,10 @@ class ViewController: UIViewController {
   }
 
   @IBAction func tappedBraveRewards() {
-    let braveRewardsPanel = BraveRewardsPanelController()
+    let ledger = BraveLedger()
+    let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger)
     let popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .autoLayout)
+    popover.convenientDismissalMargin = 60.0
     popover.present(from: braveRewardsPanelButton, on: self)
   }
   

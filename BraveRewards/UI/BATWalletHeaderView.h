@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BATWalletHeaderView : UIView
 @property (readonly) UIImageView *backgroundImageView;
 @property (readonly) UILabel *titleLabel;
-@property (readonly) UILabel *batBalanceLabel;
+@property (readonly) UILabel *balanceLabel;
+@property (readonly) UILabel *altcurrencyTypeLabel;
 @property (readonly) UILabel *usdBalanceLabel;
 @property (readonly) BATActionButton *grantsButton;
 @property (readonly) UIButton *addFundsButton;

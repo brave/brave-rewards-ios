@@ -4,11 +4,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class BATBraveLedger;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BraveRewardsPanelController : UIViewController
 
-- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 

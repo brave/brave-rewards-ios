@@ -4,27 +4,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "BATPublisher.h"
-
-@class BATBraveLedger, BATLedgerWalletInfo;
+@class BATBraveLedger;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// The error domain for ledger related errors
 extern NSString * const BATBraveLedgerErrorDomain;
 
-@protocol BATBraveLedgerDelegate <NSObject>
-@required
-
-/// The user's wallet was updated
-- (void)ledger:(BATBraveLedger *)ledger updatedWallet:(BATLedgerWalletInfo *)wallet;
-
-@end
-
 NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject
-
-@property (nonatomic, weak) id<BATBraveLedgerDelegate> delegate;
 
 #pragma mark - Wallet
 
@@ -59,11 +47,11 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
       NS_SWIFT_NAME(addRecurringPayment(publisherId:amount:));
 
-- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency NS_SWIFT_NAME(makeDirectDonation(to:amount:currency:));
-
-/// Update a publishers exclusion state
-- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
-      NS_SWIFT_NAME(updatePublisher(withId:exclusionState:));
+//- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency NS_SWIFT_NAME(makeDirectDonation(to:amount:currency:));
+//
+///// Update a publishers exclusion state
+//- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
+//      NS_SWIFT_NAME(updatePublisher(withId:exclusionState:));
 
 #pragma mark - Reporting
 

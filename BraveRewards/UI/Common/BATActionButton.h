@@ -10,6 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Border, corner radius, bold text. Color controlled by `tintColor` (defaulting to white)
 @interface BATActionButton : UIButton
+/// Whether or not to flip the image origin from left to right in LTR languages and vice-versa
+@property (nonatomic, assign) BOOL flipImageOrigin;
 @end
 
 NS_ASSUME_NONNULL_END
