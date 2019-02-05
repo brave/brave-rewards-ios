@@ -8,6 +8,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A container which shows the users wallet balance in the header of the panel and shows
+/// an appropriate section in the bottom based on the current URL and ledger state
 @interface BATWalletViewController : UIViewController
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger NS_DESIGNATED_INITIALIZER;

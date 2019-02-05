@@ -2,14 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BATRewardsDisabledView.h"
+#import "BATRewardsDisabledContentView.h"
 #import "BATActionButton.h"
 
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
 #import "UIColor+RBG.h"
 
-@interface BATRewardsDisabledView ()
+@interface BATRewardsDisabledContentView ()
 @property (nonatomic) UIImageView *batLogoImageView;
 @property (nonatomic) UILabel *titleLabel; // "Welcome back!"
 @property (nonatomic) UILabel *subtitleLabel; // "Get rewarded for browsing."
@@ -17,7 +17,7 @@
 @property (nonatomic) BATActionButton *enableRewardsButton;
 @end
 
-@implementation BATRewardsDisabledView
+@implementation BATRewardsDisabledContentView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -72,7 +72,7 @@
     [self addSubview:self.enableRewardsButton];
     
     [NSLayoutConstraint activateConstraints:@[
-      [self.batLogoImageView.topAnchor constraintEqualToAnchor:self.topAnchor constant:15.0],
+      [self.batLogoImageView.topAnchor constraintEqualToAnchor:self.topAnchor constant:10.0],
       [self.batLogoImageView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
       
       [self.titleLabel.topAnchor constraintEqualToAnchor:self.batLogoImageView.bottomAnchor constant:10.0],
@@ -80,8 +80,8 @@
       [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-20.0],
       
       [self.subtitleLabel.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:5.0],
-      [self.subtitleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:20.0],
-      [self.subtitleLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-20.0],
+      [self.subtitleLabel.leadingAnchor constraintEqualToAnchor:self.titleLabel.leadingAnchor],
+      [self.subtitleLabel.trailingAnchor constraintEqualToAnchor:self.titleLabel.trailingAnchor],
       
       [self.bodyLabel.topAnchor constraintEqualToAnchor:self.subtitleLabel.bottomAnchor constant:10.0],
       [self.bodyLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:40.0],
@@ -91,7 +91,7 @@
       [self.enableRewardsButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:40.0],
       [self.enableRewardsButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-40.0],
       [self.enableRewardsButton.heightAnchor constraintEqualToConstant:40.0],
-      [self.enableRewardsButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-25.0],
+      [self.enableRewardsButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-65.0],
     ]];
   }
   return self;

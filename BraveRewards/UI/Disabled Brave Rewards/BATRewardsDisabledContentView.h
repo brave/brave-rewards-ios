@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A view displayed under the wallet header when brave rewards is disabled in the settings
-@interface BATRewardsDisabledView : UIView
+@interface BATRewardsDisabledContentView : UIView
 @property (readonly) UIImageView *batLogoImageView;
 @property (readonly) UILabel *titleLabel; // "Welcome back!"
 @property (readonly) UILabel *subtitleLabel; // "Get rewarded for browsing."

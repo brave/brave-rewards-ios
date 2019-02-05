@@ -5,19 +5,16 @@
 #import "BATWalletViewController.h"
 #import "BATBraveLedger.h"
 #import "BATWalletHeaderView.h"
-#import "BATRewardsDisabledView.h"
 #import "BATActionButton.h"
-#import "BATGradientView.h"
+#import "BATRewardsDisabledView.h"
 
 #import "bat/ledger/wallet_info.h"
 
 @interface BATWalletViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
-@property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATWalletHeaderView *headerView;
-@property (nonatomic) BATGradientView *gradientView;
-@property (nonatomic) BATRewardsDisabledView *disabledRewardsView;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
+@property (nonatomic) BATRewardsDisabledView *rewardsDisabledView;
 @end
 
 @implementation BATWalletViewController
@@ -26,13 +23,6 @@
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
     self.ledger = ledger;
-    
-    self.scrollView = [[UIScrollView alloc] init]; {
-      self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-      self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-      self.scrollView.alwaysBounceVertical = YES;
-      self.scrollView.delaysContentTouches = NO;
-    }
     
     self.headerView = [[BATWalletHeaderView alloc] init]; {
       self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -48,13 +38,9 @@
       [self.headerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     }
     
-    self.gradientView = [BATGradientView softBlueToClearGradientView]; {
-      self.gradientView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    
-    self.disabledRewardsView = [[BATRewardsDisabledView alloc] init]; {
-      self.disabledRewardsView.translatesAutoresizingMaskIntoConstraints = NO;
-      [self.disabledRewardsView.enableRewardsButton addTarget:self action:@selector(tappedEnableBraveRewards) forControlEvents:UIControlEventTouchUpInside];
+    self.rewardsDisabledView = [[BATRewardsDisabledView alloc] init]; {
+      self.rewardsDisabledView.translatesAutoresizingMaskIntoConstraints = NO;
+      [self.rewardsDisabledView.enableRewardsButton addTarget:self action:@selector(tappedEnableBraveRewards) forControlEvents:UIControlEventTouchUpInside];
     }
   }
   return self;
@@ -64,37 +50,23 @@
 {
   [super viewDidLoad];
   
-  [self.view addSubview:self.gradientView];
-  [self.view addSubview:self.scrollView];
+  [self.view addSubview:self.rewardsDisabledView];
   [self.view addSubview:self.headerView];
-  [self.scrollView addSubview:self.disabledRewardsView];
   
-  self.heightConstraint = [self.view.heightAnchor constraintEqualToConstant:UIScreen.mainScreen.bounds.size.height];
-  self.heightConstraint.priority = UILayoutPriorityDefaultLow;
+  self.heightConstraint = [self.view.heightAnchor constraintEqualToConstant:0.0];
+  self.heightConstraint.priority = UILayoutPriorityDefaultLow; // So max-height can break it without issue
   
   [NSLayoutConstraint activateConstraints:@[
     self.heightConstraint,
     
-    [self.scrollView.contentLayoutGuide.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-                                            
     [self.headerView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
     [self.headerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
     [self.headerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
     
-    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-    [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-    [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-    
-    [self.gradientView.topAnchor constraintEqualToAnchor:self.headerView.bottomAnchor],
-    [self.gradientView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-    [self.gradientView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.gradientView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-    
-    [self.disabledRewardsView.topAnchor constraintEqualToAnchor:self.scrollView.contentLayoutGuide.topAnchor],
-    [self.disabledRewardsView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.disabledRewardsView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-    [self.scrollView.contentLayoutGuide.bottomAnchor constraintEqualToAnchor:self.disabledRewardsView.bottomAnchor],
+    [self.rewardsDisabledView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+    [self.rewardsDisabledView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+    [self.rewardsDisabledView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+    [self.rewardsDisabledView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
   ]];
 }
 
@@ -105,10 +77,12 @@
   [super viewDidLayoutSubviews];
   
   [self.headerView layoutIfNeeded];
-  self.scrollView.contentInset = UIEdgeInsetsMake(self.headerView.bounds.size.height, 0, 0, 0);
+  self.rewardsDisabledView.scrollView.contentInset = UIEdgeInsetsMake(self.headerView.bounds.size.height, 0, 0, 0);
+  self.rewardsDisabledView.scrollView.scrollIndicatorInsets = self.rewardsDisabledView.scrollView.contentInset;
+  self.rewardsDisabledView.scrollView.contentOffset = CGPointMake(0, -self.headerView.bounds.size.height); // Make sure it shows the top part of the view
   
-  [self.disabledRewardsView layoutIfNeeded];
-  self.heightConstraint.constant = self.headerView.bounds.size.height + self.disabledRewardsView.bounds.size.height;
+  [self.rewardsDisabledView layoutIfNeeded];
+  self.heightConstraint.constant = self.headerView.bounds.size.height + self.rewardsDisabledView.scrollView.contentSize.height;
 }
 
 - (void)tappedEnableBraveRewards
