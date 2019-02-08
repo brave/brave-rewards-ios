@@ -12,7 +12,6 @@
 		275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A521E547C2005A0EAF /* UIKit.framework */; };
 		275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A721E547C6005A0EAF /* Foundation.framework */; };
 		275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779AD21E6984D005A0EAF /* SystemConfiguration.framework */; };
-		275779D021E6B15D005A0EAF /* libbat-native-usermodel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B821E6B15D005A0EAF /* libbat-native-usermodel.a */; };
 		275779D121E6B15D005A0EAF /* libbat-native-ads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B921E6B15D005A0EAF /* libbat-native-ads.a */; };
 		275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C721E6B15D005A0EAF /* NativeAdsClient.mm */; };
 		275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C821E6B15D005A0EAF /* BATBraveAds.mm */; };
@@ -61,7 +60,6 @@
 		275779A521E547C2005A0EAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		275779A721E547C6005A0EAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		275779AD21E6984D005A0EAF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		275779B821E6B15D005A0EAF /* libbat-native-usermodel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-usermodel.a"; sourceTree = "<group>"; };
 		275779B921E6B15D005A0EAF /* libbat-native-ads.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-ads.a"; sourceTree = "<group>"; };
 		275779C721E6B15D005A0EAF /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
 		275779C821E6B15D005A0EAF /* BATBraveAds.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAds.mm; sourceTree = "<group>"; };
@@ -122,8 +120,6 @@
 				275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */,
 				27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */,
 				275779D121E6B15D005A0EAF /* libbat-native-ads.a in Frameworks */,
-				275779D021E6B15D005A0EAF /* libbat-native-usermodel.a in Frameworks */,
-				27C58CFE21EFFCEF00F8E0D5 /* libBoringSSL.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				275779E421E6B172005A0EAF /* include */,
-				275779B821E6B15D005A0EAF /* libbat-native-usermodel.a */,
 				275779B921E6B15D005A0EAF /* libbat-native-ads.a */,
 			);
 			path = "bat-native-ads";
@@ -588,7 +583,6 @@
 		A1FDE6DA20D2AA7400F92CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = x86_64;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -626,7 +620,6 @@
 		A1FDE6DB20D2AA7400F92CAF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = x86_64;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
