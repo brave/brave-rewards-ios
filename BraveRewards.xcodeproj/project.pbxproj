@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
+		27333AA9220E24A50009640D /* BATAttentionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27333AA7220E24A50009640D /* BATAttentionView.h */; };
+		27333AAA220E24A50009640D /* BATAttentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27333AA8220E24A50009640D /* BATAttentionView.m */; };
 		2752428021FFA1AD0035C895 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2752427F21FFA1AD0035C895 /* Images.xcassets */; };
 		2752428521FFA2EC0035C895 /* NSBundle+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428321FFA2EC0035C895 /* NSBundle+Convenience.h */; };
 		2752428621FFA2EC0035C895 /* NSBundle+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */; };
@@ -21,6 +23,8 @@
 		2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752429622049EA60035C895 /* UIImage+Convenience.h */; };
 		2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752429722049EA60035C895 /* UIImage+Convenience.m */; };
 		2752429A2204A2120035C895 /* UIColor+RGB.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428B22036AD80035C895 /* UIColor+RGB.h */; };
+		27559200220E1B3300FB148C /* BATRewardsSummaryButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */; };
+		27559201220E1B3300FB148C /* BATRewardsSummaryButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 275591FF220E1B3300FB148C /* BATRewardsSummaryButton.m */; };
 		275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A521E547C2005A0EAF /* UIKit.framework */; };
 		275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A721E547C6005A0EAF /* Foundation.framework */; };
 		275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779AD21E6984D005A0EAF /* SystemConfiguration.framework */; };
@@ -37,7 +41,7 @@
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
 		27E477EB220A4D7F00FD8185 /* BATPublisherView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477E9220A4D7F00FD8185 /* BATPublisherView.h */; };
 		27E477EC220A4D7F00FD8185 /* BATPublisherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477EA220A4D7F00FD8185 /* BATPublisherView.m */; };
-		27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */; };
+		27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27E477F7220B5BCC00FD8185 /* UIColor+BATColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477F5220B5BCC00FD8185 /* UIColor+BATColors.m */; };
 		27E477FA220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */; };
 		27E477FB220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */; };
@@ -101,6 +105,8 @@
 		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
+		27333AA7220E24A50009640D /* BATAttentionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATAttentionView.h; sourceTree = "<group>"; };
+		27333AA8220E24A50009640D /* BATAttentionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATAttentionView.m; sourceTree = "<group>"; };
 		2752427F21FFA1AD0035C895 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2752428321FFA2EC0035C895 /* NSBundle+Convenience.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Convenience.h"; sourceTree = "<group>"; };
 		2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Convenience.m"; sourceTree = "<group>"; };
@@ -113,6 +119,8 @@
 		275242912203B13C0035C895 /* BATWalletHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATWalletHeaderView.m; sourceTree = "<group>"; };
 		2752429622049EA60035C895 /* UIImage+Convenience.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Convenience.h"; sourceTree = "<group>"; };
 		2752429722049EA60035C895 /* UIImage+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Convenience.m"; sourceTree = "<group>"; };
+		275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATRewardsSummaryButton.h; sourceTree = "<group>"; };
+		275591FF220E1B3300FB148C /* BATRewardsSummaryButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATRewardsSummaryButton.m; sourceTree = "<group>"; };
 		275779A521E547C2005A0EAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		275779A721E547C6005A0EAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		275779AD21E6984D005A0EAF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -241,6 +249,28 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		2742E146220E141E00B835FB /* Publisher */ = {
+			isa = PBXGroup;
+			children = (
+				27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */,
+				27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */,
+				27E477E9220A4D7F00FD8185 /* BATPublisherView.h */,
+				27E477EA220A4D7F00FD8185 /* BATPublisherView.m */,
+				27333AA7220E24A50009640D /* BATAttentionView.h */,
+				27333AA8220E24A50009640D /* BATAttentionView.m */,
+			);
+			path = Publisher;
+			sourceTree = "<group>";
+		};
+		275591FD220E1AE700FB148C /* Rewards Summary */ = {
+			isa = PBXGroup;
+			children = (
+				275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */,
+				275591FF220E1B3300FB148C /* BATRewardsSummaryButton.m */,
+			);
+			path = "Rewards Summary";
+			sourceTree = "<group>";
+		};
 		275779B521E6B15D005A0EAF /* BraveRewards */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +337,8 @@
 				27F3E5BE21FBB21F009A54D5 /* Common */,
 				27FFE21F220A3AC500553794 /* Create Wallet */,
 				27FFE21A220A38C600553794 /* Disabled Brave Rewards */,
+				2742E146220E141E00B835FB /* Publisher */,
+				275591FD220E1AE700FB148C /* Rewards Summary */,
 				27F3E51721FB7458009A54D5 /* BraveRewardsPanelController.h */,
 				27F3E51821FB7458009A54D5 /* BraveRewardsPanelController.mm */,
 				2752428C2203B0F70035C895 /* BATWalletViewController.h */,
@@ -355,10 +387,6 @@
 				27F3E5C021FBB232009A54D5 /* BATActionButton.m */,
 				275242902203B13C0035C895 /* BATWalletHeaderView.h */,
 				275242912203B13C0035C895 /* BATWalletHeaderView.m */,
-				27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */,
-				27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */,
-				27E477E9220A4D7F00FD8185 /* BATPublisherView.h */,
-				27E477EA220A4D7F00FD8185 /* BATPublisherView.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -460,6 +488,8 @@
 				27F3E51921FB7458009A54D5 /* BraveRewardsPanelController.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
+				27333AA9220E24A50009640D /* BATAttentionView.h in Headers */,
+				27559200220E1B3300FB148C /* BATRewardsSummaryButton.h in Headers */,
 				2752428921FFAC220035C895 /* BATGradientView.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 				2752428E2203B0F70035C895 /* BATWalletViewController.h in Headers */,
@@ -675,9 +705,11 @@
 				27E477F7220B5BCC00FD8185 /* UIColor+BATColors.m in Sources */,
 				2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
+				27333AAA220E24A50009640D /* BATAttentionView.m in Sources */,
 				2752428F2203B0F70035C895 /* BATWalletViewController.mm in Sources */,
 				2752428621FFA2EC0035C895 /* NSBundle+Convenience.m in Sources */,
 				27E477EC220A4D7F00FD8185 /* BATPublisherView.m in Sources */,
+				27559201220E1B3300FB148C /* BATRewardsSummaryButton.m in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
 				27E477FB220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
@@ -945,7 +977,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/BraveRewads/**",
 					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads/include",
 					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger/include",
 				);
@@ -982,7 +1014,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/BraveRewads/**",
 					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads/include",
 					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger/include",
 				);

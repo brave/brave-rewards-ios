@@ -4,14 +4,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class BATUnverifiedPublisherDisclaimerView;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATPublisherView : UIView
+@interface BATPublisherView : UIStackView
 @property (readonly) UIImageView *faviconImageView;
 @property (readonly) UILabel *publisherNameLabel;
-@property (readonly) UIStackView *verifiedStackView;
+@property (readonly) UIStackView *verifiedLabelStackView;
 @property (readonly) UIImageView *verificationSymbolImageView;
 @property (readonly) UILabel *verifiedLabel;
+@property (readonly) BATUnverifiedPublisherDisclaimerView *unverifiedDisclaimerView;
 @end
 
 NS_ASSUME_NONNULL_END
