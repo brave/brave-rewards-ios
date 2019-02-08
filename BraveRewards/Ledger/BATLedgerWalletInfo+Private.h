@@ -2,12 +2,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BATLedgerGrant.h"
+#import "BATLedgerWalletInfo.h"
 
-#import "bat/ledger/grant.h"
+#import "bat/ledger/wallet_info.h"
 
 @interface BATLedgerGrant (Private)
 
-- (instancetype)initWithGrant:(const ledger::Grant&)grant;
+- (instancetype)initWithWalletInfo:(const ledger::WalletInfo&)info;
 
 @end

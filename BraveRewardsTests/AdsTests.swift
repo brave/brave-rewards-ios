@@ -16,7 +16,7 @@ class BraveRewardsTests: XCTestCase {
     
     // Purge the persistant storage directory
     if let directory = NSSearchPathForDirectoriesInDomains(
-      .cachesDirectory,
+      .documentDirectory,
       .userDomainMask,
       true
       ).first?.appending("/brave_ads") {

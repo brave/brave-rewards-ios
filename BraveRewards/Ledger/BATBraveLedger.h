@@ -4,6 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "BATPublisher.h"
+
 @class BATBraveLedger, BATLedgerWalletInfo;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,14 +28,17 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Wallet
 
+/// Whether or not the wallet has been created
+@property (readonly, getter=isWalletCreated) BOOL walletCreated;
+
 /// Creates a cryptocurrency wallet
-- (void)createWallet:(void (^)(NSError * _Nullable error))completion;
+- (void)createWallet:(nullable void (^)(NSError * _Nullable error))completion;
 
 /// The wallet's passphrase. nil if the wallet has not been created yet
 @property (readonly, nullable) NSString *walletPassphrase;
 
 /// Recover the users wallet using their passphrase
-- (void)recoverWalletUsingPassphrase:(NSString *)passphrase completion:(void (^)(NSError *_Nullable))completion;
+- (void)recoverWalletUsingPassphrase:(NSString *)passphrase completion:(nullable void (^)(NSError *_Nullable))completion;
 
 /// The wallet's addresses. nil if the wallet has not been created yet
 @property (readonly, nullable) NSString *BATAddress;
@@ -41,9 +46,51 @@ NS_SWIFT_NAME(BraveLedger)
 @property (readonly, nullable) NSString *ETHAddress;
 @property (readonly, nullable) NSString *LTCAddress;
 
+@property (readonly) double balance;
+
+@property (readonly) double defaultContributionAmount;
+
+@property (readonly) BOOL hasSufficientBalanceToReconcile;
+
 #pragma mark - Publishers
 
 @property (readonly) UInt32 numberOfExcludedSites;
+
+- (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
+      NS_SWIFT_NAME(addRecurringPayment(publisherId:amount:));
+
+- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency;
+
+/// Update a publishers exclusion state
+- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
+      NS_SWIFT_NAME(updatePublisher(withId:exclusionState:));
+
+#pragma mark - Reporting
+
+@property (nonatomic, assign) UInt32 selectedTabId;
+
+/// Report that a page has loaded in the current browser tab, and the HTML is available for analysis
+- (void)reportLoadedPageWithURL:(NSURL *)url tabId:(UInt32)tabId NS_SWIFT_NAME(reportLoadedPage(url:tabId:));
+
+- (void)reportXHRLoad:(NSURL *)url
+                tabId:(UInt32)tabId
+        firstPartyURL:(NSURL *)firstPartyURL
+          referrerURL:(nullable NSURL *)referrerURL;
+
+- (void)reportPostData:(NSData *)postData
+                   url:(NSURL *)url
+                 tabId:(UInt32)tabId
+         firstPartyURL:(NSURL *)firstPartyURL
+           referrerURL:(nullable NSURL *)referrerURL;
+
+/// Report that media has started on a tab with a given id
+- (void)reportMediaStartedWithTabId:(UInt32)tabId NS_SWIFT_NAME(reportMediaStarted(tabId:));
+
+/// Report that media has stopped on a tab with a given id
+- (void)reportMediaStoppedWithTabId:(UInt32)tabId NS_SWIFT_NAME(reportMediaStopped(tabId:));
+
+/// Report that a tab with a given id was closed by the user
+- (void)reportTabClosedWithTabId:(UInt32)tabId NS_SWIFT_NAME(reportTabClosed(tabId:));
 
 #pragma mark - Preferences
 

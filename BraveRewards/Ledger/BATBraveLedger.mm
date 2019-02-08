@@ -2,9 +2,22 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#import <UIKit/UIKit.h>
+
+#import "bat/ledger/ledger.h"
+
 #import "BATBraveLedger.h"
+#import "BATPublisher+Private.h"
+#import "NSURL+Extensions.h"
 
 #import "NativeLedgerClient.h"
+
+#define BATLedgerReadonlyBridge(__type, __objc_getter, __cpp_getter) \
+- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); }
+
+#define BATLedgerBridge(__type, __objc_getter, __objc_setter, __cpp_getter, __cpp_setter) \
+- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); } \
+- (void)__objc_setter:(__type)newValue { ledgerClient->ledger->__cpp_setter(newValue); }
 
 NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 
@@ -20,16 +33,23 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   if ((self = [super init])) {    
     ledgerClient = new ledger::NativeLedgerClient(self);
     ledgerClient->ledger->Initialize();
+    
+    // Add notifications for standard app foreground/background
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
   }
   return self;
 }
 
 - (void)dealloc
 {
+  [NSNotificationCenter.defaultCenter removeObserver:self];
   delete ledgerClient;
 }
 
 #pragma mark - Wallet
+
+BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
 
 - (void)createWallet:(void (^)(NSError * _Nullable))completion
 {
@@ -51,7 +71,9 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
       }
       error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
     }
-    completion(error);
+    if (completion) {
+      completion(error);
+    }
     strongSelf->ledgerClient->walletInitializedBlock = nullptr;
   };
   // Results that can come from CreateWallet():
@@ -88,7 +110,9 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
       }
       error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
     }
-    completion(error);
+    if (completion) {
+      completion(error);
+    }
     strongSelf->ledgerClient->walletRecoveredBlock = nullptr;
   };
   // Results that can come from CreateWallet():
@@ -129,6 +153,32 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   return nil;
 }
 
+BATLedgerReadonlyBridge(double, balance, GetBalance);
+
+BATLedgerReadonlyBridge(double, defaultContributionAmount, GetDefaultContributionAmount);
+
+BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBalanceToReconcile);
+
+#pragma mark - Publishers
+
+BATLedgerReadonlyBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
+
+- (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
+{
+  ledgerClient->ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
+}
+
+- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency
+{
+  ledgerClient->ledger->DoDirectDonation(publisher.publisherInfo, amount, std::string(currency.UTF8String));
+}
+
+- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
+{
+  ledgerClient->ledger->SetPublisherExclude(std::string(publisherId.UTF8String),
+                                            (ledger::PUBLISHER_EXCLUDE)excludeState);
+}
+
 #pragma mark -
 
 - (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info
@@ -142,43 +192,136 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   }
 }
 
+#pragma mark - Reporting
+
+- (const ledger::VisitData)visitDataForURL:(NSURL *)url tabId:(UInt32)tabId
+{
+  const auto dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:[NSDate date]];
+  const auto normalizedHost = std::string(url.bat_normalizedHost.UTF8String);
+  ledger::VisitData visit(normalizedHost,
+                          std::string(url.host.UTF8String),
+                          std::string(url.path.UTF8String),
+                          tabId,
+                          (ledger::ACTIVITY_MONTH)dateComponents.month,
+                          (UInt32)dateComponents.year,
+                          normalizedHost,
+                          std::string(url.absoluteString.UTF8String),
+                          "",
+                          "");
+  return visit;
+}
+
+- (void)setSelectedTabId:(UInt32)selectedTabId
+{
+  if (selectedTabId != 0) {
+    ledgerClient->ledger->OnHide(_selectedTabId, [[NSDate date] timeIntervalSince1970]);
+  }
+  _selectedTabId = selectedTabId;
+  ledgerClient->ledger->OnShow(_selectedTabId, [[NSDate date] timeIntervalSince1970]);
+}
+
+- (void)applicationDidBecomeActive
+{
+  ledgerClient->ledger->OnForeground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
+}
+
+- (void)applicationDidBackground
+{
+  ledgerClient->ledger->OnBackground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
+}
+
+- (void)reportLoadedPageWithURL:(NSURL *)url tabId:(UInt32)tabId
+{
+  const auto visit = [self visitDataForURL:url tabId:tabId];
+  ledgerClient->ledger->OnLoad(visit, [[NSDate date] timeIntervalSince1970]);
+}
+
+- (void)reportXHRLoad:(NSURL *)url tabId:(UInt32)tabId firstPartyURL:(NSURL *)firstPartyURL referrerURL:(NSURL *)referrerURL
+{
+  std::map<std::string, std::string> partsMap;
+  const auto urlComponents = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
+  for (NSURLQueryItem *item in urlComponents.queryItems) {
+    partsMap[std::string(item.name.UTF8String)] = std::string(item.value.UTF8String);
+  }
+  
+  const auto dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:[NSDate date]];
+  ledger::VisitData visit("", "",
+                          std::string(url.absoluteString.UTF8String),
+                          tabId,
+                          (ledger::ACTIVITY_MONTH)dateComponents.month,
+                          (UInt32)dateComponents.year,
+                          "", "", "", "");
+  
+  ledgerClient->ledger->OnXHRLoad(tabId,
+                                  std::string(url.absoluteString.UTF8String),
+                                  partsMap,
+                                  std::string(firstPartyURL.absoluteString.UTF8String),
+                                  std::string(referrerURL.absoluteString.UTF8String),
+                                  visit);
+}
+
+- (void)reportPostData:(NSData *)postData url:(NSURL *)url tabId:(UInt32)tabId firstPartyURL:(NSURL *)firstPartyURL referrerURL:(NSURL *)referrerURL
+{
+  const auto dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:[NSDate date]];
+  ledger::VisitData visit("", "",
+                          std::string(url.absoluteString.UTF8String),
+                          tabId,
+                          (ledger::ACTIVITY_MONTH)dateComponents.month,
+                          (UInt32)dateComponents.year,
+                          "", "", "", "");
+  
+  const auto postDataString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];
+  
+  ledgerClient->ledger->OnPostData(std::string(url.absoluteString.UTF8String),
+                                   std::string(firstPartyURL.absoluteString.UTF8String),
+                                   std::string(referrerURL.absoluteString.UTF8String),
+                                   std::string(postDataString.UTF8String),
+                                   visit);
+}
+
+- (void)reportMediaStartedWithTabId:(UInt32)tabId
+{
+  ledgerClient->ledger->OnMediaStart(tabId, [[NSDate date] timeIntervalSince1970]);
+}
+
+- (void)reportMediaStoppedWithTabId:(UInt32)tabId
+{
+  ledgerClient->ledger->OnMediaStop(tabId, [[NSDate date] timeIntervalSince1970]);
+}
+
+- (void)reportTabClosedWithTabId:(UInt32)tabId
+{
+  ledgerClient->ledger->OnUnload(tabId, [[NSDate date] timeIntervalSince1970]);
+}
+
 #pragma mark - Preferences
 
-#define BATLedgerReadonlyPreferenceBridge(__type, __objc_getter, __cpp_getter) \
-- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); }
+BATLedgerBridge(BOOL,
+                isEnabled, setEnabled,
+                GetRewardsMainEnabled, SetRewardsMainEnabled);
 
-#define BATLedgerPreferenceBridge(__type, __objc_getter, __objc_setter, __cpp_getter, __cpp_setter) \
-- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); } \
-- (void)__objc_setter:(__type)newValue { ledgerClient->ledger->__cpp_setter(newValue); }
+BATLedgerBridge(UInt64,
+                minimumVisitDuration, setMinimumVisitDuration,
+                GetPublisherMinVisitTime, SetPublisherMinVisitTime);
 
-BATLedgerPreferenceBridge(BOOL,
-                          isEnabled, setEnabled,
-                          GetRewardsMainEnabled, SetRewardsMainEnabled);
+BATLedgerBridge(UInt32,
+                minimumNumberOfVisits, setMinimumNumberOfVisits,
+                GetPublisherMinVisits, SetPublisherMinVisits);
 
-BATLedgerPreferenceBridge(UInt64,
-                          minimumVisitDuration, setMinimumVisitDuration,
-                          GetPublisherMinVisitTime, SetPublisherMinVisitTime);
+BATLedgerBridge(BOOL,
+                allowUnverifiedPublishers, setAllowUnverifiedPublishers,
+                GetPublisherAllowNonVerified, SetPublisherAllowNonVerified);
 
-BATLedgerPreferenceBridge(UInt32,
-                          minimumNumberOfVisits, setMinimumNumberOfVisits,
-                          GetPublisherMinVisits, SetPublisherMinVisits);
+BATLedgerBridge(BOOL,
+                allowVideos, setAllowVideos,
+                GetPublisherAllowVideos, SetPublisherAllowVideos);
 
-BATLedgerPreferenceBridge(BOOL,
-                          allowUnverifiedPublishers, setAllowUnverifiedPublishers,
-                          GetPublisherAllowNonVerified, SetPublisherAllowNonVerified);
+BATLedgerBridge(double,
+                contributionAmount, setContributionAmount,
+                GetContributionAmount, SetContributionAmount);
 
-BATLedgerPreferenceBridge(BOOL,
-                          allowVideos, setAllowVideos,
-                          GetPublisherAllowVideos, SetPublisherAllowVideos);
-
-BATLedgerPreferenceBridge(double,
-                          contributionAmount, setContributionAmount,
-                          GetContributionAmount, SetContributionAmount);
-
-BATLedgerPreferenceBridge(BOOL,
-                          isAutoContributeEnabled, setAutoContributeEnabled,
-                          GetAutoContribute, SetAutoContribute);
-
-BATLedgerReadonlyPreferenceBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
+BATLedgerBridge(BOOL,
+                isAutoContributeEnabled, setAutoContributeEnabled,
+                GetAutoContribute, SetAutoContribute);
 
 @end
