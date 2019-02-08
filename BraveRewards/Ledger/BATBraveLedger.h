@@ -29,6 +29,18 @@ NS_SWIFT_NAME(BraveLedger)
 /// Creates a cryptocurrency wallet
 - (void)createWallet:(void (^)(NSError * _Nullable error))completion;
 
+/// The wallet's passphrase. nil if the wallet has not been created yet
+@property (readonly, nullable) NSString *walletPassphrase;
+
+/// Recover the users wallet using their passphrase
+- (void)recoverWalletUsingPassphrase:(NSString *)passphrase completion:(void (^)(NSError *_Nullable))completion;
+
+/// The wallet's addresses. nil if the wallet has not been created yet
+@property (readonly, nullable) NSString *BATAddress;
+@property (readonly, nullable) NSString *BTCAddress;
+@property (readonly, nullable) NSString *ETHAddress;
+@property (readonly, nullable) NSString *LTCAddress;
+
 #pragma mark - Publishers
 
 @property (readonly) UInt32 numberOfExcludedSites;

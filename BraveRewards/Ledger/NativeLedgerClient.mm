@@ -4,8 +4,10 @@
 
 #import <Foundation/Foundation.h>
 
-#include <iostream>
-#include "NativeLedgerClient.h"
+#import <iostream>
+#import "NativeLedgerClient.h"
+#import "BATLedgerGrant+Private.h"
+#import "NSArray+Vector.h"
 
 class LogStreamImpl : public ledger::LogStream {
 public:
@@ -64,23 +66,67 @@ namespace ledger {
     [objcLedger handleUpdatedWallet:result walletInfo:std::move(info)];
   }
   
+  void NativeLedgerClient::OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) {
+    if (walletRecoveredBlock != nullptr) {
+      NSArray<BATLedgerGrant *> *grantList = NSArrayFromVector(grants, ^BATLedgerGrant *(const Grant grant){
+        return [[BATLedgerGrant alloc] initWithGrant:grant];
+      });
+      walletRecoveredBlock(result, balance, grantList);
+    }
+  }
+  
   void NativeLedgerClient::OnGrant(Result result, const Grant& grant) { }
   void NativeLedgerClient::OnGrantCaptcha(const std::string& image, const std::string& hint) { }
-  void NativeLedgerClient::OnRecoverWallet(Result result,
-                       double balance,
-                       const std::vector<Grant>& grants) { }
+  
   void NativeLedgerClient::OnReconcileComplete(Result result,
                            const std::string& viewing_id,
                            REWARDS_CATEGORY category,
                            const std::string& probi) { }
   void NativeLedgerClient::OnGrantFinish(Result result,
                      const Grant& grant) { }
-  void NativeLedgerClient::LoadLedgerState(LedgerCallbackHandler* handler) { }
-  void NativeLedgerClient::LoadPublisherState(LedgerCallbackHandler* handler) { }
-  void NativeLedgerClient::SaveLedgerState(const std::string& ledger_state,
-                       LedgerCallbackHandler* handler) { }
+  
+  void NativeLedgerClient::LoadLedgerState(LedgerCallbackHandler* handler) {
+    const auto contents = [common loadContentsFromFileWithName:"ledger_state.json"];
+    if (contents.length() > 0) {
+      handler->OnLedgerStateLoaded(LEDGER_OK, contents);
+    } else {
+      handler->OnLedgerStateLoaded(LEDGER_ERROR, contents);
+    }
+  }
+  
+  void NativeLedgerClient::SaveLedgerState(const std::string& ledger_state, LedgerCallbackHandler* handler) {
+    const auto result = [common saveContents:ledger_state name:"ledger_state.json"];
+    handler->OnLedgerStateSaved(result ? LEDGER_OK : LEDGER_ERROR);
+  }
+  
+  void NativeLedgerClient::LoadPublisherState(LedgerCallbackHandler* handler) {
+    const auto contents = [common loadContentsFromFileWithName:"publisher_state.json"];
+    if (contents.length() > 0) {
+      handler->OnPublisherStateLoaded(LEDGER_OK, contents);
+    } else {
+      handler->OnPublisherStateLoaded(LEDGER_ERROR, contents);
+    }
+  }
+  
   void NativeLedgerClient::SavePublisherState(const std::string& publisher_state,
-                          LedgerCallbackHandler* handler) { }
+                          LedgerCallbackHandler* handler) {
+    const auto result = [common saveContents:publisher_state name:"publisher_state.json"];
+    handler->OnPublisherStateSaved(result ? LEDGER_OK : LEDGER_ERROR);
+  }
+  
+  void NativeLedgerClient::LoadPublisherList(LedgerCallbackHandler* handler) {
+    const auto contents = [common loadContentsFromFileWithName:"publisher_list.json"];
+    if (contents.length() > 0) {
+      handler->OnPublisherListLoaded(LEDGER_OK, contents);
+    } else {
+      handler->OnPublisherListLoaded(LEDGER_ERROR, contents);
+    }
+  }
+  
+  void NativeLedgerClient::SavePublishersList(const std::string& publishers_list, LedgerCallbackHandler* handler) {
+    const auto result = [common saveContents:publishers_list name:"publisher_list.json"];
+    handler->OnPublishersListSaved(result ? LEDGER_OK : LEDGER_ERROR);
+  }
   
   void NativeLedgerClient::SavePublisherInfo(std::unique_ptr<PublisherInfo> publisher_info,
                          PublisherInfoCallback callback) { }
@@ -88,8 +134,6 @@ namespace ledger {
                          PublisherInfoCallback callback) { }
   void NativeLedgerClient::LoadPanelPublisherInfo(ActivityInfoFilter filter,
                               PublisherInfoCallback callback) { }
-  void NativeLedgerClient::SavePublishersList(const std::string& publishers_list,
-                          LedgerCallbackHandler* handler) { }
   void NativeLedgerClient::SetTimer(uint64_t time_offset, uint32_t& timer_id) {
     const auto createdTimerID = [common createTimerWithOffset:time_offset timerFired:^(uint32_t firedTimerID) {
       if (!common) { return; }
@@ -97,7 +141,6 @@ namespace ledger {
     }];
     timer_id = createdTimerID;
   }
-  void NativeLedgerClient::LoadPublisherList(LedgerCallbackHandler* handler) { }
   
   void NativeLedgerClient::LoadNicewareList(GetNicewareListCallback callback) { }
   

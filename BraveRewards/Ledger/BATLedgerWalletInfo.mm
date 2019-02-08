@@ -7,14 +7,10 @@
 //
 
 #import "BATLedgerWalletInfo.h"
-#import "BATLedgerGrant.h"
+#import "BATLedgerGrant+Private.h"
 
 #import "bat/ledger/wallet_info.h"
 #import "NSArray+Vector.h"
-
-@interface BATLedgerGrant (Private)
-- (instancetype)initWithGrant:(const ledger::Grant&)grant;
-@end
 
 @interface BATLedgerWalletInfo ()
 @property (nonatomic, copy) NSString *altcurrency;

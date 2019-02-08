@@ -62,6 +62,73 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   ledgerClient->ledger->CreateWallet();
 }
 
+- (NSString *)walletPassphrase
+{
+  if (ledgerClient->ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledgerClient->ledger->GetWalletPassphrase().c_str()];
+  }
+  return nil;
+}
+
+- (void)recoverWalletUsingPassphrase:(NSString *)passphrase completion:(void (^)(NSError *_Nullable))completion
+{
+  const auto __weak weakSelf = self;
+  ledgerClient->walletRecoveredBlock = ^(const ledger::Result result, const double balance, const NSArray<BATLedgerGrant *> *grants) {
+    const auto strongSelf = weakSelf;
+    if (!strongSelf) { return; }
+    NSError *error = nil;
+    if (result != ledger::LEDGER_OK) {
+      std::map<ledger::Result, std::string> errorDescriptions {
+        { ledger::Result::LEDGER_ERROR, "The recovery failed" },
+      };
+      NSDictionary *userInfo = @{};
+      const auto description = errorDescriptions[result];
+      if (description.length() > 0) {
+        userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithUTF8String:description.c_str()] };
+      }
+      error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
+    }
+    completion(error);
+    strongSelf->ledgerClient->walletRecoveredBlock = nullptr;
+  };
+  // Results that can come from CreateWallet():
+  //   - LEDGER_OK: Good to go
+  //   - LEDGER_ERROR: Recovery failed
+  ledgerClient->ledger->RecoverWallet(std::string(passphrase.UTF8String));
+}
+
+- (NSString *)BATAddress
+{
+  if (ledgerClient->ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledgerClient->ledger->GetBATAddress().c_str()];
+  }
+  return nil;
+}
+
+- (NSString *)BTCAddress
+{
+  if (ledgerClient->ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledgerClient->ledger->GetBTCAddress().c_str()];
+  }
+  return nil;
+}
+
+- (NSString *)ETHAddress
+{
+  if (ledgerClient->ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledgerClient->ledger->GetETHAddress().c_str()];
+  }
+  return nil;
+}
+
+- (NSString *)LTCAddress
+{
+  if (ledgerClient->ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledgerClient->ledger->GetLTCAddress().c_str()];
+  }
+  return nil;
+}
+
 #pragma mark -
 
 - (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info

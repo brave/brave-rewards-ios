@@ -8,7 +8,7 @@
 #import "BATBraveLedger+Private.h"
 #import "BATCommonOperations.h"
 
-@class BATBraveLedger;
+@class BATBraveLedger, BATLedgerGrant;
 
 namespace ledger {
   class NativeLedgerClient : public LedgerClient {
@@ -21,6 +21,8 @@ namespace ledger {
     
     /// Called from `OnWalletInitialized` callback
     std::function<void(const Result)> walletInitializedBlock;
+    /// Called from `OnRecoverWallet` callback
+    std::function<void(const Result, const double, const NSArray<BATLedgerGrant *>*)> walletRecoveredBlock;
     
 #pragma mark - LedgerClient methods
     

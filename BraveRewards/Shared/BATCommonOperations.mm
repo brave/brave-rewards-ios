@@ -124,7 +124,7 @@
 
 - (NSString *)storageParentDirectory
 {
-  const auto directories = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true);
+  const auto directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
   if (self.storagePath.length > 0) {
     return [directories.firstObject stringByAppendingPathComponent:self.storagePath];
   }

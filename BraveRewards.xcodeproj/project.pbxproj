@@ -75,6 +75,7 @@
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		27B6C89721F670F000F256EA /* BATPublisher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPublisher.h; sourceTree = "<group>"; };
 		27B6C89821F670F000F256EA /* BATPublisher.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATPublisher.mm; sourceTree = "<group>"; };
+		27B6C89D21F6837100F256EA /* BATLedgerGrant+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATLedgerGrant+Private.h"; sourceTree = "<group>"; };
 		27C590BB21F2762F00F8E0D5 /* BATLedgerWalletInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATLedgerWalletInfo.h; sourceTree = "<group>"; };
 		27C590BC21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATLedgerWalletInfo.mm; sourceTree = "<group>"; };
 		27C590BF21F276D300F8E0D5 /* BATLedgerGrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATLedgerGrant.h; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 				275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */,
 				27C590BB21F2762F00F8E0D5 /* BATLedgerWalletInfo.h */,
 				27C590BC21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm */,
+				27B6C89D21F6837100F256EA /* BATLedgerGrant+Private.h */,
 				27C590BF21F276D300F8E0D5 /* BATLedgerGrant.h */,
 				27C590C021F276D300F8E0D5 /* BATLedgerGrant.mm */,
 				27B6C89721F670F000F256EA /* BATPublisher.h */,
