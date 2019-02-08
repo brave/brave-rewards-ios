@@ -11,7 +11,6 @@
 #import "BATActionButton.h"
 
 @interface BraveRewardsPanelController ()
-@property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
 @property (nonatomic) BATCreateWalletView *createWalletView;

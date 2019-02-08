@@ -20,7 +20,7 @@
 		275242932203B13C0035C895 /* BATWalletHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 275242912203B13C0035C895 /* BATWalletHeaderView.m */; };
 		2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752429622049EA60035C895 /* UIImage+Convenience.h */; };
 		2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752429722049EA60035C895 /* UIImage+Convenience.m */; };
-		2752429A2204A2120035C895 /* UIColor+RBG.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428B22036AD80035C895 /* UIColor+RBG.h */; };
+		2752429A2204A2120035C895 /* UIColor+RGB.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428B22036AD80035C895 /* UIColor+RGB.h */; };
 		275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A521E547C2005A0EAF /* UIKit.framework */; };
 		275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A721E547C6005A0EAF /* Foundation.framework */; };
 		275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779AD21E6984D005A0EAF /* SystemConfiguration.framework */; };
@@ -35,6 +35,12 @@
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
+		27E477EB220A4D7F00FD8185 /* BATPublisherView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477E9220A4D7F00FD8185 /* BATPublisherView.h */; };
+		27E477EC220A4D7F00FD8185 /* BATPublisherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477EA220A4D7F00FD8185 /* BATPublisherView.m */; };
+		27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */; };
+		27E477F7220B5BCC00FD8185 /* UIColor+BATColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477F5220B5BCC00FD8185 /* UIColor+BATColors.m */; };
+		27E477FA220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */; };
+		27E477FB220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */; };
 		27F3E51921FB7458009A54D5 /* BraveRewardsPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 27F3E51721FB7458009A54D5 /* BraveRewardsPanelController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27F3E51A21FB7458009A54D5 /* BraveRewardsPanelController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E51821FB7458009A54D5 /* BraveRewardsPanelController.mm */; };
 		27F3E59221FB97CB009A54D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59121FB97CB009A54D5 /* AppDelegate.swift */; };
@@ -100,7 +106,7 @@
 		2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Convenience.m"; sourceTree = "<group>"; };
 		2752428721FFAC220035C895 /* BATGradientView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATGradientView.h; sourceTree = "<group>"; };
 		2752428821FFAC220035C895 /* BATGradientView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATGradientView.m; sourceTree = "<group>"; };
-		2752428B22036AD80035C895 /* UIColor+RBG.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+RBG.h"; sourceTree = "<group>"; };
+		2752428B22036AD80035C895 /* UIColor+RGB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+RGB.h"; sourceTree = "<group>"; };
 		2752428C2203B0F70035C895 /* BATWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletViewController.h; sourceTree = "<group>"; };
 		2752428D2203B0F70035C895 /* BATWalletViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATWalletViewController.mm; sourceTree = "<group>"; };
 		275242902203B13C0035C895 /* BATWalletHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletHeaderView.h; sourceTree = "<group>"; };
@@ -125,6 +131,12 @@
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Extensions.h"; sourceTree = "<group>"; };
 		27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+Extensions.mm"; sourceTree = "<group>"; };
+		27E477E9220A4D7F00FD8185 /* BATPublisherView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPublisherView.h; sourceTree = "<group>"; };
+		27E477EA220A4D7F00FD8185 /* BATPublisherView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATPublisherView.m; sourceTree = "<group>"; };
+		27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+BATColors.h"; sourceTree = "<group>"; };
+		27E477F5220B5BCC00FD8185 /* UIColor+BATColors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BATColors.m"; sourceTree = "<group>"; };
+		27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATUnverifiedPublisherDisclaimerView.h; sourceTree = "<group>"; };
+		27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATUnverifiedPublisherDisclaimerView.m; sourceTree = "<group>"; };
 		27F3E51721FB7458009A54D5 /* BraveRewardsPanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BraveRewardsPanelController.h; sourceTree = "<group>"; };
 		27F3E51821FB7458009A54D5 /* BraveRewardsPanelController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BraveRewardsPanelController.mm; sourceTree = "<group>"; };
 		27F3E58F21FB97CB009A54D5 /* BraveRewardsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraveRewardsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -215,7 +227,7 @@
 				2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */,
 				2752429622049EA60035C895 /* UIImage+Convenience.h */,
 				2752429722049EA60035C895 /* UIImage+Convenience.m */,
-				2752428B22036AD80035C895 /* UIColor+RBG.h */,
+				2752428B22036AD80035C895 /* UIColor+RGB.h */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -327,12 +339,18 @@
 		27F3E5BE21FBB21F009A54D5 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */,
+				27E477F5220B5BCC00FD8185 /* UIColor+BATColors.m */,
 				2752428721FFAC220035C895 /* BATGradientView.h */,
 				2752428821FFAC220035C895 /* BATGradientView.m */,
 				27F3E5BF21FBB232009A54D5 /* BATActionButton.h */,
 				27F3E5C021FBB232009A54D5 /* BATActionButton.m */,
 				275242902203B13C0035C895 /* BATWalletHeaderView.h */,
 				275242912203B13C0035C895 /* BATWalletHeaderView.m */,
+				27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */,
+				27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */,
+				27E477E9220A4D7F00FD8185 /* BATPublisherView.h */,
+				27E477EA220A4D7F00FD8185 /* BATPublisherView.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -427,6 +445,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27E477EB220A4D7F00FD8185 /* BATPublisherView.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
@@ -440,11 +459,13 @@
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				2752428521FFA2EC0035C895 /* NSBundle+Convenience.h in Headers */,
 				27F72DD82208E3C200355CAD /* BATRewardsDisabledContentView.h in Headers */,
+				27E477FA220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h in Headers */,
 				2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */,
 				275242922203B13C0035C895 /* BATWalletHeaderView.h in Headers */,
 				27F3E5C121FBB232009A54D5 /* BATActionButton.h in Headers */,
-				2752429A2204A2120035C895 /* UIColor+RBG.h in Headers */,
+				2752429A2204A2120035C895 /* UIColor+RGB.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
+				27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */,
 				27FFE21D220A38E900553794 /* BATRewardsDisabledView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,11 +664,14 @@
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				275242932203B13C0035C895 /* BATWalletHeaderView.m in Sources */,
+				27E477F7220B5BCC00FD8185 /* UIColor+BATColors.m in Sources */,
 				2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
 				2752428F2203B0F70035C895 /* BATWalletViewController.mm in Sources */,
 				2752428621FFA2EC0035C895 /* NSBundle+Convenience.m in Sources */,
+				27E477EC220A4D7F00FD8185 /* BATPublisherView.m in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
+				27E477FB220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
 				27F3E5C221FBB232009A54D5 /* BATActionButton.m in Sources */,
 				2752428A21FFAC220035C895 /* BATGradientView.m in Sources */,

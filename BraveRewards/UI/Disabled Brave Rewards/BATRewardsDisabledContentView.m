@@ -7,7 +7,7 @@
 
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
-#import "UIColor+RBG.h"
+#import "UIColor+RGB.h"
 
 @interface BATRewardsDisabledContentView ()
 @property (nonatomic) UIImageView *batLogoImageView;
@@ -91,7 +91,7 @@
       [self.enableRewardsButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:40.0],
       [self.enableRewardsButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-40.0],
       [self.enableRewardsButton.heightAnchor constraintEqualToConstant:40.0],
-      [self.enableRewardsButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-65.0],
+      [self.enableRewardsButton.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-25.0],
     ]];
   }
   return self;

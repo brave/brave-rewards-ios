@@ -7,7 +7,7 @@
 #import "BATGradientView.h"
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
-#import "UIColor+RBG.h"
+#import "UIColor+RGB.h"
 
 @interface BATCreateWalletView ()
 @property (nonatomic) BATGradientView *backgroundView;
