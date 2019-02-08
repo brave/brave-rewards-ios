@@ -215,6 +215,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270EE71F220DE4BC004AD31E /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				275779B721E6B15D005A0EAF /* bat-native-ads */,
+				27FD393221E7D7D900443796 /* bat-native-ledger */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		272D13E421F61CEA00768D30 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +244,7 @@
 		275779B521E6B15D005A0EAF /* BraveRewards */ = {
 			isa = PBXGroup;
 			children = (
+				270EE71F220DE4BC004AD31E /* lib */,
 				2752427F21FFA1AD0035C895 /* Images.xcassets */,
 				272D13E421F61CEA00768D30 /* Shared */,
 				275779B621E6B15D005A0EAF /* Ads */,
@@ -250,7 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				27FD393721E7FF7500443796 /* resources */,
-				275779B721E6B15D005A0EAF /* bat-native-ads */,
 				272D13E321F2919400768D30 /* BATBraveAds+Private.h */,
 				275779CA21E6B15D005A0EAF /* BATBraveAds.h */,
 				275779C821E6B15D005A0EAF /* BATBraveAds.mm */,
@@ -275,7 +284,6 @@
 			isa = PBXGroup;
 			children = (
 				27B6C88A21F660D700F256EA /* Data */,
-				27FD393221E7D7D900443796 /* bat-native-ledger */,
 				27FD395E21EFD88500443796 /* NativeLedgerClient.h */,
 				27FD395F21EFD88500443796 /* NativeLedgerClient.mm */,
 				27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */,
@@ -938,8 +946,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads/include",
-					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger/include",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads/include",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger/include",
 				);
 				INFOPLIST_FILE = BraveRewards/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -951,8 +959,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads",
-					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.brave.ios.rewards;
@@ -975,8 +983,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads/include",
-					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger/include",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads/include",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger/include",
 				);
 				INFOPLIST_FILE = BraveRewards/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -988,8 +996,8 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/BraveRewards/Ads/bat-native-ads",
-					"$(PROJECT_DIR)/BraveRewards/Ledger/bat-native-ledger",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads",
+					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.brave.ios.rewards;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
