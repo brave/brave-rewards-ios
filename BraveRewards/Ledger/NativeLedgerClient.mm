@@ -9,8 +9,7 @@
 
 class LogStreamImpl : public ledger::LogStream {
 public:
-  LogStreamImpl(
-                const char* file,
+  LogStreamImpl(const char* file,
                 const int line,
                 const ledger::LogLevel log_level) {
     
@@ -40,77 +39,104 @@ private:
 };
 
 namespace ledger {
-  NativeLedgerClient::NativeLedgerClient() : ledger(Ledger::CreateInstance(this)) {
-    
+  NativeLedgerClient::NativeLedgerClient(BATBraveLedger *objcLedger)
+  : ledger(Ledger::CreateInstance(this)),
+    objcLedger(objcLedger),
+    common([[BATCommonOperations alloc] initWithStoragePath:@"brave_ledger"]) {
+  }
+  
+  NativeLedgerClient::~NativeLedgerClient() {
+    objcLedger = nil;
+    common = nil;
   }
   
   std::string NativeLedgerClient::GenerateGUID() const {
-    return std::string([NSUUID UUID].UUIDString.UTF8String);
+    return [common generateUUID];
   }
   
-  void NativeLedgerClient::OnWalletInitialized(ledger::Result result) {
-    
+  void NativeLedgerClient::OnWalletInitialized(Result result) {
+    if (walletInitializedBlock != nullptr) {
+      walletInitializedBlock(result);
+    }
   }
-  void NativeLedgerClient::OnWalletProperties(ledger::Result result,
-                          std::unique_ptr<ledger::WalletInfo> info) { }
-  void NativeLedgerClient::OnGrant(ledger::Result result, const ledger::Grant& grant) { }
+  
+  void NativeLedgerClient::OnWalletProperties(Result result, std::unique_ptr<WalletInfo> info) {
+    [objcLedger handleUpdatedWallet:result walletInfo:std::move(info)];
+  }
+  
+  void NativeLedgerClient::OnGrant(Result result, const Grant& grant) { }
   void NativeLedgerClient::OnGrantCaptcha(const std::string& image, const std::string& hint) { }
-  void NativeLedgerClient::OnRecoverWallet(ledger::Result result,
+  void NativeLedgerClient::OnRecoverWallet(Result result,
                        double balance,
-                       const std::vector<ledger::Grant>& grants) { }
-  void NativeLedgerClient::OnReconcileComplete(ledger::Result result,
+                       const std::vector<Grant>& grants) { }
+  void NativeLedgerClient::OnReconcileComplete(Result result,
                            const std::string& viewing_id,
-                           ledger::REWARDS_CATEGORY category,
+                           REWARDS_CATEGORY category,
                            const std::string& probi) { }
-  void NativeLedgerClient::OnGrantFinish(ledger::Result result,
-                     const ledger::Grant& grant) { }
-  void NativeLedgerClient::LoadLedgerState(ledger::LedgerCallbackHandler* handler) { }
-  void NativeLedgerClient::LoadPublisherState(ledger::LedgerCallbackHandler* handler) { }
+  void NativeLedgerClient::OnGrantFinish(Result result,
+                     const Grant& grant) { }
+  void NativeLedgerClient::LoadLedgerState(LedgerCallbackHandler* handler) { }
+  void NativeLedgerClient::LoadPublisherState(LedgerCallbackHandler* handler) { }
   void NativeLedgerClient::SaveLedgerState(const std::string& ledger_state,
-                       ledger::LedgerCallbackHandler* handler) { }
+                       LedgerCallbackHandler* handler) { }
   void NativeLedgerClient::SavePublisherState(const std::string& publisher_state,
-                          ledger::LedgerCallbackHandler* handler) { }
+                          LedgerCallbackHandler* handler) { }
   
-  void NativeLedgerClient::SavePublisherInfo(std::unique_ptr<ledger::PublisherInfo> publisher_info,
-                         ledger::PublisherInfoCallback callback) { }
+  void NativeLedgerClient::SavePublisherInfo(std::unique_ptr<PublisherInfo> publisher_info,
+                         PublisherInfoCallback callback) { }
   void NativeLedgerClient::LoadPublisherInfo(const std::string& publisher_key,
-                         ledger::PublisherInfoCallback callback) { }
-  void NativeLedgerClient::LoadPanelPublisherInfo(ledger::ActivityInfoFilter filter,
-                              ledger::PublisherInfoCallback callback) { }
+                         PublisherInfoCallback callback) { }
+  void NativeLedgerClient::LoadPanelPublisherInfo(ActivityInfoFilter filter,
+                              PublisherInfoCallback callback) { }
   void NativeLedgerClient::SavePublishersList(const std::string& publishers_list,
-                          ledger::LedgerCallbackHandler* handler) { }
-  void NativeLedgerClient::SetTimer(uint64_t time_offset, uint32_t& timer_id) { }
-  void NativeLedgerClient::LoadPublisherList(ledger::LedgerCallbackHandler* handler) { }
+                          LedgerCallbackHandler* handler) { }
+  void NativeLedgerClient::SetTimer(uint64_t time_offset, uint32_t& timer_id) {
+    const auto createdTimerID = [common createTimerWithOffset:time_offset timerFired:^(uint32_t firedTimerID) {
+      if (!common) { return; }
+      ledger->OnTimer(firedTimerID);
+    }];
+    timer_id = createdTimerID;
+  }
+  void NativeLedgerClient::LoadPublisherList(LedgerCallbackHandler* handler) { }
   
-  void NativeLedgerClient::LoadNicewareList(ledger::GetNicewareListCallback callback) { }
+  void NativeLedgerClient::LoadNicewareList(GetNicewareListCallback callback) { }
   
   void NativeLedgerClient::LoadURL(const std::string& url,
                const std::vector<std::string>& headers,
                const std::string& content,
                const std::string& contentType,
-               const ledger::URL_METHOD& method,
-               ledger::LoadURLCallback callback) { }
+               const URL_METHOD& method,
+               LoadURLCallback callback) {
+    std::map<ledger::URL_METHOD, std::string> methodMap {
+      {ledger::GET, "GET"},
+      {ledger::POST, "POST"},
+      {ledger::PUT, "PUT"}
+    };
+    return [common loadURLRequest:url headers:headers content:content content_type:contentType method:methodMap[method] callback:^(int statusCode, const std::string &response, const std::map<std::string, std::string> &headers) {
+      callback(statusCode, response, headers);
+    }];
+  }
   
   void NativeLedgerClient::OnExcludedSitesChanged(const std::string& publisher_id) { }
-  void NativeLedgerClient::OnPublisherActivity(ledger::Result result,
-                           std::unique_ptr<ledger::PublisherInfo> info,
+  void NativeLedgerClient::OnPublisherActivity(Result result,
+                           std::unique_ptr<PublisherInfo> info,
                            uint64_t windowId) { }
   void NativeLedgerClient::FetchFavIcon(const std::string& url,
                     const std::string& favicon_key,
-                    ledger::FetchIconCallback callback) { }
+                    FetchIconCallback callback) { }
   void NativeLedgerClient::SaveContributionInfo(const std::string& probi,
                             const int month,
                             const int year,
                             const uint32_t date,
                             const std::string& publisher_key,
-                            const ledger::REWARDS_CATEGORY category) { }
-  void NativeLedgerClient::GetRecurringDonations(ledger::PublisherInfoListCallback callback) { }
-  std::unique_ptr<ledger::LogStream> NativeLedgerClient::Log(const char* file, int line, ledger::LogLevel level) const {
+                            const REWARDS_CATEGORY category) { }
+  void NativeLedgerClient::GetRecurringDonations(PublisherInfoListCallback callback) { }
+  std::unique_ptr<LogStream> NativeLedgerClient::Log(const char* file, int line, LogLevel level) const {
     return std::make_unique<LogStreamImpl>(file, line, level);
   }
   void NativeLedgerClient::LoadMediaPublisherInfo(
                               const std::string& media_key,
-                              ledger::PublisherInfoCallback callback) { }
+                              PublisherInfoCallback callback) { }
   void NativeLedgerClient::SaveMediaPublisherInfo(const std::string& media_key, const std::string& publisher_id) { }
   
   void NativeLedgerClient::FetchWalletProperties() { }
@@ -125,23 +151,23 @@ namespace ledger {
                                   bool excluded, uint64_t windowId) { }
   
   void NativeLedgerClient::SavePendingContribution(
-                               const ledger::PendingContributionList& list) { }
+                               const PendingContributionList& list) { }
   
-  void NativeLedgerClient::LoadActivityInfo(ledger::ActivityInfoFilter filter,
-                        ledger::PublisherInfoCallback callback) { }
+  void NativeLedgerClient::LoadActivityInfo(ActivityInfoFilter filter,
+                        PublisherInfoCallback callback) { }
   
-  void NativeLedgerClient::SaveActivityInfo(std::unique_ptr<ledger::PublisherInfo> publisher_info,
-                        ledger::PublisherInfoCallback callback) { }
+  void NativeLedgerClient::SaveActivityInfo(std::unique_ptr<PublisherInfo> publisher_info,
+                        PublisherInfoCallback callback) { }
   
-  void NativeLedgerClient::OnRestorePublishers(ledger::OnRestoreCallback callback) { }
+  void NativeLedgerClient::OnRestorePublishers(OnRestoreCallback callback) { }
   
   void NativeLedgerClient::GetActivityInfoList(uint32_t start,
                            uint32_t limit,
-                           ledger::ActivityInfoFilter filter,
-                           ledger::PublisherInfoListCallback callback) { }
+                           ActivityInfoFilter filter,
+                           PublisherInfoListCallback callback) { }
   
   void NativeLedgerClient::OnRemoveRecurring(const std::string& publisher_key,
-                         ledger::RecurringRemoveCallback callback) {
+                         RecurringRemoveCallback callback) {
     
   }
 }

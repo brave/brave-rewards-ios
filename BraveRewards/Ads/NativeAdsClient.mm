@@ -25,24 +25,13 @@ public:
                     const char* file,
                     const int line,
                     const ads::LogLevel log_level) {
-    std::string level;
+    std::map<ads::LogLevel, std::string> map {
+      {ads::LOG_ERROR, "ERROR"},
+      {ads::LOG_WARNING, "WARNING"},
+      {ads::LOG_INFO, "INFO"}
+    };
     
-    switch (log_level) {
-      case ads::LogLevel::LOG_ERROR: {
-        level = "ERROR";
-        break;
-      }
-      case ads::LogLevel::LOG_WARNING: {
-        level = "WARNING";
-        break;
-      }
-      case ads::LogLevel::LOG_INFO: {
-        level = "INFO";
-        break;
-      }
-    }
-    
-    log_message_ = level + ": in " + file + " on line "
+    log_message_ = map[log_level] + ": in " + file + " on line "
     + std::to_string(line) + ": ";
   }
   

@@ -21,6 +21,13 @@
 		275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */; };
 		275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CD21E6B15D005A0EAF /* BATBraveLedger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CE21E6B15D005A0EAF /* BraveRewards.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
+		27B6C89921F670F000F256EA /* BATPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C89721F670F000F256EA /* BATPublisher.h */; };
+		27B6C89A21F670F000F256EA /* BATPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C89821F670F000F256EA /* BATPublisher.mm */; };
+		27C590BD21F2762F00F8E0D5 /* BATLedgerWalletInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 27C590BB21F2762F00F8E0D5 /* BATLedgerWalletInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27C590BE21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27C590BC21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm */; };
+		27C590C121F276D300F8E0D5 /* BATLedgerGrant.h in Headers */ = {isa = PBXBuildFile; fileRef = 27C590BF21F276D300F8E0D5 /* BATLedgerGrant.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27C590C221F276D300F8E0D5 /* BATLedgerGrant.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27C590C021F276D300F8E0D5 /* BATLedgerGrant.mm */; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
 		27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD393321E7D80100443796 /* libbat-native-ledger.a */; };
@@ -63,6 +70,15 @@
 		275779CE21E6B15D005A0EAF /* BraveRewards.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BraveRewards.h; sourceTree = "<group>"; };
 		275779CF21E6B15D005A0EAF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		275779E421E6B172005A0EAF /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveLedger+Private.h"; sourceTree = "<group>"; };
+		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
+		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		27B6C89721F670F000F256EA /* BATPublisher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPublisher.h; sourceTree = "<group>"; };
+		27B6C89821F670F000F256EA /* BATPublisher.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATPublisher.mm; sourceTree = "<group>"; };
+		27C590BB21F2762F00F8E0D5 /* BATLedgerWalletInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATLedgerWalletInfo.h; sourceTree = "<group>"; };
+		27C590BC21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATLedgerWalletInfo.mm; sourceTree = "<group>"; };
+		27C590BF21F276D300F8E0D5 /* BATLedgerGrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATLedgerGrant.h; sourceTree = "<group>"; };
+		27C590C021F276D300F8E0D5 /* BATLedgerGrant.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATLedgerGrant.mm; sourceTree = "<group>"; };
 		27FD38E021E6B69700443796 /* BraveRewardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BraveRewardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27FD38E221E6B69700443796 /* AdsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTests.swift; sourceTree = "<group>"; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -112,6 +128,7 @@
 			children = (
 				272D13E521F61E5500768D30 /* BATCommonOperations.h */,
 				272D13E621F61E5500768D30 /* BATCommonOperations.mm */,
+				27B6C88621F64C0300F256EA /* NSArray+Vector.h */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -157,13 +174,29 @@
 		275779CB21E6B15D005A0EAF /* Ledger */ = {
 			isa = PBXGroup;
 			children = (
+				27B6C88A21F660D700F256EA /* Data */,
 				27FD393221E7D7D900443796 /* bat-native-ledger */,
-				275779CD21E6B15D005A0EAF /* BATBraveLedger.h */,
-				275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */,
 				27FD395E21EFD88500443796 /* NativeLedgerClient.h */,
 				27FD395F21EFD88500443796 /* NativeLedgerClient.mm */,
+				27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */,
+				275779CD21E6B15D005A0EAF /* BATBraveLedger.h */,
+				275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */,
+				27C590BB21F2762F00F8E0D5 /* BATLedgerWalletInfo.h */,
+				27C590BC21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm */,
+				27C590BF21F276D300F8E0D5 /* BATLedgerGrant.h */,
+				27C590C021F276D300F8E0D5 /* BATLedgerGrant.mm */,
+				27B6C89721F670F000F256EA /* BATPublisher.h */,
+				27B6C89821F670F000F256EA /* BATPublisher.mm */,
 			);
 			path = Ledger;
+			sourceTree = "<group>";
+		};
+		27B6C88A21F660D700F256EA /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		27FD38E121E6B69700443796 /* BraveRewardsTests */ = {
@@ -236,8 +269,11 @@
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
+				27C590C121F276D300F8E0D5 /* BATLedgerGrant.h in Headers */,
 				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
+				27B6C89921F670F000F256EA /* BATPublisher.h in Headers */,
+				27C590BD21F2762F00F8E0D5 /* BATLedgerWalletInfo.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,10 +388,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27C590C221F276D300F8E0D5 /* BATLedgerGrant.mm in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
+				27B6C89A21F670F000F256EA /* BATPublisher.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
+				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
+				27C590BE21F2762F00F8E0D5 /* BATLedgerWalletInfo.mm in Sources */,
 				27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */,
 				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
 			);
@@ -637,6 +677,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				27B6C88821F65F7B00F256EA /* Model.xcdatamodel */,
+			);
+			currentVersion = 27B6C88821F65F7B00F256EA /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A1FDE6C820D2AA7400F92CAF /* Project object */;
 }

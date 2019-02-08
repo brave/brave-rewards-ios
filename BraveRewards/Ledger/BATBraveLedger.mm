@@ -6,6 +6,8 @@
 
 #import "NativeLedgerClient.h"
 
+NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
+
 @interface BATBraveLedger () {
   ledger::NativeLedgerClient *ledgerClient;
 }
@@ -15,10 +17,8 @@
 
 - (instancetype)init
 {
-  if ((self = [super init])) {
-//    ledger.initSynopsis();
-    
-    ledgerClient = new ledger::NativeLedgerClient();
+  if ((self = [super init])) {    
+    ledgerClient = new ledger::NativeLedgerClient(self);
   }
   return self;
 }
@@ -28,96 +28,50 @@
   delete ledgerClient;
 }
 
-/*
-- (NSString *)BATAddress
+#pragma mark - Wallet
+
+- (void)createWallet:(void (^)(NSError * _Nullable))completion
 {
-  return [NSString stringWithCString:ledger.GetBATAddress().c_str()
-                            encoding:[NSString defaultCStringEncoding]];
+  const auto __weak weakSelf = self;
+  ledgerClient->walletInitializedBlock = ^(const ledger::Result result) {
+    const auto strongSelf = weakSelf;
+    if (!strongSelf) { return; }
+    NSError *error = nil;
+    if (result != ledger::WALLET_CREATED) {
+      std::map<ledger::Result, std::string> errorDescriptions {
+        { ledger::Result::LEDGER_ERROR, "The wallet was already initialized" },
+        { ledger::Result::BAD_REGISTRATION_RESPONSE, "Request credentials call failure or malformed data" },
+        { ledger::Result::REGISTRATION_VERIFICATION_FAILED, "Missing master user token from registered persona" },
+      };
+      NSDictionary *userInfo = @{};
+      const auto description = errorDescriptions[result];
+      if (description.length() > 0) {
+        userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithUTF8String:description.c_str()] };
+      }
+      error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
+    }
+    completion(error);
+    strongSelf->ledgerClient->walletInitializedBlock = nullptr;
+  };
+  // Results that can come from CreateWallet():
+  //   - WALLET_CREATED: Good to go
+  //   - LEDGER_ERROR: Already initialized
+  //   - BAD_REGISTRATION_RESPONSE: Request credentials call failure or malformed data
+  //   - REGISTRATION_VERIFICATION_FAILED: Missing master user token
+  ledgerClient->ledger->CreateWallet();
 }
 
-- (NSString *)BTCAddress
-{
-  return [NSString stringWithCString:ledger.GetBTCAddress().c_str()
-                            encoding:[NSString defaultCStringEncoding]];
-}
+#pragma mark -
 
-- (NSString *)ETHAddress
+- (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info
 {
-  return [NSString stringWithCString:ledger.GetETHAddress().c_str()
-                            encoding:[NSString defaultCStringEncoding]];
+  // Results that can come from OnWalletProperties:
+  //   - CORRUPTED_WALLET: Payment ID or Passphase is empty
+  //   - LEDGER_ERROR: Network call to get wallet properties failed or failed to parse json
+  //   - LEDGER_OK: Good to go
+  if (result != ledger::LEDGER_OK) {
+    return;
+  }
 }
-
-- (NSString *)LTCAddress
-{
-  return [NSString stringWithCString:ledger.GetLTCAddress().c_str()
-                            encoding:[NSString defaultCStringEncoding]];
-}
-
-- (void)createWallet
-{
-  ledger.CreateWallet();
-}
-
-- (void)deleteWallet
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (NSString *)walletRecoveryKey
-{
-  // TODO: Update when ledger library includes this functionality
-  return @"";
-}
-
-- (void)recoverWallet:(NSString *)recoveryKey
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (void)addPublisher:(NSString *)publisher
-{
-  [self setPublisherIncluded:publisher included:YES];
-}
-
-- (void)setPublisherIncluded:(NSString *)publisher included:(BOOL)included
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (void)pinPublisher:(NSString *)publisher percent:(double)percent
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (void)unpinPublisher:(NSString *)publisher
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (void)removePublisher:(NSString *)publisher
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (void)recordVisitForPublisher:(NSString *)publisher duration:(NSTimeInterval)duration
-{
-  // TODO: Update when ledger library includes this functionality
-}
-
-- (void)setContributionAmount:(NSTimeInterval)amount
-{
-//  ledger.SetContributionAmount(amount);
-}
-
-- (void)setMinimumVisitsForPublisherRelevancy:(UInt32)visits
-{
-//  ledger.SetPublisherMinVisits(visits);
-}
-
-- (void)setMinimumVisitTimeThreshold:(NSTimeInterval)duration
-{
-//  ledger.SetPublisherMinVisitTime(duration);
-}
-*/
 
 @end

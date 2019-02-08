@@ -5,101 +5,84 @@
 #pragma once
 
 #include "bat/ledger/ledger.h"
+#import "BATBraveLedger+Private.h"
+#import "BATCommonOperations.h"
+
+@class BATBraveLedger;
 
 namespace ledger {
   class NativeLedgerClient : public LedgerClient {
   public:
-    NativeLedgerClient();
-    
+    NativeLedgerClient(BATBraveLedger *objcLedger);
+    ~NativeLedgerClient();
     std::unique_ptr<Ledger> ledger;
     
+#pragma mark - Obj-C bridge methods/properties
+    
+    /// Called from `OnWalletInitialized` callback
+    std::function<void(const Result)> walletInitializedBlock;
+    
+#pragma mark - LedgerClient methods
+    
+  private:
+    BATBraveLedger *__weak objcLedger;
+    BATCommonOperations *common;
+    
     std::string GenerateGUID() const override;
-    void OnWalletInitialized(ledger::Result result) override;
-    void OnWalletProperties(ledger::Result result,
-                            std::unique_ptr<ledger::WalletInfo> info) override;
-    void OnGrant(ledger::Result result, const ledger::Grant& grant) override;
+    /// Called when the user creates a wallet by calling `ledger->CreateWallet()`
+    void OnWalletInitialized(Result result) override;
+    void OnWalletProperties(Result result, std::unique_ptr<WalletInfo> info) override;
+    void OnGrant(Result result, const Grant& grant) override;
     void OnGrantCaptcha(const std::string& image, const std::string& hint) override;
-    void OnRecoverWallet(ledger::Result result,
-                         double balance,
-                         const std::vector<ledger::Grant>& grants) override;
-    void OnReconcileComplete(ledger::Result result,
+    void OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) override;
+    void OnReconcileComplete(Result result,
                              const std::string& viewing_id,
-                             ledger::REWARDS_CATEGORY category,
+                             REWARDS_CATEGORY category,
                              const std::string& probi) override;
-    void OnGrantFinish(ledger::Result result,
-                       const ledger::Grant& grant) override;
-    void LoadNicewareList(ledger::GetNicewareListCallback callback) override;
-    void LoadLedgerState(ledger::LedgerCallbackHandler* handler) override;
-    void LoadPublisherState(ledger::LedgerCallbackHandler* handler) override;
-    void SaveLedgerState(const std::string& ledger_state,
-                         ledger::LedgerCallbackHandler* handler) override;
-    void SavePublisherState(const std::string& publisher_state,
-                            ledger::LedgerCallbackHandler* handler) override;
-    
-    void SavePublisherInfo(std::unique_ptr<ledger::PublisherInfo> publisher_info,
-                           ledger::PublisherInfoCallback callback) override;
-    void LoadPublisherInfo(const std::string& publisher_key,
-                           ledger::PublisherInfoCallback callback) override;
-    void LoadPanelPublisherInfo(ledger::ActivityInfoFilter filter,
-                                ledger::PublisherInfoCallback callback) override;
-    void SavePublishersList(const std::string& publishers_list,
-                            ledger::LedgerCallbackHandler* handler) override;
+    void OnGrantFinish(Result result, const Grant& grant) override;
+    void LoadNicewareList(GetNicewareListCallback callback) override;
+    void LoadLedgerState(LedgerCallbackHandler* handler) override;
+    void LoadPublisherState(LedgerCallbackHandler* handler) override;
+    void SaveLedgerState(const std::string& ledger_state, LedgerCallbackHandler* handler) override;
+    void SavePublisherState(const std::string& publisher_state, LedgerCallbackHandler* handler) override;
+    void SavePublisherInfo(std::unique_ptr<PublisherInfo> publisher_info, PublisherInfoCallback callback) override;
+    void LoadPublisherInfo(const std::string& publisher_key, PublisherInfoCallback callback) override;
+    void LoadPanelPublisherInfo(ActivityInfoFilter filter, PublisherInfoCallback callback) override;
+    void SavePublishersList(const std::string& publishers_list, LedgerCallbackHandler* handler) override;
     void SetTimer(uint64_t time_offset, uint32_t& timer_id) override;
-    void LoadPublisherList(ledger::LedgerCallbackHandler* handler) override;
-    
+    void LoadPublisherList(LedgerCallbackHandler* handler) override;
     void LoadURL(const std::string& url,
                  const std::vector<std::string>& headers,
                  const std::string& content,
                  const std::string& contentType,
-                 const ledger::URL_METHOD& method,
-                 ledger::LoadURLCallback callback) override;
-    
+                 const URL_METHOD& method,
+                 LoadURLCallback callback) override;
     void OnExcludedSitesChanged(const std::string& publisher_id) override;
-    void OnPublisherActivity(ledger::Result result,
-                             std::unique_ptr<ledger::PublisherInfo> info,
-                             uint64_t windowId) override;
-    void FetchFavIcon(const std::string& url,
-                      const std::string& favicon_key,
-                      ledger::FetchIconCallback callback) override;
+    void OnPublisherActivity(Result result, std::unique_ptr<PublisherInfo> info, uint64_t windowId) override;
+    void FetchFavIcon(const std::string& url, const std::string& favicon_key, FetchIconCallback callback) override;
     void SaveContributionInfo(const std::string& probi,
                               const int month,
                               const int year,
                               const uint32_t date,
                               const std::string& publisher_key,
-                              const ledger::REWARDS_CATEGORY category) override;
-    void GetRecurringDonations(ledger::PublisherInfoListCallback callback) override;
-    std::unique_ptr<ledger::LogStream> Log(const char* file, int line, ledger::LogLevel level) const override;
-    void LoadMediaPublisherInfo(
-                                const std::string& media_key,
-                                ledger::PublisherInfoCallback callback) override;
+                              const REWARDS_CATEGORY category) override;
+    void GetRecurringDonations(PublisherInfoListCallback callback) override;
+    std::unique_ptr<LogStream> Log(const char* file, int line, LogLevel level) const override;
+    void LoadMediaPublisherInfo(const std::string& media_key, PublisherInfoCallback callback) override;
     void SaveMediaPublisherInfo(const std::string& media_key, const std::string& publisher_id) override;
-    
     void FetchWalletProperties() override;
     void FetchGrant(const std::string& lang, const std::string& paymentId) override;
     void GetGrantCaptcha() override;
-    
     std::string URIEncode(const std::string& value) override;
-    
-    void SetContributionAutoInclude(const std::string& publisher_key,
-                                    bool excluded, uint64_t windowId) override;
-    
-    void SavePendingContribution(
-                                 const ledger::PendingContributionList& list) override;
-    
-    void LoadActivityInfo(ledger::ActivityInfoFilter filter,
-                          ledger::PublisherInfoCallback callback) override;
-    
-    void SaveActivityInfo(std::unique_ptr<ledger::PublisherInfo> publisher_info,
-                          ledger::PublisherInfoCallback callback) override;
-    
-    void OnRestorePublishers(ledger::OnRestoreCallback callback) override;
-    
+    void SetContributionAutoInclude(const std::string& publisher_key, bool excluded, uint64_t windowId) override;
+    void SavePendingContribution(const PendingContributionList& list) override;
+    void LoadActivityInfo(ActivityInfoFilter filter, PublisherInfoCallback callback) override;
+    void SaveActivityInfo(std::unique_ptr<PublisherInfo> publisher_info, PublisherInfoCallback callback) override;
+    void OnRestorePublishers(OnRestoreCallback callback) override;
     void GetActivityInfoList(uint32_t start,
                              uint32_t limit,
-                             ledger::ActivityInfoFilter filter,
-                             ledger::PublisherInfoListCallback callback) override;
-    
-    void OnRemoveRecurring(const std::string& publisher_key,
-                           ledger::RecurringRemoveCallback callback) override;
+                             ActivityInfoFilter filter,
+                             PublisherInfoListCallback callback) override;
+    void OnRemoveRecurring(const std::string& publisher_key, RecurringRemoveCallback callback) override;
   };
 }
