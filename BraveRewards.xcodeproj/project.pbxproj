@@ -11,6 +11,10 @@
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
 		27333AA9220E24A50009640D /* BATAttentionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27333AA7220E24A50009640D /* BATAttentionView.h */; };
 		27333AAA220E24A50009640D /* BATAttentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27333AA8220E24A50009640D /* BATAttentionView.m */; };
+		2735E3592212008E00C99517 /* BATSeparatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2735E3572212008E00C99517 /* BATSeparatorView.h */; };
+		2735E35A2212008E00C99517 /* BATSeparatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2735E3582212008E00C99517 /* BATSeparatorView.m */; };
+		2735E35D221209F800C99517 /* BATRewardsSummaryRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2735E35B221209F800C99517 /* BATRewardsSummaryRow.h */; };
+		2735E35E221209F800C99517 /* BATRewardsSummaryRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2735E35C221209F800C99517 /* BATRewardsSummaryRow.m */; };
 		2752428021FFA1AD0035C895 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2752427F21FFA1AD0035C895 /* Images.xcassets */; };
 		2752428521FFA2EC0035C895 /* NSBundle+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428321FFA2EC0035C895 /* NSBundle+Convenience.h */; };
 		2752428621FFA2EC0035C895 /* NSBundle+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */; };
@@ -107,6 +111,10 @@
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
 		27333AA7220E24A50009640D /* BATAttentionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATAttentionView.h; sourceTree = "<group>"; };
 		27333AA8220E24A50009640D /* BATAttentionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATAttentionView.m; sourceTree = "<group>"; };
+		2735E3572212008E00C99517 /* BATSeparatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATSeparatorView.h; sourceTree = "<group>"; };
+		2735E3582212008E00C99517 /* BATSeparatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATSeparatorView.m; sourceTree = "<group>"; };
+		2735E35B221209F800C99517 /* BATRewardsSummaryRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATRewardsSummaryRow.h; sourceTree = "<group>"; };
+		2735E35C221209F800C99517 /* BATRewardsSummaryRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATRewardsSummaryRow.m; sourceTree = "<group>"; };
 		2752427F21FFA1AD0035C895 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2752428321FFA2EC0035C895 /* NSBundle+Convenience.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+Convenience.h"; sourceTree = "<group>"; };
 		2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Convenience.m"; sourceTree = "<group>"; };
@@ -267,6 +275,8 @@
 			children = (
 				275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */,
 				275591FF220E1B3300FB148C /* BATRewardsSummaryButton.m */,
+				2735E35B221209F800C99517 /* BATRewardsSummaryRow.h */,
+				2735E35C221209F800C99517 /* BATRewardsSummaryRow.m */,
 			);
 			path = "Rewards Summary";
 			sourceTree = "<group>";
@@ -387,6 +397,8 @@
 				27F3E5C021FBB232009A54D5 /* BATActionButton.m */,
 				275242902203B13C0035C895 /* BATWalletHeaderView.h */,
 				275242912203B13C0035C895 /* BATWalletHeaderView.m */,
+				2735E3572212008E00C99517 /* BATSeparatorView.h */,
+				2735E3582212008E00C99517 /* BATSeparatorView.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -481,6 +493,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2735E3592212008E00C99517 /* BATSeparatorView.h in Headers */,
 				27E477EB220A4D7F00FD8185 /* BATPublisherView.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
@@ -489,6 +502,7 @@
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
 				27333AA9220E24A50009640D /* BATAttentionView.h in Headers */,
+				2735E35D221209F800C99517 /* BATRewardsSummaryRow.h in Headers */,
 				27559200220E1B3300FB148C /* BATRewardsSummaryButton.h in Headers */,
 				2752428921FFAC220035C895 /* BATGradientView.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
@@ -695,6 +709,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2735E35A2212008E00C99517 /* BATSeparatorView.m in Sources */,
 				27F72DD92208E3C200355CAD /* BATRewardsDisabledContentView.m in Sources */,
 				27FFE21E220A38E900553794 /* BATRewardsDisabledView.m in Sources */,
 				27F3E5BD21FBB199009A54D5 /* BATCreateWalletView.m in Sources */,
@@ -717,6 +732,7 @@
 				2752428A21FFAC220035C895 /* BATGradientView.m in Sources */,
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */,
+				2735E35E221209F800C99517 /* BATRewardsSummaryRow.m in Sources */,
 				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

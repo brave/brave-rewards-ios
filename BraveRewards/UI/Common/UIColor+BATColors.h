@@ -8,8 +8,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIColor (BATColors)
 
-@property (nonatomic, readonly, class) UIColor *bat_textColor;
-@property (nonatomic, readonly, class) UIColor *bat_lightTextColor;
+@property (readonly, class) UIColor *bat_textColor;
+@property (readonly, class) UIColor *bat_darkTextColor;
+@property (readonly, class) UIColor *bat_lightTextColor;
+@property (readonly, class) UIColor *bat_rewardsSummaryButtonColor;
+@property (readonly, class) UIColor *bat_rewardsSummaryTextColor;
 
 @end
 

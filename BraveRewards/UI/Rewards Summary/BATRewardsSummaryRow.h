@@ -6,9 +6,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATRewardsSummaryButton : UIControl
-/// Should be set to "slide-up"/"slide-down" image based on slide status; Defaults to "slide-up"
-@property (readonly) UIImageView *slideToggleImageView;
+@interface BATRewardsSummaryRow : UIView
+@property (readonly) UILabel *titleLabel;
+@property (readonly) UILabel *cryptoCurrencyLabel;
+@property (readonly) UILabel *cryptoValueLabel;
+@property (readonly) UILabel *dollarValueLabel;
 @end
 
 NS_ASSUME_NONNULL_END

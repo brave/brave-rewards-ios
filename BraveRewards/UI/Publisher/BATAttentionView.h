@@ -7,7 +7,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BATAttentionView : UIView
-
+@property (readonly) UILabel *titleLabel; // "Attention"
+@property (readonly) UILabel *valueLabel; // "X%" / "–"
 @end
 
 NS_ASSUME_NONNULL_END

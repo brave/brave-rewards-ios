@@ -49,8 +49,8 @@
     
     [NSLayoutConstraint activateConstraints:@[
       [self.textView.topAnchor constraintEqualToAnchor:self.topAnchor constant:8.0],
-      [self.textView.leftAnchor constraintEqualToAnchor:self.leftAnchor constant:8.0],
-      [self.textView.rightAnchor constraintEqualToAnchor:self.rightAnchor constant:-8.0],
+      [self.textView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:8.0],
+      [self.textView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-8.0],
       [self.textView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-8.0],
     ]];
   }

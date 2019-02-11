@@ -6,9 +6,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATRewardsSummaryButton : UIControl
-/// Should be set to "slide-up"/"slide-down" image based on slide status; Defaults to "slide-up"
-@property (readonly) UIImageView *slideToggleImageView;
+/// A simple view that has constant height and defaults to a gray color
+@interface BATSeparatorView : UIView
 @end
 
 NS_ASSUME_NONNULL_END
