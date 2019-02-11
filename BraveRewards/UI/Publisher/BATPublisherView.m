@@ -4,7 +4,8 @@
 
 #import "BATPublisherView.h"
 #import "UIColor+BATColors.h"
-#import "BATUnverifiedPublisherDisclaimerView.h"
+#import "NSBundle+Convenience.h"
+#import "BATDisclaimerView.h"
 
 @interface BATPublisherView ()
 @property (nonatomic) UIStackView *stackView; // For containing the favicon and publisherStackView (Always visible)
@@ -14,7 +15,7 @@
 @property (nonatomic) UIStackView *verifiedLabelStackView; // For containing verificationSymbolImageView and verifiedLabel
 @property (nonatomic) UIImageView *verificationSymbolImageView; // ✓ or ?
 @property (nonatomic) UILabel *verifiedLabel; // "Brave Verified Publisher" / "Not yet verified"
-@property (nonatomic) BATUnverifiedPublisherDisclaimerView *unverifiedDisclaimerView; // Only shown when unverified
+@property (nonatomic) BATDisclaimerView *unverifiedDisclaimerView; // Only shown when unverified
 @end
 
 @implementation BATPublisherView
@@ -67,6 +68,10 @@
       self.verifiedLabel.font = [UIFont systemFontOfSize:12.0];
       self.verifiedLabel.adjustsFontSizeToFitWidth = YES;
       self.verifiedLabel.accessibilityIdentifier = @"publisher.verified-label";
+    }
+    
+    self.unverifiedDisclaimerView = [[BATDisclaimerView alloc] initWithText:BATLocalizedString(@"BraveRewardsUnverifiedPublisherDisclaimer", @"This creator has not yet signed up to receive contributions from Brave users. Any tips you send will remain in your wallet until they verify.", nil)]; {
+      self.unverifiedDisclaimerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     [self addArrangedSubview:self.stackView];

@@ -4,7 +4,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class BATUnverifiedPublisherDisclaimerView;
+@class BATDisclaimerView;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) UIStackView *verifiedLabelStackView;
 @property (readonly) UIImageView *verificationSymbolImageView;
 @property (readonly) UILabel *verifiedLabel;
-@property (readonly) BATUnverifiedPublisherDisclaimerView *unverifiedDisclaimerView;
+@property (readonly) BATDisclaimerView *unverifiedDisclaimerView;
 @end
 
 NS_ASSUME_NONNULL_END

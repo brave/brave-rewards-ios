@@ -6,8 +6,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATUnverifiedPublisherDisclaimerView : UIView
+@interface BATDisclaimerView : UIView
+@property (nonatomic, copy) NSString *text;
 @property (nonatomic, copy, nullable) void (^tappedLearnMore)(void);
+
+- (instancetype)initWithText:(NSString *)text NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+
 @end
 
 NS_ASSUME_NONNULL_END
