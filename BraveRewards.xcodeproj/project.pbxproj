@@ -41,7 +41,7 @@
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
 		27E477EB220A4D7F00FD8185 /* BATPublisherView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477E9220A4D7F00FD8185 /* BATPublisherView.h */; };
 		27E477EC220A4D7F00FD8185 /* BATPublisherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477EA220A4D7F00FD8185 /* BATPublisherView.m */; };
-		27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */; };
 		27E477F7220B5BCC00FD8185 /* UIColor+BATColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477F5220B5BCC00FD8185 /* UIColor+BATColors.m */; };
 		27E477FA220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27E477F8220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.h */; };
 		27E477FB220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27E477F9220C9E8600FD8185 /* BATUnverifiedPublisherDisclaimerView.m */; };
@@ -976,11 +976,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/BraveRewads/**",
-					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads/include",
-					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger/include",
-				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = BraveRewards/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1013,11 +1009,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/BraveRewads/**",
-					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ads/include",
-					"$(PROJECT_DIR)/BraveRewards/lib/bat-native-ledger/include",
-				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/**";
 				INFOPLIST_FILE = BraveRewards/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
