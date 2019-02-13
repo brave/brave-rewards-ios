@@ -10,6 +10,7 @@
 #import "NSURL+Extensions.h"
 
 #import "NativeLedgerClient.h"
+#import "NativeLedgerBridge.h"
 
 #define BATLedgerReadonlyBridge(__type, __objc_getter, __cpp_getter) \
 - (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); }
@@ -20,9 +21,10 @@
 
 NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 
-@interface BATBraveLedger () {
+@interface BATBraveLedger () <NativeLedgerBridge> {
   ledger::NativeLedgerClient *ledgerClient;
 }
+@property (nonatomic, copy, nullable) void (^walletInitializedBlock)(const ledger::Result result);
 @end
 
 @implementation BATBraveLedger
@@ -46,6 +48,11 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   delete ledgerClient;
 }
 
+- (ledger::LedgerClient *)ledgerClient
+{
+  return ledgerClient;
+}
+
 #pragma mark - Wallet
 
 BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
@@ -53,7 +60,7 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
 - (void)createWallet:(void (^)(NSError * _Nullable))completion
 {
   const auto __weak weakSelf = self;
-  ledgerClient->walletInitializedBlock = ^(const ledger::Result result) {
+  self.walletInitializedBlock = ^(const ledger::Result result) {
     const auto strongSelf = weakSelf;
     if (!strongSelf) { return; }
     NSError *error = nil;
@@ -71,9 +78,10 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
       error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
     }
     if (completion) {
-      completion(error);
+      dispatch_async(dispatch_get_main_queue(), ^{
+        completion(error);
+      });
     }
-    strongSelf->ledgerClient->walletInitializedBlock = nullptr;
   };
   // Results that can come from CreateWallet():
   //   - WALLET_CREATED: Good to go
@@ -322,5 +330,19 @@ BATLedgerBridge(double,
 BATLedgerBridge(BOOL,
                 isAutoContributeEnabled, setAutoContributeEnabled,
                 GetAutoContribute, SetAutoContribute);
+
+#pragma mark - NativeLedgerBridge
+
+- (void)ledger:(ledger::NativeLedgerClient *)client walletInitialized:(ledger::Result)result
+{
+  if (self.walletInitializedBlock) {
+    self.walletInitializedBlock(result);
+  }
+}
+
+- (void)ledger:(ledger::NativeLedgerClient *)client onWalletProperties:(ledger::Result)result info:(std::unique_ptr<ledger::WalletInfo>)info
+{
+  
+}
 
 @end

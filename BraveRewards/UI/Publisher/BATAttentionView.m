@@ -18,7 +18,7 @@
   if ((self = [super initWithFrame:frame])) {
     self.titleLabel = [[UILabel alloc] init]; {
       self.titleLabel.textColor = [UIColor bat_darkTextColor];
-      self.titleLabel.text = BATLocalizedString(@"BraveRewardsAttention", @"Attention", @"Attention");
+      self.titleLabel.text = BATLocalizedString(@"BraveRewardsAttention", @"Attention");
       self.titleLabel.font = [UIFont systemFontOfSize:14.0];
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
@@ -38,10 +38,10 @@
     [self addSubview:self.valueLabel];
     
     [NSLayoutConstraint activateConstraints:@[
-      [paddingGuide.topAnchor constraintEqualToAnchor:self.topAnchor constant:10.0],
+      [paddingGuide.topAnchor constraintEqualToAnchor:self.topAnchor constant:0],
       [paddingGuide.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
       [paddingGuide.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-      [paddingGuide.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10.0],
+      [paddingGuide.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-0],
       
       [self.titleLabel.topAnchor constraintEqualToAnchor:paddingGuide.topAnchor],
       [self.titleLabel.leadingAnchor constraintEqualToAnchor:paddingGuide.leadingAnchor],

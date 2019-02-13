@@ -24,15 +24,17 @@
 {
   if ((self = [super initWithFrame:frame])) {
     self.axis = UILayoutConstraintAxisVertical;
-    self.spacing = 8.0;
+    self.spacing = 10.0;
     
     self.stackView = [[UIStackView alloc] init]; {
-      self.stackView.spacing = 8.0;
+      self.stackView.spacing = 10.0;
+      self.stackView.alignment = UIStackViewAlignmentCenter;
       self.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     self.faviconImageView = [[UIImageView alloc] init]; {
       self.faviconImageView.translatesAutoresizingMaskIntoConstraints = NO;
+      self.faviconImageView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
       self.faviconImageView.contentMode = UIViewContentModeScaleAspectFill;
       [self.faviconImageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
       self.faviconImageView.accessibilityIdentifier = @"publisher.favicon";
@@ -70,7 +72,7 @@
       self.verifiedLabel.accessibilityIdentifier = @"publisher.verified-label";
     }
     
-    self.unverifiedDisclaimerView = [[BATDisclaimerView alloc] initWithText:BATLocalizedString(@"BraveRewardsUnverifiedPublisherDisclaimer", @"This creator has not yet signed up to receive contributions from Brave users. Any tips you send will remain in your wallet until they verify.", nil)]; {
+    self.unverifiedDisclaimerView = [[BATDisclaimerView alloc] initWithText:BATLocalizedString(@"BraveRewardsUnverifiedPublisherDisclaimer", @"This creator has not yet signed up to receive contributions from Brave users. Any tips you send will remain in your wallet until they verify.")]; {
       self.unverifiedDisclaimerView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -89,6 +91,14 @@
     ]];
   }
   return self;
+}
+
+- (void)layoutSubviews
+{
+  [super layoutSubviews];
+  
+  // This techically will always be 24
+  self.faviconImageView.layer.cornerRadius = 24.0;
 }
 
 @end

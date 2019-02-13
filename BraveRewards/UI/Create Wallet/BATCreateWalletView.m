@@ -38,7 +38,7 @@
       self.prefixLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.75];
       self.prefixLabel.font = [UIFont systemFontOfSize:16.0];
       self.prefixLabel.textAlignment = NSTextAlignmentCenter;
-      self.prefixLabel.text = BATLocalizedString(@"RewardsOptInPrefix", @"Get ready to experience the next Internet.", @"Copy shown above the bat logo");
+      self.prefixLabel.text = BATLocalizedString(@"RewardsOptInPrefix", @"Get ready to experience the next Internet.");
       self.prefixLabel.numberOfLines = 0;
     }
     
@@ -51,7 +51,7 @@
       self.titleLabel.textColor = [UIColor whiteColor];
       self.titleLabel.font = [UIFont systemFontOfSize:28.0 weight:UIFontWeightMedium];
       self.titleLabel.textAlignment = NSTextAlignmentCenter;
-      NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:BATLocalizedString(@"RewardsOptInTitle", @"Brave Rewards™", @"Title")];
+      NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:BATLocalizedString(@"RewardsOptInTitle", @"Brave Rewards™")];
       NSRange trademarkRange = [title.string rangeOfString:@"™"]; // Logic may need alteration based on localization
       [title addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14.0] range:trademarkRange];
       [title addAttribute:NSBaselineOffsetAttributeName value:@(10.0) range:trademarkRange];
@@ -63,20 +63,20 @@
       self.descriptionLabel.textColor = [UIColor whiteColor];
       self.descriptionLabel.font = [UIFont systemFontOfSize:16.0];
       self.descriptionLabel.textAlignment = NSTextAlignmentCenter;
-      self.descriptionLabel.text = BATLocalizedString(@"RewardsOptInDescription", @"Get paid for viewing ads and pay it forward to support your favorite content creators.", @"Short explanation of Brave Rewards");
+      self.descriptionLabel.text = BATLocalizedString(@"RewardsOptInDescription", @"Get paid for viewing ads and pay it forward to support your favorite content creators.");
       self.descriptionLabel.numberOfLines = 0;
     }
     
     self.createWalletButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
       self.createWalletButton.translatesAutoresizingMaskIntoConstraints = NO;
-      [self.createWalletButton setTitle:BATLocalizedString(@"RewardsOptInJoinTitle", @"Join Rewards", @"Join Rewards").uppercaseString forState:UIControlStateNormal];
+      [self.createWalletButton setTitle:BATLocalizedString(@"RewardsOptInJoinTitle", @"Join Rewards").uppercaseString forState:UIControlStateNormal];
       [self.createWalletButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
       self.createWalletButton.titleLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightBold];
     }
     
     self.learnMoreButton = [UIButton buttonWithType:UIButtonTypeSystem]; {
       self.learnMoreButton.translatesAutoresizingMaskIntoConstraints = NO;
-      [self.learnMoreButton setTitle:BATLocalizedString(@"RewardsOptInLearnMore", @"Learn More", @"Learn More").uppercaseString forState:UIControlStateNormal];
+      [self.learnMoreButton setTitle:BATLocalizedString(@"RewardsOptInLearnMore", @"Learn More").uppercaseString forState:UIControlStateNormal];
       [self.learnMoreButton setTitleColor:UIColorFromRGB(115, 203, 255) forState:UIControlStateNormal];
       self.learnMoreButton.titleLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium];
     }

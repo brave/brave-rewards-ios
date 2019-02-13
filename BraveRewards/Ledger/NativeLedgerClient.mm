@@ -7,6 +7,7 @@
 #import <iostream>
 #import "NativeLedgerClient.h"
 #import "NSArray+Vector.h"
+#import "NativeLedgerBridge.h"
 
 class LogStreamImpl : public ledger::LogStream {
 public:
@@ -40,14 +41,14 @@ private:
 };
 
 namespace ledger {
-  NativeLedgerClient::NativeLedgerClient(BATBraveLedger *objcLedger)
+  NativeLedgerClient::NativeLedgerClient(id<NativeLedgerBridge> bridge)
   : ledger(Ledger::CreateInstance(this)),
-    objcLedger(objcLedger),
+    bridge(bridge),
     common([[BATCommonOperations alloc] initWithStoragePath:@"brave_ledger"]) {
   }
   
   NativeLedgerClient::~NativeLedgerClient() {
-    objcLedger = nil;
+    bridge = nil;
     common = nil;
   }
   
@@ -56,13 +57,11 @@ namespace ledger {
   }
   
   void NativeLedgerClient::OnWalletInitialized(Result result) {
-    if (walletInitializedBlock != nullptr) {
-      walletInitializedBlock(result);
-    }
+    [bridge ledger:this walletInitialized:result];
   }
   
   void NativeLedgerClient::OnWalletProperties(Result result, std::unique_ptr<WalletInfo> info) {
-    [objcLedger handleUpdatedWallet:result walletInfo:std::move(info)];
+    [bridge ledger:this onWalletProperties:result info:std::move(info)];
   }
   
   void NativeLedgerClient::OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) {

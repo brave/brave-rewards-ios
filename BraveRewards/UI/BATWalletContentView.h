@@ -6,14 +6,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSBundle (Convenience)
-
-/// Get the BraveRewards bundle
-@property (nonatomic, readonly, class) NSBundle *bat_current;
-
-#define BATLocalizedString(key, val) \
-  NSLocalizedStringWithDefaultValue(key, nil, [NSBundle bat_current], val, nil)
-
+@protocol BATWalletContentView<NSObject>
+@required
+- (nullable UIScrollView *)scrollView;
+- (BOOL)displayRewardsSummaryButton;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -154,6 +154,7 @@
   const auto filename = [NSString stringWithUTF8String:name.c_str()];
   NSError *error = nil;
   const auto path = [self dataPathForFilename:filename];
+  NSLog(@"Loading contents from file: %@", path);
   const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
   if (error) {
     NSLog(@"Failed to load ads data for %@: %@", filename, error.localizedDescription);

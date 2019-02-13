@@ -35,7 +35,7 @@
     self.titleLabel = [[UILabel alloc] init]; {
       self.titleLabel.font = [UIFont systemFontOfSize:16.0 weight:UIFontWeightMedium];
       self.titleLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.65];
-      self.titleLabel.text = BATLocalizedString(@"BraveRewardsWalletHeaderTitle", @"Your Wallet", @"Wallet Header Title");
+      self.titleLabel.text = BATLocalizedString(@"BraveRewardsWalletHeaderTitle", @"Your Wallet");
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -69,7 +69,7 @@
       self.grantsButton.flipImageOrigin = YES;
       self.grantsButton.titleLabel.font = [UIFont systemFontOfSize:10.0 weight:UIFontWeightSemibold];
       [self.grantsButton setImage:[UIImage bat_imageNamed:@"down-arrow"] forState:UIControlStateNormal];
-      [self.grantsButton setTitle:BATLocalizedString(@"BraveRewardsWalletHeaderGrants", @"Grants", @"Grants down arrow") forState:UIControlStateNormal];
+      [self.grantsButton setTitle:BATLocalizedString(@"BraveRewardsWalletHeaderGrants", @"Grants") forState:UIControlStateNormal];
       [self.grantsButton setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.75] forState:UIControlStateNormal];
       self.grantsButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5.0);
       self.grantsButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
@@ -77,7 +77,7 @@
     
     self.addFundsButton = [UIButton buttonWithType:UIButtonTypeSystem]; {
       self.addFundsButton.translatesAutoresizingMaskIntoConstraints = NO;
-      [self.addFundsButton setTitle:BATLocalizedString(@"BraveRewardsAddFunds", @"Add Funds", @"Add Funds") forState:UIControlStateNormal];
+      [self.addFundsButton setTitle:BATLocalizedString(@"BraveRewardsAddFunds", @"Add Funds") forState:UIControlStateNormal];
       [self.addFundsButton setImage:[UIImage bat_imageNamed:@"wallet-icon"].bat_original forState:UIControlStateNormal];
       self.addFundsButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 8.0);
       self.addFundsButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -8.0);
@@ -89,7 +89,7 @@
     
     self.settingsButton = [UIButton buttonWithType:UIButtonTypeSystem]; {
       self.settingsButton.translatesAutoresizingMaskIntoConstraints = NO;
-      [self.settingsButton setTitle:BATLocalizedString(@"BraveRewardsSettings", @"Settings", @"Settings") forState:UIControlStateNormal];
+      [self.settingsButton setTitle:BATLocalizedString(@"BraveRewardsSettings", @"Settings") forState:UIControlStateNormal];
       [self.settingsButton setImage:[UIImage bat_imageNamed:@"bat"].bat_original forState:UIControlStateNormal];
       self.settingsButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
       self.settingsButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 8.0);

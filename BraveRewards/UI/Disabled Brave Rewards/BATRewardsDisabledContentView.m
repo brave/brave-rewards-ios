@@ -32,7 +32,7 @@
       self.titleLabel.textColor = UIColorFromRGB(75, 76, 92);
       self.titleLabel.textAlignment = NSTextAlignmentCenter;
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-      self.titleLabel.text = BATLocalizedString(@"BraveRewardsDisabledTitle", @"Welcome back!", @"Title on wallet with disabled BR");
+      self.titleLabel.text = BATLocalizedString(@"BraveRewardsDisabledTitle", @"Welcome back!");
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -41,7 +41,7 @@
       self.subtitleLabel.textColor = UIColorFromRGB(76, 84, 210);
       self.subtitleLabel.textAlignment = NSTextAlignmentCenter;
       self.subtitleLabel.numberOfLines = 0;
-      self.subtitleLabel.text = BATLocalizedString(@"BraveRewardsDisabledSubtitle", @"Get rewarded for browsing.", @"Subtitle on wallet with disabled BR");
+      self.subtitleLabel.text = BATLocalizedString(@"BraveRewardsDisabledSubtitle", @"Get rewarded for browsing.");
       self.subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -50,12 +50,12 @@
       self.bodyLabel.textColor = UIColorFromRGB(75, 76, 92);
       self.bodyLabel.textAlignment = NSTextAlignmentCenter;
       self.bodyLabel.numberOfLines = 0;
-      self.bodyLabel.text = BATLocalizedString(@"BraveRewardsDisabledBody", @"Earn by viewing privacy-respecting ads, and pay it forward to support content creators you love.", @"Body on wallet with disabled BR");
+      self.bodyLabel.text = BATLocalizedString(@"BraveRewardsDisabledBody", @"Earn by viewing privacy-respecting ads, and pay it forward to support content creators you love.");
       self.bodyLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     self.enableRewardsButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
-      [self.enableRewardsButton setTitle:BATLocalizedString(@"BraveRewardsDisabledEnableButton", @"Enable Brave Rewards", @"Enable brave rewards button title").uppercaseString forState:UIControlStateNormal];
+      [self.enableRewardsButton setTitle:BATLocalizedString(@"BraveRewardsDisabledEnableButton", @"Enable Brave Rewards").uppercaseString forState:UIControlStateNormal];
       [self.enableRewardsButton setImage:[UIImage bat_imageNamed:@"continue-button-arrow"].bat_original forState:UIControlStateNormal];
       self.enableRewardsButton.titleLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightSemibold];
       self.enableRewardsButton.tintColor = UIColorFromRGB(76, 84, 210);

@@ -5,29 +5,27 @@
 #pragma once
 
 #include "bat/ledger/ledger.h"
-#import "BATBraveLedger+Private.h"
 #import "BATCommonOperations.h"
 
 @class BATBraveLedger, BATLedgerGrant;
+@protocol NativeLedgerBridge;
 
 namespace ledger {
   class NativeLedgerClient : public LedgerClient {
   public:
-    NativeLedgerClient(BATBraveLedger *objcLedger);
+    NativeLedgerClient(id<NativeLedgerBridge> bridge);
     ~NativeLedgerClient();
     std::unique_ptr<Ledger> ledger;
     
 #pragma mark - Obj-C bridge methods/properties
     
-    /// Called from `OnWalletInitialized` callback
-    std::function<void(const Result)> walletInitializedBlock;
     /// Called from `OnRecoverWallet` callback
     std::function<void(const Result, const double, const NSArray<BATLedgerGrant *>*)> walletRecoveredBlock;
     
 #pragma mark - LedgerClient methods
     
   private:
-    BATBraveLedger *__weak objcLedger;
+    id<NativeLedgerBridge> __weak bridge;
     BATCommonOperations *common;
     
     std::string GenerateGUID() const override;

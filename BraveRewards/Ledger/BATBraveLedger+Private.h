@@ -4,8 +4,13 @@
 
 #import "BATBraveLedger.h"
 
+#import "NativeLedgerClient.h"
+#import "bat/ledger/ledger.h"
+
 @interface BATBraveLedger (Private)
 
-- (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info;
+@property (readonly) ledger::NativeLedgerClient *ledgerClient;
+
+//- (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info;
 
 @end

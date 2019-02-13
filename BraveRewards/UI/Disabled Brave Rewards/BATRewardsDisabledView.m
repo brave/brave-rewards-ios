@@ -63,4 +63,9 @@
   return (UIButton *)self.contentView.enableRewardsButton;
 }
 
+- (BOOL)displayRewardsSummaryButton
+{
+  return NO;
+}
+
 @end

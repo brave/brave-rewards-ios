@@ -3,14 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <UIKit/UIKit.h>
+#import "BATWalletContentView.h"
 
-@class BATBraveLedger;
+@class BATBraveLedger, BATWalletHeaderView;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /// A container which shows the users wallet balance in the header of the panel and shows
-/// an appropriate section in the bottom based on the current URL and ledger state
+/// a content view in the bottom. Should be subclassed
 @interface BATWalletViewController : UIViewController
+
+@property (readonly) BATWalletHeaderView *headerView;
+@property (nonatomic) UIView<BATWalletContentView> *contentView;
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger NS_DESIGNATED_INITIALIZER;
 

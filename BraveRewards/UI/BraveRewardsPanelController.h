@@ -10,7 +10,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BraveRewardsPanelController : UIViewController
 
-- (instancetype)initWithLedger:(BATBraveLedger *)ledger NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger
+                           url:(NSURL *)url
+                       isLocal:(BOOL)isLocal
+                       favicon:(nullable UIImage *)favicon NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;

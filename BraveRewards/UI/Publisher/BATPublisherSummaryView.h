@@ -5,11 +5,19 @@
 #import <UIKit/UIKit.h>
 #import "BATWalletContentView.h"
 
+#import "BATPublisherView.h"
+#import "BATAttentionView.h"
+
+@class BATActionButton;
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATRewardsDisabledView : UIView <BATWalletContentView>
+@interface BATPublisherSummaryView : UIView <BATWalletContentView>
 @property (readonly) UIScrollView *scrollView;
-@property (readonly) UIButton *enableRewardsButton;
+@property (readonly) UIStackView *stackView;
+@property (readonly) BATPublisherView *publisherView;
+@property (readonly) BATAttentionView *attentionView;
+@property (readonly) BATActionButton *tipButton;
 @end
 
 NS_ASSUME_NONNULL_END

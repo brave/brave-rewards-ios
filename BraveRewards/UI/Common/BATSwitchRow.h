@@ -3,13 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <UIKit/UIKit.h>
-#import "BATWalletContentView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BATRewardsDisabledView : UIView <BATWalletContentView>
-@property (readonly) UIScrollView *scrollView;
-@property (readonly) UIButton *enableRewardsButton;
+@interface BATSwitchRow : UIStackView
+@property (readonly) UILabel *textLabel;
+@property (readonly) UISwitch *toggleSwitch;
 @end
 
 NS_ASSUME_NONNULL_END

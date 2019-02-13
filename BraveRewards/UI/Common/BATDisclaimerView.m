@@ -17,12 +17,18 @@
   if ((self = [super initWithFrame:CGRectZero])) {
     self.textView = [[UITextView alloc] init]; {
       self.textView.translatesAutoresizingMaskIntoConstraints = NO;
+      self.textView.delaysContentTouches = NO;
       self.textView.editable = NO;
       self.textView.scrollEnabled = NO;
       self.textView.delegate = self;
+      self.textView.backgroundColor = [UIColor clearColor];
+      self.textView.textDragInteraction.enabled = NO;
+      self.textView.textContainerInset = UIEdgeInsetsZero;
     }
     
     self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.04];
+    
+    self.layer.cornerRadius = 4.0;
     
     [self addSubview:self.textView];
     
@@ -52,7 +58,7 @@
     __auto_type disclaimerText = self.text;
     __auto_type disclaimerAttrText = [[NSAttributedString alloc] initWithString:disclaimerText attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:12.0], NSForegroundColorAttributeName: UIColorFromRGB(103, 100, 128) }];
     
-    __auto_type learnMoreText = BATLocalizedString(@"BraveRewardsUnverifiedPublisherDisclaimerLearnMore", @"Learn More", nil);
+    __auto_type learnMoreText = BATLocalizedString(@"BraveRewardsUnverifiedPublisherDisclaimerLearnMore", @"Learn More");
     __auto_type learnMoreAttrText = [[NSAttributedString alloc] initWithString:learnMoreText attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:12.0], NSForegroundColorAttributeName: UIColorFromRGB(0, 137, 255), NSLinkAttributeName: @"learn-more" }];
     
     [text appendAttributedString:disclaimerAttrText];
@@ -71,7 +77,7 @@
   if (self.tappedLearnMore) {
     self.tappedLearnMore();
   }
-  return YES;
+  return NO;
 }
 
 @end

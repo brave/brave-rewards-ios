@@ -23,7 +23,8 @@ class ViewController: UIViewController {
 
   @IBAction func tappedBraveRewards() {
     let ledger = BraveLedger()
-    let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger)
+    let url = URL(string: "https://facebook.com")!
+    let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger, url: url, isLocal: false, favicon: nil)
     let popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .autoLayout)
     popover.convenientDismissalMargin = 60.0
     popover.present(from: braveRewardsPanelButton, on: self)
