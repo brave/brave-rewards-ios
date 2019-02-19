@@ -24,6 +24,7 @@
     
     self.toggleSwitch = [[UISwitch alloc] init]; {
       self.toggleSwitch.translatesAutoresizingMaskIntoConstraints = NO;
+      self.toggleSwitch.onTintColor = [UIColor bat_purple400];
       [self.toggleSwitch setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     }
     

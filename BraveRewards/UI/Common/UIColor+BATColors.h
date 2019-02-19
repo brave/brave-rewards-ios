@@ -21,6 +21,7 @@ BATDefineColor(blue500);
 BATDefineColor(blurple400);
 BATDefineColor(blurple600);
 BATDefineColor(blurple800);
+BATDefineColor(purple400);
 
 @end
 

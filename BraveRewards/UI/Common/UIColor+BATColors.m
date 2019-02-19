@@ -26,5 +26,6 @@ BATColorWithHex(blue500, 0x5DB5FC);
 BATColorWithHex(blurple400, 0x4C54D2);
 BATColorWithHex(blurple600, 0xA0A5EB);
 BATColorWithHex(blurple800, 0xF0F1FF);
+BATColorWithHex(purple400, 0x845EF7);
 
 @end
