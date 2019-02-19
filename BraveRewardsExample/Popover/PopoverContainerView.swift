@@ -73,6 +73,12 @@ extension PopoverController {
             $0.shadowRadius = PopoverUX.shadowRadius
             $0.shadowOpacity = PopoverUX.shadowOpacity
         }
+      
+        var customArrowColor: UIColor? {
+            didSet {
+                triangleLayer.fillColor = customArrowColor?.cgColor ?? PopoverUX.backgroundColor.cgColor
+            }
+        }
         
         override init(frame: CGRect) {
             super.init(frame: frame)

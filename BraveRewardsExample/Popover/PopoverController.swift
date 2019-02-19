@@ -120,6 +120,8 @@ class PopoverController: UIViewController {
         contentController.view.snp.makeConstraints { make in
             make.edges.equalTo(self.containerView.contentView)
         }
+      
+        containerView.customArrowColor = contentController.customArrowColor
         
         switch contentSizeBehavior {
         case .autoLayout:
