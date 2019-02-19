@@ -72,7 +72,7 @@
       [self.titleLabel.topAnchor constraintEqualToAnchor:paddingGuide.topAnchor],
       [self.titleLabel.leadingAnchor constraintEqualToAnchor:paddingGuide.leadingAnchor],
       [self.titleLabel.bottomAnchor constraintEqualToAnchor:paddingGuide.bottomAnchor],
-      [self.titleLabel.trailingAnchor constraintLessThanOrEqualToAnchor:self.cryptoValueLabel.leadingAnchor constant:-8.0],
+      [self.titleLabel.trailingAnchor constraintLessThanOrEqualToAnchor:self.cryptoValueLabel.leadingAnchor constant:-12.0],
       
       [self.cryptoValueLabel.firstBaselineAnchor constraintEqualToAnchor:self.titleLabel.firstBaselineAnchor],
       [self.cryptoValueLabel.trailingAnchor constraintEqualToAnchor:self.cryptoCurrencyLabel.leadingAnchor constant:-4.0],
