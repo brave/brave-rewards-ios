@@ -17,11 +17,11 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    self.backgroundColor = [UIColor bat_rewardsSummaryButtonColor];
+    self.backgroundColor = [UIColor bat_blurple800];
     
     self.titleLabel = [[UILabel alloc] init]; {
       self.titleLabel.text = BATLocalizedString(@"BraveRewardsSummaryTitle", @"Rewards Summary").uppercaseString;
-      self.titleLabel.textColor = [UIColor bat_rewardsSummaryTextColor];
+      self.titleLabel.textColor = [UIColor bat_blurple600];
       self.titleLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightBold];
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }

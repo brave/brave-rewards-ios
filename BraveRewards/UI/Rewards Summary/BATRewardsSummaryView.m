@@ -25,14 +25,14 @@
     }
     
     self.gradientView = [[BATGradientView alloc] init]; {
-      self.gradientView.gradientLayer.colors = @[ (id)[UIColor bat_rewardsSummaryButtonColor].CGColor,
+      self.gradientView.gradientLayer.colors = @[ (id)[UIColor bat_blurple800].CGColor,
                                                   (id)[UIColor whiteColor].CGColor,
                                                   (id)[UIColor whiteColor].CGColor ];
       self.gradientView.gradientLayer.locations = @[ @0.0, @0.430, @1.0 ];
     }
     
     self.monthYearLabel = [[UILabel alloc] init]; {
-      self.monthYearLabel.textColor = [UIColor bat_darkTextColor];
+      self.monthYearLabel.textColor = [UIColor bat_blurple400];
       self.monthYearLabel.font = [UIFont systemFontOfSize:22.0];
       self.monthYearLabel.alpha = 0.0; // hidden by default
       self.monthYearLabel.translatesAutoresizingMaskIntoConstraints = NO;

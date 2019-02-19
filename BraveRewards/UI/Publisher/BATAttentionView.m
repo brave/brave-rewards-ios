@@ -17,14 +17,14 @@
 {
   if ((self = [super initWithFrame:frame])) {
     self.titleLabel = [[UILabel alloc] init]; {
-      self.titleLabel.textColor = [UIColor bat_darkTextColor];
+      self.titleLabel.textColor = [UIColor bat_grey000];
       self.titleLabel.text = BATLocalizedString(@"BraveRewardsAttention", @"Attention");
       self.titleLabel.font = [UIFont systemFontOfSize:14.0];
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     self.valueLabel = [[UILabel alloc] init]; {
-      self.valueLabel.textColor = [UIColor bat_darkTextColor];
+      self.valueLabel.textColor = [UIColor bat_grey000];
       self.valueLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightSemibold];
       self.valueLabel.textAlignment = NSTextAlignmentRight;
       self.valueLabel.translatesAutoresizingMaskIntoConstraints = NO;

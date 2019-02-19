@@ -3,9 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATGradientView.h"
-#import "UIColor+RGB.h"
+#import "UIColor+BATColors.h"
 
 @implementation BATGradientView
+
+NS_INLINE UIColor *UIColorFromRGB(UInt8 red, UInt8 green, UInt8 blue) {
+  return [UIColor colorWithRed:(red / 255.0) green:(green / 255.0) blue:(blue / 255.0) alpha:1.0];
+}
 
 + (Class)layerClass
 {

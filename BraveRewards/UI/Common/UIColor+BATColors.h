@@ -4,16 +4,26 @@
 
 #import <UIKit/UIKit.h>
 
+#ifndef BATDefineColor
+#define BATDefineColor(__name) @property (readonly, class) UIColor *bat_##__name;
+#endif
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIColor (BATColors)
 
-@property (readonly, class) UIColor *bat_textColor;
-@property (readonly, class) UIColor *bat_darkTextColor;
-@property (readonly, class) UIColor *bat_lightTextColor;
-@property (readonly, class) UIColor *bat_rewardsSummaryButtonColor;
-@property (readonly, class) UIColor *bat_rewardsSummaryTextColor;
+BATDefineColor(grey000);
+BATDefineColor(grey100);
+BATDefineColor(grey200);
+BATDefineColor(neutral600);
+BATDefineColor(neutral800);
+BATDefineColor(blue500);
+BATDefineColor(blurple400);
+BATDefineColor(blurple600);
+BATDefineColor(blurple800);
 
 @end
 
 NS_ASSUME_NONNULL_END
+
+#undef BATDefineColor

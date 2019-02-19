@@ -34,7 +34,6 @@
 		275242932203B13C0035C895 /* BATWalletHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 275242912203B13C0035C895 /* BATWalletHeaderView.m */; };
 		2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752429622049EA60035C895 /* UIImage+Convenience.h */; };
 		2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752429722049EA60035C895 /* UIImage+Convenience.m */; };
-		2752429A2204A2120035C895 /* UIColor+RGB.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428B22036AD80035C895 /* UIColor+RGB.h */; };
 		27559200220E1B3300FB148C /* BATRewardsSummaryButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */; };
 		27559201220E1B3300FB148C /* BATRewardsSummaryButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 275591FF220E1B3300FB148C /* BATRewardsSummaryButton.m */; };
 		275779A621E547C2005A0EAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A521E547C2005A0EAF /* UIKit.framework */; };
@@ -150,7 +149,6 @@
 		2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Convenience.m"; sourceTree = "<group>"; };
 		2752428721FFAC220035C895 /* BATGradientView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATGradientView.h; sourceTree = "<group>"; };
 		2752428821FFAC220035C895 /* BATGradientView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATGradientView.m; sourceTree = "<group>"; };
-		2752428B22036AD80035C895 /* UIColor+RGB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+RGB.h"; sourceTree = "<group>"; };
 		2752428C2203B0F70035C895 /* BATWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletViewController.h; sourceTree = "<group>"; };
 		2752428D2203B0F70035C895 /* BATWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATWalletViewController.m; sourceTree = "<group>"; };
 		275242902203B13C0035C895 /* BATWalletHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletHeaderView.h; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 				2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */,
 				2752429622049EA60035C895 /* UIImage+Convenience.h */,
 				2752429722049EA60035C895 /* UIImage+Convenience.m */,
-				2752428B22036AD80035C895 /* UIColor+RGB.h */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -561,7 +558,6 @@
 				2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */,
 				275242922203B13C0035C895 /* BATWalletHeaderView.h in Headers */,
 				27F3E5C121FBB232009A54D5 /* BATActionButton.h in Headers */,
-				2752429A2204A2120035C895 /* UIColor+RGB.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
 				27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */,
 				27FFE21D220A38E900553794 /* BATRewardsDisabledView.h in Headers */,

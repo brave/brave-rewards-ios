@@ -4,7 +4,7 @@
 
 #import "BATDisclaimerView.h"
 #import "NSBundle+Convenience.h"
-#import "UIColor+RGB.h"
+#import "UIColor+BATColors.h"
 
 @interface BATDisclaimerView () <UITextViewDelegate>
 @property (nonatomic, strong) UITextView *textView;
@@ -56,10 +56,10 @@
     __auto_type text = [[NSMutableAttributedString alloc] init];
     
     __auto_type disclaimerText = self.text;
-    __auto_type disclaimerAttrText = [[NSAttributedString alloc] initWithString:disclaimerText attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:12.0], NSForegroundColorAttributeName: UIColorFromRGB(103, 100, 128) }];
+    __auto_type disclaimerAttrText = [[NSAttributedString alloc] initWithString:disclaimerText attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:12.0], NSForegroundColorAttributeName: [UIColor bat_grey200] }];
     
     __auto_type learnMoreText = BATLocalizedString(@"BraveRewardsUnverifiedPublisherDisclaimerLearnMore", @"Learn More");
-    __auto_type learnMoreAttrText = [[NSAttributedString alloc] initWithString:learnMoreText attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:12.0], NSForegroundColorAttributeName: UIColorFromRGB(0, 137, 255), NSLinkAttributeName: @"learn-more" }];
+    __auto_type learnMoreAttrText = [[NSAttributedString alloc] initWithString:learnMoreText attributes:@{ NSFontAttributeName: [UIFont systemFontOfSize:12.0], NSForegroundColorAttributeName: [UIColor bat_blue500], NSLinkAttributeName: @"learn-more" }];
     
     [text appendAttributedString:disclaimerAttrText];
     [text appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];

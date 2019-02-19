@@ -17,7 +17,7 @@
   if ((self = [super initWithFrame:frame])) {
     self.textLabel = [[UILabel alloc] init]; {
       self.textLabel.font = [UIFont systemFontOfSize:14.0];
-      self.textLabel.textColor = [UIColor bat_lightTextColor];
+      self.textLabel.textColor = [UIColor bat_grey200];
       self.textLabel.numberOfLines = 0;
       self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }

@@ -6,6 +6,7 @@
 #import "BATSeparatorView.h"
 #import "BATActionButton.h"
 #import "NSBundle+Convenience.h"
+#import "UIColor+BATColors.h"
 #import "BATSwitchRow.h"
 
 @interface BATPublisherSummaryView ()
@@ -42,7 +43,8 @@
     }
     
     self.tipButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
-      self.tipButton.tintColor = [UIColor blueColor];
+      self.tipButton.tintColor = [UIColor bat_blurple400];
+      self.tipButton.titleLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightBold];
       [self.tipButton setTitle:BATLocalizedString(@"BraveRewardsPublisherSendTip", @"Send a tip").uppercaseString forState:UIControlStateNormal];
       self.tipButton.translatesAutoresizingMaskIntoConstraints = NO;
     }

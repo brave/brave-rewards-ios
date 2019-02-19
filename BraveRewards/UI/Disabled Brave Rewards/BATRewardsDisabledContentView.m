@@ -7,7 +7,7 @@
 
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
-#import "UIColor+RGB.h"
+#import "UIColor+BATColors.h"
 
 @interface BATRewardsDisabledContentView ()
 @property (nonatomic) UIImageView *batLogoImageView;
@@ -29,7 +29,7 @@
     
     self.titleLabel = [[UILabel alloc] init]; {
       self.titleLabel.font = [UIFont systemFontOfSize:28.0];
-      self.titleLabel.textColor = UIColorFromRGB(75, 76, 92);
+      self.titleLabel.textColor = [UIColor bat_grey100];
       self.titleLabel.textAlignment = NSTextAlignmentCenter;
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
       self.titleLabel.text = BATLocalizedString(@"BraveRewardsDisabledTitle", @"Welcome back!");
@@ -38,7 +38,7 @@
     
     self.subtitleLabel = [[UILabel alloc] init]; {
       self.subtitleLabel.font = [UIFont systemFontOfSize:18.0 weight:UIFontWeightSemibold];
-      self.subtitleLabel.textColor = UIColorFromRGB(76, 84, 210);
+      self.subtitleLabel.textColor = [UIColor bat_blurple400];
       self.subtitleLabel.textAlignment = NSTextAlignmentCenter;
       self.subtitleLabel.numberOfLines = 0;
       self.subtitleLabel.text = BATLocalizedString(@"BraveRewardsDisabledSubtitle", @"Get rewarded for browsing.");
@@ -47,7 +47,7 @@
     
     self.bodyLabel = [[UILabel alloc] init]; {
       self.bodyLabel.font = [UIFont systemFontOfSize:16.0];
-      self.bodyLabel.textColor = UIColorFromRGB(75, 76, 92);
+      self.bodyLabel.textColor = [UIColor bat_grey100];
       self.bodyLabel.textAlignment = NSTextAlignmentCenter;
       self.bodyLabel.numberOfLines = 0;
       self.bodyLabel.text = BATLocalizedString(@"BraveRewardsDisabledBody", @"Earn by viewing privacy-respecting ads, and pay it forward to support content creators you love.");
@@ -58,7 +58,7 @@
       [self.enableRewardsButton setTitle:BATLocalizedString(@"BraveRewardsDisabledEnableButton", @"Enable Brave Rewards").uppercaseString forState:UIControlStateNormal];
       [self.enableRewardsButton setImage:[UIImage bat_imageNamed:@"continue-button-arrow"].bat_original forState:UIControlStateNormal];
       self.enableRewardsButton.titleLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightSemibold];
-      self.enableRewardsButton.tintColor = UIColorFromRGB(76, 84, 210);
+      self.enableRewardsButton.tintColor = [UIColor bat_blurple400];
       self.enableRewardsButton.flipImageOrigin = YES;
       self.enableRewardsButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5.0);
       self.enableRewardsButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);

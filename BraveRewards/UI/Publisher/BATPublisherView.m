@@ -34,7 +34,7 @@
     
     self.faviconImageView = [[UIImageView alloc] init]; {
       self.faviconImageView.translatesAutoresizingMaskIntoConstraints = NO;
-      self.faviconImageView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
+      self.faviconImageView.backgroundColor = [UIColor bat_neutral800];
       self.faviconImageView.contentMode = UIViewContentModeScaleAspectFill;
       [self.faviconImageView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
       self.faviconImageView.accessibilityIdentifier = @"publisher.favicon";
@@ -48,7 +48,7 @@
     
     self.publisherNameLabel = [[UILabel alloc] init]; {
       self.publisherNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-      self.publisherNameLabel.textColor = [UIColor bat_textColor];
+      self.publisherNameLabel.textColor = [UIColor bat_grey000];
       self.publisherNameLabel.font = [UIFont systemFontOfSize:18.0 weight:UIFontWeightMedium];
       self.publisherNameLabel.numberOfLines = 0;
       self.publisherNameLabel.accessibilityIdentifier = @"publisher.name";
@@ -66,7 +66,7 @@
     }
     
     self.verifiedLabel = [[UILabel alloc] init]; {
-      self.verifiedLabel.textColor = [UIColor bat_lightTextColor];
+      self.verifiedLabel.textColor = [UIColor bat_grey200];
       self.verifiedLabel.font = [UIFont systemFontOfSize:12.0];
       self.verifiedLabel.adjustsFontSizeToFitWidth = YES;
       self.verifiedLabel.accessibilityIdentifier = @"publisher.verified-label";

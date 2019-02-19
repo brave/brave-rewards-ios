@@ -7,7 +7,7 @@
 #import "BATGradientView.h"
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
-#import "UIColor+RGB.h"
+#import "UIColor+BATColors.h"
 
 @interface BATCreateWalletView ()
 @property (nonatomic) BATGradientView *backgroundView;
@@ -77,7 +77,7 @@
     self.learnMoreButton = [UIButton buttonWithType:UIButtonTypeSystem]; {
       self.learnMoreButton.translatesAutoresizingMaskIntoConstraints = NO;
       [self.learnMoreButton setTitle:BATLocalizedString(@"RewardsOptInLearnMore", @"Learn More").uppercaseString forState:UIControlStateNormal];
-      [self.learnMoreButton setTitleColor:UIColorFromRGB(115, 203, 255) forState:UIControlStateNormal];
+      [self.learnMoreButton setTitleColor:[UIColor bat_blue500] forState:UIControlStateNormal];
       self.learnMoreButton.titleLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightMedium];
     }
     

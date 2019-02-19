@@ -152,7 +152,7 @@
     if (expanding) {
       self.contentView.alpha = 0.0;
       self.rewardsSummaryView.monthYearLabel.alpha = 1.0;
-      self.view.backgroundColor = [UIColor bat_rewardsSummaryButtonColor];
+      self.view.backgroundColor = [UIColor bat_blurple800];
     } else {
       self.contentView.alpha = 1.0;
       self.rewardsSummaryView.monthYearLabel.alpha = 0.0;

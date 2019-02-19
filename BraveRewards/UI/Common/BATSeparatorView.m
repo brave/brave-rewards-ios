@@ -3,14 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATSeparatorView.h"
-#import "UIColor+RGB.h"
+#import "UIColor+BATColors.h"
 
 @implementation BATSeparatorView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    self.backgroundColor = UIColorFromRGB(219, 223, 227);
+    self.backgroundColor = [UIColor bat_neutral600];
     self.translatesAutoresizingMaskIntoConstraints = NO;
     [self.heightAnchor constraintEqualToConstant:1.0 / UIScreen.mainScreen.scale].active = YES;
   }
