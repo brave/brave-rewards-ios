@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) UILabel *cryptoCurrencyLabel;
 @property (readonly) UILabel *cryptoValueLabel;
 @property (readonly) UILabel *dollarValueLabel;
++ (instancetype)rowWithTitle:(NSString *)title batValue:(NSString *)batValue usdDollarValue:(NSString *)dollarValue;
 @end
 
 NS_ASSUME_NONNULL_END

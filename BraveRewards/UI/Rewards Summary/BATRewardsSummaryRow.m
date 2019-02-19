@@ -15,13 +15,24 @@
 
 @implementation BATRewardsSummaryRow
 
++ (instancetype)rowWithTitle:(NSString *)title batValue:(NSString *)batValue usdDollarValue:(NSString *)dollarValue
+{
+  BATRewardsSummaryRow *row = [[BATRewardsSummaryRow alloc] init];
+  row.titleLabel.text = title;
+  row.cryptoCurrencyLabel.text = @"BAT";
+  row.cryptoValueLabel.text = batValue;
+  row.dollarValueLabel.text = [NSString stringWithFormat:@"%@ USD", dollarValue];
+  return row;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
     self.titleLabel = [[UILabel alloc] init]; {
       self.titleLabel.textColor = [UIColor bat_darkTextColor];
-      self.titleLabel.font = [UIFont systemFontOfSize:14.0];
+      self.titleLabel.font = [UIFont systemFontOfSize:15.0];
       self.titleLabel.numberOfLines = 0;
+      [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
       self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -40,6 +51,7 @@
       self.dollarValueLabel.textColor = UIColorFromRGB(131, 131, 145);
       self.dollarValueLabel.font = [UIFont systemFontOfSize:10.0];
       self.dollarValueLabel.translatesAutoresizingMaskIntoConstraints = NO;
+      self.dollarValueLabel.textAlignment = NSTextAlignmentRight;
       [self.dollarValueLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     }
     
@@ -52,10 +64,10 @@
     [self addSubview:self.dollarValueLabel];
     
     [NSLayoutConstraint activateConstraints:@[
-      [paddingGuide.topAnchor constraintEqualToAnchor:self.topAnchor constant:10.0],
+      [paddingGuide.topAnchor constraintEqualToAnchor:self.topAnchor constant:12.0],
       [paddingGuide.leadingAnchor constraintEqualToAnchor:self.leadingAnchor],
       [paddingGuide.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
-      [paddingGuide.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-10.0],
+      [paddingGuide.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-12.0],
       
       [self.titleLabel.topAnchor constraintEqualToAnchor:paddingGuide.topAnchor],
       [self.titleLabel.leadingAnchor constraintEqualToAnchor:paddingGuide.leadingAnchor],
@@ -63,13 +75,13 @@
       [self.titleLabel.trailingAnchor constraintLessThanOrEqualToAnchor:self.cryptoValueLabel.leadingAnchor constant:-8.0],
       
       [self.cryptoValueLabel.firstBaselineAnchor constraintEqualToAnchor:self.titleLabel.firstBaselineAnchor],
-      [self.cryptoValueLabel.trailingAnchor constraintEqualToAnchor:self.cryptoCurrencyLabel.leadingAnchor constant:2.0],
+      [self.cryptoValueLabel.trailingAnchor constraintEqualToAnchor:self.cryptoCurrencyLabel.leadingAnchor constant:-4.0],
       
       [self.cryptoCurrencyLabel.firstBaselineAnchor constraintEqualToAnchor:self.cryptoValueLabel.firstBaselineAnchor],
-      [self.cryptoCurrencyLabel.trailingAnchor constraintEqualToAnchor:self.dollarValueLabel.leadingAnchor constant:8.0],
+      [self.cryptoCurrencyLabel.trailingAnchor constraintEqualToAnchor:self.dollarValueLabel.leadingAnchor constant:-8.0],
       
       [self.dollarValueLabel.firstBaselineAnchor constraintLessThanOrEqualToAnchor:self.cryptoValueLabel.firstBaselineAnchor],
-      [self.dollarValueLabel.trailingAnchor constraintLessThanOrEqualToAnchor:paddingGuide.trailingAnchor],
+      [self.dollarValueLabel.trailingAnchor constraintEqualToAnchor:paddingGuide.trailingAnchor],
       [self.dollarValueLabel.widthAnchor constraintGreaterThanOrEqualToConstant:60.0],
     ]];
   }

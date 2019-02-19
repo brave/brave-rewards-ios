@@ -4,10 +4,16 @@
 
 #import <UIKit/UIKit.h>
 
+#import "BATRewardsSummaryRow.h"
+#import "BATRewardsSummaryButton.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BATRewardsSummaryView : UIView
-
+@property (readonly) BATRewardsSummaryButton *rewardsSummaryButton;
+@property (readonly) UILabel *monthYearLabel;
+@property (readonly) UIScrollView *scrollView;
+@property (nonatomic) NSArray<BATRewardsSummaryRow *> *rows;
 @end
 
 NS_ASSUME_NONNULL_END

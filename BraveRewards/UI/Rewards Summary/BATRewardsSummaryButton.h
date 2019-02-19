@@ -7,6 +7,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BATRewardsSummaryButton : UIControl
+@property (readonly) UILabel *titleLabel;
 /// Should be set to "slide-up"/"slide-down" image based on slide status; Defaults to "slide-up"
 @property (readonly) UIImageView *slideToggleImageView;
 @end

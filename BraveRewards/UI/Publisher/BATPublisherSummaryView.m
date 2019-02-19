@@ -71,8 +71,8 @@
       [self.scrollView.contentLayoutGuide.widthAnchor constraintEqualToAnchor:self.widthAnchor],
       
       [self.stackView.topAnchor constraintEqualToAnchor:self.scrollView.contentLayoutGuide.topAnchor constant:20.0],
-      [self.stackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:30.0],
-      [self.stackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-30.0],
+      [self.stackView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:25.0],
+      [self.stackView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-25.0],
       [self.scrollView.contentLayoutGuide.bottomAnchor constraintEqualToAnchor:self.stackView.bottomAnchor constant:20.0],
       
       [self.tipButton.heightAnchor constraintEqualToConstant:40.0],

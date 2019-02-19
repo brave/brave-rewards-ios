@@ -6,13 +6,16 @@
 #import "BATBraveLedger.h"
 #import "BATWalletHeaderView.h"
 #import "BATPublisherSummaryView.h"
-#import "BATRewardsSummaryButton.h"
+#import "BATRewardsSummaryView.h"
+#import "UIColor+BATColors.h"
+#import "UIImage+Convenience.h"
 
 @interface BATWalletViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) BATWalletHeaderView *headerView;
-@property (nonatomic) BATRewardsSummaryButton *rewardsSummaryButton;
+@property (nonatomic) BATRewardsSummaryView *rewardsSummaryView;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
+@property (nonatomic) UILayoutGuide *contentLayoutGuide;
 @end
 
 @implementation BATWalletViewController
@@ -27,8 +30,17 @@
       [self.headerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     }
     
-    self.rewardsSummaryButton = [[BATRewardsSummaryButton alloc] init]; {
-      self.rewardsSummaryButton.translatesAutoresizingMaskIntoConstraints = NO;
+    self.rewardsSummaryView = [[BATRewardsSummaryView alloc] init]; {
+      self.rewardsSummaryView.translatesAutoresizingMaskIntoConstraints = NO;
+      [self.rewardsSummaryView.rewardsSummaryButton addTarget:self action:@selector(tappedRewardsSummaryButton) forControlEvents:UIControlEventTouchUpInside];
+      self.rewardsSummaryView.monthYearLabel.text = @"MARCH 2019";
+      self.rewardsSummaryView.rows = @[
+        [BATRewardsSummaryRow rowWithTitle:@"Total Grants Claimed Total Grants Claimed" batValue:@"10.0" usdDollarValue:@"5.25"],
+        [BATRewardsSummaryRow rowWithTitle:@"Earnings from Ads" batValue:@"10.0" usdDollarValue:@"5.25"],
+        [BATRewardsSummaryRow rowWithTitle:@"Auto-Contribute" batValue:@"-10.0" usdDollarValue:@"-5.25"],
+        [BATRewardsSummaryRow rowWithTitle:@"One-Time Tips" batValue:@"-2.0" usdDollarValue:@"-1.05"],
+        [BATRewardsSummaryRow rowWithTitle:@"Monthly Tips" batValue:@"-19.0" usdDollarValue:@"-9.97"],
+      ];
     }
   }
   return self;
@@ -60,23 +72,28 @@
     [self.contentView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
   ]];
   if (self.contentView.displayRewardsSummaryButton) {
-    [self.view addSubview:self.rewardsSummaryButton];
+    [self.view insertSubview:self.rewardsSummaryView belowSubview:self.headerView];
     [NSLayoutConstraint activateConstraints:@[
-      [self.contentView.bottomAnchor constraintEqualToAnchor:self.rewardsSummaryButton.topAnchor],
-      [self.rewardsSummaryButton.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-      [self.rewardsSummaryButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-      [self.rewardsSummaryButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-      [self.rewardsSummaryButton.heightAnchor constraintEqualToConstant:48.0],
+      [self.contentView.bottomAnchor constraintEqualToAnchor:self.rewardsSummaryView.topAnchor],
+      [self.rewardsSummaryView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+      [self.rewardsSummaryView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+      [self.rewardsSummaryView.scrollView.heightAnchor constraintEqualToAnchor:self.contentLayoutGuide.heightAnchor],
+      [self.rewardsSummaryView.rewardsSummaryButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
     ]];
   } else {
-    [self.rewardsSummaryButton removeFromSuperview];
+    [self.rewardsSummaryView removeFromSuperview];
     [self.contentView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
   }
+  
+  [self.contentLayoutGuide.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
 }
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  
+  self.contentLayoutGuide = [[UILayoutGuide alloc] init];
+  [self.view addLayoutGuide:self.contentLayoutGuide];
   
   [self.view addSubview:self.headerView];
   
@@ -89,6 +106,10 @@
     [self.headerView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
     [self.headerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
     [self.headerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+    
+    [self.contentLayoutGuide.topAnchor constraintEqualToAnchor:self.headerView.bottomAnchor constant:20.0],
+    [self.contentLayoutGuide.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+    [self.contentLayoutGuide.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
   ]];
   
   [self setupContentView];
@@ -108,10 +129,36 @@
     self.contentView.scrollView.scrollIndicatorInsets = self.contentView.scrollView.contentInset;
     self.contentView.scrollView.contentOffset = CGPointMake(0, -self.headerView.bounds.size.height); // Make sure it shows the top part of the view
     
-    self.heightConstraint.constant = self.headerView.bounds.size.height + self.contentView.scrollView.contentSize.height + self.rewardsSummaryButton.bounds.size.height;
+    self.heightConstraint.constant = self.headerView.bounds.size.height + self.contentView.scrollView.contentSize.height + self.rewardsSummaryView.rewardsSummaryButton.bounds.size.height;
   } else {
-    self.heightConstraint.constant = self.headerView.bounds.size.height + self.contentView.bounds.size.height + self.rewardsSummaryButton.bounds.size.height;
+    self.heightConstraint.constant = self.headerView.bounds.size.height + self.contentView.bounds.size.height + self.rewardsSummaryView.rewardsSummaryButton.bounds.size.height;
   }
+}
+
+#pragma mark - Rewards Summary
+
+- (void)tappedRewardsSummaryButton
+{
+  BOOL expanding = self.rewardsSummaryView.transform.ty == 0;
+  self.rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image = [UIImage bat_imageNamed:expanding ? @"slide-down" : @"slide-up"];
+  [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.85 initialSpringVelocity:0 options:0 animations:^{
+    if (expanding) {
+      self.rewardsSummaryView.transform = CGAffineTransformMakeTranslation(0, -self.contentLayoutGuide.layoutFrame.size.height);
+    } else {
+      self.rewardsSummaryView.transform = CGAffineTransformIdentity;
+    }
+  } completion:nil];
+  [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1000 initialSpringVelocity:0 options:0 animations:^{
+    if (expanding) {
+      self.contentView.alpha = 0.0;
+      self.rewardsSummaryView.monthYearLabel.alpha = 1.0;
+      self.view.backgroundColor = [UIColor bat_rewardsSummaryButtonColor];
+    } else {
+      self.contentView.alpha = 1.0;
+      self.rewardsSummaryView.monthYearLabel.alpha = 0.0;
+      self.view.backgroundColor = [UIColor whiteColor];
+    }
+  } completion:nil];
 }
 
 @end

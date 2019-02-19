@@ -39,8 +39,8 @@
     
     [NSLayoutConstraint activateConstraints:@[
       [paddingGuide.topAnchor constraintEqualToAnchor:self.topAnchor constant:15.0],
-      [paddingGuide.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:30.0],
-      [paddingGuide.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-30.0],
+      [paddingGuide.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:22.0],
+      [paddingGuide.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-22.0],
       [paddingGuide.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-15.0],
       
       [self.titleLabel.topAnchor constraintEqualToAnchor:paddingGuide.topAnchor],
