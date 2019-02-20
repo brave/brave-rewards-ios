@@ -15,7 +15,7 @@
 @property (nonatomic) BATWalletHeaderView *headerView;
 @property (nonatomic) BATRewardsSummaryView *rewardsSummaryView;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
-@property (nonatomic) UILayoutGuide *contentLayoutGuide;
+@property (nonatomic) UILayoutGuide *summaryLayoutGuide;
 @end
 
 @implementation BATWalletViewController
@@ -77,7 +77,7 @@
       [self.contentView.bottomAnchor constraintEqualToAnchor:self.rewardsSummaryView.topAnchor],
       [self.rewardsSummaryView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
       [self.rewardsSummaryView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-      [self.rewardsSummaryView.scrollView.heightAnchor constraintEqualToAnchor:self.contentLayoutGuide.heightAnchor],
+      [self.rewardsSummaryView.heightAnchor constraintEqualToAnchor:self.summaryLayoutGuide.heightAnchor],
       [self.rewardsSummaryView.rewardsSummaryButton.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
     ]];
   } else {
@@ -85,15 +85,15 @@
     [self.contentView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
   }
   
-  [self.contentLayoutGuide.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor].active = YES;
+  [self.summaryLayoutGuide.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
 }
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   
-  self.contentLayoutGuide = [[UILayoutGuide alloc] init];
-  [self.view addLayoutGuide:self.contentLayoutGuide];
+  self.summaryLayoutGuide = [[UILayoutGuide alloc] init];
+  [self.view addLayoutGuide:self.summaryLayoutGuide];
   
   [self.view addSubview:self.headerView];
   
@@ -107,9 +107,9 @@
     [self.headerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
     [self.headerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
     
-    [self.contentLayoutGuide.topAnchor constraintEqualToAnchor:self.headerView.bottomAnchor constant:20.0],
-    [self.contentLayoutGuide.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.contentLayoutGuide.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
+    [self.summaryLayoutGuide.topAnchor constraintEqualToAnchor:self.headerView.bottomAnchor constant:20.0],
+    [self.summaryLayoutGuide.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+    [self.summaryLayoutGuide.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
   ]];
   
   [self setupContentView];
@@ -143,7 +143,7 @@
   self.rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image = [UIImage bat_imageNamed:expanding ? @"slide-down" : @"slide-up"];
   [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.85 initialSpringVelocity:0 options:0 animations:^{
     if (expanding) {
-      self.rewardsSummaryView.transform = CGAffineTransformMakeTranslation(0, -self.contentLayoutGuide.layoutFrame.size.height);
+      self.rewardsSummaryView.transform = CGAffineTransformMakeTranslation(0, -self.summaryLayoutGuide.layoutFrame.size.height + self.rewardsSummaryView.rewardsSummaryButton.bounds.size.height);
     } else {
       self.rewardsSummaryView.transform = CGAffineTransformIdentity;
     }
