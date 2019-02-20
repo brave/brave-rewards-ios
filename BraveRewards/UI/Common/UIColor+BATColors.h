@@ -19,7 +19,9 @@ BATDefineColor(neutral600);
 BATDefineColor(neutral800);
 BATDefineColor(blue500);
 BATDefineColor(blurple400);
+BATDefineColor(blurple500);
 BATDefineColor(blurple600);
+BATDefineColor(blurple700);
 BATDefineColor(blurple800);
 BATDefineColor(purple400);
 

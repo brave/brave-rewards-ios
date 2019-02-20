@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "UIColor+BATColors.h"
-#import "UIColor+BATColors.h"
 
 @implementation UIColor (BATColors)
 
@@ -24,7 +23,9 @@ BATColorWithHex(neutral600, 0xDEE2E6);
 BATColorWithHex(neutral800, 0xF1F3F5);
 BATColorWithHex(blue500, 0x5DB5FC);
 BATColorWithHex(blurple400, 0x4C54D2);
+BATColorWithHex(blurple500, 0x737ADE);
 BATColorWithHex(blurple600, 0xA0A5EB);
+BATColorWithHex(blurple700, 0xD0D2F7);
 BATColorWithHex(blurple800, 0xF0F1FF);
 BATColorWithHex(purple400, 0x845EF7);
 

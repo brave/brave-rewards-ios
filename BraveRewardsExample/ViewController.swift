@@ -19,9 +19,12 @@ class ViewController: UIViewController {
   
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
+  @IBOutlet var tippingPanelButton: UIButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    braveRewardsPanelButton.setImage(UIImage(named: "bat", in: Bundle(for: BraveRewardsPanelController.self), compatibleWith: nil), for: .normal)
     // Do any additional setup after loading the view, typically from a nib.
   }
 
@@ -36,6 +39,14 @@ class ViewController: UIViewController {
   
   @IBAction func tappedSettings() {
     
+  }
+  
+  @IBAction func tappedTipping() {
+    let tip = BraveRewardsTippingViewController()
+    addChildViewController(tip)
+    tip.didMove(toParentViewController: self)
+    view.addSubview(tip.view)
+    tip.view.frame = self.view.bounds
   }
 }
 

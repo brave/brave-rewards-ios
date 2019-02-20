@@ -21,23 +21,37 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rn5-Tc-ZWe">
                                 <rect key="frame" x="44" y="25" width="315" height="38"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-pz-fiK">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-pz-fiK">
                                         <rect key="frame" x="269" y="0.0" width="46" height="38"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="46" id="YcH-wD-fMG"/>
                                         </constraints>
-                                        <state key="normal" title="br"/>
+                                        <state key="normal" image="bat"/>
                                         <connections>
                                             <action selector="tappedBraveRewards" destination="BYZ-38-t0r" eventType="touchUpInside" id="KWJ-vM-o95"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HXe-f9-It9" userLabel="Tipping">
+                                        <rect key="frame" x="215" y="0.0" width="46" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="ge5-d1-2VF"/>
+                                        </constraints>
+                                        <state key="normal" title="tp"/>
+                                        <connections>
+                                            <action selector="tappedTipping" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yct-2i-BnO"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Mhu-pz-fiK" firstAttribute="top" secondItem="Rn5-Tc-ZWe" secondAttribute="top" id="2sR-5P-mlX"/>
+                                    <constraint firstItem="HXe-f9-It9" firstAttribute="top" secondItem="Mhu-pz-fiK" secondAttribute="top" id="HBx-DO-6q3"/>
                                     <constraint firstItem="Mhu-pz-fiK" firstAttribute="height" secondItem="Rn5-Tc-ZWe" secondAttribute="height" id="J3H-LK-OSD"/>
+                                    <constraint firstItem="HXe-f9-It9" firstAttribute="width" secondItem="Mhu-pz-fiK" secondAttribute="width" id="P5j-kY-cjR"/>
                                     <constraint firstAttribute="trailing" secondItem="Mhu-pz-fiK" secondAttribute="trailing" id="b7g-0a-h27"/>
+                                    <constraint firstItem="HXe-f9-It9" firstAttribute="bottom" secondItem="Mhu-pz-fiK" secondAttribute="bottom" id="gSp-8k-RA9"/>
                                     <constraint firstAttribute="height" constant="38" id="gWg-YH-Nrf"/>
+                                    <constraint firstItem="Mhu-pz-fiK" firstAttribute="leading" secondItem="HXe-f9-It9" secondAttribute="trailing" constant="8" id="hTZ-LB-BWD"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPD-d0-f26">
@@ -65,6 +79,7 @@
                     <connections>
                         <outlet property="braveRewardsPanelButton" destination="Mhu-pz-fiK" id="4tK-UZ-gov"/>
                         <outlet property="settingsButton" destination="fPD-d0-f26" id="Vch-lF-vwt"/>
+                        <outlet property="tippingPanelButton" destination="HXe-f9-It9" id="hSS-zR-aLs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -72,4 +87,7 @@
             <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bat" width="22" height="20"/>
+    </resources>
 </document>
