@@ -19,6 +19,7 @@ NS_INLINE UIColor *UIColorFromHex(UInt32 hex) {
 BATColorWithHex(grey000, 0x1E2029);
 BATColorWithHex(grey100, 0x3B3E4F);
 BATColorWithHex(grey200, 0x5E6175);
+BATColorWithHex(grey300, 0x84889C);
 BATColorWithHex(neutral600, 0xDEE2E6);
 BATColorWithHex(neutral800, 0xF1F3F5);
 BATColorWithHex(blue500, 0x5DB5FC);

@@ -59,6 +59,8 @@
 		27810803221E0B74000D6281 /* BATSendTipButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 27810801221E0B74000D6281 /* BATSendTipButton.m */; };
 		27810806221E1055000D6281 /* BATButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 27810804221E1055000D6281 /* BATButton.h */; };
 		27810807221E1055000D6281 /* BATButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 27810805221E1055000D6281 /* BATButton.m */; };
+		27888601221F0D920028455B /* BATTippingOverviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278885FF221F0D920028455B /* BATTippingOverviewView.h */; };
+		27888602221F0D920028455B /* BATTippingOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27888600221F0D920028455B /* BATTippingOverviewView.m */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
@@ -192,6 +194,8 @@
 		27810801221E0B74000D6281 /* BATSendTipButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATSendTipButton.m; sourceTree = "<group>"; };
 		27810804221E1055000D6281 /* BATButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATButton.h; sourceTree = "<group>"; };
 		27810805221E1055000D6281 /* BATButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATButton.m; sourceTree = "<group>"; };
+		278885FF221F0D920028455B /* BATTippingOverviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingOverviewView.h; sourceTree = "<group>"; };
+		27888600221F0D920028455B /* BATTippingOverviewView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingOverviewView.m; sourceTree = "<group>"; };
 		27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveLedger+Private.h"; sourceTree = "<group>"; };
 		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -395,6 +399,8 @@
 				278107FD221DDE7C000D6281 /* BATTippingAmountView.m */,
 				27810800221E0B74000D6281 /* BATSendTipButton.h */,
 				27810801221E0B74000D6281 /* BATSendTipButton.m */,
+				278885FF221F0D920028455B /* BATTippingOverviewView.h */,
+				27888600221F0D920028455B /* BATTippingOverviewView.m */,
 			);
 			path = Tipping;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				27516FC92213585600E04FE1 /* BATPublisherSummaryView.h in Headers */,
+				27888601221F0D920028455B /* BATTippingOverviewView.h in Headers */,
 				27F3E51921FB7458009A54D5 /* BraveRewardsPanelController.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				27810802221E0B74000D6281 /* BATSendTipButton.h in Headers */,
@@ -820,6 +827,7 @@
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
 				27810803221E0B74000D6281 /* BATSendTipButton.m in Sources */,
 				27F3E5C221FBB232009A54D5 /* BATActionButton.m in Sources */,
+				27888602221F0D920028455B /* BATTippingOverviewView.m in Sources */,
 				278107FF221DDE7D000D6281 /* BATTippingAmountView.m in Sources */,
 				27810807221E1055000D6281 /* BATButton.m in Sources */,
 				2752428A21FFAC220035C895 /* BATGradientView.m in Sources */,

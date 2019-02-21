@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 BATDefineColor(grey000);
 BATDefineColor(grey100);
 BATDefineColor(grey200);
+BATDefineColor(grey300);
 BATDefineColor(neutral600);
 BATDefineColor(neutral800);
 BATDefineColor(blue500);
