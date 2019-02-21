@@ -22,19 +22,18 @@
     
     self.stackView = [[UIStackView alloc] init]; {
       self.stackView.spacing = 15.0;
+      self.stackView.userInteractionEnabled = NO;
       self.stackView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     self.imageView = [[UIImageView alloc] initWithImage:[UIImage bat_imageNamed:@"airplane-icn"].bat_template]; {
       self.imageView.tintColor = [UIColor bat_blurple600];
-      self.imageView.userInteractionEnabled = NO;
       self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
     self.textLabel = [[UILabel alloc] init]; {
       self.textLabel.textColor = [UIColor whiteColor];
       self.textLabel.font = [UIFont systemFontOfSize:13.0 weight:UIFontWeightSemibold];
-      self.textLabel.userInteractionEnabled = NO;
       self.textLabel.text = BATLocalizedString(@"BraveRewardsTippingSendTip", @"Send my tip").uppercaseString;
       self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
@@ -66,9 +65,9 @@
 {
   [super setHighlighted:highlighted];
   
-  [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1000 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-    self.textLabel.alpha = self.highlighted ? 0.5 : 1.0;
-    self.imageView.alpha = self.highlighted ? 0.5 : 1.0;
+  [UIView animateWithDuration:self.highlighted ? 0.05 : 0.4 delay:0 usingSpringWithDamping:1000 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    self.textLabel.alpha = self.highlighted ? 0.3 : 1.0;
+    self.imageView.alpha = self.highlighted ? 0.3 : 1.0;
   } completion:nil];
 }
 

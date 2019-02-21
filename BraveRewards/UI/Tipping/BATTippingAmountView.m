@@ -49,7 +49,7 @@ NS_INLINE UIColor *kSelectedAndBorderColor() { return [UIColor colorWithWhite:1.
     
     self.valueLabel = [[UILabel alloc] init]; {
       self.valueLabel.textColor = [UIColor whiteColor];
-      self.valueLabel.font = [UIFont systemFontOfSize:13.0 weight:UIFontWeightSemibold];
+      self.valueLabel.font = [UIFont systemFontOfSize:13.0 weight:UIFontWeightBold];
       self.valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
