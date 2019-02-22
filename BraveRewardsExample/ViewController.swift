@@ -29,6 +29,11 @@ class ViewController: UIViewController {
   }
 
   @IBAction func tappedBraveRewards() {
+    if UIDevice.current.userInterfaceIdiom != .pad && UIApplication.shared.statusBarOrientation.isLandscape {
+      let value = UIInterfaceOrientation.portrait.rawValue
+      UIDevice.current.setValue(value, forKey: "orientation")
+    }
+    
     let ledger = BraveLedger()
     let url = URL(string: "https://facebook.com")!
     let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger, url: url, isLocal: false, favicon: nil)
