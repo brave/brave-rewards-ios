@@ -100,15 +100,15 @@
       [self.watermarkImageView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10.0],
                                               
       [self.prefixLabel.topAnchor constraintEqualToAnchor:self.topAnchor constant:30.0],
-      [self.prefixLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:70.0],
-      [self.prefixLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-70.0],
+      [self.prefixLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:30.0],
+      [self.prefixLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-30.0],
       
       [self.batLogoImageView.topAnchor constraintEqualToAnchor:self.prefixLabel.bottomAnchor constant:10.0],
       [self.batLogoImageView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
       
       [self.titleLabel.topAnchor constraintEqualToAnchor:self.batLogoImageView.bottomAnchor constant:10.0],
-      [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:60.0],
-      [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-60.0],
+      [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:30.0],
+      [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-30.0],
       
       [self.descriptionLabel.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:15.0],
       [self.descriptionLabel.leadingAnchor constraintEqualToAnchor:self.titleLabel.leadingAnchor],
