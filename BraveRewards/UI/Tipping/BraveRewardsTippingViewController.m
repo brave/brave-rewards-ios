@@ -131,7 +131,7 @@
 - (void)animatePresentation:(id<UIViewControllerContextTransitioning>)context
 {
   [context.containerView addSubview:self.view];
-//  [context completeTransition:YES];
+  [context completeTransition:YES];
 }
 
 - (void)animateDismissal:(id<UIViewControllerContextTransitioning>)context
