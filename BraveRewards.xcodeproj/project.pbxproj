@@ -51,8 +51,8 @@
 		2781077622175F5C000D6281 /* BATRewardsSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2781077422175F5C000D6281 /* BATRewardsSummaryView.m */; };
 		278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		278107F7221DD911000D6281 /* BraveRewardsTippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107F5221DD911000D6281 /* BraveRewardsTippingViewController.m */; };
-		278107FA221DD93E000D6281 /* BATTippingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F8221DD93E000D6281 /* BATTippingView.h */; };
-		278107FB221DD93E000D6281 /* BATTippingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107F9221DD93E000D6281 /* BATTippingView.m */; };
+		278107FA221DD93E000D6281 /* BATTippingSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F8221DD93E000D6281 /* BATTippingSelectionView.h */; };
+		278107FB221DD93E000D6281 /* BATTippingSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107F9221DD93E000D6281 /* BATTippingSelectionView.m */; };
 		278107FE221DDE7D000D6281 /* BATTippingAmountView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107FC221DDE7C000D6281 /* BATTippingAmountView.h */; };
 		278107FF221DDE7D000D6281 /* BATTippingAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107FD221DDE7C000D6281 /* BATTippingAmountView.m */; };
 		27810802221E0B74000D6281 /* BATSendTipButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 27810800221E0B74000D6281 /* BATSendTipButton.h */; };
@@ -186,8 +186,8 @@
 		2781077422175F5C000D6281 /* BATRewardsSummaryView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATRewardsSummaryView.m; sourceTree = "<group>"; };
 		278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BraveRewardsTippingViewController.h; path = Tipping/BraveRewardsTippingViewController.h; sourceTree = "<group>"; };
 		278107F5221DD911000D6281 /* BraveRewardsTippingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BraveRewardsTippingViewController.m; path = Tipping/BraveRewardsTippingViewController.m; sourceTree = "<group>"; };
-		278107F8221DD93E000D6281 /* BATTippingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingView.h; sourceTree = "<group>"; };
-		278107F9221DD93E000D6281 /* BATTippingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingView.m; sourceTree = "<group>"; };
+		278107F8221DD93E000D6281 /* BATTippingSelectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingSelectionView.h; sourceTree = "<group>"; };
+		278107F9221DD93E000D6281 /* BATTippingSelectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingSelectionView.m; sourceTree = "<group>"; };
 		278107FC221DDE7C000D6281 /* BATTippingAmountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingAmountView.h; sourceTree = "<group>"; };
 		278107FD221DDE7C000D6281 /* BATTippingAmountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingAmountView.m; sourceTree = "<group>"; };
 		27810800221E0B74000D6281 /* BATSendTipButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATSendTipButton.h; sourceTree = "<group>"; };
@@ -393,8 +393,8 @@
 		278107F3221DC9BE000D6281 /* Tipping */ = {
 			isa = PBXGroup;
 			children = (
-				278107F8221DD93E000D6281 /* BATTippingView.h */,
-				278107F9221DD93E000D6281 /* BATTippingView.m */,
+				278107F8221DD93E000D6281 /* BATTippingSelectionView.h */,
+				278107F9221DD93E000D6281 /* BATTippingSelectionView.m */,
 				278107FC221DDE7C000D6281 /* BATTippingAmountView.h */,
 				278107FD221DDE7C000D6281 /* BATTippingAmountView.m */,
 				27810800221E0B74000D6281 /* BATSendTipButton.h */,
@@ -591,7 +591,7 @@
 				27810806221E1055000D6281 /* BATButton.h in Headers */,
 				2735E35D221209F800C99517 /* BATRewardsSummaryRow.h in Headers */,
 				27559200220E1B3300FB148C /* BATRewardsSummaryButton.h in Headers */,
-				278107FA221DD93E000D6281 /* BATTippingView.h in Headers */,
+				278107FA221DD93E000D6281 /* BATTippingSelectionView.h in Headers */,
 				2752428921FFAC220035C895 /* BATGradientView.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 				27516FD02213639700E04FE1 /* BATWalletContentView.h in Headers */,
@@ -822,7 +822,7 @@
 				27559201220E1B3300FB148C /* BATRewardsSummaryButton.m in Sources */,
 				2781077622175F5C000D6281 /* BATRewardsSummaryView.m in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
-				278107FB221DD93E000D6281 /* BATTippingView.m in Sources */,
+				278107FB221DD93E000D6281 /* BATTippingSelectionView.m in Sources */,
 				27E477FB220C9E8600FD8185 /* BATDisclaimerView.m in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
 				27810803221E0B74000D6281 /* BATSendTipButton.m in Sources */,

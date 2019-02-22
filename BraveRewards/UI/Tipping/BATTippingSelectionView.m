@@ -2,13 +2,32 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BATTippingView.h"
+#import "BATTippingSelectionView.h"
 #import "NSBundle+Convenience.h"
 #import "UIColor+BATColors.h"
 #import "UIImage+Convenience.h"
 #import "BATTippingAmountView.h"
 
-@interface BATTippingView ()
+@interface BATTippingAmount ()
+@property (nonatomic, weak) BATTippingAmountView *view;
+@end
+
+@implementation BATTippingAmount
++ (instancetype)amountWithValue:(NSString *)value
+                         crypto:(NSString *)crypto
+                    cryptoImage:(UIImage *)cryptoImage
+                    dollarValue:(NSString *)dollarValue
+{
+  BATTippingAmount *amount = [[self alloc] init];
+  amount.value = value;
+  amount.crypto = crypto;
+  amount.cryptoImage = cryptoImage;
+  amount.dollarValue = dollarValue;
+  return amount;
+}
+@end
+
+@interface BATTippingSelectionView ()
 @property (nonatomic) UILabel *titleLabel; // "Tip amount"
 @property (nonatomic) UIStackView *walletBalanceStackView;
 @property (nonatomic) UILabel *walletBalanceTitleLabel; // "wallet balance"
@@ -19,7 +38,7 @@
 @property (nonatomic) BATSendTipButton *sendTipButton;
 @end
 
-@implementation BATTippingView
+@implementation BATTippingSelectionView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -123,6 +142,51 @@
   BOOL wideLayout = self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular;
   self.amountStackView.axis = wideLayout ? UILayoutConstraintAxisVertical : UILayoutConstraintAxisHorizontal;
   self.amountStackView.distribution = wideLayout ? UIStackViewDistributionFill : UIStackViewDistributionFillEqually;
+}
+
+- (NSUInteger)selectedAmountIndex
+{
+  __block NSUInteger index = NSNotFound;
+  [self.amountOptions enumerateObjectsUsingBlock:^(BATTippingAmount * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    if (obj.view.selected) {
+      index = idx;
+      *stop = YES;
+    }
+  }];
+  return index;
+}
+
+- (void)setSelectedAmountIndex:(NSUInteger)selectedAmountIndex
+{
+  if (selectedAmountIndex < self.amountOptions.count) {
+    self.amountOptions[selectedAmountIndex].view.selected = YES;
+  }
+}
+
+- (void)setAmountOptions:(NSArray<BATTippingAmount *> *)amountOptions
+{
+  for (BATTippingAmount *amount in _amountOptions) {
+    [amount.view removeFromSuperview];
+  }
+  _amountOptions = [amountOptions copy];
+  for (BATTippingAmount *amount in amountOptions) {
+    BATTippingAmountView *view = [[BATTippingAmountView alloc] init];
+    view.cryptoLabel.text = amount.crypto;
+    view.cryptoLogoImageView.image = amount.cryptoImage;
+    view.valueLabel.text = amount.value;
+    view.dollarLabel.text = amount.dollarValue;
+    amount.view = view;
+    
+    [view addTarget:self action:@selector(tappedOption:) forControlEvents:UIControlEventTouchUpInside];
+    [self.amountStackView addArrangedSubview:view];
+  }
+}
+
+- (void)tappedOption:(BATTippingAmountView *)view
+{
+  for (BATTippingAmount *amount in self.amountOptions) {
+    amount.view.selected = (amount.view == view);
+  }
 }
 
 @end

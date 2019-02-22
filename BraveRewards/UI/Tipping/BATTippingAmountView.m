@@ -24,6 +24,7 @@ NS_INLINE UIColor *kSelectedAndBorderColor() { return [UIColor colorWithWhite:1.
 {
   if ((self = [super initWithFrame:frame])) {
     self.containerStackView = [[UIStackView alloc] init]; {
+      self.containerStackView.userInteractionEnabled = NO;
       self.containerStackView.spacing = 6.0;
       self.containerStackView.translatesAutoresizingMaskIntoConstraints = NO;
     }
@@ -99,8 +100,10 @@ NS_INLINE UIColor *kSelectedAndBorderColor() { return [UIColor colorWithWhite:1.
   [super setSelected:selected];
   
   self.amountView.layer.borderWidth = selected ? 0 : 1;
-  self.amountView.backgroundColor = selected ? kSelectedAndBorderColor() : [UIColor clearColor];
-  self.dollarLabel.textColor = selected ? [UIColor whiteColor] : [UIColor bat_blurple700];
+  [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1000 initialSpringVelocity:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+    self.amountView.backgroundColor = selected ? kSelectedAndBorderColor() : [UIColor clearColor];
+    self.dollarLabel.textColor = selected ? [UIColor whiteColor] : [UIColor bat_blurple700];
+  } completion:nil];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection

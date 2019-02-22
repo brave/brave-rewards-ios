@@ -3,18 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BraveRewardsTippingViewController.h"
-#import "BATTippingView.h"
+#import "BATTippingSelectionView.h"
 #import "BATTippingOverviewView.h"
 
 // Temp:
-#import "BATTippingAmountView.h"
 #import "UIImage+Convenience.h"
 
 @interface BraveRewardsTippingViewController ()
 @property (nonatomic) UIView *backgroundView;
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATTippingOverviewView *overviewView;
-@property (nonatomic) BATTippingView *tippingView;
+@property (nonatomic) BATTippingSelectionView *tippingView;
 @end
 
 @implementation BraveRewardsTippingViewController
@@ -36,7 +35,7 @@
     self.overviewView = [[BATTippingOverviewView alloc] init];
     self.overviewView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.tippingView = [[BATTippingView alloc] init]; {
+    self.tippingView = [[BATTippingSelectionView alloc] init]; {
       self.tippingView.layer.shadowRadius = 8.0;
       self.tippingView.layer.shadowOffset = CGSizeMake(0, -2);
       self.tippingView.layer.shadowOpacity = 0.35;
@@ -47,18 +46,16 @@
     self.tippingView.walletBalanceCryptoLabel.text = @"BAT";
     self.tippingView.walletBalanceValueLabel.text = @"30";
     
-    for (NSNumber *value in @[ @(1), @(5), @(10) ]) {
-      BATTippingAmountView *view = [[BATTippingAmountView alloc] init];
-      view.cryptoLabel.text = @"BAT";
-      view.cryptoLogoImageView.image = [UIImage bat_imageNamed:@"bat"];
-      view.valueLabel.text = value.stringValue;
-      view.dollarLabel.text = @"0.00 USD";
-      [self.tippingView.amountStackView addArrangedSubview:view];
-      
-      if (value.integerValue == 5) {
-        view.selected = YES;
-      }
+    NSMutableArray<BATTippingAmount *> *amountOptions = [[NSMutableArray alloc] init];
+    for (NSString *value in @[ @"1", @"5", @"10" ]) {
+      BATTippingAmount *amount = [BATTippingAmount amountWithValue:value
+                                                            crypto:@"BAT"
+                                                       cryptoImage:[UIImage bat_imageNamed:@"bat"]
+                                                       dollarValue:@"0.00 USD"];
+      [amountOptions addObject:amount];
     }
+    self.tippingView.amountOptions = amountOptions;
+    self.tippingView.selectedAmountIndex = 1;
   }
   return self;
 }
