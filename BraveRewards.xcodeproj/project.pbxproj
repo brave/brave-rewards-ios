@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2714CDC82220A21000AEA74F /* BATBasicAnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2714CDC62220A21000AEA74F /* BATBasicAnimationController.h */; };
+		2714CDC92220A21000AEA74F /* BATBasicAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2714CDC72220A21000AEA74F /* BATBasicAnimationController.m */; };
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
 		27333AA9220E24A50009640D /* BATAttentionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27333AA7220E24A50009640D /* BATAttentionView.h */; };
@@ -141,6 +143,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2714CDC62220A21000AEA74F /* BATBasicAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATBasicAnimationController.h; sourceTree = "<group>"; };
+		2714CDC72220A21000AEA74F /* BATBasicAnimationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATBasicAnimationController.m; sourceTree = "<group>"; };
 		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
@@ -481,6 +485,8 @@
 				27E477F9220C9E8600FD8185 /* BATDisclaimerView.m */,
 				27516FD62213979F00E04FE1 /* BATSwitchRow.h */,
 				27516FD72213979F00E04FE1 /* BATSwitchRow.m */,
+				2714CDC62220A21000AEA74F /* BATBasicAnimationController.h */,
+				2714CDC72220A21000AEA74F /* BATBasicAnimationController.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -597,6 +603,7 @@
 				27516FD02213639700E04FE1 /* BATWalletContentView.h in Headers */,
 				2752428E2203B0F70035C895 /* BATWalletViewController.h in Headers */,
 				27F3E5BC21FBB199009A54D5 /* BATCreateWalletView.h in Headers */,
+				2714CDC82220A21000AEA74F /* BATBasicAnimationController.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				2752428521FFA2EC0035C895 /* NSBundle+Convenience.h in Headers */,
 				27F72DD82208E3C200355CAD /* BATRewardsDisabledContentView.h in Headers */,
@@ -808,6 +815,7 @@
 				27FFE21E220A38E900553794 /* BATRewardsDisabledView.m in Sources */,
 				27516FD92213979F00E04FE1 /* BATSwitchRow.m in Sources */,
 				27F3E5BD21FBB199009A54D5 /* BATCreateWalletView.m in Sources */,
+				2714CDC92220A21000AEA74F /* BATBasicAnimationController.m in Sources */,
 				27F3E51A21FB7458009A54D5 /* BraveRewardsPanelController.mm in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,

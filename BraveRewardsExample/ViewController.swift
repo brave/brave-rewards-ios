@@ -48,10 +48,7 @@ class ViewController: UIViewController {
   
   @IBAction func tappedTipping() {
     let tip = BraveRewardsTippingViewController()
-    addChildViewController(tip)
-    tip.didMove(toParentViewController: self)
-    view.addSubview(tip.view)
-    tip.view.frame = self.view.bounds
+    present(tip, animated: true)
   }
 }
 

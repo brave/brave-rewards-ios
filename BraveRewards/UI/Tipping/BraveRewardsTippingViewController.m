@@ -5,11 +5,12 @@
 #import "BraveRewardsTippingViewController.h"
 #import "BATTippingSelectionView.h"
 #import "BATTippingOverviewView.h"
+#import "BATBasicAnimationController.h"
 
 // Temp:
 #import "UIImage+Convenience.h"
 
-@interface BraveRewardsTippingViewController ()
+@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BATBasicAnimationControllerDelgate>
 @property (nonatomic) UIView *backgroundView;
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATTippingOverviewView *overviewView;
@@ -21,6 +22,9 @@
 - (instancetype)init
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
+    self.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    self.transitioningDelegate = self;
+    
     self.backgroundView = [[UIView alloc] init]; {
       self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
       self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -98,6 +102,42 @@
   
   [self.tippingView layoutIfNeeded];
   self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.tippingView.bounds.size.height, 0);
+}
+
+#pragma mark -
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+  if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+    return UIInterfaceOrientationMaskPortrait;
+  }
+  return UIInterfaceOrientationMaskAll;
+}
+
+#pragma mark - UIViewControllerTransitioningDelegate
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+  return [[BATBasicAnimationController alloc] initWithDirection:BATAnimationDirectionPresenting delegate:self];
+}
+
+- (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+  return [[BATBasicAnimationController alloc] initWithDirection:BATAnimationDirectionDismissing delegate:self];
+}
+
+#pragma mark - BATBasicAnimationControllerDelgate
+
+- (void)animatePresentation:(id<UIViewControllerContextTransitioning>)context
+{
+  [context.containerView addSubview:self.view];
+//  [context completeTransition:YES];
+}
+
+- (void)animateDismissal:(id<UIViewControllerContextTransitioning>)context
+{
+  [self.view removeFromSuperview];
+  [context completeTransition:YES];
 }
 
 @end
