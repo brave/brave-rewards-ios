@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATRewardsSummaryView.h"
-#import "BATSeparatorView.h"
 @import BraveRewardsUI;
 #import "UIColor+BATColors.h"
 
@@ -89,7 +88,7 @@
   for (BATRewardsSummaryRow *row in rows) {
     [self.stackView addArrangedSubview:row];
     if (row != rows.lastObject) {
-      [self.stackView addArrangedSubview:[[BATSeparatorView alloc] init]];
+      [self.stackView addArrangedSubview:[[SeparatorView alloc] init]];
     }
   }
 }

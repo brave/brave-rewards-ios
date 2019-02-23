@@ -2,15 +2,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import BraveRewardsUI;
+
 #import "BraveRewardsTippingViewController.h"
 #import "BATTippingSelectionView.h"
 #import "BATTippingOverviewView.h"
-#import "BATBasicAnimationController.h"
 
 // Temp:
 #import "UIImage+Convenience.h"
 
-@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BATBasicAnimationControllerDelgate>
+@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BasicAnimationControllerDelegate>
 @property (nonatomic) UIView *backgroundView;
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATTippingOverviewView *overviewView;
@@ -118,12 +119,12 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-  return [[BATBasicAnimationController alloc] initWithDirection:BATAnimationDirectionPresenting delegate:self];
+  return [[BasicAnimationController alloc] initWithDelegate:self direction:DirectionPresenting];
 }
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-  return [[BATBasicAnimationController alloc] initWithDirection:BATAnimationDirectionDismissing delegate:self];
+  return [[BasicAnimationController alloc] initWithDelegate:self direction:DirectionDismissing];
 }
 
 #pragma mark - BATBasicAnimationControllerDelgate

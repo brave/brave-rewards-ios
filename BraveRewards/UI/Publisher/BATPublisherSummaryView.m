@@ -2,12 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BATPublisherSummaryView.h"
-#import "BATSeparatorView.h"
 @import BraveRewardsUI;
+
+#import "BATPublisherSummaryView.h"
 #import "NSBundle+Convenience.h"
 #import "UIColor+BATColors.h"
-#import "BATSwitchRow.h"
 
 @interface BATPublisherSummaryView ()
 @property (nonatomic) UIScrollView *scrollView;
@@ -55,12 +54,12 @@
     [self.stackView addArrangedSubview:self.publisherView];
     [self.stackView setCustomSpacing:20.0 afterView:self.publisherView];
     [self.stackView addArrangedSubview:self.attentionView];
-    [self.stackView addArrangedSubview:[[BATSeparatorView alloc] init]];
-    BATSwitchRow *switchRow = [[BATSwitchRow alloc] init]; {
+    [self.stackView addArrangedSubview:[[SeparatorView alloc] init]];
+    SwitchRow *switchRow = [[SwitchRow alloc] init]; {
       switchRow.textLabel.text = @"Auto-Contribute";
     }
     [self.stackView addArrangedSubview:switchRow];
-    BATSeparatorView *finalSeparator = [[BATSeparatorView alloc] init];
+    SeparatorView *finalSeparator = [[SeparatorView alloc] init];
     [self.stackView addArrangedSubview:finalSeparator];
     [self.stackView setCustomSpacing:20.0 afterView:finalSeparator];
     [self.stackView addArrangedSubview:self.tipButton];
