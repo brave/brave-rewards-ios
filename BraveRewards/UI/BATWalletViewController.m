@@ -7,14 +7,13 @@
 #import "BATWalletViewController.h"
 #import "BATBraveLedger.h"
 #import "BATPublisherSummaryView.h"
-#import "BATRewardsSummaryView.h"
 #import "UIColor+BATColors.h"
 #import "UIImage+Convenience.h"
 
 @interface BATWalletViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) WalletHeaderView *headerView;
-@property (nonatomic) BATRewardsSummaryView *rewardsSummaryView;
+@property (nonatomic) RewardsSummaryView *rewardsSummaryView;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
 @property (nonatomic) UILayoutGuide *summaryLayoutGuide;
 @end
@@ -31,16 +30,16 @@
       [self.headerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     }
     
-    self.rewardsSummaryView = [[BATRewardsSummaryView alloc] init]; {
+    self.rewardsSummaryView = [[RewardsSummaryView alloc] init]; {
       self.rewardsSummaryView.translatesAutoresizingMaskIntoConstraints = NO;
       [self.rewardsSummaryView.rewardsSummaryButton addTarget:self action:@selector(tappedRewardsSummaryButton) forControlEvents:UIControlEventTouchUpInside];
       self.rewardsSummaryView.monthYearLabel.text = @"MARCH 2019";
       self.rewardsSummaryView.rows = @[
-        [BATRewardsSummaryRow rowWithTitle:@"Total Grants Claimed Total Grants Claimed" batValue:@"10.0" usdDollarValue:@"5.25"],
-        [BATRewardsSummaryRow rowWithTitle:@"Earnings from Ads" batValue:@"10.0" usdDollarValue:@"5.25"],
-        [BATRewardsSummaryRow rowWithTitle:@"Auto-Contribute" batValue:@"-10.0" usdDollarValue:@"-5.25"],
-        [BATRewardsSummaryRow rowWithTitle:@"One-Time Tips" batValue:@"-2.0" usdDollarValue:@"-1.05"],
-        [BATRewardsSummaryRow rowWithTitle:@"Monthly Tips" batValue:@"-19.0" usdDollarValue:@"-9.97"],
+        [[RowView alloc] initWithTitle:@"Total Grants Claimed Total Grants Claimed" batValue:@"10.0" usdDollarValue:@"5.25"],
+        [[RowView alloc] initWithTitle:@"Earnings from Ads" batValue:@"10.0" usdDollarValue:@"5.25"],
+        [[RowView alloc] initWithTitle:@"Auto-Contribute" batValue:@"-10.0" usdDollarValue:@"-5.25"],
+        [[RowView alloc] initWithTitle:@"One-Time Tips" batValue:@"-2.0" usdDollarValue:@"-1.05"],
+        [[RowView alloc] initWithTitle:@"Monthly Tips" batValue:@"-19.0" usdDollarValue:@"-9.97"],
       ];
     }
   }
@@ -149,6 +148,9 @@
       self.rewardsSummaryView.transform = CGAffineTransformIdentity;
     }
   } completion:nil];
+  if (expanding) {
+    self.rewardsSummaryView.monthYearLabel.hidden = NO;
+  }
   [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1000 initialSpringVelocity:0 options:0 animations:^{
     if (expanding) {
       self.contentView.alpha = 0.0;
@@ -159,7 +161,10 @@
       self.rewardsSummaryView.monthYearLabel.alpha = 0.0;
       self.view.backgroundColor = [UIColor whiteColor];
     }
-  } completion:nil];
+  } completion:^(BOOL finished) {
+    self.rewardsSummaryView.monthYearLabel.hidden = !(self.rewardsSummaryView.monthYearLabel.alpha > 0.0);
+    self.rewardsSummaryView.alpha = 1.0;
+  }];
 }
 
 @end
