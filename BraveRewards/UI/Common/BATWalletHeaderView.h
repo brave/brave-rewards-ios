@@ -4,7 +4,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class BATActionButton;
+@class ActionButton;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) UILabel *balanceLabel;
 @property (readonly) UILabel *altcurrencyTypeLabel;
 @property (readonly) UILabel *usdBalanceLabel;
-@property (readonly) BATActionButton *grantsButton;
+@property (readonly) ActionButton *grantsButton;
 @property (readonly) UIButton *addFundsButton;
 @property (readonly) UIButton *settingsButton;
 @end

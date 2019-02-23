@@ -4,11 +4,11 @@
 
 #import "BATRewardsDisabledView.h"
 #import "BATRewardsDisabledContentView.h"
-#import "BATGradientView.h"
-#import "BATActionButton.h"
+@import BraveRewardsUI;
+@import BraveRewardsUI;
 
 @interface BATRewardsDisabledView ()
-@property (nonatomic) BATGradientView *gradientView;
+@property (nonatomic) GradientView *gradientView;
 @property (nonatomic) UIScrollView *scrollView;
 @property (nonatomic) BATRewardsDisabledContentView *contentView;
 @end
@@ -24,7 +24,7 @@
       self.scrollView.delaysContentTouches = NO;
     }
     
-    self.gradientView = [BATGradientView softBlueToClearGradientView]; {
+    self.gradientView = [GradientView softBlueToClearGradientView]; {
       self.gradientView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     

@@ -4,18 +4,18 @@
 
 #import <UIKit/UIKit.h>
 
-@class BATActionButton, BATGradientView;
+@class ActionButton, GradientView;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BATCreateWalletView : UIView
-@property (readonly) BATGradientView *gradientView;
+@property (readonly) GradientView *gradientView;
 @property (readonly) UIImageView *watermarkImageView;
 @property (readonly) UILabel *prefixLabel; // "Get ready for the next experience"
 @property (readonly) UIImageView *batLogoImageView;
 @property (readonly) UILabel *titleLabel; // "Brave Rewards™"
 @property (readonly) UILabel *descriptionLabel; // "Get paid for viewing ads and pay it forward to support..."
-@property (readonly) BATActionButton *createWalletButton;
+@property (readonly) ActionButton *createWalletButton;
 @property (readonly) UIButton *learnMoreButton;
 @end
 

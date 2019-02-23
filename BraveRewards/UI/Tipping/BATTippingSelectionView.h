@@ -4,7 +4,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BATSendTipButton.h"
-#import "BATButton.h"
+
+@import BraveRewardsUI;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BATTippingSelectionView : UIView
 @property (readonly) UILabel *walletBalanceValueLabel; // "25"
 @property (readonly) UILabel *walletBalanceCryptoLabel; // "BAT"
-@property (readonly) BATButton *monthlyToggleButton;
+@property (readonly) Button *monthlyToggleButton;
 @property (readonly) BATSendTipButton *sendTipButton;
 
 @property (nonatomic) NSArray<BATTippingAmount *> *amountOptions;

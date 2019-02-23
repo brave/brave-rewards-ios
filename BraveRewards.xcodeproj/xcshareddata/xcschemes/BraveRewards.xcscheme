@@ -14,6 +14,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "273404582220B004008CABC9"
+               BuildableName = "BraveRewardsUI.framework"
+               BlueprintName = "BraveRewardsUI"
+               ReferencedContainer = "container:BraveRewards.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "A1FDE6D020D2AA7400F92CAF"
                BuildableName = "BraveRewards.framework"
                BlueprintName = "BraveRewards"
@@ -42,10 +56,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "27F3E54C21FB763F009A54D5"
-            BuildableName = "BraveRewardsExample.app"
-            BlueprintName = "BraveRewardsExample"
-            ReferencedContainer = "container:BraveRewardsExample/BraveRewardsExample.xcodeproj">
+            BlueprintIdentifier = "A1FDE6D020D2AA7400F92CAF"
+            BuildableName = "BraveRewards.framework"
+            BlueprintName = "BraveRewards"
+            ReferencedContainer = "container:BraveRewards.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>

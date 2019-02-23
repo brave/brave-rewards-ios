@@ -4,14 +4,14 @@
 
 #import "BATRewardsSummaryView.h"
 #import "BATSeparatorView.h"
-#import "BATGradientView.h"
+@import BraveRewardsUI;
 #import "UIColor+BATColors.h"
 
 @interface BATRewardsSummaryView ()
 @property (nonatomic) BATRewardsSummaryButton *rewardsSummaryButton;
 @property (nonatomic) UILabel *monthYearLabel;
 @property (nonatomic) UIScrollView *scrollView;
-@property (nonatomic) BATGradientView *gradientView;
+@property (nonatomic) GradientView *gradientView;
 @property (nonatomic) UIStackView *stackView;
 @end
 
@@ -24,7 +24,7 @@
       self.rewardsSummaryButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.gradientView = [[BATGradientView alloc] init]; {
+    self.gradientView = [[GradientView alloc] init]; {
       self.gradientView.gradientLayer.colors = @[ (id)[UIColor bat_blurple800].CGColor,
                                                   (id)[UIColor whiteColor].CGColor,
                                                   (id)[UIColor whiteColor].CGColor ];

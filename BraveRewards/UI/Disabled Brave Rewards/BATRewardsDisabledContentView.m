@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATRewardsDisabledContentView.h"
-#import "BATActionButton.h"
+@import BraveRewardsUI;
 
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
@@ -14,7 +14,7 @@
 @property (nonatomic) UILabel *titleLabel; // "Welcome back!"
 @property (nonatomic) UILabel *subtitleLabel; // "Get rewarded for browsing."
 @property (nonatomic) UILabel *bodyLabel; // "Earn by viewing privacy-respecting ads..."
-@property (nonatomic) BATActionButton *enableRewardsButton;
+@property (nonatomic) ActionButton *enableRewardsButton;
 @end
 
 @implementation BATRewardsDisabledContentView
@@ -54,7 +54,7 @@
       self.bodyLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.enableRewardsButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
+    self.enableRewardsButton = [ActionButton buttonWithType:UIButtonTypeSystem]; {
       [self.enableRewardsButton setTitle:BATLocalizedString(@"BraveRewardsDisabledEnableButton", @"Enable Brave Rewards").uppercaseString forState:UIControlStateNormal];
       [self.enableRewardsButton setImage:[UIImage bat_imageNamed:@"continue-button-arrow"].bat_original forState:UIControlStateNormal];
       self.enableRewardsButton.titleLabel.font = [UIFont systemFontOfSize:12.0 weight:UIFontWeightSemibold];

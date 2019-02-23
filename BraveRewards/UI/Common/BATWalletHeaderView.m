@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATWalletHeaderView.h"
-#import "BATActionButton.h"
+@import BraveRewardsUI;
 #import "UIImage+Convenience.h"
 #import "NSBundle+Convenience.h"
 
@@ -14,7 +14,7 @@
 @property (nonatomic) UILabel *balanceLabel; // "30.0"
 @property (nonatomic) UILabel *altcurrencyTypeLabel; // "BAT"
 @property (nonatomic) UILabel *usdBalanceLabel; // "15.50 USD"
-@property (nonatomic) BATActionButton *grantsButton;
+@property (nonatomic) ActionButton *grantsButton;
 @property (nonatomic) UIButton *addFundsButton;
 @property (nonatomic) UIButton *settingsButton;
 @property (nonatomic) UIStackView *buttonsContainerView;
@@ -64,7 +64,7 @@
       self.usdBalanceLabel.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.grantsButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
+    self.grantsButton = [ActionButton buttonWithType:UIButtonTypeSystem]; {
       self.grantsButton.translatesAutoresizingMaskIntoConstraints = NO;
       self.grantsButton.flipImageOrigin = YES;
       self.grantsButton.titleLabel.font = [UIFont systemFontOfSize:10.0 weight:UIFontWeightSemibold];

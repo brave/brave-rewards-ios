@@ -8,7 +8,7 @@
 #import "BATPublisherView.h"
 #import "BATAttentionView.h"
 
-@class BATActionButton;
+@class ActionButton;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) UIStackView *stackView;
 @property (readonly) BATPublisherView *publisherView;
 @property (readonly) BATAttentionView *attentionView;
-@property (readonly) BATActionButton *tipButton;
+@property (readonly) ActionButton *tipButton;
 @end
 
 NS_ASSUME_NONNULL_END

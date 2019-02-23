@@ -11,7 +11,7 @@
 #import "UIImage+Convenience.h"
 
 #import "BATWalletViewController.h"
-#import "BATActionButton.h"
+#import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
 #import "BATWalletHeaderView.h"
 #import "bat/ledger/wallet_info.h"

@@ -7,6 +7,7 @@
 #import "UIColor+BATColors.h"
 #import "UIImage+Convenience.h"
 #import "BATTippingAmountView.h"
+@import BraveRewardsUI;
 
 @interface BATTippingAmount ()
 @property (nonatomic, weak) BATTippingAmountView *view;
@@ -34,7 +35,7 @@
 @property (nonatomic) UILabel *walletBalanceValueLabel; // "25"
 @property (nonatomic) UILabel *walletBalanceCryptoLabel; // "BAT"
 @property (nonatomic) UIStackView *amountStackView;
-@property (nonatomic) BATButton *monthlyToggleButton;
+@property (nonatomic) Button *monthlyToggleButton;
 @property (nonatomic) BATSendTipButton *sendTipButton;
 @end
 
@@ -85,7 +86,7 @@
       self.amountStackView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.monthlyToggleButton = [BATButton buttonWithType:UIButtonTypeSystem]; {
+    self.monthlyToggleButton = [Button buttonWithType:UIButtonTypeSystem]; {
       [self.monthlyToggleButton setTitle:BATLocalizedString(@"BraveRewardsTippingMakeMonthly", @"Make this monthly") forState:UIControlStateNormal];
       [self.monthlyToggleButton setImage:[UIImage bat_imageNamed:@"checkbox"].bat_original forState:UIControlStateNormal];
       self.monthlyToggleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);

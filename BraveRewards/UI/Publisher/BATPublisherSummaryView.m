@@ -4,7 +4,7 @@
 
 #import "BATPublisherSummaryView.h"
 #import "BATSeparatorView.h"
-#import "BATActionButton.h"
+@import BraveRewardsUI;
 #import "NSBundle+Convenience.h"
 #import "UIColor+BATColors.h"
 #import "BATSwitchRow.h"
@@ -14,7 +14,7 @@
 @property (nonatomic) UIStackView *stackView;
 @property (nonatomic) BATPublisherView *publisherView;
 @property (nonatomic) BATAttentionView *attentionView;
-@property (nonatomic) BATActionButton *tipButton;
+@property (nonatomic) ActionButton *tipButton;
 @end
 
 @implementation BATPublisherSummaryView
@@ -42,7 +42,7 @@
       self.attentionView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.tipButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
+    self.tipButton = [ActionButton buttonWithType:UIButtonTypeSystem]; {
       self.tipButton.tintColor = [UIColor bat_blurple400];
       self.tipButton.titleLabel.font = [UIFont systemFontOfSize:14.0 weight:UIFontWeightBold];
       [self.tipButton setTitle:BATLocalizedString(@"BraveRewardsPublisherSendTip", @"Send a tip").uppercaseString forState:UIControlStateNormal];

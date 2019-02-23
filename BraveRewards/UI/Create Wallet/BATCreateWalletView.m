@@ -3,20 +3,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BATCreateWalletView.h"
-#import "BATActionButton.h"
-#import "BATGradientView.h"
+@import BraveRewardsUI;
+@import BraveRewardsUI;
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
 #import "UIColor+BATColors.h"
 
 @interface BATCreateWalletView ()
-@property (nonatomic) BATGradientView *backgroundView;
+@property (nonatomic) GradientView *backgroundView;
 @property (nonatomic) UIImageView *watermarkImageView;
 @property (nonatomic) UILabel *prefixLabel; // "Get ready for the next experience"
 @property (nonatomic) UIImageView *batLogoImageView;
 @property (nonatomic) UILabel *titleLabel; // "Brave Rewards™"
 @property (nonatomic) UILabel *descriptionLabel; // "Get paid for viewing ads and pay it forward to support..."
-@property (nonatomic) BATActionButton *createWalletButton;
+@property (nonatomic) ActionButton *createWalletButton;
 @property (nonatomic) UIButton *learnMoreButton;
 @end
 
@@ -25,7 +25,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    self.backgroundView = [BATGradientView purpleRewardsGradientView]; {
+    self.backgroundView = [GradientView purpleRewardsGradientView]; {
       self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
@@ -67,7 +67,7 @@
       self.descriptionLabel.numberOfLines = 0;
     }
     
-    self.createWalletButton = [BATActionButton buttonWithType:UIButtonTypeSystem]; {
+    self.createWalletButton = [ActionButton buttonWithType:UIButtonTypeSystem]; {
       self.createWalletButton.translatesAutoresizingMaskIntoConstraints = NO;
       [self.createWalletButton setTitle:BATLocalizedString(@"RewardsOptInJoinTitle", @"Join Rewards").uppercaseString forState:UIControlStateNormal];
       [self.createWalletButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

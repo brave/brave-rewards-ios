@@ -4,7 +4,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class BATActionButton;
+@class ActionButton;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) UILabel *titleLabel; // "Welcome back!"
 @property (readonly) UILabel *subtitleLabel; // "Get rewarded for browsing."
 @property (readonly) UILabel *bodyLabel; // "Earn by viewing privacy-respecting ads..."
-@property (readonly) BATActionButton *enableRewardsButton;
+@property (readonly) ActionButton *enableRewardsButton;
 @end
 
 NS_ASSUME_NONNULL_END
