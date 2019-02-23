@@ -15,6 +15,7 @@
 		270483552220F5060051239C /* SwitchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483542220F5060051239C /* SwitchRow.swift */; };
 		270483572220F6160051239C /* DisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483562220F6160051239C /* DisclaimerView.swift */; };
 		270483592220F99C0051239C /* BasicAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483582220F99C0051239C /* BasicAnimationController.swift */; };
+		2704835C22219E480051239C /* CreateWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704835B22219E480051239C /* CreateWalletView.swift */; };
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
 		27333AA9220E24A50009640D /* BATAttentionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27333AA7220E24A50009640D /* BATAttentionView.h */; };
@@ -94,8 +95,6 @@
 		27F3E5B121FB9876009A54D5 /* UIGestureRecognizerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5A921FB9876009A54D5 /* UIGestureRecognizerExtensions.swift */; };
 		27F3E5B221FB9876009A54D5 /* SnapKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5AA21FB9876009A54D5 /* SnapKitExtensions.swift */; };
 		27F3E5B321FB9876009A54D5 /* BasicAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5AB21FB9876009A54D5 /* BasicAnimationController.swift */; };
-		27F3E5BC21FBB199009A54D5 /* BATCreateWalletView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27F3E5BA21FBB199009A54D5 /* BATCreateWalletView.h */; };
-		27F3E5BD21FBB199009A54D5 /* BATCreateWalletView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5BB21FBB199009A54D5 /* BATCreateWalletView.m */; };
 		27F72DD82208E3C200355CAD /* BATRewardsDisabledContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27F72DD62208E3C200355CAD /* BATRewardsDisabledContentView.h */; };
 		27F72DD92208E3C200355CAD /* BATRewardsDisabledContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27F72DD72208E3C200355CAD /* BATRewardsDisabledContentView.m */; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
@@ -169,6 +168,7 @@
 		270483542220F5060051239C /* SwitchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchRow.swift; sourceTree = "<group>"; };
 		270483562220F6160051239C /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
 		270483582220F99C0051239C /* BasicAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAnimationController.swift; sourceTree = "<group>"; };
+		2704835B22219E480051239C /* CreateWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletView.swift; sourceTree = "<group>"; };
 		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
@@ -250,8 +250,6 @@
 		27F3E5A921FB9876009A54D5 /* UIGestureRecognizerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExtensions.swift; sourceTree = "<group>"; };
 		27F3E5AA21FB9876009A54D5 /* SnapKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapKitExtensions.swift; sourceTree = "<group>"; };
 		27F3E5AB21FB9876009A54D5 /* BasicAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAnimationController.swift; sourceTree = "<group>"; };
-		27F3E5BA21FBB199009A54D5 /* BATCreateWalletView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCreateWalletView.h; sourceTree = "<group>"; };
-		27F3E5BB21FBB199009A54D5 /* BATCreateWalletView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATCreateWalletView.m; sourceTree = "<group>"; };
 		27F72DD62208E3C200355CAD /* BATRewardsDisabledContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATRewardsDisabledContentView.h; sourceTree = "<group>"; };
 		27F72DD72208E3C200355CAD /* BATRewardsDisabledContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATRewardsDisabledContentView.m; sourceTree = "<group>"; };
 		27FD38E021E6B69700443796 /* BraveRewardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BraveRewardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -328,6 +326,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		2704835A22219E360051239C /* Create Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				2704835B22219E480051239C /* CreateWalletView.swift */,
+			);
+			path = "Create Wallet";
+			sourceTree = "<group>";
+		};
 		270EE71F220DE4BC004AD31E /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +367,7 @@
 				2734045C2220B004008CABC9 /* Info.plist */,
 				270483492220E9290051239C /* Extensions */,
 				273404772220BD63008CABC9 /* Common */,
+				2704835A22219E360051239C /* Create Wallet */,
 			);
 			path = BraveRewardsUI;
 			sourceTree = "<group>";
@@ -488,7 +495,6 @@
 			isa = PBXGroup;
 			children = (
 				27F3E5BE21FBB21F009A54D5 /* Common */,
-				27FFE21F220A3AC500553794 /* Create Wallet */,
 				27FFE21A220A38C600553794 /* Disabled Brave Rewards */,
 				2742E146220E141E00B835FB /* Publisher */,
 				275591FD220E1AE700FB148C /* Rewards Summary */,
@@ -582,15 +588,6 @@
 			path = "Disabled Brave Rewards";
 			sourceTree = "<group>";
 		};
-		27FFE21F220A3AC500553794 /* Create Wallet */ = {
-			isa = PBXGroup;
-			children = (
-				27F3E5BA21FBB199009A54D5 /* BATCreateWalletView.h */,
-				27F3E5BB21FBB199009A54D5 /* BATCreateWalletView.m */,
-			);
-			path = "Create Wallet";
-			sourceTree = "<group>";
-		};
 		A1FDE6C720D2AA7400F92CAF = {
 			isa = PBXGroup;
 			children = (
@@ -660,7 +657,6 @@
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 				27516FD02213639700E04FE1 /* BATWalletContentView.h in Headers */,
 				2752428E2203B0F70035C895 /* BATWalletViewController.h in Headers */,
-				27F3E5BC21FBB199009A54D5 /* BATCreateWalletView.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				2752428521FFA2EC0035C895 /* NSBundle+Convenience.h in Headers */,
 				27F72DD82208E3C200355CAD /* BATRewardsDisabledContentView.h in Headers */,
@@ -874,6 +870,7 @@
 				270483552220F5060051239C /* SwitchRow.swift in Sources */,
 				273404672220B041008CABC9 /* Button.swift in Sources */,
 				270483532220F2C70051239C /* Colors.swift in Sources */,
+				2704835C22219E480051239C /* CreateWalletView.swift in Sources */,
 				2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				270483572220F6160051239C /* DisclaimerView.swift in Sources */,
@@ -918,7 +915,6 @@
 				27F72DD92208E3C200355CAD /* BATRewardsDisabledContentView.m in Sources */,
 				27516FCA2213585600E04FE1 /* BATPublisherSummaryView.m in Sources */,
 				27FFE21E220A38E900553794 /* BATRewardsDisabledView.m in Sources */,
-				27F3E5BD21FBB199009A54D5 /* BATCreateWalletView.m in Sources */,
 				27F3E51A21FB7458009A54D5 /* BraveRewardsPanelController.mm in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,

@@ -50,7 +50,7 @@ public class WalletHeaderView: UIView {
     $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10.0)
   }
   
-  let addFundsButton = UIButton().then {
+  let addFundsButton = UIButton(type: .system).then {
     $0.setTitleColor(UIColor(white: 1.0, alpha: 0.75), for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsAddFunds", "Add Funds"), for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "wallet-icon").alwaysOriginal, for: .normal)
@@ -61,7 +61,7 @@ public class WalletHeaderView: UIView {
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   
-  let settingsButton = UIButton().then {
+  let settingsButton = UIButton(type: .system).then {
     $0.setTitleColor(UIColor(white: 1.0, alpha: 0.75), for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsSettings", "Settings"), for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "bat").alwaysOriginal, for: .normal)

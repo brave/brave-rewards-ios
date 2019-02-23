@@ -5,10 +5,10 @@
 import Foundation
 
 public class ActionButton: Button {
+  
   public override init(frame: CGRect) {
     super.init(frame: frame)
     
-    titleLabel?.font = .boldSystemFont(ofSize: 14.0)
     backgroundColor = .clear
     layer.borderWidth = 1.0
     tintColor = .white

@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BraveRewardsPanelController.h"
+#import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
 #import <BraveRewards/BATBraveLedger.h>
 #import "BATBraveLedger+Private.h"
@@ -11,11 +12,9 @@
 #import "UIImage+Convenience.h"
 
 #import "BATWalletViewController.h"
-#import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
 #import "bat/ledger/wallet_info.h"
 
-#import "BATCreateWalletView.h"
 #import "BATRewardsDisabledView.h"
 #import "BATPublisherSummaryView.h"
 
@@ -29,7 +28,7 @@
 @property (nonatomic) BATWalletViewController *walletController;
 
 // Wallet not created
-@property (nonatomic) BATCreateWalletView *createWalletView;
+@property (nonatomic) CreateWalletView *createWalletView;
 
 // Brave Rewards not enabled
 @property (nonatomic) BATRewardsDisabledView *rewardsDisabledView;
@@ -97,7 +96,7 @@
       self.walletController.contentView = self.rewardsDisabledView;
     }
   } else {
-    self.createWalletView = [[BATCreateWalletView alloc] init];
+    self.createWalletView = [[CreateWalletView alloc] init];
     self.createWalletView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.createWalletView.createWalletButton addTarget:self action:@selector(createWalletTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.createWalletView.learnMoreButton addTarget:self action:@selector(learnMoreTapped) forControlEvents:UIControlEventTouchUpInside];
