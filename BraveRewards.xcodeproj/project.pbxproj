@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834A2220E9380051239C /* UIImageExtensions.swift */; };
+		2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834C2220EC1D0051239C /* BundleExtensions.swift */; };
+		2704834F2220EFA50051239C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2704834E2220EC720051239C /* Images.xcassets */; };
 		2714CDC82220A21000AEA74F /* BATBasicAnimationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2714CDC62220A21000AEA74F /* BATBasicAnimationController.h */; };
 		2714CDC92220A21000AEA74F /* BATBasicAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2714CDC72220A21000AEA74F /* BATBasicAnimationController.m */; };
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
@@ -24,7 +27,7 @@
 		2734046F2220B667008CABC9 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2734046B2220B259008CABC9 /* SnapKit.framework */; };
 		273404722220B8AF008CABC9 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404712220B8AF008CABC9 /* ActionButton.swift */; };
 		273404742220BA73008CABC9 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404732220BA73008CABC9 /* GradientView.swift */; };
-		273404762220BD60008CABC9 /* WalletHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404752220BD60008CABC9 /* WalletHeader.swift */; };
+		273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404752220BD60008CABC9 /* WalletHeaderView.swift */; };
 		273404792220BDC5008CABC9 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404782220BDC5008CABC9 /* Then.swift */; };
 		2735E3592212008E00C99517 /* BATSeparatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2735E3572212008E00C99517 /* BATSeparatorView.h */; };
 		2735E35A2212008E00C99517 /* BATSeparatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2735E3582212008E00C99517 /* BATSeparatorView.m */; };
@@ -43,8 +46,6 @@
 		2752428621FFA2EC0035C895 /* NSBundle+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */; };
 		2752428E2203B0F70035C895 /* BATWalletViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752428C2203B0F70035C895 /* BATWalletViewController.h */; };
 		2752428F2203B0F70035C895 /* BATWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752428D2203B0F70035C895 /* BATWalletViewController.m */; };
-		275242922203B13C0035C895 /* BATWalletHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 275242902203B13C0035C895 /* BATWalletHeaderView.h */; };
-		275242932203B13C0035C895 /* BATWalletHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 275242912203B13C0035C895 /* BATWalletHeaderView.m */; };
 		2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */ = {isa = PBXBuildFile; fileRef = 2752429622049EA60035C895 /* UIImage+Convenience.h */; };
 		2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752429722049EA60035C895 /* UIImage+Convenience.m */; };
 		27559200220E1B3300FB148C /* BATRewardsSummaryButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */; };
@@ -163,6 +164,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2704834A2220E9380051239C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
+		2704834C2220EC1D0051239C /* BundleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
+		2704834E2220EC720051239C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2714CDC62220A21000AEA74F /* BATBasicAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATBasicAnimationController.h; sourceTree = "<group>"; };
 		2714CDC72220A21000AEA74F /* BATBasicAnimationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATBasicAnimationController.m; sourceTree = "<group>"; };
 		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
@@ -178,7 +182,7 @@
 		2734046C2220B259008CABC9 /* pop.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pop.framework; path = Carthage/Build/iOS/pop.framework; sourceTree = "<group>"; };
 		273404712220B8AF008CABC9 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		273404732220BA73008CABC9 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		273404752220BD60008CABC9 /* WalletHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletHeader.swift; sourceTree = "<group>"; };
+		273404752220BD60008CABC9 /* WalletHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletHeaderView.swift; sourceTree = "<group>"; };
 		273404782220BDC5008CABC9 /* Then.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Then.swift; sourceTree = "<group>"; };
 		2735E3572212008E00C99517 /* BATSeparatorView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATSeparatorView.h; sourceTree = "<group>"; };
 		2735E3582212008E00C99517 /* BATSeparatorView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATSeparatorView.m; sourceTree = "<group>"; };
@@ -195,8 +199,6 @@
 		2752428421FFA2EC0035C895 /* NSBundle+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+Convenience.m"; sourceTree = "<group>"; };
 		2752428C2203B0F70035C895 /* BATWalletViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletViewController.h; sourceTree = "<group>"; };
 		2752428D2203B0F70035C895 /* BATWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATWalletViewController.m; sourceTree = "<group>"; };
-		275242902203B13C0035C895 /* BATWalletHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletHeaderView.h; sourceTree = "<group>"; };
-		275242912203B13C0035C895 /* BATWalletHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATWalletHeaderView.m; sourceTree = "<group>"; };
 		2752429622049EA60035C895 /* UIImage+Convenience.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Convenience.h"; sourceTree = "<group>"; };
 		2752429722049EA60035C895 /* UIImage+Convenience.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Convenience.m"; sourceTree = "<group>"; };
 		275591FE220E1B3300FB148C /* BATRewardsSummaryButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATRewardsSummaryButton.h; sourceTree = "<group>"; };
@@ -323,6 +325,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		270483492220E9290051239C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2704834A2220E9380051239C /* UIImageExtensions.swift */,
+				2704834C2220EC1D0051239C /* BundleExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		270EE71F220DE4BC004AD31E /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,8 +362,10 @@
 		2734045A2220B004008CABC9 /* BraveRewardsUI */ = {
 			isa = PBXGroup;
 			children = (
+				2704834E2220EC720051239C /* Images.xcassets */,
 				2734045B2220B004008CABC9 /* BraveRewardsUI.h */,
 				2734045C2220B004008CABC9 /* Info.plist */,
+				270483492220E9290051239C /* Extensions */,
 				273404772220BD63008CABC9 /* Common */,
 			);
 			path = BraveRewardsUI;
@@ -365,7 +378,7 @@
 				273404662220B041008CABC9 /* Button.swift */,
 				273404712220B8AF008CABC9 /* ActionButton.swift */,
 				273404732220BA73008CABC9 /* GradientView.swift */,
-				273404752220BD60008CABC9 /* WalletHeader.swift */,
+				273404752220BD60008CABC9 /* WalletHeaderView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -526,8 +539,6 @@
 			children = (
 				27E477F4220B5BCC00FD8185 /* UIColor+BATColors.h */,
 				27E477F5220B5BCC00FD8185 /* UIColor+BATColors.m */,
-				275242902203B13C0035C895 /* BATWalletHeaderView.h */,
-				275242912203B13C0035C895 /* BATWalletHeaderView.m */,
 				2735E3572212008E00C99517 /* BATSeparatorView.h */,
 				2735E3582212008E00C99517 /* BATSeparatorView.m */,
 				27E477F8220C9E8600FD8185 /* BATDisclaimerView.h */,
@@ -670,7 +681,6 @@
 				27E477FA220C9E8600FD8185 /* BATDisclaimerView.h in Headers */,
 				278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */,
 				2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */,
-				275242922203B13C0035C895 /* BATWalletHeaderView.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
 				27E477F6220B5BCC00FD8185 /* UIColor+BATColors.h in Headers */,
 				27FFE21D220A38E900553794 /* BATRewardsDisabledView.h in Headers */,
@@ -809,6 +819,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2704834F2220EFA50051239C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,10 +885,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				273404672220B041008CABC9 /* Button.swift in Sources */,
+				2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */,
 				273404722220B8AF008CABC9 /* ActionButton.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
+				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
 				273404792220BDC5008CABC9 /* Then.swift in Sources */,
-				273404762220BD60008CABC9 /* WalletHeader.swift in Sources */,
+				273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,7 +933,6 @@
 				27F3E51A21FB7458009A54D5 /* BraveRewardsPanelController.mm in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
-				275242932203B13C0035C895 /* BATWalletHeaderView.m in Sources */,
 				27E477F7220B5BCC00FD8185 /* UIColor+BATColors.m in Sources */,
 				2752429922049EA60035C895 /* UIImage+Convenience.m in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,

@@ -2,9 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import BraveRewardsUI;
+
 #import "BATWalletViewController.h"
 #import "BATBraveLedger.h"
-#import "BATWalletHeaderView.h"
 #import "BATPublisherSummaryView.h"
 #import "BATRewardsSummaryView.h"
 #import "UIColor+BATColors.h"
@@ -12,7 +13,7 @@
 
 @interface BATWalletViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
-@property (nonatomic) BATWalletHeaderView *headerView;
+@property (nonatomic) WalletHeaderView *headerView;
 @property (nonatomic) BATRewardsSummaryView *rewardsSummaryView;
 @property (nonatomic) NSLayoutConstraint *heightConstraint;
 @property (nonatomic) UILayoutGuide *summaryLayoutGuide;
@@ -25,7 +26,7 @@
   if ((self = [super initWithNibName:nil bundle:nil])) {
     self.ledger = ledger;
     
-    self.headerView = [[BATWalletHeaderView alloc] init]; {
+    self.headerView = [[WalletHeaderView alloc] init]; {
       self.headerView.translatesAutoresizingMaskIntoConstraints = NO;
       [self.headerView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     }

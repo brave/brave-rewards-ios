@@ -5,7 +5,7 @@
 #import <UIKit/UIKit.h>
 #import "BATWalletContentView.h"
 
-@class BATBraveLedger, BATWalletHeaderView;
+@class BATBraveLedger, WalletHeaderView;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// a content view in the bottom. Should be subclassed
 @interface BATWalletViewController : UIViewController
 
-@property (readonly) BATWalletHeaderView *headerView;
+@property (readonly) WalletHeaderView *headerView;
 @property (nonatomic) UIView<BATWalletContentView> *contentView;
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger NS_DESIGNATED_INITIALIZER;

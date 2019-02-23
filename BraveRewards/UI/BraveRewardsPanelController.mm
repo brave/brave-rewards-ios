@@ -13,7 +13,6 @@
 #import "BATWalletViewController.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
-#import "BATWalletHeaderView.h"
 #import "bat/ledger/wallet_info.h"
 
 #import "BATCreateWalletView.h"
