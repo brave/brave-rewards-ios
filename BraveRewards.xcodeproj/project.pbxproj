@@ -16,6 +16,7 @@
 		270483572220F6160051239C /* DisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483562220F6160051239C /* DisclaimerView.swift */; };
 		270483592220F99C0051239C /* BasicAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483582220F99C0051239C /* BasicAnimationController.swift */; };
 		2704835C22219E480051239C /* CreateWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704835B22219E480051239C /* CreateWalletView.swift */; };
+		270483602221AAD70051239C /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704835F2221AAD70051239C /* WalletViewController.swift */; };
 		270483632221AC260051239C /* RewardsSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483622221AC260051239C /* RewardsSummaryView.swift */; };
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
@@ -166,6 +167,7 @@
 		270483562220F6160051239C /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
 		270483582220F99C0051239C /* BasicAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicAnimationController.swift; sourceTree = "<group>"; };
 		2704835B22219E480051239C /* CreateWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletView.swift; sourceTree = "<group>"; };
+		2704835F2221AAD70051239C /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
 		270483622221AC260051239C /* RewardsSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryView.swift; sourceTree = "<group>"; };
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
@@ -328,6 +330,21 @@
 			path = "Create Wallet";
 			sourceTree = "<group>";
 		};
+		2704835D2221A9A50051239C /* Disabled Brave Rewards */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Disabled Brave Rewards";
+			sourceTree = "<group>";
+		};
+		2704835E2221AABF0051239C /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				2704835F2221AAD70051239C /* WalletViewController.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 		270483612221AB960051239C /* Rewards Summary */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,7 +389,9 @@
 				270483492220E9290051239C /* Extensions */,
 				273404772220BD63008CABC9 /* Common */,
 				2704835A22219E360051239C /* Create Wallet */,
+				2704835D2221A9A50051239C /* Disabled Brave Rewards */,
 				270483612221AB960051239C /* Rewards Summary */,
+				2704835E2221AABF0051239C /* Wallet */,
 			);
 			path = BraveRewardsUI;
 			sourceTree = "<group>";
@@ -867,6 +886,7 @@
 				273404722220B8AF008CABC9 /* ActionButton.swift in Sources */,
 				270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
+				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
 				273404792220BDC5008CABC9 /* Then.swift in Sources */,
