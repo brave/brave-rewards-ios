@@ -129,13 +129,13 @@
 
 #pragma mark - BATBasicAnimationControllerDelgate
 
-- (void)animatePresentation:(id<UIViewControllerContextTransitioning>)context
+- (void)animatePresentationWithContext:(id<UIViewControllerContextTransitioning>)context
 {
   [context.containerView addSubview:self.view];
   [context completeTransition:YES];
 }
 
-- (void)animateDismissal:(id<UIViewControllerContextTransitioning>)context
+- (void)animateDismissalWithContext:(id<UIViewControllerContextTransitioning>)context
 {
   [self.view removeFromSuperview];
   [context completeTransition:YES];

@@ -11,12 +11,7 @@
 #import "NSBundle+Convenience.h"
 #import "UIImage+Convenience.h"
 
-#import "BATWalletViewController.h"
-
 #import "bat/ledger/wallet_info.h"
-
-#import "BATRewardsDisabledView.h"
-#import "BATPublisherSummaryView.h"
 
 @interface BraveRewardsPanelController ()
 @property (nonatomic) BATBraveLedger *ledger;
@@ -25,16 +20,16 @@
 @property (nonatomic) UIImage *favicon;
 
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
-@property (nonatomic) BATWalletViewController *walletController;
+@property (nonatomic) WalletViewController *walletController;
 
 // Wallet not created
 @property (nonatomic) CreateWalletView *createWalletView;
 
 // Brave Rewards not enabled
-@property (nonatomic) BATRewardsDisabledView *rewardsDisabledView;
+@property (nonatomic) RewardsDisabledView *rewardsDisabledView;
 
 // Publisher
-@property (nonatomic) BATPublisherSummaryView *summaryView;
+@property (nonatomic) PublisherSummaryView *summaryView;
 
 @end
 
@@ -48,7 +43,7 @@
     self.isLocal = isLocal;
     self.favicon = favicon;
     
-    self.walletController = [[BATWalletViewController alloc] initWithLedger:ledger];
+    self.walletController = [[WalletViewController alloc] init];
   }
   return self;
 }
@@ -82,13 +77,13 @@
     ]];
     
     if (self.ledger.isEnabled) {
-      self.summaryView = [[BATPublisherSummaryView alloc] init]; {
+      self.summaryView = [[PublisherSummaryView alloc] init]; {
         self.summaryView.translatesAutoresizingMaskIntoConstraints = NO;
       }
       [self setupPublisher];
       self.walletController.contentView = self.summaryView;
     } else {
-      self.rewardsDisabledView = [[BATRewardsDisabledView alloc] init]; {
+      self.rewardsDisabledView = [[RewardsDisabledView alloc] init]; {
         self.rewardsDisabledView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.rewardsDisabledView.enableRewardsButton addTarget:self action:@selector(tappedEnableBraveRewards) forControlEvents:UIControlEventTouchUpInside];
       }
