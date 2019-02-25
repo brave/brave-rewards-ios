@@ -5,8 +5,6 @@
 @import BraveRewardsUI;
 
 #import "BraveRewardsTippingViewController.h"
-#import "BATTippingSelectionView.h"
-#import "BATTippingOverviewView.h"
 
 // Temp:
 #import "UIImage+Convenience.h"
@@ -14,8 +12,8 @@
 @interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BasicAnimationControllerDelegate>
 @property (nonatomic) UIView *backgroundView;
 @property (nonatomic) UIScrollView *scrollView;
-@property (nonatomic) BATTippingOverviewView *overviewView;
-@property (nonatomic) BATTippingSelectionView *tippingView;
+@property (nonatomic) TippingOverviewView *overviewView;
+@property (nonatomic) TippingSelectionView *tippingView;
 @end
 
 @implementation BraveRewardsTippingViewController
@@ -37,10 +35,10 @@
       self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.overviewView = [[BATTippingOverviewView alloc] init];
+    self.overviewView = [[TippingOverviewView alloc] init];
     self.overviewView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.tippingView = [[BATTippingSelectionView alloc] init]; {
+    self.tippingView = [[TippingSelectionView alloc] init]; {
       self.tippingView.layer.shadowRadius = 8.0;
       self.tippingView.layer.shadowOffset = CGSizeMake(0, -2);
       self.tippingView.layer.shadowOpacity = 0.35;
@@ -48,19 +46,14 @@
     }
     
     // FIXME: Remove fake data
-    self.tippingView.walletBalanceCryptoLabel.text = @"BAT";
-    self.tippingView.walletBalanceValueLabel.text = @"30";
+    [self.tippingView setWalletBalance:@"30" crypto:@"BAT"];
     
-    NSMutableArray<BATTippingAmount *> *amountOptions = [[NSMutableArray alloc] init];
+    NSMutableArray<TippingOption *> *amountOptions = [[NSMutableArray alloc] init];
     for (NSString *value in @[ @"1", @"5", @"10" ]) {
-      BATTippingAmount *amount = [BATTippingAmount amountWithValue:value
-                                                            crypto:@"BAT"
-                                                       cryptoImage:[UIImage bat_imageNamed:@"bat"]
-                                                       dollarValue:@"0.00 USD"];
-      [amountOptions addObject:amount];
+      [amountOptions addObject:[TippingOption batAmount:value dollarValue:@"0.00 USD"]];
     }
-    self.tippingView.amountOptions = amountOptions;
-    self.tippingView.selectedAmountIndex = 1;
+    self.tippingView.options = amountOptions;
+    self.tippingView.selectedOptionIndex = 1;
   }
   return self;
 }

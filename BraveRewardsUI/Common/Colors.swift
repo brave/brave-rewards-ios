@@ -19,7 +19,7 @@ class Colors {
   static let grey200 = UIColor(hex: 0x5E6175)
   static let grey300 = UIColor(hex: 0x84889C)
   static let neutral600 = UIColor(hex: 0xDEE2E6)
-  static let netural800 = UIColor(hex: 0xF1F3F5)
+  static let neutral800 = UIColor(hex: 0xF1F3F5)
   static let blue500 = UIColor(hex: 0x5DB5FC)
   static let blurple400 = UIColor(hex: 0x4C54D2)
   static let blurple500 = UIColor(hex: 0x737ADE)

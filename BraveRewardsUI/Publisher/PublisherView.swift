@@ -6,7 +6,7 @@ import UIKit
 
 public class PublisherView: UIStackView {
   private struct UX {
-    static let faviconBackgroundColor = Colors.netural800
+    static let faviconBackgroundColor = Colors.neutral800
     static let faviconSize = CGSize(width: 48.0, height: 48.0)
     static let publisherNameColor = Colors.grey000
     static let verifiedStatusColor = Colors.grey200

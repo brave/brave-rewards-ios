@@ -20,6 +20,9 @@
 		270483632221AC260051239C /* RewardsSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483622221AC260051239C /* RewardsSummaryView.swift */; };
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
+		272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B787122248E8800B7B81E /* TippingOverviewView.swift */; };
+		272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7873222494F600B7B81E /* TippingOptionView.swift */; };
+		272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7875222498EA00B7B81E /* TippingSelectionView.swift */; };
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
 		2734045D2220B004008CABC9 /* BraveRewardsUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 2734045B2220B004008CABC9 /* BraveRewardsUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -58,16 +61,9 @@
 		27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598842222451FF00B2E47A /* PublisherSummaryView.swift */; };
 		27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598844222452A100B2E47A /* PublisherAttentionView.swift */; };
 		27598847222453D900B2E47A /* PublisherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598846222453D900B2E47A /* PublisherView.swift */; };
+		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
 		278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		278107F7221DD911000D6281 /* BraveRewardsTippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107F5221DD911000D6281 /* BraveRewardsTippingViewController.m */; };
-		278107FA221DD93E000D6281 /* BATTippingSelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F8221DD93E000D6281 /* BATTippingSelectionView.h */; };
-		278107FB221DD93E000D6281 /* BATTippingSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107F9221DD93E000D6281 /* BATTippingSelectionView.m */; };
-		278107FE221DDE7D000D6281 /* BATTippingAmountView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107FC221DDE7C000D6281 /* BATTippingAmountView.h */; };
-		278107FF221DDE7D000D6281 /* BATTippingAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278107FD221DDE7C000D6281 /* BATTippingAmountView.m */; };
-		27810802221E0B74000D6281 /* BATSendTipButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 27810800221E0B74000D6281 /* BATSendTipButton.h */; };
-		27810803221E0B74000D6281 /* BATSendTipButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 27810801221E0B74000D6281 /* BATSendTipButton.m */; };
-		27888601221F0D920028455B /* BATTippingOverviewView.h in Headers */ = {isa = PBXBuildFile; fileRef = 278885FF221F0D920028455B /* BATTippingOverviewView.h */; };
-		27888602221F0D920028455B /* BATTippingOverviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27888600221F0D920028455B /* BATTippingOverviewView.m */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
@@ -162,6 +158,9 @@
 		270483622221AC260051239C /* RewardsSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryView.swift; sourceTree = "<group>"; };
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
+		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
+		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
+		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
 		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
@@ -198,16 +197,9 @@
 		27598842222451FF00B2E47A /* PublisherSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherSummaryView.swift; sourceTree = "<group>"; };
 		27598844222452A100B2E47A /* PublisherAttentionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherAttentionView.swift; sourceTree = "<group>"; };
 		27598846222453D900B2E47A /* PublisherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherView.swift; sourceTree = "<group>"; };
+		2759884922247F4F00B2E47A /* SendTipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTipButton.swift; sourceTree = "<group>"; };
 		278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BraveRewardsTippingViewController.h; path = Tipping/BraveRewardsTippingViewController.h; sourceTree = "<group>"; };
 		278107F5221DD911000D6281 /* BraveRewardsTippingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BraveRewardsTippingViewController.m; path = Tipping/BraveRewardsTippingViewController.m; sourceTree = "<group>"; };
-		278107F8221DD93E000D6281 /* BATTippingSelectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingSelectionView.h; sourceTree = "<group>"; };
-		278107F9221DD93E000D6281 /* BATTippingSelectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingSelectionView.m; sourceTree = "<group>"; };
-		278107FC221DDE7C000D6281 /* BATTippingAmountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingAmountView.h; sourceTree = "<group>"; };
-		278107FD221DDE7C000D6281 /* BATTippingAmountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingAmountView.m; sourceTree = "<group>"; };
-		27810800221E0B74000D6281 /* BATSendTipButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATSendTipButton.h; sourceTree = "<group>"; };
-		27810801221E0B74000D6281 /* BATSendTipButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATSendTipButton.m; sourceTree = "<group>"; };
-		278885FF221F0D920028455B /* BATTippingOverviewView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATTippingOverviewView.h; sourceTree = "<group>"; };
-		27888600221F0D920028455B /* BATTippingOverviewView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATTippingOverviewView.m; sourceTree = "<group>"; };
 		27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveLedger+Private.h"; sourceTree = "<group>"; };
 		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -376,6 +368,7 @@
 				270483612221AB960051239C /* Rewards Summary */,
 				27598841222450CD00B2E47A /* Publisher */,
 				2704835E2221AABF0051239C /* Wallet */,
+				27598848222479AB00B2E47A /* Tipping */,
 			);
 			path = BraveRewardsUI;
 			sourceTree = "<group>";
@@ -460,17 +453,13 @@
 			path = Publisher;
 			sourceTree = "<group>";
 		};
-		278107F3221DC9BE000D6281 /* Tipping */ = {
+		27598848222479AB00B2E47A /* Tipping */ = {
 			isa = PBXGroup;
 			children = (
-				278107F8221DD93E000D6281 /* BATTippingSelectionView.h */,
-				278107F9221DD93E000D6281 /* BATTippingSelectionView.m */,
-				278107FC221DDE7C000D6281 /* BATTippingAmountView.h */,
-				278107FD221DDE7C000D6281 /* BATTippingAmountView.m */,
-				27810800221E0B74000D6281 /* BATSendTipButton.h */,
-				27810801221E0B74000D6281 /* BATSendTipButton.m */,
-				278885FF221F0D920028455B /* BATTippingOverviewView.h */,
-				27888600221F0D920028455B /* BATTippingOverviewView.m */,
+				2759884922247F4F00B2E47A /* SendTipButton.swift */,
+				272B787122248E8800B7B81E /* TippingOverviewView.swift */,
+				272B7873222494F600B7B81E /* TippingOptionView.swift */,
+				272B7875222498EA00B7B81E /* TippingSelectionView.swift */,
 			);
 			path = Tipping;
 			sourceTree = "<group>";
@@ -487,7 +476,6 @@
 			isa = PBXGroup;
 			children = (
 				27F3E5BE21FBB21F009A54D5 /* Common */,
-				278107F3221DC9BE000D6281 /* Tipping */,
 				27F3E51721FB7458009A54D5 /* BraveRewardsPanelController.h */,
 				27F3E51821FB7458009A54D5 /* BraveRewardsPanelController.mm */,
 				278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */,
@@ -617,17 +605,13 @@
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
-				27888601221F0D920028455B /* BATTippingOverviewView.h in Headers */,
 				27F3E51921FB7458009A54D5 /* BraveRewardsPanelController.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
-				27810802221E0B74000D6281 /* BATSendTipButton.h in Headers */,
 				27516FD222138C5200E04FE1 /* NativeLedgerBridge.h in Headers */,
 				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
-				278107FA221DD93E000D6281 /* BATTippingSelectionView.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				2752428521FFA2EC0035C895 /* NSBundle+Convenience.h in Headers */,
-				278107FE221DDE7D000D6281 /* BATTippingAmountView.h in Headers */,
 				278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */,
 				2752429822049EA60035C895 /* UIImage+Convenience.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
@@ -837,16 +821,20 @@
 				270483532220F2C70051239C /* Colors.swift in Sources */,
 				2704835C22219E480051239C /* CreateWalletView.swift in Sources */,
 				2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */,
+				272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */,
 				275988402224494100B2E47A /* RewardsDisabledView.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
+				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				270483632221AC260051239C /* RewardsSummaryView.swift in Sources */,
+				2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */,
 				270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */,
 				270483572220F6160051239C /* DisclaimerView.swift in Sources */,
 				273404722220B8AF008CABC9 /* ActionButton.swift in Sources */,
 				270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
+				272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */,
 				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
@@ -893,11 +881,7 @@
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
 				2752428621FFA2EC0035C895 /* NSBundle+Convenience.m in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
-				278107FB221DD93E000D6281 /* BATTippingSelectionView.m in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
-				27810803221E0B74000D6281 /* BATSendTipButton.m in Sources */,
-				27888602221F0D920028455B /* BATTippingOverviewView.m in Sources */,
-				278107FF221DDE7D000D6281 /* BATTippingAmountView.m in Sources */,
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */,
 				278107F7221DD911000D6281 /* BraveRewardsTippingViewController.m in Sources */,
