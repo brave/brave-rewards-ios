@@ -5,6 +5,8 @@
 #import "UIImage+Convenience.h"
 #import "NSBundle+Convenience.h"
 
+@import BraveRewardsUI;
+
 @implementation UIImage (Bundle)
 
 + (instancetype)bat_imageNamed:(NSString *)name
@@ -14,7 +16,7 @@
 
 + (instancetype)bat_imageNamed:(NSString *)name compatibleWithTraitCollection:(nullable UITraitCollection *)collection
 {
-  return [UIImage imageNamed:name inBundle:[NSBundle bat_current] compatibleWithTraitCollection:collection];
+  return [UIImage imageNamed:name inBundle:[NSBundle bundleForClass:[ActionButton class]] compatibleWithTraitCollection:collection];
 }
 
 - (UIImage *)bat_template

@@ -2,19 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import BraveRewardsUI;
+
 #import "BraveRewardsTippingViewController.h"
-#import "BATTippingSelectionView.h"
-#import "BATTippingOverviewView.h"
-#import "BATBasicAnimationController.h"
 
 // Temp:
 #import "UIImage+Convenience.h"
 
-@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BATBasicAnimationControllerDelgate>
+@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BasicAnimationControllerDelegate>
 @property (nonatomic) UIView *backgroundView;
 @property (nonatomic) UIScrollView *scrollView;
-@property (nonatomic) BATTippingOverviewView *overviewView;
-@property (nonatomic) BATTippingSelectionView *tippingView;
+@property (nonatomic) TippingOverviewView *overviewView;
+@property (nonatomic) TippingSelectionView *tippingView;
 @end
 
 @implementation BraveRewardsTippingViewController
@@ -36,10 +35,10 @@
       self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-    self.overviewView = [[BATTippingOverviewView alloc] init];
+    self.overviewView = [[TippingOverviewView alloc] init];
     self.overviewView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.tippingView = [[BATTippingSelectionView alloc] init]; {
+    self.tippingView = [[TippingSelectionView alloc] init]; {
       self.tippingView.layer.shadowRadius = 8.0;
       self.tippingView.layer.shadowOffset = CGSizeMake(0, -2);
       self.tippingView.layer.shadowOpacity = 0.35;
@@ -47,19 +46,14 @@
     }
     
     // FIXME: Remove fake data
-    self.tippingView.walletBalanceCryptoLabel.text = @"BAT";
-    self.tippingView.walletBalanceValueLabel.text = @"30";
+    [self.tippingView setWalletBalance:@"30" crypto:@"BAT"];
     
-    NSMutableArray<BATTippingAmount *> *amountOptions = [[NSMutableArray alloc] init];
+    NSMutableArray<TippingOption *> *amountOptions = [[NSMutableArray alloc] init];
     for (NSString *value in @[ @"1", @"5", @"10" ]) {
-      BATTippingAmount *amount = [BATTippingAmount amountWithValue:value
-                                                            crypto:@"BAT"
-                                                       cryptoImage:[UIImage bat_imageNamed:@"bat"]
-                                                       dollarValue:@"0.00 USD"];
-      [amountOptions addObject:amount];
+      [amountOptions addObject:[TippingOption batAmount:value dollarValue:@"0.00 USD"]];
     }
-    self.tippingView.amountOptions = amountOptions;
-    self.tippingView.selectedAmountIndex = 1;
+    self.tippingView.options = amountOptions;
+    self.tippingView.selectedOptionIndex = 1;
   }
   return self;
 }
@@ -118,23 +112,23 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-  return [[BATBasicAnimationController alloc] initWithDirection:BATAnimationDirectionPresenting delegate:self];
+  return [[BasicAnimationController alloc] initWithDelegate:self direction:DirectionPresenting];
 }
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-  return [[BATBasicAnimationController alloc] initWithDirection:BATAnimationDirectionDismissing delegate:self];
+  return [[BasicAnimationController alloc] initWithDelegate:self direction:DirectionDismissing];
 }
 
 #pragma mark - BATBasicAnimationControllerDelgate
 
-- (void)animatePresentation:(id<UIViewControllerContextTransitioning>)context
+- (void)animatePresentationWithContext:(id<UIViewControllerContextTransitioning>)context
 {
   [context.containerView addSubview:self.view];
   [context completeTransition:YES];
 }
 
-- (void)animateDismissal:(id<UIViewControllerContextTransitioning>)context
+- (void)animateDismissalWithContext:(id<UIViewControllerContextTransitioning>)context
 {
   [self.view removeFromSuperview];
   [context completeTransition:YES];
