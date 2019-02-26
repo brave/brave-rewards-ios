@@ -66,9 +66,9 @@
     _walletInfo.altcurrency_ = "BAT";
     _walletInfo.balance_ = 30.0;
     
-    self.walletController.headerView.balanceLabel.text = [NSString stringWithFormat:@"%.1f", _walletInfo.balance_];
-    self.walletController.headerView.altcurrencyTypeLabel.text = [NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()];
-    self.walletController.headerView.usdBalanceLabel.text = @"0.00 USD";
+    [self.walletController.headerView setWalletBalance:[NSString stringWithFormat:@"%.1f", _walletInfo.balance_]
+                                                crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
+                                           dollarValue:@"0.00 USD"];
     
     [self addChildViewController:self.walletController];
     [self.walletController didMoveToParentViewController:self];

@@ -21,7 +21,7 @@ public class TippingOption: NSObject {
     super.init()
   }
   
-  public class func batAmount(_ value: String, dollarValue: String) -> TippingOption {
+  @objc public class func batAmount(_ value: String, dollarValue: String) -> TippingOption {
     return TippingOption(
       value: value,
       crypto: "BAT",
@@ -102,14 +102,14 @@ public class TippingSelectionView: UIView {
   
   // MARK: - Wallet Balance
   
-  public func setWalletBalance(_ value: String, crypto: String) {
+  @objc public func setWalletBalance(_ value: String, crypto: String) {
     walletBalanceView.valueLabel.text = value
     walletBalanceView.cryptoLabel.text = crypto
   }
   
   // MARK: - Options
   
-  public var selectedOptionIndex: Int {
+  @objc public var selectedOptionIndex: Int {
     get {
       return options.firstIndex(where: { $0.view?.isSelected == true }) ?? -1
     }
@@ -120,7 +120,7 @@ public class TippingSelectionView: UIView {
     }
   }
   
-  public var options: [TippingOption] = [] {
+  @objc public var options: [TippingOption] = [] {
     willSet {
       options.forEach { $0.view?.removeFromSuperview() }
     }

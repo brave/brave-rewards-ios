@@ -13,9 +13,9 @@ public class PublisherSummaryView: UIView {
     $0.spacing = 8.0
     $0.axis = .vertical
   }
-  public let publisherView = PublisherView()
-  public let attentionView = PublisherAttentionView()
-  public let tipButton = ActionButton(type: .system).then {
+  @objc public let publisherView = PublisherView()
+  @objc public let attentionView = PublisherAttentionView()
+  @objc public let tipButton = ActionButton(type: .system).then {
     $0.tintColor = Colors.blurple400
     $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
     $0.setTitle(BATLocalizedString("BraveRewardsPublisherSendTip", "Send a tip").uppercased(), for: .normal)

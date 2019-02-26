@@ -56,12 +56,12 @@ public class CreateWalletView: UIView {
     $0.numberOfLines = 0
   }
   
-  public let createWalletButton = ActionButton(type: .system).then {
+  @objc public let createWalletButton = ActionButton(type: .system).then {
     $0.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
   }
   
-  public let learnMoreButton = UIButton(type: .system).then {
+  @objc public let learnMoreButton = UIButton(type: .system).then {
     $0.setTitle(BATLocalizedString("RewardsOptInLearnMore", "Learn More").uppercased(), for: .normal)
     $0.tintColor = UX.learnMoreTextColor
     $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)

@@ -10,13 +10,11 @@ import UIKit
   /// Animate the presentation of a controller
   ///
   /// - parameter context: The transitioning context
-  /// - parameter finished: Whether or not the animation completed
   func animatePresentation(context: UIViewControllerContextTransitioning)
   
   /// Animate the dismissal of a controller
   ///
   /// - parameter context: The transitioning context
-  /// - parameter finished: Whether or not the animation completed
   func animateDismissal(context: UIViewControllerContextTransitioning)
 }
 

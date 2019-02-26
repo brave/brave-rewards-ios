@@ -12,11 +12,11 @@ import SnapKit
 
 public class WalletViewController: UIViewController {
   
-  public let headerView = WalletHeaderView().then {
+  @objc public let headerView = WalletHeaderView().then {
     $0.setContentCompressionResistancePriority(.required, for: .vertical)
   }
   
-  public var contentView: (UIView & WalletContentView)? {
+  @objc public var contentView: (UIView & WalletContentView)? {
     willSet {
       contentView?.removeFromSuperview()
     }

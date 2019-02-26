@@ -133,3 +133,12 @@ public class WalletHeaderView: UIView {
     backgroundImageView.frame = bounds
   }
 }
+
+extension WalletHeaderView {
+  @objc public func setWalletBalance(_ value: String, crypto: String, dollarValue: String) {
+    balanceLabel.text = value
+    altcurrencyTypeLabel.text = crypto
+    usdBalanceLabel.text = dollarValue
+  }
+}
+

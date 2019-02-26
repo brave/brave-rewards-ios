@@ -6,7 +6,7 @@ import Foundation
 
 public class RewardsDisabledView: UIView {
   
-  public var enableRewardsButton: UIButton {
+  @objc public var enableRewardsButton: UIButton {
     return contentView.enableRewardsButton
   }
   

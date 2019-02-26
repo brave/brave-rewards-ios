@@ -6,13 +6,13 @@ import UIKit
 
 public class PublisherAttentionView: UIView {
   
-  public let titleLabel = UILabel().then {
+  @objc public let titleLabel = UILabel().then {
     $0.textColor = Colors.grey000
     $0.text = BATLocalizedString("BraveRewardsAttention", "Attention")
     $0.font = .systemFont(ofSize: 14.0)
   }
   /// Either "X%" or "–"
-  public let valueLabel = UILabel().then {
+  @objc public let valueLabel = UILabel().then {
     $0.textColor = Colors.grey000
     $0.font = .systemFont(ofSize: 14.0, weight: .semibold)
     $0.textAlignment = .right
