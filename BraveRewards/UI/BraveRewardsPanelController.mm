@@ -17,7 +17,7 @@
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) NSURL *url;
 @property (nonatomic) BOOL isLocal;
-@property (nonatomic) UIImage *favicon;
+@property (nonatomic) NSURL *faviconURL;
 
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
 @property (nonatomic) WalletViewController *walletController;
@@ -35,13 +35,18 @@
 
 @implementation BraveRewardsPanelController
 
-- (instancetype)initWithLedger:(BATBraveLedger *)ledger url:(NSURL *)url isLocal:(BOOL)isLocal favicon:(UIImage *)favicon
++ (UIImage *)batLogoImage
+{
+  return [UIImage bat_imageNamed:@"bat"];
+}
+
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger url:(NSURL *)url faviconURL:(NSURL *)faviconURL
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
     self.ledger = ledger;
     self.url = url;
-    self.isLocal = isLocal;
-    self.favicon = favicon;
+    self.isLocal = [url.host isEqualToString:@"127.0.0.1"] || [url.host isEqualToString:@"localhost"];
+    self.faviconURL = faviconURL;
     
     self.walletController = [[WalletViewController alloc] init];
   }

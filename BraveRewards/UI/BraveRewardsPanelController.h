@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <UIKit/UIKit.h>
+#import "BraveRewardsDataSource.h"
 
 @class BATBraveLedger;
 
@@ -10,10 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BraveRewardsPanelController : UIViewController
 
+/// The logo to display in the toolbar to display this panel
+@property (class, readonly) UIImage *batLogoImage;
+
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger
                            url:(NSURL *)url
-                       isLocal:(BOOL)isLocal
-                       favicon:(nullable UIImage *)favicon NS_DESIGNATED_INITIALIZER;
+                    faviconURL:(nullable NSURL *)faviconURL NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;

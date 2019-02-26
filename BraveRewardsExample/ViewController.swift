@@ -24,7 +24,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    braveRewardsPanelButton.setImage(UIImage(named: "bat", in: Bundle(for: BraveRewardsPanelController.self), compatibleWith: nil), for: .normal)
+    braveRewardsPanelButton.setImage(BraveRewardsPanelController.batLogoImage, for: .normal)
     // Do any additional setup after loading the view, typically from a nib.
   }
 
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     
     let ledger = BraveLedger()
     let url = URL(string: "https://facebook.com")!
-    let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger, url: url, isLocal: false, favicon: nil)
+    let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger, url: url, faviconURL: nil)
     let popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .autoLayout)
     popover.addsConvenientDismissalMargins = false
     popover.present(from: braveRewardsPanelButton, on: self)

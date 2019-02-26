@@ -23,6 +23,7 @@
 		272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B787122248E8800B7B81E /* TippingOverviewView.swift */; };
 		272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7873222494F600B7B81E /* TippingOptionView.swift */; };
 		272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7875222498EA00B7B81E /* TippingSelectionView.swift */; };
+		272B78862225EF2A00B7B81E /* BraveRewardsDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 272B78852225EF2A00B7B81E /* BraveRewardsDataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
 		2734045D2220B004008CABC9 /* BraveRewardsUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 2734045B2220B004008CABC9 /* BraveRewardsUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -158,6 +159,7 @@
 		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
 		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
 		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
+		272B78852225EF2A00B7B81E /* BraveRewardsDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BraveRewardsDataSource.h; sourceTree = "<group>"; };
 		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
@@ -468,6 +470,7 @@
 		27F3E51621FB7436009A54D5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				272B78852225EF2A00B7B81E /* BraveRewardsDataSource.h */,
 				27F3E51721FB7458009A54D5 /* BraveRewardsPanelController.h */,
 				27F3E51821FB7458009A54D5 /* BraveRewardsPanelController.mm */,
 				278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */,
@@ -587,6 +590,7 @@
 			files = (
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
+				272B78862225EF2A00B7B81E /* BraveRewardsDataSource.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				27F3E51921FB7458009A54D5 /* BraveRewardsPanelController.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
