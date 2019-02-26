@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (Convenience)
 
-/// Get an image from the BraveRewards bundle
+/// Get an image from the BraveRewardsUI bundle
 + (instancetype)bat_imageNamed:(NSString *)name;
 + (instancetype)bat_imageNamed:(NSString *)name compatibleWithTraitCollection:(nullable UITraitCollection *)collection;
 

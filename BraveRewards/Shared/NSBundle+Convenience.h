@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Get the BraveRewards bundle
 @property (nonatomic, readonly, class) NSBundle *bat_current;
 
+/// Get the BraveRewardsUI bundle
+@property (nonatomic, readonly, class) NSBundle *bat_interfaceBundle;
+
 #define BATLocalizedString(key, val) \
   NSLocalizedStringWithDefaultValue(key, nil, [NSBundle bat_current], val, nil)
 

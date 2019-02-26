@@ -5,11 +5,18 @@
 #import "NSBundle+Convenience.h"
 #import "BATBraveLedger.h"
 
+@import BraveRewardsUI;
+
 @implementation NSBundle (Convenience)
 
 + (NSBundle *)bat_current
 {
   return [NSBundle bundleForClass:[BATBraveLedger class]];
+}
+
++ (NSBundle *)bat_interfaceBundle
+{
+  return [NSBundle bundleForClass:[ActionButton class]];
 }
 
 @end
