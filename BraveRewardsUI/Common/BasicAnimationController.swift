@@ -27,7 +27,8 @@ import UIKit
 public class BasicAnimationController: NSObject {
   
   /// The animation direction
-  @objc public enum Direction: Int {
+  @objc(BasicAnimationDirection)
+  public enum Direction: Int {
     /// The controller is being presented
     case presenting
     /// The controller is being dismissed

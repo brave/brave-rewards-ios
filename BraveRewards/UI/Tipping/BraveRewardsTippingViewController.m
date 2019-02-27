@@ -6,93 +6,29 @@
 
 #import "BraveRewardsTippingViewController.h"
 
-@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BasicAnimationControllerDelegate>
-@property (nonatomic) UIView *backgroundView;
-@property (nonatomic) UIScrollView *scrollView;
-@property (nonatomic) TippingOverviewView *overviewView;
-@property (nonatomic) TippingSelectionView *tippingView;
+@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate>
+@property (nonatomic, strong) TippingView *view;
 @end
 
 @implementation BraveRewardsTippingViewController
+@dynamic view;
 
 - (instancetype)init
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
     self.transitioningDelegate = self;
-    
-    self.backgroundView = [[UIView alloc] init]; {
-      self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
-      self.backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    
-    self.scrollView = [[UIScrollView alloc] init]; {
-      self.scrollView.alwaysBounceVertical = YES;
-      self.scrollView.showsVerticalScrollIndicator = NO;
-      self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    
-    self.overviewView = [[TippingOverviewView alloc] init];
-    self.overviewView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    self.tippingView = [[TippingSelectionView alloc] init]; {
-      self.tippingView.layer.shadowRadius = 8.0;
-      self.tippingView.layer.shadowOffset = CGSizeMake(0, -2);
-      self.tippingView.layer.shadowOpacity = 0.35;
-      self.tippingView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    
-    // FIXME: Remove fake data
-    [self.tippingView setWalletBalance:@"30" crypto:@"BAT"];
-    
-    NSMutableArray<TippingOption *> *amountOptions = [[NSMutableArray alloc] init];
-    for (NSString *value in @[ @"1", @"5", @"10" ]) {
-      [amountOptions addObject:[TippingOption batAmount:value dollarValue:@"0.00 USD"]];
-    }
-    self.tippingView.options = amountOptions;
-    self.tippingView.selectedOptionIndex = 1;
   }
   return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-  
-  [self.view addSubview:self.backgroundView];
-  [self.view addSubview:self.scrollView];
-  [self.scrollView addSubview:self.overviewView];
-  [self.view addSubview:self.tippingView];
-  
-  [NSLayoutConstraint activateConstraints:@[
-    [self.backgroundView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-    [self.backgroundView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-    [self.backgroundView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.backgroundView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-                                            
-    [self.tippingView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-    [self.tippingView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.tippingView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-    
-    [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-    [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-    [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-    [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-    [self.scrollView.contentLayoutGuide.widthAnchor constraintEqualToAnchor:self.view.widthAnchor],
-    
-    [self.overviewView.topAnchor constraintEqualToAnchor:self.scrollView.contentLayoutGuide.topAnchor constant:20.0],
-    [self.overviewView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor constant:10.0],
-    [self.overviewView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-10.0],
-    [self.overviewView.bottomAnchor constraintEqualToAnchor:self.scrollView.contentLayoutGuide.bottomAnchor constant:-10.0]
-  ]];
+- (void)loadView
+{
+  self.view = [[TippingView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 }
 
-- (void)viewDidLayoutSubviews
-{
-  [super viewDidLayoutSubviews];
-  
-  [self.tippingView layoutIfNeeded];
-  self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, self.tippingView.bounds.size.height, 0);
+- (void)viewDidLoad {
+  [super viewDidLoad];
 }
 
 #pragma mark -
@@ -109,26 +45,14 @@
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-  return [[BasicAnimationController alloc] initWithDelegate:self direction:DirectionPresenting];
+  return [[BasicAnimationController alloc] initWithDelegate:self.view
+                                                  direction:BasicAnimationDirectionPresenting];
 }
 
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-  return [[BasicAnimationController alloc] initWithDelegate:self direction:DirectionDismissing];
-}
-
-#pragma mark - BATBasicAnimationControllerDelgate
-
-- (void)animatePresentationWithContext:(id<UIViewControllerContextTransitioning>)context
-{
-  [context.containerView addSubview:self.view];
-  [context completeTransition:YES];
-}
-
-- (void)animateDismissalWithContext:(id<UIViewControllerContextTransitioning>)context
-{
-  [self.view removeFromSuperview];
-  [context completeTransition:YES];
+  return [[BasicAnimationController alloc] initWithDelegate:self.view
+                                                  direction:BasicAnimationDirectionDismissing];
 }
 
 @end
