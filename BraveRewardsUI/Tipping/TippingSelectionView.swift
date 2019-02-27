@@ -42,7 +42,7 @@ public class TippingSelectionView: UIView {
     $0.spacing = 10.0
     $0.distribution = .fillEqually
   }
-  let monthlyToggleButton = Button(type: .system).then {
+  private let monthlyToggleButton = Button(type: .system).then {
     $0.setTitle(BATLocalizedString("BraveRewardsTippingMakeMonthly", "Make this monthly"), for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "checkbox"), for: .normal)
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
@@ -60,6 +60,8 @@ public class TippingSelectionView: UIView {
     super.init(frame: frame)
     
     backgroundColor = Colors.blurple500
+    
+    monthlyToggleButton.addTarget(self, action: #selector(tappedMonthlyToggle), for: .touchUpInside)
     
     addSubview(titleLabel)
     addSubview(walletBalanceView)
@@ -100,6 +102,10 @@ public class TippingSelectionView: UIView {
     optionsStackView.distribution = isWideLayout ? .fill : .fillEqually
   }
   
+  @objc private func tappedMonthlyToggle() {
+    isMonthly.toggle()
+  }
+  
   // MARK: - Wallet Balance
   
   @objc public func setWalletBalance(_ value: String, crypto: String) {
@@ -108,6 +114,12 @@ public class TippingSelectionView: UIView {
   }
   
   // MARK: - Options
+  
+  @objc public var isMonthly: Bool = false {
+    didSet {
+      monthlyToggleButton.setImage(UIImage(frameworkResourceNamed: isMonthly ? "checkbox-checked" : "checkbox").alwaysOriginal, for: .normal)
+    }
+  }
   
   @objc public var selectedOptionIndex: Int {
     get {
