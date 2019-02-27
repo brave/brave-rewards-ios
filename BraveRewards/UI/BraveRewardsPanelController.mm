@@ -8,9 +8,6 @@
 #import <BraveRewards/BATBraveLedger.h>
 #import "BATBraveLedger+Private.h"
 
-#import "NSBundle+Convenience.h"
-#import "UIImage+Convenience.h"
-
 #import "bat/ledger/wallet_info.h"
 
 @interface BraveRewardsPanelController ()
@@ -37,7 +34,7 @@
 
 + (UIImage *)batLogoImage
 {
-  return [UIImage bat_imageNamed:@"bat"];
+  return [UIImage imageNamed:@"bat" inBundle:[NSBundle bundleForClass:[CreateWalletView class]] compatibleWithTraitCollection:nil];
 }
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger url:(NSURL *)url faviconURL:(NSURL *)faviconURL
@@ -118,7 +115,7 @@
 
 - (void)createWalletTapped
 {
-  [self.createWalletView.createWalletButton setTitle:BATLocalizedString(@"BraveRewardsCreatingWallet", @"Creating Wallet").uppercaseString forState:UIControlStateNormal];
+  self.createWalletView.isCreatingWallet = YES;
   [self.ledger createWallet:^(NSError * _Nullable error) {
     [self.createWalletView removeFromSuperview];
     self.ledger.enabled = YES;
@@ -139,8 +136,7 @@
     attentionView.valueLabel.text = @"–";
   } else {
     publisherView.publisherNameLabel.text = self.url.host;
-    publisherView.verifiedLabel.text = BATLocalizedString(@"BraveRewardsNotYetVerified", @"Not yet verified");
-    publisherView.verificationSymbolImageView.image = [UIImage bat_imageNamed:@"icn-unverified"];
+    [publisherView setVerifiedStatus:true];
     attentionView.valueLabel.text = @"19%";
   }
 }

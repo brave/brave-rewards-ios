@@ -5,17 +5,18 @@
 import UIKit
 
 public class PublisherView: UIStackView {
-  private struct UX {
-    static let faviconBackgroundColor = Colors.neutral800
-    static let faviconSize = CGSize(width: 48.0, height: 48.0)
-    static let publisherNameColor = Colors.grey000
-    static let verifiedStatusColor = Colors.grey200
-  }
   
-  // For containing the favicon and publisherStackView (Always visible)
-  let containerStackView = UIStackView().then {
-    $0.spacing = 10.0
-    $0.alignment = .center
+  @objc(setVerifiedStatus:)
+  public func setVerified(_ status: Bool) {
+    if status {
+      verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-verify")
+      verifiedLabel.text = BATLocalizedString("BraveRewardsVerified", "Brave Verified Publisher")
+      unverifiedDisclaimerView.isHidden = true
+    } else {
+      verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-unverified")
+      verifiedLabel.text = BATLocalizedString("BraveRewardsNotYetVerified", "Not yet verified")
+      unverifiedDisclaimerView.isHidden = false
+    }
   }
   
   @objc public let faviconImageView = UIImageView().then {
@@ -25,11 +26,6 @@ public class PublisherView: UIStackView {
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
-  // For containing the publisherNameLabel and verifiedLabelStackView (Always visible)
-  let publisherStackView = UIStackView().then {
-    $0.axis = .vertical
-    $0.spacing = 4.0
-  }
   // "reddit.com" / "Bart Baker on YouTube"
   @objc public let publisherNameLabel = UILabel().then {
     $0.textColor = UX.publisherNameColor
@@ -37,22 +33,50 @@ public class PublisherView: UIStackView {
     $0.numberOfLines = 0
   }
   
+  /// The learn more button on the unverified publisher disclaimer was tapped
+  @objc public var learnMoreTapped: (() -> Void)? {
+    didSet {
+      unverifiedDisclaimerView.learnMoreTapped = learnMoreTapped
+    }
+  }
+  
+  // MARK: -
+  
+  private struct UX {
+    static let faviconBackgroundColor = Colors.neutral800
+    static let faviconSize = CGSize(width: 48.0, height: 48.0)
+    static let publisherNameColor = Colors.grey000
+    static let verifiedStatusColor = Colors.grey200
+  }
+  
+  // For containing the favicon and publisherStackView (Always visible)
+  private let containerStackView = UIStackView().then {
+    $0.spacing = 10.0
+    $0.alignment = .center
+  }
+  
+  // For containing the publisherNameLabel and verifiedLabelStackView (Always visible)
+  private let publisherStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 4.0
+  }
+  
   // For containing verificationSymbolImageView and verifiedLabel
-  let verifiedLabelStackView = UIStackView().then {
+  private let verifiedLabelStackView = UIStackView().then {
     $0.spacing = 4.0
   }
   // ✓ or ?
-  @objc public let verificationSymbolImageView = UIImageView().then {
+  private let verificationSymbolImageView = UIImageView().then {
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   // "Brave Verified Publisher" / "Not yet verified"
-  @objc public let verifiedLabel = UILabel().then {
+  private let verifiedLabel = UILabel().then {
     $0.textColor = UX.verifiedStatusColor
     $0.font = .systemFont(ofSize: 12.0)
     $0.adjustsFontSizeToFitWidth = true
   }
   // Only shown when unverified
-  @objc public let unverifiedDisclaimerView = DisclaimerView(text: BATLocalizedString("BraveRewardsUnverifiedPublisherDisclaimer", "This creator has not yet signed up to receive contributions from Brave users. Any tips you send will remain in your wallet until they verify."))
+  private let unverifiedDisclaimerView = DisclaimerView(text: BATLocalizedString("BraveRewardsUnverifiedPublisherDisclaimer", "This creator has not yet signed up to receive contributions from Brave users. Any tips you send will remain in your wallet until they verify."))
   
   @available(*, unavailable)
   required init(coder: NSCoder) {

@@ -6,6 +6,27 @@ import UIKit
 
 public class CreateWalletView: UIView {
   
+  @objc public var isCreatingWallet: Bool = false {
+    didSet {
+      if isCreatingWallet {
+        createWalletButton.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
+      } else {
+        createWalletButton.setTitle(BATLocalizedString("BraveRewardsCreatingWallet", "Creating Wallet").uppercased(), for: .normal)
+      }
+    }
+  }
+  
+  @objc public let createWalletButton = ActionButton(type: .system).then {
+    $0.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
+    $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
+  }
+  
+  @objc public let learnMoreButton = UIButton(type: .system).then {
+    $0.setTitle(BATLocalizedString("RewardsOptInLearnMore", "Learn More").uppercased(), for: .normal)
+    $0.tintColor = UX.learnMoreTextColor
+    $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)
+  }
+  
   private struct UX {
     static let prefixTextColor = UIColor(white: 1.0, alpha: 0.75)
     static let titleTextColor = UIColor.white
@@ -15,11 +36,11 @@ public class CreateWalletView: UIView {
     static let learnMoreButtonHeight = 30.0
   }
   
-  let backgroundView = GradientView.purpleRewardsGradientView()
+  private let backgroundView = GradientView.purpleRewardsGradientView()
   
-  let watermarkImageView = UIImageView(image: UIImage(frameworkResourceNamed: "bat-watermark"))
+  private let watermarkImageView = UIImageView(image: UIImage(frameworkResourceNamed: "bat-watermark"))
   
-  let prefixLabel = UILabel().then {
+  private let prefixLabel = UILabel().then {
     $0.textColor = UX.prefixTextColor
     $0.font = .systemFont(ofSize: 16.0)
     $0.textAlignment = .center
@@ -27,9 +48,9 @@ public class CreateWalletView: UIView {
     $0.numberOfLines = 0
   }
   
-  let batLogoImageView = UIImageView(image: UIImage(frameworkResourceNamed: "bat-logo"))
+  private let batLogoImageView = UIImageView(image: UIImage(frameworkResourceNamed: "bat-logo"))
   
-  let titleLabel = UILabel().then {
+  private let titleLabel = UILabel().then {
     $0.textColor = UX.titleTextColor
     $0.font = .systemFont(ofSize: 28.0, weight: .medium)
     $0.textAlignment = .center
@@ -48,23 +69,12 @@ public class CreateWalletView: UIView {
     }()
   }
   
-  let descriptionLabel = UILabel().then {
+  private let descriptionLabel = UILabel().then {
     $0.textColor = UX.bodyTextColor
     $0.font = .systemFont(ofSize: 16.0)
     $0.textAlignment = .center
     $0.text = BATLocalizedString("RewardsOptInDescription", "Get paid for viewing ads and pay it forward to support your favorite content creators.")
     $0.numberOfLines = 0
-  }
-  
-  @objc public let createWalletButton = ActionButton(type: .system).then {
-    $0.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
-    $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
-  }
-  
-  @objc public let learnMoreButton = UIButton(type: .system).then {
-    $0.setTitle(BATLocalizedString("RewardsOptInLearnMore", "Learn More").uppercased(), for: .normal)
-    $0.tintColor = UX.learnMoreTextColor
-    $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)
   }
   
   public override init(frame: CGRect) {

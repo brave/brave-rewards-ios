@@ -6,9 +6,6 @@
 
 #import "BraveRewardsTippingViewController.h"
 
-// Temp:
-#import "UIImage+Convenience.h"
-
 @interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate, BasicAnimationControllerDelegate>
 @property (nonatomic) UIView *backgroundView;
 @property (nonatomic) UIScrollView *scrollView;

@@ -17,7 +17,7 @@ public class DisclaimerView: UIView {
     }
   }
   
-  var tappedLearnMore: (() -> Void)?
+  var learnMoreTapped: (() -> Void)?
   
   private lazy var textView = UITextView().then {
     $0.delaysContentTouches = false
@@ -81,7 +81,7 @@ public class DisclaimerView: UIView {
 
 extension DisclaimerView: UITextViewDelegate {
   public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-    self.tappedLearnMore?()
+    self.learnMoreTapped?()
     return false
   }
 }
