@@ -19,7 +19,7 @@ public class TippingView: UIView {
   
   private struct UX {
     static let overlayBackgroundColor = UIColor(white: 0.0, alpha: 0.7)
-    static let dismissButtonSize = CGSize(width: 36.0, height: 36.0)
+    static let dismissButtonSize = CGSize(width: 35.0, height: 35.0)
   }
   
   private let backgroundView = UIView().then {
