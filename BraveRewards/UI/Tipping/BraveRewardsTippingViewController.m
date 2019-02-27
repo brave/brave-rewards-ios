@@ -5,17 +5,21 @@
 @import BraveRewardsUI;
 
 #import "BraveRewardsTippingViewController.h"
+#import "BATBraveLedger.h"
 
 @interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate>
-@property (nonatomic, strong) TippingView *view;
+@property (nonatomic) BATBraveLedger *ledger;
+@property (nonatomic) TippingView *view;
 @end
 
 @implementation BraveRewardsTippingViewController
 @dynamic view;
 
-- (instancetype)init
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger publisherId:(NSString *)publisherId
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
+    self.ledger = ledger;
+    
     self.modalPresentationStyle = UIModalPresentationOverFullScreen;
     self.transitioningDelegate = self;
   }

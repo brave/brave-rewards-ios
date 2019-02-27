@@ -55,7 +55,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func tappedTipping() {
-    let tip = BraveRewardsTippingViewController()
+    let tip = BraveRewardsTippingViewController(ledger: BraveLedger(), publisherId: "")
     present(tip, animated: true)
   }
 }

@@ -4,9 +4,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class BATBraveLedger;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BraveRewardsTippingViewController : UIViewController
+
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger publisherId:(NSString *)publisherId;
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;
+- (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil NS_UNAVAILABLE;
 
 @end
 

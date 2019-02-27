@@ -163,7 +163,9 @@
 
 - (void)tappedSendTip
 {
-  [self.delegate presentBraveRewardsController:[[BraveRewardsTippingViewController alloc] init]];
+  const auto controller = [[BraveRewardsTippingViewController alloc] initWithLedger:self.ledger
+                                                                        publisherId:@""]; // TODO: Pass publisher id
+  [self.delegate presentBraveRewardsController:controller];
 }
 
 #pragma mark - Create Wallet
