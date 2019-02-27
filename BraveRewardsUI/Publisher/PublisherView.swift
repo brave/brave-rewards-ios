@@ -6,6 +6,11 @@ import UIKit
 
 public class PublisherView: UIStackView {
   
+  @objc(setVerificationStatusHidden:)
+  public func setVerificationStatusHidden(_ hidden: Bool) {
+    verifiedLabelStackView.isHidden = hidden
+  }
+  
   @objc(setVerifiedStatus:)
   public func setVerified(_ status: Bool) {
     if status {
@@ -22,7 +27,10 @@ public class PublisherView: UIStackView {
   @objc public let faviconImageView = UIImageView().then {
     $0.backgroundColor = UX.faviconBackgroundColor
     $0.contentMode = .scaleAspectFill
+    $0.clipsToBounds = true
     $0.layer.cornerRadius = UX.faviconSize.width / 2.0
+    $0.layer.borderColor = UX.faviconBorderColor.cgColor
+    $0.layer.borderWidth = 1.0 / UIScreen.main.scale
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
@@ -45,6 +53,7 @@ public class PublisherView: UIStackView {
   private struct UX {
     static let faviconBackgroundColor = Colors.neutral800
     static let faviconSize = CGSize(width: 48.0, height: 48.0)
+    static let faviconBorderColor = Colors.neutral800
     static let publisherNameColor = Colors.grey000
     static let verifiedStatusColor = Colors.grey200
   }

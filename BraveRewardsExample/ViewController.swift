@@ -17,6 +17,8 @@ extension BraveRewardsPanelController: PopoverContentComponent {
 
 class ViewController: UIViewController {
   
+  var popover: PopoverController?
+  
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
   @IBOutlet var tippingPanelButton: UIButton!
@@ -35,11 +37,17 @@ class ViewController: UIViewController {
     }
     
     let ledger = BraveLedger()
-    let url = URL(string: "https://facebook.com")!
-    let braveRewardsPanel = BraveRewardsPanelController(ledger: ledger, url: url, faviconURL: nil)
-    let popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .autoLayout)
-    popover.addsConvenientDismissalMargins = false
-    popover.present(from: braveRewardsPanelButton, on: self)
+    let url = URL(string: "https://github.com")!
+    let braveRewardsPanel = BraveRewardsPanelController(
+      ledger: ledger,
+      url: url,
+      faviconURL: URL(string: "https://github.com/apple-touch-icon.png")!,
+      delegate: self,
+      dataSource: self
+    )
+    popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .autoLayout)
+    popover?.addsConvenientDismissalMargins = false
+    popover?.present(from: braveRewardsPanelButton, on: self)
   }
   
   @IBAction func tappedSettings() {
@@ -52,3 +60,30 @@ class ViewController: UIViewController {
   }
 }
 
+extension ViewController: BraveRewardsDelegate {
+  func presentBraveRewardsController(_ viewController: UIViewController) {
+    popover?.dismiss(animated: true) {
+      self.present(viewController, animated: true)
+    }
+  }
+}
+
+extension ViewController: BraveRewardsDataSource {
+  func displayString(for url: URL) -> String? {
+    return url.host
+  }
+  
+  func retrieveFavicon(with url: URL, completion completionBlock: @escaping (UIImage?) -> Void) {
+    DispatchQueue.global().async {
+      if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+        DispatchQueue.main.async {
+          completionBlock(image)
+        }
+        return
+      }
+      DispatchQueue.main.async {
+        completionBlock(nil)
+      }
+    }
+  }
+}

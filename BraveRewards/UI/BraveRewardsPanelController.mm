@@ -10,11 +10,11 @@
 
 #import "bat/ledger/wallet_info.h"
 
+#import "BraveRewardsTippingViewController.h"
+
 @interface BraveRewardsPanelController ()
 @property (nonatomic) BATBraveLedger *ledger;
-@property (nonatomic) NSURL *url;
-@property (nonatomic) BOOL isLocal;
-@property (nonatomic) NSURL *faviconURL;
+@property (readonly) BOOL isLocal;
 
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
 @property (nonatomic) WalletViewController *walletController;
@@ -26,7 +26,7 @@
 @property (nonatomic) RewardsDisabledView *rewardsDisabledView;
 
 // Publisher
-@property (nonatomic) PublisherSummaryView *summaryView;
+@property (nonatomic) PublisherSummaryView *publisherSummaryView;
 
 @end
 
@@ -37,13 +37,14 @@
   return [UIImage imageNamed:@"bat" inBundle:[NSBundle bundleForClass:[CreateWalletView class]] compatibleWithTraitCollection:nil];
 }
 
-- (instancetype)initWithLedger:(BATBraveLedger *)ledger url:(NSURL *)url faviconURL:(NSURL *)faviconURL
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger url:(NSURL *)url faviconURL:(NSURL *)faviconURL delegate:(id<BraveRewardsDelegate>)delegate dataSource:(id<BraveRewardsDataSource>)dataSource
 {
   if ((self = [super initWithNibName:nil bundle:nil])) {
     self.ledger = ledger;
     self.url = url;
-    self.isLocal = [url.host isEqualToString:@"127.0.0.1"] || [url.host isEqualToString:@"localhost"];
     self.faviconURL = faviconURL;
+    self.dataSource = dataSource;
+    self.delegate = delegate;
     
     self.walletController = [[WalletViewController alloc] init];
   }
@@ -54,6 +55,15 @@
 {
   [super viewDidLoad];
   [self reloadState];
+  
+  const auto minimumHeightConstraint = [self.view.heightAnchor constraintGreaterThanOrEqualToConstant:574.0];
+  minimumHeightConstraint.priority = UILayoutPriorityDefaultHigh;
+  minimumHeightConstraint.active = YES;
+}
+
+- (BOOL)isLocal
+{
+  return [self.url.host isEqualToString:@"127.0.0.1"] || [self.url.host isEqualToString:@"localhost"];
 }
 
 - (void)reloadState
@@ -79,11 +89,11 @@
     ]];
     
     if (self.ledger.isEnabled) {
-      self.summaryView = [[PublisherSummaryView alloc] init]; {
-        self.summaryView.translatesAutoresizingMaskIntoConstraints = NO;
+      self.publisherSummaryView = [[PublisherSummaryView alloc] init]; {
+        self.publisherSummaryView.translatesAutoresizingMaskIntoConstraints = NO;
       }
       [self setupPublisher];
-      self.walletController.contentView = self.summaryView;
+      self.walletController.contentView = self.publisherSummaryView;
     } else {
       self.rewardsDisabledView = [[RewardsDisabledView alloc] init]; {
         self.rewardsDisabledView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -127,18 +137,33 @@
 
 - (void)setupPublisher
 {
-  const auto publisherView = self.summaryView.publisherView;
-  const auto attentionView = self.summaryView.attentionView;
+  [self.publisherSummaryView.tipButton addTarget:self action:@selector(tappedSendTip) forControlEvents:UIControlEventTouchUpInside];
+  
+  const auto publisherView = self.publisherSummaryView.publisherView;
+  const auto attentionView = self.publisherSummaryView.attentionView;
+  
+  [publisherView setVerificationStatusHidden:self.isLocal];
+  
+  // FIXME: Remove fake data
   if (self.isLocal) {
     publisherView.publisherNameLabel.text = @"Brave Browser";
     publisherView.faviconImageView.contentMode = UIViewContentModeCenter;
-//     publisherView.faviconImageView.image =
     attentionView.valueLabel.text = @"–";
   } else {
     publisherView.publisherNameLabel.text = self.url.host;
-    [publisherView setVerifiedStatus:true];
+    [publisherView setVerifiedStatus:YES];
     attentionView.valueLabel.text = @"19%";
   }
+  
+  const auto __weak weakSelf = self;
+  [self.dataSource retrieveFaviconWithURL:self.faviconURL completion:^(UIImage * _Nullable image) {
+    weakSelf.publisherSummaryView.publisherView.faviconImageView.image = image;
+  }];
+}
+
+- (void)tappedSendTip
+{
+  [self.delegate presentBraveRewardsController:[[BraveRewardsTippingViewController alloc] init]];
 }
 
 #pragma mark - Create Wallet

@@ -29,6 +29,13 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  [self.view.dismissButton addTarget:self action:@selector(tappedDismissButton) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)tappedDismissButton
+{
+  [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -

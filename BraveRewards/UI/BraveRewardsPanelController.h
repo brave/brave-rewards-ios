@@ -4,6 +4,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BraveRewardsDataSource.h"
+#import "BraveRewardsDataDelegate.h"
 
 @class BATBraveLedger;
 
@@ -14,9 +15,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// The logo to display in the toolbar to display this panel
 @property (class, readonly) UIImage *batLogoImage;
 
+@property (nonatomic, weak) id<BraveRewardsDelegate> delegate;
+@property (nonatomic, weak) id<BraveRewardsDataSource> dataSource;
+
+@property (nonatomic, copy) NSURL *url;
+@property (nonatomic, copy) NSURL *faviconURL;
+
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger
                            url:(NSURL *)url
-                    faviconURL:(nullable NSURL *)faviconURL NS_DESIGNATED_INITIALIZER;
+                    faviconURL:(nullable NSURL *)faviconURL
+                      delegate:(id<BraveRewardsDelegate>)delegate
+                    dataSource:(id<BraveRewardsDataSource>)dataSource NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_UNAVAILABLE;

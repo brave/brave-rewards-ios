@@ -7,10 +7,19 @@ import UIKit
 /// `BraveRewardsTippingViewController`'s loaded view
 public class TippingView: UIView {
   
+  @objc public let dismissButton = UIButton(type: .system).then {
+    $0.setImage(UIImage(frameworkResourceNamed: "close-icon"), for: .normal)
+    $0.tintColor = .white
+    $0.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
+    $0.layer.cornerRadius = UX.dismissButtonSize.width / 2.0
+    $0.clipsToBounds = true
+  }
+  
   // MARK: -
   
   private struct UX {
-    static let overlayBackgroundColor = UIColor(white: 0.0, alpha: 0.6)
+    static let overlayBackgroundColor = UIColor(white: 0.0, alpha: 0.7)
+    static let dismissButtonSize = CGSize(width: 36.0, height: 36.0)
   }
   
   private let backgroundView = UIView().then {
@@ -38,9 +47,15 @@ public class TippingView: UIView {
     addSubview(scrollView)
     scrollView.addSubview(overviewView)
     addSubview(optionSelectionView)
+    addSubview(dismissButton)
     
     backgroundView.snp.makeConstraints {
       $0.edges.equalTo(self)
+    }
+    dismissButton.snp.makeConstraints {
+      $0.top.equalTo(self.safeAreaLayoutGuide).offset(5.0)
+      $0.trailing.equalTo(self.safeAreaLayoutGuide).offset(-15.0)
+      $0.size.equalTo(UX.dismissButtonSize)
     }
     optionSelectionView.snp.makeConstraints {
       $0.bottom.leading.trailing.equalTo(self)
@@ -79,10 +94,42 @@ public class TippingView: UIView {
 extension TippingView: BasicAnimationControllerDelegate {
   public func animatePresentation(context: UIViewControllerContextTransitioning) {
     context.containerView.addSubview(self)
+    
+    // Prepare
+    layoutIfNeeded()
+    backgroundView.alpha = 0.0
+    dismissButton.alpha = 0.0
+    dismissButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+    scrollView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
+    optionSelectionView.transform = CGAffineTransform(translationX: 0, y: optionSelectionView.bounds.height)
+    
+    // Animate
+    UIView.animate(withDuration: 0.15) {
+      self.backgroundView.alpha = 1.0
+    }
+    UIView.animate(withDuration: 0.4, delay: 0.25, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: {
+      self.dismissButton.transform = .identity
+      self.dismissButton.alpha = 1.0
+    }, completion: nil)
+    UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
+      self.scrollView.transform = .identity
+      self.optionSelectionView.transform = .identity
+    }, completion: nil)
     context.completeTransition(true)
   }
   public func animateDismissal(context: UIViewControllerContextTransitioning) {
-    removeFromSuperview()
-    context.completeTransition(true)
+    // Animate
+    UIView.animate(withDuration: 0.15) {
+      self.backgroundView.alpha = 0.0
+    }
+    UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+      self.dismissButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+      self.dismissButton.alpha = 0.0
+      self.scrollView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
+      self.optionSelectionView.transform = CGAffineTransform(translationX: 0, y: self.optionSelectionView.bounds.height)
+    }) { _ in
+      self.removeFromSuperview()
+      context.completeTransition(true)
+    }
   }
 }
