@@ -4,21 +4,29 @@
 
 import UIKit
 
-public class SendTipButton: UIControl {
+/// Displayed when the user does not have enough tokens to complete a tip
+public class InsufficientFundsButton: UIControl {
+  
+  private struct UX {
+    static let backgroundColor = Colors.blurple000
+    static let imageTintColor = Colors.grey300
+  }
   
   private let stackView = UIStackView().then {
     $0.spacing = 15.0
     $0.isUserInteractionEnabled = false
   }
   
-  private let imageView = UIImageView(image: UIImage(frameworkResourceNamed: "airplane-icn").alwaysTemplate).then {
-    $0.tintColor = Colors.blurple600
+  private let imageView = UIImageView(image: UIImage(frameworkResourceNamed: "icn-frowning-face").alwaysTemplate).then {
+    $0.tintColor = UX.imageTintColor
   }
   
   private let textLabel = UILabel().then {
     $0.textColor = .white
-    $0.font = .systemFont(ofSize: 13.0, weight: .semibold)
-    $0.text = BATLocalizedString("BraveRewardsTippingSendTip", "Send my tip".uppercased())
+    $0.font = .systemFont(ofSize: 13.0)
+    $0.numberOfLines = 0
+    $0.text = BATLocalizedString("BraveRewardsTippingNotEnoughTokens", "Not enough tokens. Please add funds.")
+    $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   
   @available(*, unavailable)
@@ -29,7 +37,7 @@ public class SendTipButton: UIControl {
   public override init(frame: CGRect) {
     super.init(frame: frame)
     
-    backgroundColor = Colors.blurple400
+    backgroundColor = UX.backgroundColor
     
     addSubview(stackView)
     stackView.addArrangedSubview(imageView)
@@ -39,7 +47,8 @@ public class SendTipButton: UIControl {
     addLayoutGuide(contentGuide)
     
     contentGuide.snp.makeConstraints {
-      $0.top.leading.trailing.equalTo(self)
+      $0.top.equalTo(self)
+      $0.leading.trailing.equalTo(self).inset(15.0)
       $0.bottom.equalTo(self.safeAreaLayoutGuide)
       $0.height.equalTo(56.0)
     }
@@ -48,17 +57,8 @@ public class SendTipButton: UIControl {
       $0.leading.greaterThanOrEqualTo(contentGuide)
       $0.trailing.lessThanOrEqualTo(contentGuide)
     }
-  }
-  
-  // MARK: -
-  
-  public override var isHighlighted: Bool {
-    didSet {
-      // Replicating usual UIButton highlight animation
-      UIView.animate(withDuration: isHighlighted ? 0.05 : 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
-        self.textLabel.alpha = self.isHighlighted ? 0.3 : 1.0
-        self.imageView.alpha = self.isHighlighted ? 0.3 : 1.0
-      }, completion: nil)
+    imageView.snp.makeConstraints {
+      $0.size.equalTo(self.imageView.image!.size)
     }
   }
 }

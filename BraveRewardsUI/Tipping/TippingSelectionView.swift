@@ -5,10 +5,10 @@
 import UIKit
 
 public class TippingOption: NSObject {
-  var value: String
-  var crypto: String
-  var cryptoImage: UIImage
-  var dollarValue: String
+  @objc public var value: String
+  @objc public var crypto: String
+  @objc public var cryptoImage: UIImage
+  @objc public var dollarValue: String
   
   fileprivate var view: TippingOptionView?
   
@@ -32,78 +32,16 @@ public class TippingOption: NSObject {
 }
 
 public class TippingSelectionView: UIView {
-  let titleLabel = UILabel().then {
-    $0.textColor = .white
-    $0.font = .systemFont(ofSize: 18.0, weight: .bold)
-    $0.text = BATLocalizedString("BraveRewardsTippingAmountTitle", "Tip amount")
-  }
-  private let walletBalanceView = WalletBalanceView()
-  private let optionsStackView = UIStackView().then {
-    $0.spacing = 10.0
-    $0.distribution = .fillEqually
-  }
-  private let monthlyToggleButton = Button(type: .system).then {
-    $0.setTitle(BATLocalizedString("BraveRewardsTippingMakeMonthly", "Make this monthly"), for: .normal)
-    $0.setImage(UIImage(frameworkResourceNamed: "checkbox"), for: .normal)
-    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-    $0.tintColor = .white
-  }
-  let sendTipButton = SendTipButton()
   
-  @available(*, unavailable)
-  required init(coder: NSCoder) {
-    fatalError()
+  @objc public func setEnoughFundsAvailable(_ enoughFunds: Bool) {
+    sendTipButton.isHidden = !enoughFunds
+    insufficientFundsButton.isHidden = enoughFunds
   }
   
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
-    
-    backgroundColor = Colors.blurple500
-    
-    monthlyToggleButton.addTarget(self, action: #selector(tappedMonthlyToggle), for: .touchUpInside)
-    
-    addSubview(titleLabel)
-    addSubview(walletBalanceView)
-    addSubview(optionsStackView)
-    addSubview(monthlyToggleButton)
-    addSubview(sendTipButton)
-    
-    titleLabel.snp.makeConstraints {
-      $0.top.equalTo(self).offset(20.0)
-      $0.leading.equalTo(self).offset(25.0)
-      $0.trailing.lessThanOrEqualTo(self.walletBalanceView.snp.leading).offset(-15.0)
-    }
-    walletBalanceView.snp.makeConstraints {
-      $0.firstBaseline.equalTo(self.titleLabel)
-      $0.trailing.equalTo(self).offset(-25.0)
-    }
-    optionsStackView.snp.makeConstraints {
-      $0.top.equalTo(self.titleLabel.snp.bottom).offset(20.0)
-      $0.leading.trailing.equalTo(self).inset(15.0)
-    }
-    monthlyToggleButton.snp.makeConstraints {
-      $0.top.equalTo(self.optionsStackView.snp.bottom).offset(20.0)
-      $0.leading.greaterThanOrEqualTo(self).offset(25.0)
-      $0.trailing.lessThanOrEqualTo(self).offset(25.0)
-      $0.centerX.equalTo(self)
-    }
-    sendTipButton.snp.makeConstraints {
-      $0.top.equalTo(self.monthlyToggleButton.snp.bottom).offset(15.0)
-      $0.leading.trailing.bottom.equalTo(self)
-    }
-  }
+  @objc public let sendTipButton = SendTipButton()
   
-  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
-    
-    let isWideLayout = traitCollection.horizontalSizeClass == .regular
-    optionsStackView.axis = isWideLayout ? .vertical : .horizontal
-    optionsStackView.distribution = isWideLayout ? .fill : .fillEqually
-  }
-  
-  @objc private func tappedMonthlyToggle() {
-    isMonthly.toggle()
+  @objc public let insufficientFundsButton = InsufficientFundsButton().then {
+    $0.isHidden = true
   }
   
   // MARK: - Wallet Balance
@@ -132,6 +70,8 @@ public class TippingSelectionView: UIView {
     }
   }
   
+  @objc public var optionChanged: ((TippingOption) -> Void)?
+  
   @objc public var options: [TippingOption] = [] {
     willSet {
       options.forEach { $0.view?.removeFromSuperview() }
@@ -151,10 +91,97 @@ public class TippingSelectionView: UIView {
     }
   }
   
+  // MARK: - Private UI
+  
+  private let titleLabel = UILabel().then {
+    $0.textColor = .white
+    $0.font = .systemFont(ofSize: 18.0, weight: .bold)
+    $0.text = BATLocalizedString("BraveRewardsTippingAmountTitle", "Tip amount")
+  }
+  
+  private let walletBalanceView = WalletBalanceView()
+  
+  private let optionsStackView = UIStackView().then {
+    $0.spacing = 10.0
+    $0.distribution = .fillEqually
+  }
+  
+  private let monthlyToggleButton = Button(type: .system).then {
+    $0.setTitle(BATLocalizedString("BraveRewardsTippingMakeMonthly", "Make this monthly"), for: .normal)
+    $0.setImage(UIImage(frameworkResourceNamed: "checkbox"), for: .normal)
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+    $0.tintColor = .white
+  }
+  
+  // MARK: -
+  
+  @available(*, unavailable)
+  required init(coder: NSCoder) {
+    fatalError()
+  }
+  
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    
+    backgroundColor = Colors.blurple500
+    
+    monthlyToggleButton.addTarget(self, action: #selector(tappedMonthlyToggle), for: .touchUpInside)
+    
+    addSubview(titleLabel)
+    addSubview(walletBalanceView)
+    addSubview(optionsStackView)
+    addSubview(monthlyToggleButton)
+    addSubview(sendTipButton)
+    addSubview(insufficientFundsButton)
+    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalTo(self).offset(20.0)
+      $0.leading.equalTo(self).offset(25.0)
+      $0.trailing.lessThanOrEqualTo(self.walletBalanceView.snp.leading).offset(-15.0)
+    }
+    walletBalanceView.snp.makeConstraints {
+      $0.firstBaseline.equalTo(self.titleLabel)
+      $0.trailing.equalTo(self).offset(-25.0)
+    }
+    optionsStackView.snp.makeConstraints {
+      $0.top.equalTo(self.titleLabel.snp.bottom).offset(20.0)
+      $0.leading.trailing.equalTo(self).inset(15.0)
+    }
+    monthlyToggleButton.snp.makeConstraints {
+      $0.top.equalTo(self.optionsStackView.snp.bottom).offset(20.0)
+      $0.leading.greaterThanOrEqualTo(self).offset(25.0)
+      $0.trailing.lessThanOrEqualTo(self).offset(25.0)
+      $0.centerX.equalTo(self)
+    }
+    sendTipButton.snp.makeConstraints {
+      $0.top.equalTo(self.monthlyToggleButton.snp.bottom).offset(15.0)
+      $0.leading.trailing.bottom.equalTo(self)
+    }
+    insufficientFundsButton.snp.makeConstraints {
+      $0.edges.equalTo(self.sendTipButton)
+    }
+  }
+  
+  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    
+    let isWideLayout = traitCollection.horizontalSizeClass == .regular
+    optionsStackView.axis = isWideLayout ? .vertical : .horizontal
+    optionsStackView.distribution = isWideLayout ? .fill : .fillEqually
+  }
+  
+  // MARK: - Actions
+  
+  @objc private func tappedMonthlyToggle() {
+    isMonthly.toggle()
+  }
+  
   @objc private func tappedOption(_ optionView: TippingOptionView) {
     for option in options {
       option.view?.isSelected = option.view === optionView
     }
+    optionChanged?(options[selectedOptionIndex])
   }
 }
 

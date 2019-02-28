@@ -31,9 +31,9 @@ public class TippingView: UIView {
     $0.showsVerticalScrollIndicator = false
   }
   
-  private let overviewView = TippingOverviewView()
+  @objc public let overviewView = TippingOverviewView()
   
-  private let optionSelectionView = TippingSelectionView().then {
+  @objc public let optionSelectionView = TippingSelectionView().then {
     // iPhone only... probably
     $0.layer.shadowRadius = 8.0
     $0.layer.shadowOffset = CGSize(width: 0, height: -2)
