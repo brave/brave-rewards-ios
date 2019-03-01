@@ -21,7 +21,6 @@ class ViewController: UIViewController {
   
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
-  @IBOutlet var tippingPanelButton: UIButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -52,11 +51,6 @@ class ViewController: UIViewController {
   
   @IBAction func tappedSettings() {
     
-  }
-  
-  @IBAction func tappedTipping() {
-    let tip = BraveRewardsTippingViewController(ledger: BraveLedger(), publisherId: "")
-    present(tip, animated: true)
   }
 }
 

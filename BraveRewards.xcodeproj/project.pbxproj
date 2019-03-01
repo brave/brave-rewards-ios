@@ -60,7 +60,7 @@
 		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
 		2774BBBD2227242F00160619 /* BraveRewardsDataDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2774BBBC222719B900160619 /* BraveRewardsDataDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
-		278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */; };
 		278107F7221DD911000D6281 /* BraveRewardsTippingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 278107F5221DD911000D6281 /* BraveRewardsTippingViewController.mm */; };
 		27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AFF5432229798F009320F5 /* TippingConfirmationView.swift */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
