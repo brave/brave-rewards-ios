@@ -9,10 +9,6 @@ extension BraveRewardsPanelController: PopoverContentComponent {
   var customArrowColor: UIColor? {
     return UIColor(red: 61.0/255.0, green: 45.0/255.0, blue: 206.0/255.0, alpha: 1.0)
   }
-  
-  var pinToScreenHorizontalEdges: Bool {
-    return true
-  }
 }
 
 class ViewController: UIViewController {

@@ -375,13 +375,8 @@ extension PopoverController: BasicAnimationControllerDelegate {
             }
             $0.top.greaterThanOrEqualTo(self.view.safeArea.top).offset(outerMargins.top)
             $0.bottom.lessThanOrEqualTo(self.view.safeArea.bottom).offset(-outerMargins.bottom)
-            if (contentController.pinToScreenHorizontalEdges) {
-                $0.left.equalTo(self.view.safeArea.left).offset(outerMargins.left)
-                $0.right.equalTo(self.view.safeArea.right).offset(-outerMargins.right)
-            } else {
-                $0.left.greaterThanOrEqualTo(self.view.safeArea.left).offset(outerMargins.left)
-                $0.right.lessThanOrEqualTo(self.view.safeArea.right).offset(-outerMargins.right)
-            }
+            $0.left.greaterThanOrEqualTo(self.view.safeArea.left).offset(outerMargins.left)
+            $0.right.lessThanOrEqualTo(self.view.safeArea.right).offset(-outerMargins.right)
             $0.centerX.equalTo(originLayoutGuide).priority(.high)
         }
         

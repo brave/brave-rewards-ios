@@ -12,9 +12,14 @@
 
 #import "BraveRewardsTippingViewController.h"
 
+static CGFloat kMinimumPanelWidth = 355.0;
+static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
+
 @interface BraveRewardsPanelController ()
 @property (nonatomic) BATBraveLedger *ledger;
 @property (readonly) BOOL isLocal;
+
+@property (nonatomic) NSLayoutConstraint *minimumHeightConstraint;
 
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
 @property (nonatomic) WalletViewController *walletController;
@@ -54,11 +59,17 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  [self reloadState];
   
-  const auto minimumHeightConstraint = [self.view.heightAnchor constraintGreaterThanOrEqualToConstant:574.0];
-  minimumHeightConstraint.priority = UILayoutPriorityDefaultHigh;
-  minimumHeightConstraint.active = YES;
+  const auto minimumWidthConstraint = [self.view.widthAnchor constraintGreaterThanOrEqualToConstant:kMinimumPanelWidth];
+  // Has to be higher than default high to take priority over basic AutoLayout but still allowed
+  // to be smaller on screens that are smaller than the minimum width
+  minimumWidthConstraint.priority = 850;
+  minimumWidthConstraint.active = YES;
+  
+  self.minimumHeightConstraint = [self.view.heightAnchor constraintGreaterThanOrEqualToConstant:kMinimumPanelHeight];
+  self.minimumHeightConstraint.priority = UILayoutPriorityDefaultHigh;
+  
+  [self reloadState];
 }
 
 - (BOOL)isLocal
@@ -89,12 +100,16 @@
     ]];
     
     if (self.ledger.isEnabled) {
+      self.minimumHeightConstraint.active = YES;
+      
       self.publisherSummaryView = [[PublisherSummaryView alloc] init]; {
         self.publisherSummaryView.translatesAutoresizingMaskIntoConstraints = NO;
       }
       [self setupPublisher];
       self.walletController.contentView = self.publisherSummaryView;
     } else {
+      self.minimumHeightConstraint.active = NO;
+      
       self.rewardsDisabledView = [[RewardsDisabledView alloc] init]; {
         self.rewardsDisabledView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.rewardsDisabledView.enableRewardsButton addTarget:self action:@selector(tappedEnableBraveRewards) forControlEvents:UIControlEventTouchUpInside];
@@ -103,6 +118,8 @@
       self.walletController.contentView = self.rewardsDisabledView;
     }
   } else {
+    self.minimumHeightConstraint.active = NO;
+    
     self.createWalletView = [[CreateWalletView alloc] init];
     self.createWalletView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.createWalletView.createWalletButton addTarget:self action:@selector(createWalletTapped) forControlEvents:UIControlEventTouchUpInside];
