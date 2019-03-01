@@ -15,6 +15,48 @@ public class TippingView: UIView {
     $0.clipsToBounds = true
   }
   
+  @objc public func setTippingConfirmationVisible(_ visible: Bool, animated: Bool = true) {
+    if confirmationView.isHidden == !visible {
+      // nothing to do
+      return
+    }
+    
+    if visible {
+      addSubview(confirmationView)
+      confirmationView.isHidden = false
+      confirmationView.faviconImageView.image = overviewView.faviconImageView.image
+      confirmationView.snp.makeConstraints {
+        $0.edges.equalTo(self)
+      }
+      if animated {
+        confirmationView.stackView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
+        confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor.withAlphaComponent(0.0)
+        
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+          self.confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor
+        }, completion: nil)
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+          self.confirmationView.stackView.transform = .identity
+        }, completion: nil)
+      }
+    } else {
+      if animated {
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+          self.confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor.withAlphaComponent(0.0)
+        }, completion: nil)
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+          self.confirmationView.stackView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
+        }, completion: { _ in
+          self.confirmationView.isHidden = true
+          self.confirmationView.removeFromSuperview()
+        })
+      } else {
+        self.confirmationView.isHidden = true
+        self.confirmationView.removeFromSuperview()
+      }
+    }
+  }
+  
   // MARK: -
   
   private struct UX {
@@ -29,6 +71,10 @@ public class TippingView: UIView {
   private let scrollView = UIScrollView().then {
     $0.alwaysBounceVertical = true
     $0.showsVerticalScrollIndicator = false
+  }
+  
+  private let confirmationView = TippingConfirmationView().then {
+    $0.isHidden = true
   }
   
   @objc public let overviewView = TippingOverviewView()
@@ -131,5 +177,6 @@ extension TippingView: BasicAnimationControllerDelegate {
       self.removeFromSuperview()
       context.completeTransition(true)
     }
+    setTippingConfirmationVisible(false, animated: true)
   }
 }

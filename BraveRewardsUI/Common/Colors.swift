@@ -4,8 +4,8 @@
 
 import Foundation
 
-private extension UIColor {
-  convenience init(hex: UInt32) {
+extension UIColor {
+  fileprivate convenience init(hex: UInt32) {
     let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
     let g = CGFloat((hex & 0x00FF00) >> 8) / 255.0
     let b = CGFloat(hex & 0x0000FF) / 255.0
@@ -18,6 +18,7 @@ public class Colors {
   static let grey100 = UIColor(hex: 0x3B3E4F)
   static let grey200 = UIColor(hex: 0x5E6175)
   static let grey300 = UIColor(hex: 0x84889C)
+  static let grey600 = UIColor(hex: 0xCED0DB)
   static let neutral600 = UIColor(hex: 0xDEE2E6)
   static let neutral800 = UIColor(hex: 0xF1F3F5)
   static let blue500 = UIColor(hex: 0x5DB5FC)

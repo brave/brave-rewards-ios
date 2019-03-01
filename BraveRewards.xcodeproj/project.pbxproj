@@ -62,6 +62,7 @@
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
 		278107F6221DD911000D6281 /* BraveRewardsTippingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		278107F7221DD911000D6281 /* BraveRewardsTippingViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 278107F5221DD911000D6281 /* BraveRewardsTippingViewController.mm */; };
+		27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AFF5432229798F009320F5 /* TippingConfirmationView.swift */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
@@ -195,6 +196,7 @@
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BraveRewardsTippingViewController.h; path = Tipping/BraveRewardsTippingViewController.h; sourceTree = "<group>"; };
 		278107F5221DD911000D6281 /* BraveRewardsTippingViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BraveRewardsTippingViewController.mm; path = Tipping/BraveRewardsTippingViewController.mm; sourceTree = "<group>"; };
+		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
 		27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveLedger+Private.h"; sourceTree = "<group>"; };
 		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				272B7873222494F600B7B81E /* TippingOptionView.swift */,
 				272B7875222498EA00B7B81E /* TippingSelectionView.swift */,
 				2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */,
+				27AFF5432229798F009320F5 /* TippingConfirmationView.swift */,
 			);
 			path = Tipping;
 			sourceTree = "<group>";
@@ -816,6 +819,7 @@
 				273404722220B8AF008CABC9 /* ActionButton.swift in Sources */,
 				270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
+				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
 				272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */,
 				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
