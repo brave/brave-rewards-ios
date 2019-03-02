@@ -60,11 +60,11 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
 {
   [super viewDidLoad];
   
-  const auto minimumWidthConstraint = [self.view.widthAnchor constraintGreaterThanOrEqualToConstant:kMinimumPanelWidth];
+  const auto widthConstraint = [self.view.widthAnchor constraintEqualToConstant:kMinimumPanelWidth];
   // Has to be higher than default high to take priority over basic AutoLayout but still allowed
   // to be smaller on screens that are smaller than the minimum width
-  minimumWidthConstraint.priority = 850;
-  minimumWidthConstraint.active = YES;
+  widthConstraint.priority = 850;
+  widthConstraint.active = YES;
   
   self.minimumHeightConstraint = [self.view.heightAnchor constraintGreaterThanOrEqualToConstant:kMinimumPanelHeight];
   self.minimumHeightConstraint.priority = UILayoutPriorityDefaultHigh;
