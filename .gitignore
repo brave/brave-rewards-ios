@@ -1,5 +1,6 @@
 # Ledger libraries are too large to push...
 libbat-*.a
+libchallenge_bypass_ristretto.a
 
 # Xcode
 #

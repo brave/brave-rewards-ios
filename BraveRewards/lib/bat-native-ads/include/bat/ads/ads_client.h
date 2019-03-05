@@ -1,6 +1,7 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* Copyright (c) 2019 The Brave Authors. All rights reserved.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #ifndef BAT_ADS_ADS_CLIENT_H_
 #define BAT_ADS_ADS_CLIENT_H_
@@ -14,11 +15,13 @@
 #include <functional>
 
 #include "bat/ads/ad_info.h"
+#include "bat/ads/issuers_info.h"
 #include "bat/ads/bundle_state.h"
 #include "bat/ads/client_info.h"
 #include "bat/ads/export.h"
 #include "bat/ads/notification_info.h"
 #include "bat/ads/url_components.h"
+#include "bat/ads/result.h"
 
 namespace ads {
 
@@ -32,11 +35,6 @@ enum ADS_EXPORT URLRequestMethod {
   GET = 0,
   PUT = 1,
   POST = 2
-};
-
-enum ADS_EXPORT Result {
-  SUCCESS,
-  FAILED
 };
 
 class ADS_EXPORT LogStream {
@@ -108,6 +106,12 @@ class ADS_EXPORT AdsClient {
 
   // Should show a notification
   virtual void ShowNotification(std::unique_ptr<NotificationInfo> info) = 0;
+
+  // Should notify that the catalog issuers have changed
+  virtual void SetCatalogIssuers(std::unique_ptr<IssuersInfo> info) = 0;
+
+  // Should be called to inform Confirmations that an ad was sustained
+  virtual void AdSustained(std::unique_ptr<NotificationInfo> info) = 0;
 
   // Should create a timer to trigger after the time offset specified in
   // seconds. If the timer was created successfully a unique identifier should

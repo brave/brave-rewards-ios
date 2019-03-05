@@ -1,6 +1,7 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
-* License, v. 2.0. If a copy of the MPL was not distributed with this
-* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+/* Copyright (c) 2019 The Brave Authors. All rights reserved.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #ifndef BAT_LEDGER_PUBLISHER_INFO_HANDLER_
 #define BAT_LEDGER_PUBLISHER_INFO_HANDLER_
@@ -8,10 +9,13 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <utility>
 
 #include "bat/ledger/export.h"
 
 namespace ledger {
+
+const char _clear_favicon[] = "clear";
 
 LEDGER_EXPORT enum REWARDS_CATEGORY {
   AUTO_CONTRIBUTE = 1 << 1,  // 2
@@ -39,9 +43,9 @@ LEDGER_EXPORT enum ACTIVITY_MONTH {
 
 LEDGER_EXPORT enum PUBLISHER_EXCLUDE {
   ALL = -1,
-  DEFAULT = 0, // this tell us that user did not manually changed exclude state
-  EXCLUDED = 1, // user manually changed it to exclude
-  INCLUDED = 2 // user manually changed it to include and is overriding server flags
+  DEFAULT = 0,  // this tell us that user did not manually changed exclude state
+  EXCLUDED = 1,  // user manually changed it to exclude
+  INCLUDED = 2  // user manually changed it to include and is overriding server
 };
 
 LEDGER_EXPORT enum EXCLUDE_FILTER {
@@ -61,14 +65,13 @@ LEDGER_EXPORT struct ActivityInfoFilter {
   bool loadFromJson(const std::string& json);
 
   std::string id;
-  ACTIVITY_MONTH month;
-  int year;
   EXCLUDE_FILTER excluded;
   uint32_t percent;
   std::vector<std::pair<std::string, bool>> order_by;
   uint64_t min_duration;
   uint64_t reconcile_stamp;
   bool non_verified;
+  uint32_t min_visits;
 };
 
 LEDGER_EXPORT struct ContributionInfo {
@@ -107,7 +110,7 @@ LEDGER_EXPORT struct PublisherBanner {
 
 LEDGER_EXPORT struct PublisherInfo {
   PublisherInfo();
-  PublisherInfo(const std::string& publisher_id, ACTIVITY_MONTH month, int year);
+  PublisherInfo(const std::string& publisher_id);
   PublisherInfo(const PublisherInfo& info);
   ~PublisherInfo();
 
@@ -125,8 +128,6 @@ LEDGER_EXPORT struct PublisherInfo {
   double weight;
   PUBLISHER_EXCLUDE excluded;
   REWARDS_CATEGORY category;
-  ACTIVITY_MONTH month;
-  int year;
   uint64_t reconcile_stamp;
   bool verified;
   std::string name;
@@ -135,6 +136,17 @@ LEDGER_EXPORT struct PublisherInfo {
   std::string favicon_url;
 
   std::vector<ContributionInfo> contributions;
+};
+
+LEDGER_EXPORT struct PublisherInfoListStruct {
+  PublisherInfoListStruct();
+  ~PublisherInfoListStruct();
+  PublisherInfoListStruct(const PublisherInfoListStruct& data);
+
+  const std::string ToJson() const;
+  bool loadFromJson(const std::string& json);
+
+  std::vector<PublisherInfo> list;
 };
 
 using PublisherInfoList = std::vector<PublisherInfo>;

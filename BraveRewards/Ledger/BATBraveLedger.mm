@@ -203,14 +203,11 @@ BATLedgerReadonlyBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
 
 - (const ledger::VisitData)visitDataForURL:(NSURL *)url tabId:(UInt32)tabId
 {
-  const auto dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:[NSDate date]];
   const auto normalizedHost = std::string(url.bat_normalizedHost.UTF8String);
   ledger::VisitData visit(normalizedHost,
                           std::string(url.host.UTF8String),
                           std::string(url.path.UTF8String),
                           tabId,
-                          (ledger::ACTIVITY_MONTH)dateComponents.month,
-                          (UInt32)dateComponents.year,
                           normalizedHost,
                           std::string(url.absoluteString.UTF8String),
                           "",
@@ -251,12 +248,9 @@ BATLedgerReadonlyBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
     partsMap[std::string(item.name.UTF8String)] = std::string(item.value.UTF8String);
   }
   
-  const auto dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:[NSDate date]];
   ledger::VisitData visit("", "",
                           std::string(url.absoluteString.UTF8String),
                           tabId,
-                          (ledger::ACTIVITY_MONTH)dateComponents.month,
-                          (UInt32)dateComponents.year,
                           "", "", "", "");
   
   ledgerClient->ledger->OnXHRLoad(tabId,
@@ -269,12 +263,9 @@ BATLedgerReadonlyBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
 
 - (void)reportPostData:(NSData *)postData url:(NSURL *)url tabId:(UInt32)tabId firstPartyURL:(NSURL *)firstPartyURL referrerURL:(NSURL *)referrerURL
 {
-  const auto dateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth fromDate:[NSDate date]];
   ledger::VisitData visit("", "",
                           std::string(url.absoluteString.UTF8String),
                           tabId,
-                          (ledger::ACTIVITY_MONTH)dateComponents.month,
-                          (UInt32)dateComponents.year,
                           "", "", "", "");
   
   const auto postDataString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];

@@ -98,9 +98,7 @@ namespace ads {
   
   // Should get information about the client
   void NativeAdsClient::GetClientInfo(ClientInfo* info) const {
-    info->application_version = "1.0";
     info->platform = IOS;
-    info->platform_version = std::string(UIDevice.currentDevice.systemVersion.UTF8String);
   }
   
   // Should return a list of supported User Model locales
@@ -154,6 +152,16 @@ namespace ads {
     if (notification != nullptr) {
       [objcAds showNotification:*notification];
     }
+  }
+  
+  // Should notify that the catalog issuers have changed
+  void NativeAdsClient::SetCatalogIssuers(std::unique_ptr<IssuersInfo> info) {
+    // TODO: Add implementation
+  }
+  
+  // Should be called to inform Confirmations that an ad was sustained
+  void NativeAdsClient::AdSustained(std::unique_ptr<NotificationInfo> info) {
+    // TODO: Add implementation
   }
   
   // Should create a timer to trigger after the time offset specified in
