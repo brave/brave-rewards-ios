@@ -5,6 +5,16 @@
 import UIKit
 
 public class PublisherSummaryView: UIView {
+  
+  @objc public func setLocal(_ local: Bool) {
+    if local {
+      publisherView.publisherNameLabel.text = "Brave Browser";
+      publisherView.faviconImageView.image = UIImage(frameworkResourceNamed: "local-icon")
+      attentionView.valueLabel.text = "–";
+    }
+    publisherView.faviconImageView.contentMode = local ? .center : .scaleAspectFill
+  }
+  
   let scrollView = UIScrollView().then {
     $0.contentInsetAdjustmentBehavior = .never
     $0.delaysContentTouches = false

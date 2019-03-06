@@ -162,20 +162,17 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
   [publisherView setVerificationStatusHidden:self.isLocal];
   
   // FIXME: Remove fake data
-  if (self.isLocal) {
-    publisherView.publisherNameLabel.text = @"Brave Browser";
-    publisherView.faviconImageView.contentMode = UIViewContentModeCenter;
-    attentionView.valueLabel.text = @"–";
-  } else {
+  [self.publisherSummaryView setLocal:self.isLocal];
+  if (!self.isLocal) {
     publisherView.publisherNameLabel.text = self.url.host;
     [publisherView setVerifiedStatus:YES];
     attentionView.valueLabel.text = @"19%";
+    
+    const auto __weak weakSelf = self;
+    [self.dataSource retrieveFaviconWithURL:self.faviconURL completion:^(UIImage * _Nullable image) {
+      weakSelf.publisherSummaryView.publisherView.faviconImageView.image = image;
+    }];
   }
-  
-  const auto __weak weakSelf = self;
-  [self.dataSource retrieveFaviconWithURL:self.faviconURL completion:^(UIImage * _Nullable image) {
-    weakSelf.publisherSummaryView.publisherView.faviconImageView.image = image;
-  }];
 }
 
 - (void)tappedSendTip
