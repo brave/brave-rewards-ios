@@ -9,9 +9,9 @@ public class CreateWalletView: UIView {
   @objc public var isCreatingWallet: Bool = false {
     didSet {
       if isCreatingWallet {
-        createWalletButton.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
-      } else {
         createWalletButton.setTitle(BATLocalizedString("BraveRewardsCreatingWallet", "Creating Wallet").uppercased(), for: .normal)
+      } else {
+        createWalletButton.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
       }
     }
   }
