@@ -144,6 +144,13 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
 {
   self.createWalletView.isCreatingWallet = YES;
   [self.ledger createWallet:^(NSError * _Nullable error) {
+    if (error) {
+      self.createWalletView.isCreatingWallet = NO;
+      const auto alertController = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+      [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+      [self presentViewController:alertController animated:YES completion:nil];
+      return;
+    }
     [self.createWalletView removeFromSuperview];
     self.ledger.enabled = YES;
     [self reloadState];
