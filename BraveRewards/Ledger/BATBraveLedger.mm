@@ -64,7 +64,7 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
     const auto strongSelf = weakSelf;
     if (!strongSelf) { return; }
     NSError *error = nil;
-    if (result != ledger::WALLET_CREATED) {
+    if (result != ledger::WALLET_CREATED && result != ledger::LEDGER_OK) {
       std::map<ledger::Result, std::string> errorDescriptions {
         { ledger::Result::LEDGER_ERROR, "The wallet was already initialized" },
         { ledger::Result::BAD_REGISTRATION_RESPONSE, "Request credentials call failure or malformed data" },
