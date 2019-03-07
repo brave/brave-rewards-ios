@@ -21,15 +21,23 @@ pushd $brave_browser_dir > /dev/null
 if [ "$skip_update" = false ]; then
   # Make sure we rebase master to head
   git checkout -- "*" && git pull
+  # Do the rest of the work in the src folder
+  cd src
   # Update the deps
   npm run sync -- --all
+else
+  # Do the rest of the work in the src folder
+  cd src
 fi
-
-# Do the rest of the work in the src folder
-cd src
 
 # Have to dump the brave-browser/src patches until https://github.com/brave/brave-browser/issues/3080 is resolved
 git reset --hard HEAD
+
+# TODO: Check if there are any changes made to any of the dependent vendors via git. If no files are changed,
+#       we can just skip building altogether
+
+# TODO: Have option of "clean build" vs regular build. Clean builds run the gn clean/gen
+#       whereas regualar builds simply run skip to the actual ninja build
 
 # If this script has already been run, we'll clean out the build folders
 [[ -d out/sim-release ]] && gn clean out/sim-release
@@ -106,15 +114,23 @@ lipo -create out/sim-release/gen/challenge_bypass_ristretto/out/x86_64-apple-ios
              out/device-release/gen/challenge_bypass_ristretto/out/aarch64-apple-ios/release/libchallenge_bypass_ristretto.a \
              -output "$ledger_drop_point/libchallenge_bypass_ristretto.a"
 
-# Optionally we could run them through strip, but not sure if needed of if it would 
-# effect the build
-# strip -x libbat-native-ads.a -o libbat-native-ads.a
-# strip -x libbat-native-ledger.a -o libbat-native-ledger.a
-# strip -x libchallenge_bypass_ristretto.a -o libchallenge_bypass_ristretto.a
-
 # Copy include headers over. If these libraries ever begin to include Chromium dependencies–such as `base`–
 # in public headers we will also need to copy over those headers
 rsync -a --delete brave/vendor/bat-native-ledger/include/ "$ledger_drop_point/include/"
 rsync -a --delete brave/vendor/bat-native-ads/include/ "$ads_drop_point/include/"
 
+cd brave
+brave_core_build_hash=`git rev-parse HEAD`
+
 popd > /dev/null
+
+echo "Completed building rewards libraries from \`brave-core/$brave_core_build_hash\`"
+sed -i '' -e "s/brave-core\/[A-Za-z0-9]*/brave-core\/$brave_core_build_hash/g" README.md
+echo "  → Updated \`README.md\` to reflect updated library builds"
+
+# Check if any of the includes had changed.
+if `git diff --quiet "$ledger_drop_point/.."`; then
+  echo "  → No updates to library includes were made"
+else
+  echo "  → Changes found in library includes"
+fi

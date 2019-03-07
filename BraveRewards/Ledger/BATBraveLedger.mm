@@ -168,8 +168,6 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 #pragma mark - Publishers
 
-BATLedgerReadonlyBridge(UInt32, numberOfExcludedSites, GetNumExcludedSites);
-
 - (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
 {
   ledgerClient->ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);

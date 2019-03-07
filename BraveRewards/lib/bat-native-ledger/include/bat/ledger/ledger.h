@@ -17,6 +17,7 @@
 #include "bat/ledger/publisher_info.h"
 #include "bat/ledger/media_publisher_info.h"
 #include "bat/ledger/transactions_info.h"
+#include "bat/ledger/rewards_internals_info.h"
 
 namespace ledger {
 
@@ -57,6 +58,7 @@ using WalletAddressesCallback =
     std::function<void(std::map<std::string, std::string> addresses)>;
 using ConfirmationsHistoryCallback = std::function<void(
     std::unique_ptr<ledger::TransactionsInfo> info)>;
+using GetExcludedPublishersNumberDBCallback = std::function<void(uint32_t)>;
 
 class LEDGER_EXPORT Ledger {
  public:
@@ -184,7 +186,8 @@ class LEDGER_EXPORT Ledger {
 
   virtual unsigned int GetPublisherMinVisits() const = 0;
 
-  virtual unsigned int GetNumExcludedSites() const = 0;
+  virtual void GetExcludedPublishersNumber(
+      ledger::GetExcludedPublishersNumberDBCallback callback) const = 0;
 
   virtual bool GetPublisherAllowNonVerified() const = 0;
 
@@ -272,6 +275,7 @@ class LEDGER_EXPORT Ledger {
       const uint64_t from_timestamp_seconds,
       const uint64_t to_timestamp_seconds,
       ledger::ConfirmationsHistoryCallback callback) = 0;
+  virtual void GetRewardsInternalsInfo(ledger::RewardsInternalsInfo* info) = 0;
 };
 
 }  // namespace ledger

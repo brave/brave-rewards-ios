@@ -130,10 +130,6 @@ namespace ads {
                 const std::string& category,
                 OnGetAdsCallback callback);
     
-    /// Should get the components of the specified URL
-    bool GetUrlComponents(const std::string& url,
-                          UrlComponents* components) const;
-    
     /// Should log an event to persistent storage however as events may be queued
     /// they need an event name and timestamp adding as follows, replacing ... with
     /// the value of the "json" parameter:

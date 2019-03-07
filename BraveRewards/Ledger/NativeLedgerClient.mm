@@ -239,4 +239,5 @@ namespace ledger {
   void NativeLedgerClient::OnExcludedSitesChanged(const std::string& publisher_id, ledger::PUBLISHER_EXCLUDE exclude) {}
   
   void NativeLedgerClient::ConfirmationsTransactionHistoryDidChange() {}
+  void NativeLedgerClient::GetExcludedPublishersNumberDB(GetExcludedPublishersNumberDBCallback callback) {}
 }

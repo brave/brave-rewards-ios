@@ -42,8 +42,6 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Publishers
 
-@property (readonly) UInt32 numberOfExcludedSites;
-
 - (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
       NS_SWIFT_NAME(addRecurringPayment(publisherId:amount:));
 

@@ -6,6 +6,7 @@
 #ifndef BAT_ADS_BUNDLE_STATE_H_
 #define BAT_ADS_BUNDLE_STATE_H_
 
+#include <stdint.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -28,7 +29,7 @@ struct BundleState {
   std::string catalog_id;
   uint64_t catalog_version;
   uint64_t catalog_ping;
-  uint64_t catalog_last_updated_timestamp;
+  uint64_t catalog_last_updated_timestamp_in_seconds;
   std::map<std::string, std::vector<AdInfo>> categories;
 };
 

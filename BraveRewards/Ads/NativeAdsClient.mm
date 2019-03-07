@@ -282,22 +282,6 @@ namespace ads {
     callback(SUCCESS, region, category, categories->second);
   }
   
-  // Should get the components of the specified URL
-  bool NativeAdsClient::GetUrlComponents(const std::string& url, UrlComponents* components) const {
-    const auto nsurl = [NSURL URLWithString:[NSString stringWithUTF8String:url.c_str()]];
-    if (!nsurl) {
-      return false;
-    }
-    components->url = url;
-    if (nsurl.scheme) components->scheme = std::string(nsurl.scheme.UTF8String);
-    if (nsurl.user) components->user = std::string(nsurl.user.UTF8String);
-    if (nsurl.host) components->hostname = std::string(nsurl.host.UTF8String);
-    if (nsurl.port) components->port = std::to_string(nsurl.port.intValue);
-    if (nsurl.query) components->query = std::string(nsurl.query.UTF8String);
-    if (nsurl.fragment) components->fragment = std::string(nsurl.fragment.UTF8String);
-    return true;
-  }
-  
   // Should log an event to persistent storage however as events may be queued
   // they need an event name and timestamp adding as follows, replacing ... with
   // the value of the "json" parameter:
