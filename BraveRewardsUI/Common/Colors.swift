@@ -29,9 +29,11 @@ public class Colors {
   static let blurple700 = UIColor(hex: 0xD0D2F7)
   static let blurple800 = UIColor(hex: 0xF0F1FF)
   static let purple400 = UIColor(hex: 0x845EF7)
+  static let orange400 = UIColor(hex: 0xFB542B)
 }
 
 /// Collection of common color usages
 struct BraveUX {
+  static let braveOrange = Colors.orange400
   static let switchOnColor = Colors.blurple500
 }

@@ -19,6 +19,7 @@ struct SettingsUX {
 public class SettingsView: UIView {
   
   @objc public let rewardsToggleSection = SettingsRewardsSectionView()
+  @objc public let grantSection = SettingsGrantSectionView()
   @objc public let adsSection = SettingsAdSectionView()
   
   public override init(frame: CGRect) {
@@ -29,6 +30,7 @@ public class SettingsView: UIView {
     addSubview(scrollView)
     scrollView.addSubview(stackView)
     stackView.addArrangedSubview(rewardsToggleSection)
+    stackView.addArrangedSubview(grantSection)
     stackView.addArrangedSubview(adsSection)
     
     scrollView.snp.makeConstraints {
