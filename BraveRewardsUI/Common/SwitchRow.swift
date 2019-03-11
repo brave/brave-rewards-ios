@@ -8,7 +8,6 @@ public class SwitchRow: UIStackView {
   
   private struct UX {
     static let textColor = Colors.grey200
-    static let switchColor = Colors.purple400
   }
   
   public let textLabel = UILabel().then {
@@ -18,7 +17,7 @@ public class SwitchRow: UIStackView {
   }
   
   public let toggleSwitch = UISwitch().then {
-    $0.onTintColor = UX.switchColor
+    $0.onTintColor = BraveUX.switchOnColor
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   

@@ -46,7 +46,9 @@ class ViewController: UIViewController {
   }
   
   @IBAction func tappedSettings() {
-    
+    let controller = BraveRewardsSettingsViewController(ledger: BraveLedger())
+    let container = UINavigationController(rootViewController: controller)
+    present(container, animated: true)
   }
 }
 

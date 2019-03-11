@@ -11,6 +11,7 @@
 #import "bat/ledger/wallet_info.h"
 
 #import "BraveRewardsTippingViewController.h"
+#import "BraveRewardsSettingsViewController.h"
 
 static CGFloat kMinimumPanelWidth = 355.0;
 static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
@@ -68,6 +69,9 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
   
   self.minimumHeightConstraint = [self.view.heightAnchor constraintGreaterThanOrEqualToConstant:kMinimumPanelHeight];
   self.minimumHeightConstraint.priority = UILayoutPriorityDefaultHigh;
+  
+  [self.walletController.headerView.addFundsButton addTarget:self action:@selector(tappedAddFunds) forControlEvents:UIControlEventTouchUpInside];
+  [self.walletController.headerView.settingsButton addTarget:self action:@selector(tappedSettings) forControlEvents:UIControlEventTouchUpInside];
   
   [self reloadState];
 }
@@ -155,6 +159,18 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
     self.ledger.enabled = YES;
     [self reloadState];
   }];
+}
+
+- (void)tappedAddFunds
+{
+  
+}
+
+- (void)tappedSettings
+{
+  const auto settingsController = [[BraveRewardsSettingsViewController alloc] initWithLedger:self.ledger];
+  const auto container = [[UINavigationController alloc] initWithRootViewController:settingsController];
+  [self.delegate presentBraveRewardsController:container];
 }
 
 #pragma mark - Publisher

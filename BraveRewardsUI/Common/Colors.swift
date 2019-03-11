@@ -5,7 +5,7 @@
 import Foundation
 
 extension UIColor {
-  fileprivate convenience init(hex: UInt32) {
+  convenience init(hex: UInt32) {
     let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
     let g = CGFloat((hex & 0x00FF00) >> 8) / 255.0
     let b = CGFloat(hex & 0x0000FF) / 255.0
@@ -29,4 +29,9 @@ public class Colors {
   static let blurple700 = UIColor(hex: 0xD0D2F7)
   static let blurple800 = UIColor(hex: 0xF0F1FF)
   static let purple400 = UIColor(hex: 0x845EF7)
+}
+
+/// Collection of common color usages
+struct BraveUX {
+  static let switchOnColor = Colors.blurple500
 }

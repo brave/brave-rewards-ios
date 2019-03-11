@@ -55,7 +55,7 @@ public class CreateWalletView: UIView {
     $0.font = .systemFont(ofSize: 28.0, weight: .medium)
     $0.textAlignment = .center
     $0.attributedText = {
-      let title = NSMutableAttributedString(string: BATLocalizedString("RewardsOptInTitle", "Brave Rewards™"))
+      let title = NSMutableAttributedString(string: BATLocalizedString("BraveRewards", "Brave Rewards™"))
       if let trademarkRange = title.string.range(of: "™") {
         title.addAttributes(
           [

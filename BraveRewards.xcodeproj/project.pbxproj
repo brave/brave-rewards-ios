@@ -27,6 +27,13 @@
 		272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */ = {isa = PBXBuildFile; fileRef = 272D13E521F61E5500768D30 /* BATCommonOperations.h */; };
 		272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */ = {isa = PBXBuildFile; fileRef = 272D13E621F61E5500768D30 /* BATCommonOperations.mm */; };
 		2730DF79222DCB6E0031845C /* libchallenge_bypass_ristretto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2730DF78222DCB6E0031845C /* libchallenge_bypass_ristretto.a */; };
+		2730DF8322318D8F0031845C /* BraveRewardsSettingsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2730DF8122318D8F0031845C /* BraveRewardsSettingsViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2730DF8422318D8F0031845C /* BraveRewardsSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2730DF8222318D8F0031845C /* BraveRewardsSettingsViewController.m */; };
+		2730DF8722318FBD0031845C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730DF8622318FBD0031845C /* SettingsView.swift */; };
+		2730DF892231A65A0031845C /* BraveRewardsToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730DF882231A65A0031845C /* BraveRewardsToggleView.swift */; };
+		2730DF8B2231A72F0031845C /* SettingsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730DF8A2231A72F0031845C /* SettingsSectionView.swift */; };
+		2730DF8D2231C75B0031845C /* RewardsToggleSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730DF8C2231C75B0031845C /* RewardsToggleSectionView.swift */; };
+		2730DF912232FB030031845C /* SettingsAdSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2730DF902232FB030031845C /* SettingsAdSectionView.swift */; };
 		2734045D2220B004008CABC9 /* BraveRewardsUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 2734045B2220B004008CABC9 /* BraveRewardsUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		273404602220B004008CABC9 /* BraveRewardsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273404592220B004008CABC9 /* BraveRewardsUI.framework */; };
 		273404612220B004008CABC9 /* BraveRewardsUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 273404592220B004008CABC9 /* BraveRewardsUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -165,6 +172,13 @@
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
 		2730DF78222DCB6E0031845C /* libchallenge_bypass_ristretto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libchallenge_bypass_ristretto.a; sourceTree = "<group>"; };
+		2730DF8122318D8F0031845C /* BraveRewardsSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BraveRewardsSettingsViewController.h; sourceTree = "<group>"; };
+		2730DF8222318D8F0031845C /* BraveRewardsSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BraveRewardsSettingsViewController.m; sourceTree = "<group>"; };
+		2730DF8622318FBD0031845C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		2730DF882231A65A0031845C /* BraveRewardsToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraveRewardsToggleView.swift; sourceTree = "<group>"; };
+		2730DF8A2231A72F0031845C /* SettingsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSectionView.swift; sourceTree = "<group>"; };
+		2730DF8C2231C75B0031845C /* RewardsToggleSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsToggleSectionView.swift; sourceTree = "<group>"; };
+		2730DF902232FB030031845C /* SettingsAdSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdSectionView.swift; sourceTree = "<group>"; };
 		273404592220B004008CABC9 /* BraveRewardsUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BraveRewardsUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2734045B2220B004008CABC9 /* BraveRewardsUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BraveRewardsUI.h; sourceTree = "<group>"; };
 		2734045C2220B004008CABC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -350,6 +364,34 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		2730DF8522318FA90031845C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2730DF8622318FBD0031845C /* SettingsView.swift */,
+				2730DF8A2231A72F0031845C /* SettingsSectionView.swift */,
+				2730DF8E2231C7670031845C /* Rewards Toggle */,
+				2730DF8F2232C6E00031845C /* Ads */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		2730DF8E2231C7670031845C /* Rewards Toggle */ = {
+			isa = PBXGroup;
+			children = (
+				2730DF8C2231C75B0031845C /* RewardsToggleSectionView.swift */,
+				2730DF882231A65A0031845C /* BraveRewardsToggleView.swift */,
+			);
+			path = "Rewards Toggle";
+			sourceTree = "<group>";
+		};
+		2730DF8F2232C6E00031845C /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				2730DF902232FB030031845C /* SettingsAdSectionView.swift */,
+			);
+			path = Ads;
+			sourceTree = "<group>";
+		};
 		2734045A2220B004008CABC9 /* BraveRewardsUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,6 +406,7 @@
 				27598841222450CD00B2E47A /* Publisher */,
 				2704835E2221AABF0051239C /* Wallet */,
 				27598848222479AB00B2E47A /* Tipping */,
+				2730DF8522318FA90031845C /* Settings */,
 			);
 			path = BraveRewardsUI;
 			sourceTree = "<group>";
@@ -478,6 +521,8 @@
 				27F3E51821FB7458009A54D5 /* BraveRewardsPanelController.mm */,
 				278107F4221DD911000D6281 /* BraveRewardsTippingViewController.h */,
 				278107F5221DD911000D6281 /* BraveRewardsTippingViewController.mm */,
+				2730DF8122318D8F0031845C /* BraveRewardsSettingsViewController.h */,
+				2730DF8222318D8F0031845C /* BraveRewardsSettingsViewController.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -596,6 +641,7 @@
 				2774BBBD2227242F00160619 /* BraveRewardsDataDelegate.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				272B78862225EF2A00B7B81E /* BraveRewardsDataSource.h in Headers */,
+				2730DF8322318D8F0031845C /* BraveRewardsSettingsViewController.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				27F3E51921FB7458009A54D5 /* BraveRewardsPanelController.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
@@ -808,10 +854,12 @@
 				270483552220F5060051239C /* SwitchRow.swift in Sources */,
 				273404672220B041008CABC9 /* Button.swift in Sources */,
 				270483532220F2C70051239C /* Colors.swift in Sources */,
+				2730DF892231A65A0031845C /* BraveRewardsToggleView.swift in Sources */,
 				2704835C22219E480051239C /* CreateWalletView.swift in Sources */,
 				2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */,
 				272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */,
 				275988402224494100B2E47A /* RewardsDisabledView.swift in Sources */,
+				2730DF8B2231A72F0031845C /* SettingsSectionView.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */,
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
@@ -822,11 +870,14 @@
 				270483572220F6160051239C /* DisclaimerView.swift in Sources */,
 				273404722220B8AF008CABC9 /* ActionButton.swift in Sources */,
 				270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */,
+				2730DF912232FB030031845C /* SettingsAdSectionView.swift in Sources */,
+				2730DF8722318FBD0031845C /* SettingsView.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
 				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
 				272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */,
 				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
+				2730DF8D2231C75B0031845C /* RewardsToggleSectionView.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
 				27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */,
@@ -869,6 +920,7 @@
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
+				2730DF8422318D8F0031845C /* BraveRewardsSettingsViewController.m in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */,
@@ -995,6 +1047,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 97533VPBBC;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1022,6 +1076,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 97533VPBBC;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
