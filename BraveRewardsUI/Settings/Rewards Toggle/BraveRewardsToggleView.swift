@@ -4,9 +4,9 @@
 
 import UIKit
 
-public class BraveRewardsToggleView: UIView {
+class BraveRewardsToggleView: UIView {
   
-  @objc public let toggleSwitch = UISwitch().then {
+  let toggleSwitch = UISwitch().then {
     $0.onTintColor = BraveUX.switchOnColor
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }

@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import "BraveRewardsSettingsViewController.h"
+#import "BATBraveLedger.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
 @interface BraveRewardsSettingsViewController ()
@@ -34,6 +35,12 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  
+  [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled];
+  const auto __weak weakSelf = self;
+  self.view.rewardsToggleSection.rewardsSwitchValueChanged = ^(BOOL enabled) {
+    weakSelf.ledger.enabled = enabled;
+  };
 }
 
 - (void)tappedDone

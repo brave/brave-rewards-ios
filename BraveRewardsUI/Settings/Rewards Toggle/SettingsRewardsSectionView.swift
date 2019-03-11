@@ -4,9 +4,16 @@
 
 import UIKit
 
-public class RewardsToggleSectionView: SettingsSectionView {
+public class SettingsRewardsSectionView: SettingsSectionView {
   
-  @objc public let toggleView = BraveRewardsToggleView()
+  /// Set the rewards enabled state based on the ledger.
+  @objc public func setRewardsEnabled(_ enabled: Bool) {
+    toggleView.toggleSwitch.isOn = enabled
+    disabledTextView.isHidden = toggleView.toggleSwitch.isOn
+  }
+  
+  /// A closure executed when the user changes the on/off state of the main rewards switch
+  @objc public var rewardsSwitchValueChanged: ((Bool) -> Void)?
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
@@ -31,9 +38,12 @@ public class RewardsToggleSectionView: SettingsSectionView {
       self.disabledTextView.isHidden = self.toggleView.toggleSwitch.isOn
       self.disabledTextView.alpha = self.toggleView.toggleSwitch.isOn ? 0.0 : 1.0
     }
+    rewardsSwitchValueChanged?(toggleView.toggleSwitch.isOn)
   }
   
-  // MARK: -
+  // MARK: - Private UI
+  
+  private let toggleView = BraveRewardsToggleView()
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical

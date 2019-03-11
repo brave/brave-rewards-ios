@@ -18,7 +18,7 @@ struct SettingsUX {
 
 public class SettingsView: UIView {
   
-  @objc public let rewardsToggleSection = RewardsToggleSectionView()
+  @objc public let rewardsToggleSection = SettingsRewardsSectionView()
   @objc public let adsSection = SettingsAdSectionView()
   
   public override init(frame: CGRect) {
