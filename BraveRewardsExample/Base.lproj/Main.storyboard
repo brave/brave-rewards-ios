@@ -50,13 +50,39 @@
                                     <action selector="tappedSettings" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wfh-n2-InC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5CH-br-5MD">
+                                <rect key="frame" x="142" y="607" width="91" height="30"/>
+                                <state key="normal" title="Reset Ledger"/>
+                                <connections>
+                                    <action selector="tappedResetMockLedger" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fbf-K4-oal"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9Yi-J0-QPl">
+                                <rect key="frame" x="88.5" y="536" width="198.5" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Mock Ledger" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3q2-09-SbT">
+                                        <rect key="frame" x="0.0" y="0.0" width="134.5" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cw8-wz-4i5">
+                                        <rect key="frame" x="149.5" y="0.0" width="51" height="31"/>
+                                        <color key="onTintColor" red="0.98431372549019602" green="0.32941176470588235" blue="0.16862745098039217" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
+                                    </switch>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="height" secondItem="Rn5-Tc-ZWe" secondAttribute="height" id="0w2-Mi-EqX"/>
+                            <constraint firstItem="5CH-br-5MD" firstAttribute="top" secondItem="9Yi-J0-QPl" secondAttribute="bottom" constant="40" id="AZQ-W5-kKC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5CH-br-5MD" secondAttribute="bottom" constant="30" id="GAw-ff-bGn"/>
+                            <constraint firstItem="9Yi-J0-QPl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Lxh-PO-59a"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QKC-yA-2Y9"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="XUl-Lz-boD"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="Xh7-Tg-kpe"/>
+                            <constraint firstItem="5CH-br-5MD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aJY-HR-xPm"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="leading" secondItem="fPD-d0-f26" secondAttribute="trailing" constant="-2" id="g73-1o-XqK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rn5-Tc-ZWe" secondAttribute="trailing" constant="16" id="kx6-mc-c6y"/>
                         </constraints>
@@ -65,6 +91,7 @@
                     <connections>
                         <outlet property="braveRewardsPanelButton" destination="Mhu-pz-fiK" id="4tK-UZ-gov"/>
                         <outlet property="settingsButton" destination="fPD-d0-f26" id="Vch-lF-vwt"/>
+                        <outlet property="useMockLedgerSwitch" destination="cw8-wz-4i5" id="vCI-O8-wt5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

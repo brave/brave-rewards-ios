@@ -6,6 +6,31 @@ import UIKit
 import BraveRewards
 
 extension BraveRewardsPanelController: PopoverContentComponent {
+class UIMockLedger: BraveLedger {
+  let defaults = UserDefaults.standard
+  
+  static func reset() {
+    UserDefaults.standard.removeObject(forKey: "BATUILedgerEnabled")
+    UserDefaults.standard.removeObject(forKey: "BATUIWalletCreated")
+  }
+  override var balance: Double {
+    return 30.0
+  }
+  override var isEnabled: Bool {
+    get { return defaults.bool(forKey: "BATUILedgerEnabled") }
+    set { return defaults.set(newValue, forKey: "BATUILedgerEnabled") }
+  }
+  override var isWalletCreated: Bool {
+    get { return defaults.bool(forKey: "BATUIWalletCreated") }
+    set { return defaults.set(newValue, forKey: "BATUIWalletCreated") }
+  }
+  override func createWallet(_ completion: ((Error?) -> Void)? = nil) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      self.isWalletCreated = true
+      completion?(nil)
+    }
+  }
+}
   var customArrowColor: UIColor? {
     return UIColor(red: 61.0/255.0, green: 45.0/255.0, blue: 206.0/255.0, alpha: 1.0)
   }
@@ -17,12 +42,12 @@ class ViewController: UIViewController {
   
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
+  @IBOutlet var useMockLedgerSwitch: UISwitch!
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
     braveRewardsPanelButton.setImage(BraveRewardsPanelController.batLogoImage, for: .normal)
-    // Do any additional setup after loading the view, typically from a nib.
   }
 
   @IBAction func tappedBraveRewards() {
@@ -31,7 +56,7 @@ class ViewController: UIViewController {
       UIDevice.current.setValue(value, forKey: "orientation")
     }
     
-    let ledger = BraveLedger()
+    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : BraveLedger()
     let url = URL(string: "https://github.com")!
     let braveRewardsPanel = BraveRewardsPanelController(
       ledger: ledger,
@@ -46,9 +71,17 @@ class ViewController: UIViewController {
   }
   
   @IBAction func tappedSettings() {
-    let controller = BraveRewardsSettingsViewController(ledger: BraveLedger())
+    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : BraveLedger()
+    let controller = BraveRewardsSettingsViewController(ledger: ledger)
     let container = UINavigationController(rootViewController: controller)
     present(container, animated: true)
+  }
+  
+  @IBAction func tappedResetMockLedger() {
+    UIMockLedger.reset()
+    let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
+    let ledgerStatePath = documents.appendingPathComponent("brave_ledger")
+    try? FileManager.default.removeItem(atPath: ledgerStatePath)
   }
 }
 
