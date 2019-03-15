@@ -36,7 +36,7 @@
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(tappedDone)];
   self.navigationController.interactivePopGestureRecognizer.delegate = nil; // Enable edge-drag
   
-  self.preferredContentSize = CGSizeMake(355, 1000);
+  self.preferredContentSize = CGSizeMake(355, 750);
   
   [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled];
   const auto __weak weakSelf = self;
