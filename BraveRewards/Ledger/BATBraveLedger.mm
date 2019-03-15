@@ -77,10 +77,12 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
       }
       error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
     }
-    if (completion) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        completion(error);
-      });
+    if (result == ledger::WALLET_CREATED) {
+      if (completion) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          completion(error);
+        });
+      }
     }
   };
   // Results that can come from CreateWallet():
