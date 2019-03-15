@@ -38,7 +38,7 @@ extension BraveRewardsPanelController: PopoverContentComponent {
     return UIColor(red: 61.0/255.0, green: 45.0/255.0, blue: 206.0/255.0, alpha: 1.0)
   }
   var isPanToDismissEnabled: Bool {
-    return false
+    return self.visibleViewController === self.viewControllers.first
   }
 }
 
