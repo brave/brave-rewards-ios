@@ -10,16 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BraveRewardsPanelController : UIViewController
+@interface BraveRewardsPanelController : UINavigationController
 
 /// The logo to display in the toolbar to display this panel
 @property (class, readonly) UIImage *batLogoImage;
-
-@property (nonatomic, weak) id<BraveRewardsDelegate> delegate;
-@property (nonatomic, weak) id<BraveRewardsDataSource> dataSource;
-
-@property (nonatomic, copy) NSURL *url;
-@property (nonatomic, copy) NSURL *faviconURL;
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger
                            url:(NSURL *)url

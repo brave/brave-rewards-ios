@@ -4,6 +4,7 @@
 
 #import "BraveRewardsSettingsViewController.h"
 #import "BATBraveLedger.h"
+#import "BATPanelState.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
 @interface BraveRewardsSettingsViewController ()
@@ -34,9 +35,8 @@
   [super viewDidLoad];
   
   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(tappedDone)];
-  self.navigationController.interactivePopGestureRecognizer.delegate = nil; // Enable edge-drag
   
-  self.preferredContentSize = CGSizeMake(355, 750);
+  self.preferredContentSize = CGSizeMake(BATPreferredPanelWidth, 750);
   
   [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled];
   const auto __weak weakSelf = self;

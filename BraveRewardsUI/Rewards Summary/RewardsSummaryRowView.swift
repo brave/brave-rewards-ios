@@ -13,6 +13,11 @@ import UIKit
       static let dollarValueColor = Colors.grey200
     }
     
+    let stackView = UIStackView().then {
+      $0.spacing = 10.0
+      $0.alignment = .firstBaseline
+    }
+    
     let titleLabel = UILabel().then {
       $0.textColor = UX.titleColor
       $0.font = .systemFont(ofSize: 15.0)
@@ -22,11 +27,13 @@ import UIKit
     
     let cryptoValueLabel = UILabel().then {
       $0.font = .systemFont(ofSize: 14.0, weight: .semibold)
+      $0.setContentHuggingPriority(.required, for: .horizontal)
     }
     
     let cryptoCurrencyLabel = UILabel().then {
       $0.textColor = UX.cryptoCurrencyColor
       $0.font = .systemFont(ofSize: 12.0)
+      $0.setContentHuggingPriority(.required, for: .horizontal)
     }
     
     let dollarValueLabel = UILabel().then {
@@ -42,30 +49,21 @@ import UIKit
       let paddingGuide = UILayoutGuide()
       addLayoutGuide(paddingGuide)
       
-      addSubview(titleLabel)
-      addSubview(cryptoValueLabel)
-      addSubview(cryptoCurrencyLabel)
-      addSubview(dollarValueLabel)
+      addSubview(stackView)
+      stackView.addArrangedSubview(titleLabel)
+      stackView.addArrangedSubview(cryptoValueLabel)
+      stackView.setCustomSpacing(4.0, after: cryptoValueLabel)
+      stackView.addArrangedSubview(cryptoCurrencyLabel)
+      stackView.addArrangedSubview(dollarValueLabel)
       
       paddingGuide.snp.makeConstraints {
         $0.top.bottom.equalTo(self).inset(12.0)
         $0.leading.trailing.equalTo(self)
       }
-      titleLabel.snp.makeConstraints {
-        $0.top.leading.bottom.equalTo(paddingGuide)
-        $0.trailing.lessThanOrEqualTo(self.cryptoValueLabel.snp.leading).offset(-12.0)
-      }
-      cryptoValueLabel.snp.makeConstraints {
-        $0.firstBaseline.equalTo(self.titleLabel)
-        $0.trailing.equalTo(self.cryptoCurrencyLabel.snp.leading).offset(-4.0)
-      }
-      cryptoCurrencyLabel.snp.makeConstraints {
-        $0.firstBaseline.equalTo(self.cryptoValueLabel)
-        $0.trailing.equalTo(self.dollarValueLabel.snp.leading).offset(-8.0)
+      stackView.snp.makeConstraints {
+        $0.edges.equalTo(paddingGuide)
       }
       dollarValueLabel.snp.makeConstraints {
-        $0.firstBaseline.equalTo(self.cryptoValueLabel)
-        $0.trailing.equalTo(paddingGuide)
         $0.width.greaterThanOrEqualTo(60.0)
       }
     }

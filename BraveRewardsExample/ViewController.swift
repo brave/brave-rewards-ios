@@ -32,7 +32,7 @@ class UIMockLedger: BraveLedger {
 }
 
 
-class PopoverNavigationController: UINavigationController, PopoverContentComponent {
+extension BraveRewardsPanelController: PopoverContentComponent {
   
   var customArrowColor: UIColor? {
     return UIColor(red: 61.0/255.0, green: 45.0/255.0, blue: 206.0/255.0, alpha: 1.0)
@@ -71,8 +71,7 @@ class ViewController: UIViewController {
       delegate: self,
       dataSource: self
     )
-    let container = PopoverNavigationController(rootViewController: braveRewardsPanel)
-    popover = PopoverController(contentController: container, contentSizeBehavior: .preferredContentSize)
+    popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .preferredContentSize)
     popover?.addsConvenientDismissalMargins = false
     popover?.present(from: braveRewardsPanelButton, on: self)
   }
