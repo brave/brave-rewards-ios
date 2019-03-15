@@ -107,7 +107,7 @@ public class WalletViewController: UIViewController {
     
     contentView.snp.makeConstraints {
       if let _ = contentView.innerScrollView {
-        $0.top.equalTo(self.view.snp.top)
+        $0.top.equalTo(self.view)
       } else {
         $0.top.equalTo(self.headerView.snp.bottom)
       }
@@ -133,7 +133,7 @@ public class WalletViewController: UIViewController {
       }
     }
     
-    summaryLayoutGuide.snp.makeConstraints { $0.bottom.equalTo(self.view.snp.bottom) }
+    summaryLayoutGuide.snp.makeConstraints { $0.bottom.equalTo(self.view) }
   }
   
   @objc private func tappedRewardsSummaryButton() {

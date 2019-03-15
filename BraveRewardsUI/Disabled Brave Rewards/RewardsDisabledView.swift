@@ -17,7 +17,6 @@ public class RewardsDisabledView: UIView {
   }
   private let contentView = ContentView()
   
-  
   public override init(frame: CGRect) {
     super.init(frame: frame)
     
@@ -36,7 +35,7 @@ public class RewardsDisabledView: UIView {
       $0.edges.equalTo(self)
     }
     contentView.snp.makeConstraints {
-      $0.top.equalTo(self.scrollView.contentLayoutGuide.snp.top)
+      $0.top.equalTo(self.scrollView.contentLayoutGuide)
       $0.leading.trailing.equalTo(self)
     }
   }

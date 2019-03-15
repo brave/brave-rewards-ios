@@ -13,14 +13,12 @@
 #import "BraveRewardsTippingViewController.h"
 #import "BraveRewardsSettingsViewController.h"
 
-static CGFloat kMinimumPanelWidth = 355.0;
-static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
+static const CGFloat kPreferredPanelWidth = 355.0;
+static const CGFloat kPreferredPanelHeight = 574.0; // When viewing the wallet...
 
 @interface BraveRewardsPanelController ()
 @property (nonatomic) BATBraveLedger *ledger;
 @property (readonly) BOOL isLocal;
-
-@property (nonatomic) NSLayoutConstraint *minimumHeightConstraint;
 
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
 @property (nonatomic) WalletViewController *walletController;
@@ -61,19 +59,39 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
 {
   [super viewDidLoad];
   
-  const auto widthConstraint = [self.view.widthAnchor constraintEqualToConstant:kMinimumPanelWidth];
-  // Has to be higher than default high to take priority over basic AutoLayout but still allowed
-  // to be smaller on screens that are smaller than the minimum width
-  widthConstraint.priority = 850;
-  widthConstraint.active = YES;
+  self.view.clipsToBounds = YES;
   
-  self.minimumHeightConstraint = [self.view.heightAnchor constraintGreaterThanOrEqualToConstant:kMinimumPanelHeight];
-  self.minimumHeightConstraint.priority = UILayoutPriorityDefaultHigh;
+  [self.navigationController setNavigationBarHidden:YES animated:NO];
   
   [self.walletController.headerView.addFundsButton addTarget:self action:@selector(tappedAddFunds) forControlEvents:UIControlEventTouchUpInside];
   [self.walletController.headerView.settingsButton addTarget:self action:@selector(tappedSettings) forControlEvents:UIControlEventTouchUpInside];
   
   [self reloadState];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+  [super viewWillDisappear:animated];
+  [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)updatePreferredSize
+{
+  [self.view layoutIfNeeded];
+  auto size = [self.view systemLayoutSizeFittingSize:CGSizeMake(kPreferredPanelWidth, UIScreen.mainScreen.bounds.size.height)
+                       withHorizontalFittingPriority:UILayoutPriorityRequired
+                             verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
+  if (self.ledger.isWalletCreated && self.ledger.isEnabled) {
+    // Force given height for base panel
+    size.height = kPreferredPanelHeight;
+  }
+  self.preferredContentSize = size;
 }
 
 - (BOOL)isLocal
@@ -103,17 +121,13 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
       [self.walletController.view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
     ]];
     
-    if (self.ledger.isEnabled) {
-      self.minimumHeightConstraint.active = YES;
-      
+    if (self.ledger.enabled) {
       self.publisherSummaryView = [[PublisherSummaryView alloc] init]; {
         self.publisherSummaryView.translatesAutoresizingMaskIntoConstraints = NO;
       }
       [self setupPublisher];
       self.walletController.contentView = self.publisherSummaryView;
     } else {
-      self.minimumHeightConstraint.active = NO;
-      
       self.rewardsDisabledView = [[RewardsDisabledView alloc] init]; {
         self.rewardsDisabledView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.rewardsDisabledView.enableRewardsButton addTarget:self action:@selector(tappedEnableBraveRewards) forControlEvents:UIControlEventTouchUpInside];
@@ -122,15 +136,11 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
       self.walletController.contentView = self.rewardsDisabledView;
     }
   } else {
-    self.minimumHeightConstraint.active = NO;
-    
     self.createWalletView = [[CreateWalletView alloc] init];
     self.createWalletView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.createWalletView.createWalletButton addTarget:self action:@selector(createWalletTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.createWalletView.learnMoreButton addTarget:self action:@selector(learnMoreTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.createWalletView];
-    
-    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.walletViewLayoutConstraints = @[
       [self.createWalletView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
@@ -140,6 +150,7 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
     ];
     [NSLayoutConstraint activateConstraints:self.walletViewLayoutConstraints];
   }
+  [self updatePreferredSize];
 }
 
 #pragma mark -
@@ -169,8 +180,7 @@ static CGFloat kMinimumPanelHeight = 574.0; // When viewing the wallet...
 - (void)tappedSettings
 {
   const auto settingsController = [[BraveRewardsSettingsViewController alloc] initWithLedger:self.ledger];
-  const auto container = [[UINavigationController alloc] initWithRootViewController:settingsController];
-  [self.delegate presentBraveRewardsController:container];
+  [self showViewController:settingsController sender:self];
 }
 
 #pragma mark - Publisher
