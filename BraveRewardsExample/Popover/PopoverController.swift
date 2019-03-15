@@ -141,7 +141,6 @@ class PopoverController: UIViewController {
             containerViewWidthConstraint?.priority = .popoverPreferredOrFixedSize
             containerViewWidthConstraint?.isActive = true
             
-            contentController.view.layoutIfNeeded()
         case .fixedSize(let size):
             containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: size.height + PopoverUX.arrowSize.height)
             containerViewHeightConstraint?.priority = .popoverPreferredOrFixedSize

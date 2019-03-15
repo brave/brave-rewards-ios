@@ -23,10 +23,8 @@ public class RewardsDisabledView: UIView {
     addSubview(gradientView)
     addSubview(scrollView)
     scrollView.addSubview(contentView)
-    
     scrollView.contentLayoutGuide.snp.makeConstraints {
       $0.width.equalTo(self)
-      $0.bottom.equalTo(self.contentView)
     }
     scrollView.snp.makeConstraints {
       $0.edges.equalTo(self)
@@ -35,8 +33,9 @@ public class RewardsDisabledView: UIView {
       $0.edges.equalTo(self)
     }
     contentView.snp.makeConstraints {
-      $0.top.equalTo(self.scrollView.contentLayoutGuide)
+      $0.top.equalTo(self.scrollView.contentLayoutGuide).offset(10.0)
       $0.leading.trailing.equalTo(self)
+      $0.bottom.equalTo(self.scrollView.contentLayoutGuide).offset(-25.0)
     }
   }
   
@@ -118,7 +117,7 @@ extension RewardsDisabledView {
       addSubview(enableRewardsButton)
       
       batLogoImageView.snp.makeConstraints {
-        $0.top.equalTo(self).offset(10.0)
+        $0.top.equalTo(self)
         $0.centerX.equalTo(self)
       }
       titleLabel.snp.makeConstraints {
@@ -137,7 +136,7 @@ extension RewardsDisabledView {
         $0.top.greaterThanOrEqualTo(self.bodyLabel.snp.bottom).offset(30.0)
         $0.leading.trailing.equalTo(self).inset(40.0)
         $0.height.equalTo(UX.rewardsButtonHeight)
-        $0.bottom.equalTo(self).offset(-25.0)
+        $0.bottom.equalTo(self)
       }
     }
   }

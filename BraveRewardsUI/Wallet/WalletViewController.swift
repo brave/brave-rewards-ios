@@ -27,7 +27,7 @@ public class WalletViewController: UIViewController {
     }
   }
   
-  public let rewardsSummaryView = RewardsSummaryView()
+  @objc public let rewardsSummaryView = RewardsSummaryView()
   
   public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nil, bundle: nil)
@@ -63,9 +63,6 @@ public class WalletViewController: UIViewController {
     view.addLayoutGuide(summaryLayoutGuide)
     view.addSubview(headerView)
     
-    view.snp.makeConstraints {
-      self.heightConstraint = $0.height.equalTo(0).priority(.low).constraint
-    }
     headerView.snp.makeConstraints {
       $0.top.leading.trailing.equalTo(self.view)
     }
@@ -82,20 +79,6 @@ public class WalletViewController: UIViewController {
     
     headerView.layoutIfNeeded()
     contentView?.layoutIfNeeded()
-    
-    if let contentView = contentView {
-      if let scrollView = contentView.innerScrollView {
-        scrollView.contentInset = UIEdgeInsets(top: headerView.bounds.height, left: 0, bottom: 0, right: 0)
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
-        scrollView.contentOffset = CGPoint(x: 0, y: -headerView.bounds.height) // Make sure it shows the top part of the view
-        
-        let height = headerView.bounds.height + scrollView.contentSize.height + rewardsSummaryView.rewardsSummaryButton.bounds.height
-        heightConstraint?.update(offset: height)
-      } else {
-        let height = headerView.bounds.height + contentView.bounds.height + rewardsSummaryView.rewardsSummaryButton.bounds.height
-        heightConstraint?.update(offset: height)
-      }
-    }
   }
   
   // MARK: -

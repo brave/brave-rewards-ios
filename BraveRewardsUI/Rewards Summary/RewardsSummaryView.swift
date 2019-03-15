@@ -12,7 +12,7 @@ public class RewardsSummaryView: UIView {
     static let buttonHeight = 48.0
   }
   
-  public let rewardsSummaryButton = RewardsSummaryViewButton()
+  @objc public let rewardsSummaryButton = RewardsSummaryViewButton()
   public let monthYearLabel = UILabel().then {
     $0.textColor = UX.monthYearColor
     $0.font = .systemFont(ofSize: 22.0)

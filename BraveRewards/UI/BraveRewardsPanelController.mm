@@ -55,6 +55,11 @@ static const CGFloat kPreferredPanelHeight = 574.0; // When viewing the wallet..
   return self;
 }
 
+- (void)loadView
+{
+  self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kPreferredPanelWidth, kPreferredPanelHeight)];
+}
+
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -87,11 +92,31 @@ static const CGFloat kPreferredPanelHeight = 574.0; // When viewing the wallet..
   auto size = [self.view systemLayoutSizeFittingSize:CGSizeMake(kPreferredPanelWidth, UIScreen.mainScreen.bounds.size.height)
                        withHorizontalFittingPriority:UILayoutPriorityRequired
                              verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
-  if (self.ledger.isWalletCreated && self.ledger.isEnabled) {
-    // Force given height for base panel
-    size.height = kPreferredPanelHeight;
+  if (!self.ledger.walletCreated) {
+    self.preferredContentSize = size;
   }
-  self.preferredContentSize = size;
+}
+
+- (void)viewDidLayoutSubviews
+{
+  [super viewDidLayoutSubviews];
+  
+  if (self.ledger.isWalletCreated) {
+    const auto scrollView = self.walletController.contentView.innerScrollView;
+    CGFloat height = 0.0;
+    if (scrollView) {
+      scrollView.contentInset = UIEdgeInsetsMake(self.walletController.headerView.bounds.size.height, 0, 0, 0);
+      scrollView.scrollIndicatorInsets = scrollView.contentInset;
+      
+      height = self.walletController.headerView.bounds.size.height + scrollView.contentSize.height + self.walletController.rewardsSummaryView.rewardsSummaryButton.bounds.size.height;
+    } else {
+      height = self.walletController.headerView.bounds.size.height + self.walletController.contentView.bounds.size.height + self.walletController.rewardsSummaryView.rewardsSummaryButton.bounds.size.height;
+    }
+    if (self.ledger.enabled) {
+      height = kPreferredPanelHeight;
+    }
+    self.preferredContentSize = CGSizeMake(kPreferredPanelWidth, height);
+  }
 }
 
 - (BOOL)isLocal
