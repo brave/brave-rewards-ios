@@ -193,6 +193,8 @@ class PopoverController: UIViewController {
                 animation.toValue = size.height + PopoverUX.arrowSize.height
                 animation.animationDidApplyBlock = { _ in
                     if let nc = self.contentController as? UINavigationController {
+                        nc.view.setNeedsLayout()
+                        nc.view.layoutIfNeeded()
                         nc.viewControllers.filter { $0.isViewLoaded }.forEach { $0.view.frame = nc.view.bounds }
                     }
                 }
