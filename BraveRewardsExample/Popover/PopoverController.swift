@@ -125,8 +125,6 @@ class PopoverController: UIViewController {
         contentController.didMove(toParentViewController: self)
         containerView.contentView.addSubview(contentController.view)
         
-        containerView.customArrowColor = contentController.customArrowColor
-        
         switch contentSizeBehavior {
         case .autoLayout:
             contentController.view.snp.makeConstraints { make in
@@ -248,6 +246,13 @@ class PopoverController: UIViewController {
             }
         case .forcedDirection(let direction):
             containerView.arrowDirection = direction
+        }
+        
+        switch containerView.arrowDirection {
+        case .up:
+            contentController.additionalSafeAreaInsets = UIEdgeInsets(top: PopoverUX.arrowSize.height, left: 0, bottom: 0, right: 0)
+        case .down:
+            contentController.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: PopoverUX.arrowSize.height, right: 0)
         }
         
         let isPortrait = UIDevice.current.orientation.isPortrait

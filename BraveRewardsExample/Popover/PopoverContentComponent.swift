@@ -7,7 +7,6 @@ import UIKit
 
 /// Defines behavior of a component which will be used with a `PopoverController`
 protocol PopoverContentComponent {
-    var customArrowColor: UIColor? { get }
     /// Whether or not the pan to dismiss gesture is enabled. Optional, true by defualt
     var isPanToDismissEnabled: Bool { get }
     /// Allows the component to decide whether or not the popover should dismiss based on some gestural action (tapping
@@ -18,10 +17,6 @@ protocol PopoverContentComponent {
 }
 
 extension PopoverContentComponent {
-    var customArrowColor: UIColor? {
-        return nil
-    }
-  
     var isPanToDismissEnabled: Bool {
         return true
     }

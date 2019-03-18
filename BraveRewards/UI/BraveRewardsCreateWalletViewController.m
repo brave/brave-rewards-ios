@@ -33,18 +33,14 @@
 {
   [super viewDidLoad];
   
+  [self.navigationController setNavigationBarHidden:YES animated:NO];
+  
   [self.view.createWalletButton addTarget:self action:@selector(tappedCreateWallet) forControlEvents:UIControlEventTouchUpInside];
   [self.view.learnMoreButton addTarget:self action:@selector(learnMoreTapped) forControlEvents:UIControlEventTouchUpInside];
   
   self.preferredContentSize = [self.view systemLayoutSizeFittingSize:CGSizeMake(BATPreferredPanelWidth, UIScreen.mainScreen.bounds.size.height)
                                        withHorizontalFittingPriority:UILayoutPriorityRequired
                                              verticalFittingPriority:UILayoutPriorityFittingSizeLevel];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-  [super viewWillAppear:animated];
-  [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
 #pragma mark - Create Wallet

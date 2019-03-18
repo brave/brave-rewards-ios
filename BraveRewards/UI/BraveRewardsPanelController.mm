@@ -13,6 +13,13 @@
 #import "BraveRewardsCreateWalletViewController.h"
 #import "BraveRewardsPublisherViewController.h"
 
+@interface BATNavBar: UINavigationBar
+@end
+
+@implementation BATNavBar
+- (UIBarPosition)barPosition { return UIBarPositionTopAttached; }
+@end
+
 @interface BraveRewardsPanelController ()
 @end
 
@@ -25,7 +32,7 @@
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger url:(NSURL *)url faviconURL:(NSURL *)faviconURL delegate:(id<BraveRewardsDelegate>)delegate dataSource:(id<BraveRewardsDataSource>)dataSource
 {
-  if ((self = [super initWithNibName:nil bundle:nil])) {
+  if ((self = [super initWithNavigationBarClass:[BATNavBar class] toolbarClass:nil])) {
     const auto panelState = [[BATPanelState alloc] init];
     panelState.ledger = ledger;
     panelState.url = url;
@@ -40,6 +47,17 @@
     }
   }
   return self;
+}
+
+- (void)viewDidLayoutSubviews
+{
+  [super viewDidLayoutSubviews];
+  
+  if (!self.navigationBarHidden) {
+    auto navBarFrame = self.navigationBar.frame;
+    navBarFrame.origin.y = self.additionalSafeAreaInsets.top;
+    self.navigationBar.frame = navBarFrame;
+  }
 }
 
 @end
