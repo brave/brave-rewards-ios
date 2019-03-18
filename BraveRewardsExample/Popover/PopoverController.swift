@@ -122,8 +122,8 @@ class PopoverController: UIViewController {
         }
         
         addChildViewController(contentController)
-        contentController.didMove(toParentViewController: self)
         containerView.contentView.addSubview(contentController.view)
+        contentController.didMove(toParentViewController: self)
         
         switch contentSizeBehavior {
         case .autoLayout:
@@ -159,7 +159,20 @@ class PopoverController: UIViewController {
         
         switch contentSizeBehavior {
         case .preferredContentSize, .fixedSize(_):
-            contentController.view.frame = containerView.contentView.bounds
+            containerView.layoutIfNeeded()
+            if contentController.extendEdgeIntoArrow {
+                contentController.view.frame = containerView.contentView.bounds
+            } else {
+                var rect = containerView.contentView.bounds
+                switch containerView.arrowDirection {
+                case .up:
+                    rect.origin.y = PopoverUX.arrowSize.height
+                    rect.size.height -= PopoverUX.arrowSize.height
+                case .down:
+                    rect.size.height -= PopoverUX.arrowSize.height
+                }
+                contentController.view.frame = rect
+            }
         case .autoLayout:
             // Layout handled through constraints
             break
@@ -173,8 +186,6 @@ class PopoverController: UIViewController {
     private let containerView = ContainerView()
     
     private let backgroundOverlayView = UIView()
-    
-    private var isAnimatingSize: Bool = false
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
         if (self.isBeingPresented) {
@@ -248,11 +259,13 @@ class PopoverController: UIViewController {
             containerView.arrowDirection = direction
         }
         
-        switch containerView.arrowDirection {
-        case .up:
-            contentController.additionalSafeAreaInsets = UIEdgeInsets(top: PopoverUX.arrowSize.height, left: 0, bottom: 0, right: 0)
-        case .down:
-            contentController.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: PopoverUX.arrowSize.height, right: 0)
+        if contentController.extendEdgeIntoArrow {
+            switch containerView.arrowDirection {
+            case .up:
+                contentController.additionalSafeAreaInsets = UIEdgeInsets(top: PopoverUX.arrowSize.height, left: 0, bottom: 0, right: 0)
+            case .down:
+                contentController.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: PopoverUX.arrowSize.height, right: 0)
+            }
         }
         
         let isPortrait = UIDevice.current.orientation.isPortrait
@@ -403,7 +416,15 @@ extension PopoverController: BasicAnimationControllerDelegate {
             $0.size.equalTo(originViewFrame.size)
         }
         
-        contentController.view.frame = CGRect(origin: .zero, size: popoverContext.presentedSize)
+        var origin = CGPoint.zero
+        var size = popoverContext.presentedSize
+        if !contentController.extendEdgeIntoArrow {
+            if case .up = containerView.arrowDirection {
+                origin.y = PopoverUX.arrowSize.height
+            }
+            size.height += PopoverUX.arrowSize.height
+        }
+        contentController.view.frame = CGRect(origin: origin, size: size)
         
         containerView.snp.makeConstraints {
             switch containerView.arrowDirection {
