@@ -54,6 +54,8 @@
 		2746145E223C55B5002DBE79 /* BraveRewardsCreateWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2746145C223C55B5002DBE79 /* BraveRewardsCreateWalletViewController.m */; };
 		27461461223C593C002DBE79 /* BATPanelState.h in Headers */ = {isa = PBXBuildFile; fileRef = 2746145F223C593B002DBE79 /* BATPanelState.h */; };
 		27461462223C593C002DBE79 /* BATPanelState.m in Sources */ = {isa = PBXBuildFile; fileRef = 27461460223C593C002DBE79 /* BATPanelState.m */; };
+		2746146922402207002DBE79 /* BATPopoverNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2746146722402207002DBE79 /* BATPopoverNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2746146A22402207002DBE79 /* BATPopoverNavigationController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2746146822402207002DBE79 /* BATPopoverNavigationController.mm */; };
 		27516FD222138C5200E04FE1 /* NativeLedgerBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27516FD122138C5200E04FE1 /* NativeLedgerBridge.h */; };
 		27516FD32213966A00E04FE1 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
 		27516FD42213966A00E04FE1 /* BraveRewards.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -203,6 +205,8 @@
 		2746145C223C55B5002DBE79 /* BraveRewardsCreateWalletViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BraveRewardsCreateWalletViewController.m; sourceTree = "<group>"; };
 		2746145F223C593B002DBE79 /* BATPanelState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPanelState.h; sourceTree = "<group>"; };
 		27461460223C593C002DBE79 /* BATPanelState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATPanelState.m; sourceTree = "<group>"; };
+		2746146722402207002DBE79 /* BATPopoverNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPopoverNavigationController.h; sourceTree = "<group>"; };
+		2746146822402207002DBE79 /* BATPopoverNavigationController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATPopoverNavigationController.mm; sourceTree = "<group>"; };
 		27516FD122138C5200E04FE1 /* NativeLedgerBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeLedgerBridge.h; sourceTree = "<group>"; };
 		275779A521E547C2005A0EAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		275779A721E547C6005A0EAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -538,6 +542,8 @@
 		27F3E51621FB7436009A54D5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				2746146722402207002DBE79 /* BATPopoverNavigationController.h */,
+				2746146822402207002DBE79 /* BATPopoverNavigationController.mm */,
 				2746145F223C593B002DBE79 /* BATPanelState.h */,
 				27461460223C593C002DBE79 /* BATPanelState.m */,
 				272B78852225EF2A00B7B81E /* BraveRewardsDataSource.h */,
@@ -668,6 +674,7 @@
 			files = (
 				27461461223C593C002DBE79 /* BATPanelState.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
+				2746146922402207002DBE79 /* BATPopoverNavigationController.h in Headers */,
 				2774BBBD2227242F00160619 /* BraveRewardsDataDelegate.h in Headers */,
 				2746145D223C55B5002DBE79 /* BraveRewardsCreateWalletViewController.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
@@ -954,6 +961,7 @@
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
+				2746146A22402207002DBE79 /* BATPopoverNavigationController.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
 				2730DF8422318D8F0031845C /* BraveRewardsSettingsViewController.mm in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,

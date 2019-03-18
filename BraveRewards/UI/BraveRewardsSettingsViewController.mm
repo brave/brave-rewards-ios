@@ -6,6 +6,7 @@
 #import "BATBraveLedger.h"
 #import "BATPanelState.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
+#import "BATPopoverNavigationController.h"
 
 @interface BraveRewardsSettingsViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
@@ -62,10 +63,8 @@
 - (void)tappedClaimGrant
 {
   self.navigationController.definesPresentationContext = YES;
-  const auto controller = [[UIViewController alloc] init];
-  controller.view.backgroundColor = [UIColor whiteColor];
-  controller.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(tappedDone)];
-  const auto container = [[UINavigationController alloc] initWithRootViewController:controller];
+  const auto controller = [[BraveRewardsSettingsViewController alloc] initWithLedger:self.ledger];
+  const auto container = [[BATPopoverNavigationController alloc] initWithRootViewController:controller];
   container.modalPresentationStyle = UIModalPresentationCurrentContext;
   [self presentViewController:container animated:YES completion:nil];
 }

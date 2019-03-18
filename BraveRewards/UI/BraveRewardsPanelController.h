@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <UIKit/UIKit.h>
+#import "BATPopoverNavigationController.h"
 #import "BraveRewardsDataSource.h"
 #import "BraveRewardsDataDelegate.h"
 
@@ -10,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BraveRewardsPanelController : UINavigationController
+@interface BraveRewardsPanelController : BATPopoverNavigationController
 
 /// The logo to display in the toolbar to display this panel
 @property (class, readonly) UIImage *batLogoImage;
