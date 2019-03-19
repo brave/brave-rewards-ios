@@ -13,6 +13,7 @@ public class SettingsGrantSectionView: SettingsSectionView {
     $0.setTitle(BATLocalizedString("BraveRewardsSettingsGrantClaimButtonTitle", "Claim").uppercased(), for: .normal)
     $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
   public override init(frame: CGRect) {
