@@ -29,4 +29,13 @@ public class Button: UIButton {
       abs(titleEdgeInsets.left) + abs(titleEdgeInsets.right)
     return size
   }
+  
+  var hitTestSlop: UIEdgeInsets = .zero
+  
+  public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    if bounds.inset(by: hitTestSlop).contains(point) {
+      return true
+    }
+    return super.point(inside: point, with: event)
+  }
 }

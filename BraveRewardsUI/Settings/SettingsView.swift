@@ -22,6 +22,7 @@ public class SettingsView: UIView {
   @objc public let grantSection = SettingsGrantSectionView()
   @objc public let walletSection = SettingsWalletSectionView()
   @objc public let adsSection = SettingsAdSectionView()
+  @objc public let autoContributeSection = SettingsAutoContributeSectionView()
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
@@ -34,6 +35,7 @@ public class SettingsView: UIView {
     stackView.addArrangedSubview(grantSection)
     stackView.addArrangedSubview(walletSection)
     stackView.addArrangedSubview(adsSection)
+    stackView.addArrangedSubview(autoContributeSection)
     
     scrollView.snp.makeConstraints {
       $0.edges.equalTo(self)

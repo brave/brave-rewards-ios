@@ -28,6 +28,7 @@ public class Colors {
   static let blurple600 = UIColor(hex: 0xA0A5EB)
   static let blurple700 = UIColor(hex: 0xD0D2F7)
   static let blurple800 = UIColor(hex: 0xF0F1FF)
+  static let purple300 = UIColor(hex: 0x6845D1)
   static let purple400 = UIColor(hex: 0x845EF7)
   static let orange400 = UIColor(hex: 0xFB542B)
 }
