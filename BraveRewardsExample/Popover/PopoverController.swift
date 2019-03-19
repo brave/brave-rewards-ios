@@ -81,6 +81,14 @@ class PopoverController: UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
+        if let navigationController = contentController as? UINavigationController {
+            if case .autoLayout = contentSizeBehavior {
+                assertionFailure("`autoLayout` content size behavior is not supported with UINavigationController, please use `preferredContentSize` or `fixedSize`")
+            }
+            navigationController.delegate = self
+            navigationController.interactivePopGestureRecognizer?.delegate = self
+        }
+        
         self.modalPresentationStyle = .overFullScreen
         self.transitioningDelegate = self
     }
@@ -114,22 +122,15 @@ class PopoverController: UIViewController {
         }
         
         addChildViewController(contentController)
-        contentController.didMove(toParentViewController: self)
         containerView.contentView.addSubview(contentController.view)
-        
-        contentController.view.snp.makeConstraints { make in
-            make.edges.equalTo(self.containerView.contentView)
-        }
-      
-        containerView.customArrowColor = contentController.customArrowColor
+        contentController.didMove(toParentViewController: self)
         
         switch contentSizeBehavior {
         case .autoLayout:
-            break
+            contentController.view.snp.makeConstraints { make in
+                make.edges.equalTo(self.containerView.contentView)
+            }
         case .preferredContentSize:
-            // Make sure the view has a frame before we potentially attempt to compute its preferred content size
-            view.layoutIfNeeded()
-            
             containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: contentController.preferredContentSize.height + PopoverUX.arrowSize.height)
             containerViewHeightConstraint?.priority = .popoverPreferredOrFixedSize
             containerViewHeightConstraint?.isActive = true
@@ -137,6 +138,7 @@ class PopoverController: UIViewController {
             containerViewWidthConstraint = containerView.widthAnchor.constraint(equalToConstant: contentController.preferredContentSize.width)
             containerViewWidthConstraint?.priority = .popoverPreferredOrFixedSize
             containerViewWidthConstraint?.isActive = true
+            
         case .fixedSize(let size):
             containerViewHeightConstraint = containerView.heightAnchor.constraint(equalToConstant: size.height + PopoverUX.arrowSize.height)
             containerViewHeightConstraint?.priority = .popoverPreferredOrFixedSize
@@ -152,6 +154,31 @@ class PopoverController: UIViewController {
         return .lightContent
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        switch contentSizeBehavior {
+        case .preferredContentSize, .fixedSize(_):
+            containerView.layoutIfNeeded()
+            if contentController.extendEdgeIntoArrow {
+                contentController.view.frame = containerView.contentView.bounds
+            } else {
+                var rect = containerView.contentView.bounds
+                switch containerView.arrowDirection {
+                case .up:
+                    rect.origin.y = PopoverUX.arrowSize.height
+                    rect.size.height -= PopoverUX.arrowSize.height
+                case .down:
+                    rect.size.height -= PopoverUX.arrowSize.height
+                }
+                contentController.view.frame = rect
+            }
+        case .autoLayout:
+            // Layout handled through constraints
+            break
+        }
+    }
+    
     // MARK: - UI
     
     private(set) var contentController: UIViewController & PopoverContentComponent
@@ -161,12 +188,28 @@ class PopoverController: UIViewController {
     private let backgroundOverlayView = UIView()
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
+        if (self.isBeingPresented) {
+            return
+        }
         if case .preferredContentSize = contentSizeBehavior {
+            var size = container.preferredContentSize
+            size.width = min(size.width, UIScreen.main.bounds.width - outerMargins.left - outerMargins.right)
+            size.height = min(size.height, UIScreen.main.bounds.height - containerView.frame.origin.y - view.safeAreaInsets.bottom - arrowDistance)
+            if contentController.view.bounds.size == size { return }
+
+            contentController.view.setNeedsLayout()
             self.containerViewHeightConstraint?.springAnimate(property: kPOPLayoutConstraintConstant, key: "constant") { animation, _ in
-                animation.toValue = container.preferredContentSize.height + PopoverUX.arrowSize.height
+                animation.toValue = size.height + PopoverUX.arrowSize.height
+                animation.animationDidApplyBlock = { _ in
+                    if let nc = self.contentController as? UINavigationController {
+                        nc.view.setNeedsLayout()
+                        nc.view.layoutIfNeeded()
+                        nc.viewControllers.filter { $0.isViewLoaded }.forEach { $0.view.frame = nc.view.bounds }
+                    }
+                }
             }
             self.containerViewWidthConstraint?.springAnimate(property: kPOPLayoutConstraintConstant, key: "constant") { animation, _ in
-                animation.toValue = container.preferredContentSize.width
+                animation.toValue = size.width
             }
         }
     }
@@ -214,6 +257,15 @@ class PopoverController: UIViewController {
             }
         case .forcedDirection(let direction):
             containerView.arrowDirection = direction
+        }
+        
+        if contentController.extendEdgeIntoArrow {
+            switch containerView.arrowDirection {
+            case .up:
+                contentController.additionalSafeAreaInsets = UIEdgeInsets(top: PopoverUX.arrowSize.height, left: 0, bottom: 0, right: 0)
+            case .down:
+                contentController.additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: PopoverUX.arrowSize.height, right: 0)
+            }
         }
         
         let isPortrait = UIDevice.current.orientation.isPortrait
@@ -364,7 +416,15 @@ extension PopoverController: BasicAnimationControllerDelegate {
             $0.size.equalTo(originViewFrame.size)
         }
         
-        contentController.view.frame = CGRect(origin: .zero, size: popoverContext.presentedSize)
+        var origin = CGPoint.zero
+        var size = popoverContext.presentedSize
+        if !contentController.extendEdgeIntoArrow {
+            if case .up = containerView.arrowDirection {
+                origin.y = PopoverUX.arrowSize.height
+            }
+            size.height += PopoverUX.arrowSize.height
+        }
+        contentController.view.frame = CGRect(origin: origin, size: size)
         
         containerView.snp.makeConstraints {
             switch containerView.arrowDirection {
@@ -471,8 +531,10 @@ extension PopoverController: UIGestureRecognizerDelegate {
             gestureRecognizer.cancel()
             return false
         }
-                
+        
         if let scrollView = otherGestureRecognizer.view as? UIScrollView {
+            return false
+            
             let topInset = scrollView.adjustedContentInset.top
             let leftInset = scrollView.adjustedContentInset.left
             
@@ -497,5 +559,19 @@ extension PopoverController: UIGestureRecognizerDelegate {
             }
         }
         return false
+    }
+}
+
+extension PopoverController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        
+        if case .preferredContentSize = contentSizeBehavior {
+            var size = viewController.preferredContentSize
+            size.width = min(size.width, UIScreen.main.bounds.width - outerMargins.left - outerMargins.right)
+            size.height = min(size.height, UIScreen.main.bounds.height - containerView.frame.origin.y - view.safeAreaInsets.bottom - arrowDistance)
+            navigationController.preferredContentSize = size
+        }
+    }
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
     }
 }

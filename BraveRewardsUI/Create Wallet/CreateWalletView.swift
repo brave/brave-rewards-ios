@@ -97,7 +97,8 @@ public class CreateWalletView: UIView {
       $0.leading.equalTo(self).offset(10.0)
     }
     prefixLabel.snp.makeConstraints {
-      $0.top.leading.trailing.equalTo(self).inset(30.0)
+      $0.top.equalTo(self.safeAreaLayoutGuide).inset(30.0)
+      $0.leading.trailing.equalTo(self).inset(30.0)
     }
     batLogoImageView.snp.makeConstraints {
       $0.top.equalTo(self.prefixLabel.snp.bottom).offset(10.0)

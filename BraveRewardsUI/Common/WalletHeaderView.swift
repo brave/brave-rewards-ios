@@ -95,7 +95,8 @@ public class WalletHeaderView: UIView {
     buttonsContainerView.addArrangedSubview(settingsButton)
     
     titleLabel.snp.makeConstraints {
-      $0.top.leading.trailing.equalTo(self).inset(15.0)
+      $0.top.equalTo(self.safeAreaLayoutGuide).inset(15.0)
+      $0.leading.trailing.equalTo(self).inset(15.0)
     }
     altcurrencyContainerView.snp.makeConstraints {
       $0.top.equalTo(self.titleLabel.snp.bottom).offset(10.0)

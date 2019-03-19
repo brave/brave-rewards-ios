@@ -4,7 +4,9 @@
 
 #import "BraveRewardsSettingsViewController.h"
 #import "BATBraveLedger.h"
+#import "BATPanelState.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
+#import "BATPopoverNavigationController.h"
 
 @interface BraveRewardsSettingsViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
@@ -27,25 +29,44 @@
 - (void)loadView
 {
   self.view = [[SettingsView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  
-//  self.navigationController.navigationBar.translucent = NO;
-  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(tappedDone)];
 }
 
 - (void)viewDidLoad
 {
   [super viewDidLoad];
   
+  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(tappedDone)];
+  
+  self.preferredContentSize = CGSizeMake(BATPreferredPanelWidth, 750);
+  
   [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled];
   const auto __weak weakSelf = self;
   self.view.rewardsToggleSection.rewardsSwitchValueChanged = ^(BOOL enabled) {
     weakSelf.ledger.enabled = enabled;
   };
+  
+  [self.view.grantSection.claimGrantButton addTarget:self action:@selector(tappedClaimGrant) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+  [super viewWillAppear:animated];
+  // Not sure why this has to be set on the nav controller specifically instead of just this controller
+  self.navigationController.preferredContentSize = CGSizeMake(355, 1000);
 }
 
 - (void)tappedDone
 {
   [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)tappedClaimGrant
+{
+  self.navigationController.definesPresentationContext = YES;
+  const auto controller = [[BraveRewardsSettingsViewController alloc] initWithLedger:self.ledger];
+  const auto container = [[BATPopoverNavigationController alloc] initWithRootViewController:controller];
+  container.modalPresentationStyle = UIModalPresentationCurrentContext;
+  [self presentViewController:container animated:YES completion:nil];
 }
 
 @end

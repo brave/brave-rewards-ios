@@ -5,7 +5,6 @@
 import UIKit
 import BraveRewards
 
-extension BraveRewardsPanelController: PopoverContentComponent {
 class UIMockLedger: BraveLedger {
   let defaults = UserDefaults.standard
   
@@ -31,8 +30,17 @@ class UIMockLedger: BraveLedger {
     }
   }
 }
+
+
+extension BraveRewardsPanelController: PopoverContentComponent {
+  var extendEdgeIntoArrow: Bool {
+    return true
+  }
   var customArrowColor: UIColor? {
     return UIColor(red: 61.0/255.0, green: 45.0/255.0, blue: 206.0/255.0, alpha: 1.0)
+  }
+  var isPanToDismissEnabled: Bool {
+    return self.visibleViewController === self.viewControllers.first
   }
 }
 
@@ -65,7 +73,7 @@ class ViewController: UIViewController {
       delegate: self,
       dataSource: self
     )
-    popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .autoLayout)
+    popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .preferredContentSize)
     popover?.addsConvenientDismissalMargins = false
     popover?.present(from: braveRewardsPanelButton, on: self)
   }
