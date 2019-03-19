@@ -8,6 +8,8 @@
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 #import "BATPopoverNavigationController.h"
 
+#import "bat/ledger/wallet_info.h"
+
 @interface BraveRewardsSettingsViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) SettingsView *view;
@@ -46,6 +48,14 @@
   };
   
   [self.view.grantSection.claimGrantButton addTarget:self action:@selector(tappedClaimGrant) forControlEvents:UIControlEventTouchUpInside];
+  
+  ledger::WalletInfo _walletInfo; // FIXME: Obviously need real values
+  _walletInfo.altcurrency_ = "BAT";
+  _walletInfo.balance_ = 30.0;
+  
+  [self.view.walletSection setWalletBalance:[NSString stringWithFormat:@"%.1f", _walletInfo.balance_]
+                                     crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
+                                dollarValue:@"0.00 USD"];
 }
 
 - (void)viewWillAppear:(BOOL)animated
