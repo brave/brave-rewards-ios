@@ -56,6 +56,14 @@
   [self.view.walletSection setWalletBalance:[NSString stringWithFormat:@"%.1f", _walletInfo.balance_]
                                      crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
                                 dollarValue:@"0.00 USD"];
+  
+  self.view.autoContributeSection.toggleSwitch.on = self.ledger.autoContributeEnabled;
+  [self.view.autoContributeSection.toggleSwitch addTarget:self action:@selector(autoContributeToggleValueChanged) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)autoContributeToggleValueChanged
+{
+  self.ledger.autoContributeEnabled = self.view.autoContributeSection.toggleSwitch.on;
 }
 
 - (void)viewWillAppear:(BOOL)animated

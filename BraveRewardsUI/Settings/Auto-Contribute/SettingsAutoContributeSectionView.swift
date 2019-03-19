@@ -10,7 +10,7 @@ public class SettingsAutoContributeSectionView: SettingsSectionView {
     static let titleColor = UIColor(hex: 0x90329C) // No close color in Brave palette
   }
   
-  public let toggleSwitch = UISwitch().then {
+  @objc public let toggleSwitch = UISwitch().then {
     $0.onTintColor = BraveUX.switchOnColor
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }

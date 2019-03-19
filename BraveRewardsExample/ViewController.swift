@@ -23,9 +23,14 @@ class UIMockLedger: BraveLedger {
     get { return defaults.bool(forKey: "BATUIWalletCreated") }
     set { return defaults.set(newValue, forKey: "BATUIWalletCreated") }
   }
+  override var isAutoContributeEnabled: Bool {
+    get { return defaults.bool(forKey: "BATUIAutoContributeEnabled") }
+    set { return defaults.set(newValue, forKey: "BATUIAutoContributeEnabled") }
+  }
   override func createWallet(_ completion: ((Error?) -> Void)? = nil) {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       self.isWalletCreated = true
+      self.isAutoContributeEnabled = true
       completion?(nil)
     }
   }
