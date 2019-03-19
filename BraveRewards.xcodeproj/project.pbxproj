@@ -82,6 +82,7 @@
 		27A47073224150A300596431 /* SettingsWalletSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A47072224150A300596431 /* SettingsWalletSectionView.swift */; };
 		27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */; };
 		27A4707822417E6200596431 /* SettingsViewDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */; };
+		27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */; };
 		27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AFF5432229798F009320F5 /* TippingConfirmationView.swift */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
@@ -236,6 +237,7 @@
 		27A47072224150A300596431 /* SettingsWalletSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWalletSectionView.swift; sourceTree = "<group>"; };
 		27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAutoContributeSectionView.swift; sourceTree = "<group>"; };
 		27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDetailsButton.swift; sourceTree = "<group>"; };
+		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
 		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
 		27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveLedger+Private.h"; sourceTree = "<group>"; };
 		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				27A470712241506400596431 /* Wallet */,
 				2730DF8F2232C6E00031845C /* Ads */,
 				27A4707422417B3100596431 /* Auto-Contribute */,
+				27A4707922418D4500596431 /* Tips */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -554,6 +557,14 @@
 				27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */,
 			);
 			path = "Auto-Contribute";
+			sourceTree = "<group>";
+		};
+		27A4707922418D4500596431 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */,
+			);
+			path = Tips;
 			sourceTree = "<group>";
 		};
 		27B6C88A21F660D700F256EA /* Data */ = {
@@ -945,6 +956,7 @@
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
 				272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */,
 				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
+				27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */,
 				2730DF8D2231C75B0031845C /* SettingsRewardsSectionView.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,

@@ -15,7 +15,7 @@ public class SettingsAutoContributeSectionView: SettingsSectionView {
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
-  public let viewDetailsButton = SettingsViewDetailsButton(type: .system)
+  @objc public let viewDetailsButton = SettingsViewDetailsButton(type: .system)
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
