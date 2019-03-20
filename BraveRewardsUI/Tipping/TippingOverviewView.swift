@@ -8,7 +8,7 @@ public class TippingOverviewView: UIView {
   private struct UX {
     static let backgroundColor = Colors.blurple800
     static let headerBackgroundColor = Colors.grey300
-    static let headerHeight = 98.0
+    static let headerHeight: CGFloat = 98.0
     static let faviconBackgroundColor = Colors.neutral800
     static let faviconSize = CGSize(width: 88.0, height: 88.0)
     static let titleColor = Colors.grey100
@@ -53,46 +53,60 @@ public class TippingOverviewView: UIView {
     $0.numberOfLines = 0
   }
   
+  let scrollView = UIScrollView().then {
+    $0.alwaysBounceVertical = true
+    $0.showsVerticalScrollIndicator = false
+    $0.contentInset = UIEdgeInsets(top: UX.headerHeight, left: 0.0, bottom: 0.0, right: 0.0)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = UX.backgroundColor
     
     clipsToBounds = true
-    layer.cornerRadius = 4.0
+    layer.cornerRadius = 8.0
+    layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     
+    addSubview(scrollView)
     addSubview(headerView)
     headerView.addSubview(watermarkImageView)
     // headerView.addSubview(heartsImageView)
-    addSubview(socialStackView)
+    scrollView.addSubview(socialStackView)
     addSubview(faviconImageView)
-    addSubview(titleLabel)
-    addSubview(bodyLabel)
+    scrollView.addSubview(titleLabel)
+    scrollView.addSubview(bodyLabel)
     
+    scrollView.snp.makeConstraints {
+      $0.edges.equalTo(self)
+    }
+    scrollView.contentLayoutGuide.snp.makeConstraints {
+      $0.width.equalTo(self)
+    }
     headerView.snp.makeConstraints {
       $0.top.leading.trailing.equalTo(self)
-      $0.height.equalTo(UX.headerHeight)
+      $0.height.greaterThanOrEqualTo(UX.headerHeight)
     }
     watermarkImageView.snp.makeConstraints {
       $0.top.leading.equalTo(self.headerView)
     }
     faviconImageView.snp.makeConstraints {
-      $0.bottom.equalTo(self.socialStackView.snp.bottom)
+      $0.centerY.equalTo(self.headerView.snp.bottom).offset(-8.0)
       $0.leading.equalTo(self).offset(25.0)
       $0.size.equalTo(UX.faviconSize)
     }
     socialStackView.snp.makeConstraints {
-      $0.top.equalTo(self.headerView.snp.bottom).offset(20.0)
+      $0.top.equalTo(self.scrollView.contentLayoutGuide).offset(20.0)
       $0.trailing.equalTo(self).offset(-20.0)
     }
     titleLabel.snp.makeConstraints {
-      $0.top.equalTo(self.faviconImageView.snp.bottom).offset(25.0)
+      $0.top.equalTo(self.socialStackView.snp.bottom).offset(25.0)
       $0.leading.trailing.equalTo(self).inset(25.0)
     }
     bodyLabel.snp.makeConstraints {
       $0.top.equalTo(self.titleLabel.snp.bottom).offset(10.0)
       $0.leading.trailing.equalTo(self.titleLabel)
-      $0.bottom.equalTo(self).offset(-25.0)
+      $0.bottom.equalTo(self.scrollView.contentLayoutGuide).inset(25.0)
     }
   }
   

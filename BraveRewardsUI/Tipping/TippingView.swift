@@ -68,11 +68,6 @@ public class TippingView: UIView {
     $0.backgroundColor = UX.overlayBackgroundColor
   }
   
-  private let scrollView = UIScrollView().then {
-    $0.alwaysBounceVertical = true
-    $0.showsVerticalScrollIndicator = false
-  }
-  
   private let confirmationView = TippingConfirmationView().then {
     $0.isHidden = true
   }
@@ -90,8 +85,7 @@ public class TippingView: UIView {
     super.init(frame: frame)
     
     addSubview(backgroundView)
-    addSubview(scrollView)
-    scrollView.addSubview(overviewView)
+    addSubview(overviewView)
     addSubview(optionSelectionView)
     addSubview(dismissButton)
     
@@ -106,16 +100,10 @@ public class TippingView: UIView {
     optionSelectionView.snp.makeConstraints {
       $0.bottom.leading.trailing.equalTo(self)
     }
-    scrollView.snp.makeConstraints {
-      $0.edges.equalTo(self)
-    }
-    scrollView.contentLayoutGuide.snp.makeConstraints {
-      $0.width.equalTo(self)
-    }
     overviewView.snp.makeConstraints {
-      $0.top.equalTo(self.scrollView.contentLayoutGuide.snp.top)
-      $0.leading.trailing.equalTo(self).inset(10.0)
-      $0.bottom.equalTo(self.scrollView.contentLayoutGuide.snp.bottom).offset(-10.0)
+      $0.top.equalTo(self.safeAreaLayoutGuide).offset(88.0)
+      $0.leading.trailing.equalTo(self)
+      $0.bottom.equalTo(self.optionSelectionView.snp.top)
     }
     
     // FIXME: Remove fake data
@@ -128,13 +116,6 @@ public class TippingView: UIView {
   required init(coder: NSCoder) {
     fatalError()
   }
-  
-  public override func layoutSubviews() {
-    super.layoutSubviews()
-    
-    optionSelectionView.layoutIfNeeded()
-    scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: optionSelectionView.bounds.height, right: 0)
-  }
 }
 
 extension TippingView: BasicAnimationControllerDelegate {
@@ -146,7 +127,7 @@ extension TippingView: BasicAnimationControllerDelegate {
     backgroundView.alpha = 0.0
     dismissButton.alpha = 0.0
     dismissButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-    scrollView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
+    overviewView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
     optionSelectionView.transform = CGAffineTransform(translationX: 0, y: optionSelectionView.bounds.height)
     
     // Animate
@@ -158,7 +139,7 @@ extension TippingView: BasicAnimationControllerDelegate {
       self.dismissButton.alpha = 1.0
     }, completion: nil)
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
-      self.scrollView.transform = .identity
+      self.overviewView.transform = .identity
       self.optionSelectionView.transform = .identity
     }, completion: nil)
     context.completeTransition(true)
@@ -171,7 +152,7 @@ extension TippingView: BasicAnimationControllerDelegate {
     UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
       self.dismissButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
       self.dismissButton.alpha = 0.0
-      self.scrollView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
+      self.overviewView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
       self.optionSelectionView.transform = CGAffineTransform(translationX: 0, y: self.optionSelectionView.bounds.height)
     }) { _ in
       self.removeFromSuperview()
