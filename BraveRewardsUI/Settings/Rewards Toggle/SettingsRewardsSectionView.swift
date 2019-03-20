@@ -7,9 +7,20 @@ import UIKit
 public class SettingsRewardsSectionView: SettingsSectionView {
   
   /// Set the rewards enabled state based on the ledger.
-  @objc public func setRewardsEnabled(_ enabled: Bool) {
+  @objc public func setRewardsEnabled(_ enabled: Bool, animated: Bool = false) {
+    if enabled == toggleView.toggleSwitch.isOn { return } // Nothing to do
     toggleView.toggleSwitch.isOn = enabled
-    disabledTextView.isHidden = toggleView.toggleSwitch.isOn
+    if (animated) {
+      if !toggleView.toggleSwitch.isOn {
+        self.disabledTextView.alpha = 0
+      }
+      UIView.animate(withDuration: 0.25) {
+        self.disabledTextView.isHidden = self.toggleView.toggleSwitch.isOn
+        self.disabledTextView.alpha = self.toggleView.toggleSwitch.isOn ? 0.0 : 1.0
+      }
+    } else {
+      disabledTextView.isHidden = toggleView.toggleSwitch.isOn
+    }
   }
   
   /// A closure executed when the user changes the on/off state of the main rewards switch
@@ -31,13 +42,6 @@ public class SettingsRewardsSectionView: SettingsSectionView {
   }
   
   @objc private func rewardsStatusChanged() {
-    if !toggleView.toggleSwitch.isOn {
-      self.disabledTextView.alpha = 0
-    }
-    UIView.animate(withDuration: 0.25) {
-      self.disabledTextView.isHidden = self.toggleView.toggleSwitch.isOn
-      self.disabledTextView.alpha = self.toggleView.toggleSwitch.isOn ? 0.0 : 1.0
-    }
     rewardsSwitchValueChanged?(toggleView.toggleSwitch.isOn)
   }
   

@@ -41,10 +41,9 @@
   
   self.preferredContentSize = CGSizeMake(BATPreferredPanelWidth, 750);
   
-  [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled];
   const auto __weak weakSelf = self;
   self.view.rewardsToggleSection.rewardsSwitchValueChanged = ^(BOOL enabled) {
-    weakSelf.ledger.enabled = enabled;
+    [weakSelf rewardsSwitchValueChanged:enabled];
   };
   
   [self.view.grantSection.claimGrantButton addTarget:self action:@selector(tappedClaimGrant) forControlEvents:UIControlEventTouchUpInside];
@@ -57,13 +56,9 @@
                                      crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
                                 dollarValue:@"0.00 USD"];
   
-  self.view.autoContributeSection.toggleSwitch.on = self.ledger.autoContributeEnabled;
   [self.view.autoContributeSection.toggleSwitch addTarget:self action:@selector(autoContributeToggleValueChanged) forControlEvents:UIControlEventValueChanged];
-}
-
-- (void)autoContributeToggleValueChanged
-{
-  self.ledger.autoContributeEnabled = self.view.autoContributeSection.toggleSwitch.on;
+  
+  [self updateVisualStateOfSections:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,6 +66,32 @@
   [super viewWillAppear:animated];
   // Not sure why this has to be set on the nav controller specifically instead of just this controller
   self.navigationController.preferredContentSize = CGSizeMake(355, 1000);
+}
+
+#pragma mark -
+
+- (void)updateVisualStateOfSections:(BOOL)animated
+{
+  // The sections in this controller change a bit based on whether or not Brave Rewards is enabled (or their
+  // individual setting is disabled, in the case of auto-contribution)
+  
+  [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled animated:animated];
+  self.view.autoContributeSection.toggleSwitch.on = self.ledger.autoContributeEnabled;
+  [self.view.autoContributeSection setSectionEnabled:self.ledger.enabled && self.ledger.autoContributeEnabled animated:animated];
+}
+
+#pragma mark - Actions
+
+- (void)rewardsSwitchValueChanged:(BOOL)enabled
+{
+  self.ledger.enabled = enabled;
+  [self updateVisualStateOfSections:YES];
+}
+
+- (void)autoContributeToggleValueChanged
+{
+  self.ledger.autoContributeEnabled = self.view.autoContributeSection.toggleSwitch.on;
+  [self updateVisualStateOfSections:YES];
 }
 
 - (void)tappedDone
