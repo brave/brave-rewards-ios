@@ -17,6 +17,7 @@ public class Colors {
   static let grey000 = UIColor(hex: 0x1E2029)
   static let grey100 = UIColor(hex: 0x3B3E4F)
   static let grey200 = UIColor(hex: 0x5E6175)
+  static let grey400 = UIColor(hex: 0xAEB1C2)
   static let grey300 = UIColor(hex: 0x84889C)
   static let grey600 = UIColor(hex: 0xCED0DB)
   static let neutral600 = UIColor(hex: 0xDEE2E6)

@@ -7,13 +7,7 @@ import UIKit
 /// `BraveRewardsTippingViewController`'s loaded view
 public class TippingView: UIView {
   
-  @objc public let dismissButton = UIButton(type: .system).then {
-    $0.setImage(UIImage(frameworkResourceNamed: "close-icon"), for: .normal)
-    $0.tintColor = .white
-    $0.backgroundColor = UIColor(white: 0.0, alpha: 0.5)
-    $0.layer.cornerRadius = UX.dismissButtonSize.width / 2.0
-    $0.clipsToBounds = true
-  }
+  @objc public var gesturalDismissExecuted: (() -> Void)?
   
   @objc public func setTippingConfirmationVisible(_ visible: Bool, animated: Bool = true) {
     if confirmationView.isHidden == !visible {
@@ -61,7 +55,6 @@ public class TippingView: UIView {
   
   private struct UX {
     static let overlayBackgroundColor = UIColor(white: 0.0, alpha: 0.7)
-    static let dismissButtonSize = CGSize(width: 35.0, height: 35.0)
   }
   
   private let backgroundView = UIView().then {
@@ -87,15 +80,11 @@ public class TippingView: UIView {
     addSubview(backgroundView)
     addSubview(overviewView)
     addSubview(optionSelectionView)
-    addSubview(dismissButton)
+    
+    overviewView.scrollView.delegate = self
     
     backgroundView.snp.makeConstraints {
       $0.edges.equalTo(self)
-    }
-    dismissButton.snp.makeConstraints {
-      $0.top.equalTo(self.safeAreaLayoutGuide).offset(5.0)
-      $0.trailing.equalTo(self.safeAreaLayoutGuide).offset(-15.0)
-      $0.size.equalTo(UX.dismissButtonSize)
     }
     optionSelectionView.snp.makeConstraints {
       $0.bottom.leading.trailing.equalTo(self)
@@ -116,6 +105,9 @@ public class TippingView: UIView {
   required init(coder: NSCoder) {
     fatalError()
   }
+  
+  private var isPassedDismissalThreshold = false
+  private var isDismissingByGesture = false
 }
 
 extension TippingView: BasicAnimationControllerDelegate {
@@ -125,8 +117,6 @@ extension TippingView: BasicAnimationControllerDelegate {
     // Prepare
     layoutIfNeeded()
     backgroundView.alpha = 0.0
-    dismissButton.alpha = 0.0
-    dismissButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
     overviewView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
     optionSelectionView.transform = CGAffineTransform(translationX: 0, y: optionSelectionView.bounds.height)
     
@@ -134,10 +124,6 @@ extension TippingView: BasicAnimationControllerDelegate {
     UIView.animate(withDuration: 0.15) {
       self.backgroundView.alpha = 1.0
     }
-    UIView.animate(withDuration: 0.4, delay: 0.25, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: [], animations: {
-      self.dismissButton.transform = .identity
-      self.dismissButton.alpha = 1.0
-    }, completion: nil)
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
       self.overviewView.transform = .identity
       self.optionSelectionView.transform = .identity
@@ -150,8 +136,6 @@ extension TippingView: BasicAnimationControllerDelegate {
       self.backgroundView.alpha = 0.0
     }
     UIView.animate(withDuration: 0.35, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
-      self.dismissButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-      self.dismissButton.alpha = 0.0
       self.overviewView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
       self.optionSelectionView.transform = CGAffineTransform(translationX: 0, y: self.optionSelectionView.bounds.height)
     }) { _ in
@@ -159,5 +143,57 @@ extension TippingView: BasicAnimationControllerDelegate {
       context.completeTransition(true)
     }
     setTippingConfirmationVisible(false, animated: true)
+  }
+}
+
+extension TippingView: UIScrollViewDelegate {
+  
+  private var dismissalThreshold: CGFloat {
+    return -85.0
+  }
+  
+  public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    // Don't adjust transform once its going to dismiss (dismiss animation will handle that)
+    if isDismissingByGesture { return }
+    
+    let offset = -min(0, scrollView.contentOffset.y + scrollView.contentInset.top)
+    overviewView.transform = CGAffineTransform(translationX: 0, y: offset)
+    // Offset change in overview transform with negative transform on the scroll view itself
+    overviewView.scrollView.transform = CGAffineTransform(translationX: 0, y: -offset)
+    
+    // Deceleration cannot trigger the dismissal, so we shouldn't update the dismiss button even if it does decelerate
+    // temporarly passed the threshold (from a hard flick, for instance)
+    if scrollView.isDecelerating { return }
+    
+    if scrollView.contentOffset.y + scrollView.contentInset.top < dismissalThreshold {
+      if !isPassedDismissalThreshold {
+        isPassedDismissalThreshold = true
+        overviewView.dismissButton.isHighlighted = true
+        
+        UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+          self.overviewView.dismissButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }, completion: { _ in
+          UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+            self.overviewView.dismissButton.transform = .identity
+          }, completion: nil)
+        })
+        
+        let feedback = UIImpactFeedbackGenerator(style: .medium)
+        feedback.prepare()
+        feedback.impactOccurred()
+      }
+    } else {
+      if isPassedDismissalThreshold {
+        isPassedDismissalThreshold = false
+        overviewView.dismissButton.isHighlighted = false
+      }
+    }
+  }
+  
+  public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    if scrollView.contentOffset.y + scrollView.contentInset.top < dismissalThreshold {
+      isDismissingByGesture = true
+      self.gesturalDismissExecuted?()
+    }
   }
 }

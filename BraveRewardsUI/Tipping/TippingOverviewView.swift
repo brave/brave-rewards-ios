@@ -15,10 +15,14 @@ public class TippingOverviewView: UIView {
     static let bodyColor = Colors.grey200
   }
   
+  @objc public let dismissButton = DismissButton()
+  
   let headerView = UIImageView().then {
     $0.backgroundColor = UX.headerBackgroundColor
     $0.clipsToBounds = true
   }
+  
+  let grabberView = GrabberView(style: .dark)
   
   let watermarkImageView = UIImageView(image: UIImage(frameworkResourceNamed: "tipping-bat-watermark"))
   
@@ -71,6 +75,8 @@ public class TippingOverviewView: UIView {
     addSubview(scrollView)
     addSubview(headerView)
     headerView.addSubview(watermarkImageView)
+    headerView.addSubview(grabberView)
+    addSubview(dismissButton)
     // headerView.addSubview(heartsImageView)
     scrollView.addSubview(socialStackView)
     addSubview(faviconImageView)
@@ -87,8 +93,15 @@ public class TippingOverviewView: UIView {
       $0.top.leading.trailing.equalTo(self)
       $0.height.greaterThanOrEqualTo(UX.headerHeight)
     }
+    dismissButton.snp.makeConstraints {
+      $0.top.trailing.equalToSuperview().inset(8.0)
+    }
     watermarkImageView.snp.makeConstraints {
       $0.top.leading.equalTo(self.headerView)
+    }
+    grabberView.snp.makeConstraints {
+      $0.centerX.equalTo(self)
+      $0.top.equalTo(self).offset(5.0)
     }
     faviconImageView.snp.makeConstraints {
       $0.centerY.equalTo(self.headerView.snp.bottom).offset(-8.0)
@@ -113,5 +126,10 @@ public class TippingOverviewView: UIView {
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()
+  }
+  
+  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    grabberView.isHidden = traitCollection.horizontalSizeClass == .regular
   }
 }

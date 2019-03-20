@@ -35,13 +35,17 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  [self.view.dismissButton addTarget:self action:@selector(tappedDismissButton) forControlEvents:UIControlEventTouchUpInside];
+  [self.view.overviewView.dismissButton addTarget:self action:@selector(tappedDismissButton) forControlEvents:UIControlEventTouchUpInside];
   [self.view.optionSelectionView.sendTipButton addTarget:self action:@selector(tappedSendTip) forControlEvents:UIControlEventTouchUpInside];
   
   const auto __weak weakSelf = self;
   self.view.optionSelectionView.optionChanged = ^(TippingOption * _Nonnull option) {
     // FIXME: Switch funds available UI based on real data
     [weakSelf.view.optionSelectionView setEnoughFundsAvailable:(option.value.integerValue < 10)];
+  };
+  
+  self.view.gesturalDismissExecuted = ^{
+    [weakSelf dismissViewControllerAnimated:YES completion:nil];
   };
 }
 
