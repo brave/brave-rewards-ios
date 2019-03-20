@@ -51,6 +51,25 @@
   [self.walletController.headerView.addFundsButton addTarget:self action:@selector(tappedAddFunds) forControlEvents:UIControlEventTouchUpInside];
   [self.walletController.headerView.settingsButton addTarget:self action:@selector(tappedSettings) forControlEvents:UIControlEventTouchUpInside];
   
+  ledger::WalletInfo _walletInfo; // FIXME: Obviously need real values
+  _walletInfo.altcurrency_ = "BAT";
+  _walletInfo.balance_ = 30.0;
+  
+  [self.walletController.headerView setWalletBalance:[NSString stringWithFormat:@"%.1f", _walletInfo.balance_]
+                                              crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
+                                         dollarValue:@"0.00 USD"];
+  
+  [self addChildViewController:self.walletController];
+  [self.walletController didMoveToParentViewController:self];
+  [self.view addSubview:self.walletController.view];
+  self.walletController.view.translatesAutoresizingMaskIntoConstraints = NO;
+  [NSLayoutConstraint activateConstraints:@[
+                                            [self.walletController.view.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+                                            [self.walletController.view.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+                                            [self.walletController.view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+                                            [self.walletController.view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
+                                            ]];
+  
   [self reloadState];
   [self.view layoutIfNeeded];
 }
@@ -72,13 +91,17 @@
   if (self.panelState.ledger.enabled) {
     height = BATPreferredPanelHeight;
   }
-  self.preferredContentSize = CGSizeMake(BATPreferredPanelWidth, height);
+  const auto newSize = CGSizeMake(BATPreferredPanelWidth, height);
+  if (!CGSizeEqualToSize(self.preferredContentSize, newSize)) {
+    self.preferredContentSize = newSize;
+  }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
   [self.navigationController setNavigationBarHidden:YES animated:animated];
+  [self reloadState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -96,40 +119,27 @@
 
 - (void)reloadState
 {
-//  if (self.ledger.isWalletCreated) {
-    ledger::WalletInfo _walletInfo; // FIXME: Obviously need real values
-    _walletInfo.altcurrency_ = "BAT";
-    _walletInfo.balance_ = 30.0;
-    
-    [self.walletController.headerView setWalletBalance:[NSString stringWithFormat:@"%.1f", _walletInfo.balance_]
-                                                crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
-                                           dollarValue:@"0.00 USD"];
-    
-    [self addChildViewController:self.walletController];
-    [self.walletController didMoveToParentViewController:self];
-    [self.view addSubview:self.walletController.view];
-    self.walletController.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[
-                                              [self.walletController.view.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-                                              [self.walletController.view.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-                                              [self.walletController.view.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-                                              [self.walletController.view.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
-                                              ]];
-    
-    if (self.panelState.ledger.enabled) {
+  if (self.panelState.ledger.enabled) {
+    if (!self.publisherSummaryView) {
       self.publisherSummaryView = [[PublisherSummaryView alloc] init]; {
         self.publisherSummaryView.translatesAutoresizingMaskIntoConstraints = NO;
       }
+    }
+    if (self.walletController.contentView != self.publisherSummaryView) {
       [self setupPublisher];
       self.walletController.contentView = self.publisherSummaryView;
-    } else {
+    }
+  } else {
+    if (!self.rewardsDisabledView) {
       self.rewardsDisabledView = [[RewardsDisabledView alloc] init]; {
         self.rewardsDisabledView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.rewardsDisabledView.enableRewardsButton addTarget:self action:@selector(tappedEnableBraveRewards) forControlEvents:UIControlEventTouchUpInside];
       }
-      
+    }
+    if (self.walletController.contentView != self.rewardsDisabledView) {
       self.walletController.contentView = self.rewardsDisabledView;
     }
+  }
 }
 
 
