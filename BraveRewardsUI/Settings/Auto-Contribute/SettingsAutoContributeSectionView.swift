@@ -10,20 +10,19 @@ public class SettingsAutoContributeSectionView: SettingsSectionView {
     static let titleColor = UIColor(hex: 0x90329C) // No close color in Brave palette
   }
   
-  @objc public func setSectionEnabled(_ enabled: Bool, animated: Bool = false) {
+  @objc public func setSectionEnabled(_ enabled: Bool, hidesToggle: Bool, animated: Bool = false) {
     if animated {
       if enabled {
         viewDetailsButton.alpha = 0.0
-        toggleSwitch.alpha = 0.0
       }
       UIView.animate(withDuration: 0.15) {
         self.viewDetailsButton.isHidden = !enabled
         self.viewDetailsButton.alpha = enabled ? 1.0 : 0.0
-        self.toggleSwitch.alpha = enabled ? 1.0 : 0.0
+        self.toggleSwitch.alpha = hidesToggle ? 0.0 : 1.0
       }
     } else {
       viewDetailsButton.isHidden = !enabled
-      self.toggleSwitch.alpha = enabled ? 1.0 : 0.0
+      self.toggleSwitch.alpha = hidesToggle ? 0.0 : 1.0
     }
   }
   

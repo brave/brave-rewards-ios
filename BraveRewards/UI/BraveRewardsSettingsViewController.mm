@@ -77,7 +77,9 @@
   
   [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled animated:animated];
   self.view.autoContributeSection.toggleSwitch.on = self.ledger.autoContributeEnabled;
-  [self.view.autoContributeSection setSectionEnabled:self.ledger.enabled && self.ledger.autoContributeEnabled animated:animated];
+  [self.view.autoContributeSection setSectionEnabled:self.ledger.enabled && self.ledger.autoContributeEnabled
+                                         hidesToggle:!self.ledger.enabled
+                                            animated:animated];
   [self.view.tipsSection setSectionEnabled:self.ledger.enabled animated:animated];
 }
 
