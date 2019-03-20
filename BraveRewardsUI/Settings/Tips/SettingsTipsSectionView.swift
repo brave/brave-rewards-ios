@@ -10,6 +10,20 @@ public class SettingsTipsSectionView: SettingsSectionView {
     static let titleColor = UIColor(hex: 0x6A71D5) // No close color in Brave palette
   }
   
+  @objc public func setSectionEnabled(_ enabled: Bool, animated: Bool = false) {
+    if animated {
+      if enabled {
+        viewDetailsButton.alpha = 0.0
+      }
+      UIView.animate(withDuration: 0.15) {
+        self.viewDetailsButton.isHidden = !enabled
+        self.viewDetailsButton.alpha = enabled ? 1.0 : 0.0
+      }
+    } else {
+      viewDetailsButton.isHidden = !enabled
+    }
+  }
+  
   @objc public let viewDetailsButton = SettingsViewDetailsButton(type: .system)
   
   public override init(frame: CGRect) {
