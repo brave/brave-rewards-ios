@@ -11,6 +11,11 @@ public class SettingsTipsSectionView: SettingsSectionView {
   }
   
   @objc public func setSectionEnabled(_ enabled: Bool, animated: Bool = false) {
+    if viewDetailsButton.isHidden != enabled {
+      // Nothing to do
+      return
+    }
+    
     if animated {
       if enabled {
         viewDetailsButton.alpha = 0.0

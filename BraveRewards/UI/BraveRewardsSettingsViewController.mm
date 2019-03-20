@@ -41,11 +41,6 @@
   
   self.preferredContentSize = CGSizeMake(BATPreferredPanelWidth, 750);
   
-  const auto __weak weakSelf = self;
-  self.view.rewardsToggleSection.rewardsSwitchValueChanged = ^(BOOL enabled) {
-    [weakSelf rewardsSwitchValueChanged:enabled];
-  };
-  
   [self.view.grantSection.claimGrantButton addTarget:self action:@selector(tappedClaimGrant) forControlEvents:UIControlEventTouchUpInside];
   
   ledger::WalletInfo _walletInfo; // FIXME: Obviously need real values
@@ -57,6 +52,10 @@
                                 dollarValue:@"0.00 USD"];
   
   [self.view.autoContributeSection.toggleSwitch addTarget:self action:@selector(autoContributeToggleValueChanged) forControlEvents:UIControlEventValueChanged];
+  [self.view.rewardsToggleSection.toggleSwitch addTarget:self action:@selector(rewardsSwitchValueChanged) forControlEvents:UIControlEventValueChanged];
+  
+  self.view.rewardsToggleSection.toggleSwitch. on = self.ledger.enabled;
+  self.view.autoContributeSection.toggleSwitch.on = self.ledger.autoContributeEnabled;
   
   [self updateVisualStateOfSections:NO];
 }
@@ -74,9 +73,7 @@
 {
   // The sections in this controller change a bit based on whether or not Brave Rewards is enabled (or their
   // individual setting is disabled, in the case of auto-contribution)
-  
   [self.view.rewardsToggleSection setRewardsEnabled:self.ledger.enabled animated:animated];
-  self.view.autoContributeSection.toggleSwitch.on = self.ledger.autoContributeEnabled;
   [self.view.autoContributeSection setSectionEnabled:self.ledger.enabled && self.ledger.autoContributeEnabled
                                          hidesToggle:!self.ledger.enabled
                                             animated:animated];
@@ -85,9 +82,9 @@
 
 #pragma mark - Actions
 
-- (void)rewardsSwitchValueChanged:(BOOL)enabled
+- (void)rewardsSwitchValueChanged
 {
-  self.ledger.enabled = enabled;
+  self.ledger.enabled = self.view.rewardsToggleSection.toggleSwitch.on;
   [self updateVisualStateOfSections:YES];
 }
 

@@ -6,30 +6,31 @@ import UIKit
 
 public class SettingsRewardsSectionView: SettingsSectionView {
   
+  @objc public var toggleSwitch: UISwitch {
+    return toggleView.toggleSwitch
+  }
+  
   /// Set the rewards enabled state based on the ledger.
   @objc public func setRewardsEnabled(_ enabled: Bool, animated: Bool = false) {
-    toggleView.toggleSwitch.setOn(enabled, animated: animated)
+    if disabledTextView.isHidden == enabled {
+      // Nothing to do
+      return
+    }
     if (animated) {
-      if !toggleView.toggleSwitch.isOn {
+      if !enabled {
         self.disabledTextView.alpha = 0
       }
       UIView.animate(withDuration: 0.25) {
-        self.disabledTextView.isHidden = self.toggleView.toggleSwitch.isOn
-        self.disabledTextView.alpha = self.toggleView.toggleSwitch.isOn ? 0.0 : 1.0
+        self.disabledTextView.isHidden = enabled
+        self.disabledTextView.alpha = enabled ? 0.0 : 1.0
       }
     } else {
-      disabledTextView.isHidden = toggleView.toggleSwitch.isOn
+      disabledTextView.isHidden = enabled
     }
   }
   
-  /// A closure executed when the user changes the on/off state of the main rewards switch
-  @objc public var rewardsSwitchValueChanged: ((Bool) -> Void)?
-  
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    toggleView.toggleSwitch.addTarget(self, action: #selector(rewardsStatusChanged), for: .valueChanged)
-    disabledTextView.isHidden = toggleView.toggleSwitch.isOn
     
     addSubview(stackView)
     stackView.addArrangedSubview(toggleView)
@@ -38,10 +39,6 @@ public class SettingsRewardsSectionView: SettingsSectionView {
     stackView.snp.makeConstraints {
       $0.edges.equalTo(self).inset(SettingsUX.layoutMargins)
     }
-  }
-  
-  @objc private func rewardsStatusChanged() {
-    rewardsSwitchValueChanged?(toggleView.toggleSwitch.isOn)
   }
   
   // MARK: - Private UI

@@ -16,7 +16,9 @@ public class SettingsAutoContributeSectionView: SettingsSectionView {
         viewDetailsButton.alpha = 0.0
       }
       UIView.animate(withDuration: 0.15) {
-        self.viewDetailsButton.isHidden = !enabled
+        if self.viewDetailsButton.isHidden == enabled { // UIStackView bug, have to check first
+          self.viewDetailsButton.isHidden = !enabled
+        }
         self.viewDetailsButton.alpha = enabled ? 1.0 : 0.0
         self.toggleSwitch.alpha = hidesToggle ? 0.0 : 1.0
       }
