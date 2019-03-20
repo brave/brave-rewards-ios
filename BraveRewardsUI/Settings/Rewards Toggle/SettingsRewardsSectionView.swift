@@ -8,8 +8,7 @@ public class SettingsRewardsSectionView: SettingsSectionView {
   
   /// Set the rewards enabled state based on the ledger.
   @objc public func setRewardsEnabled(_ enabled: Bool, animated: Bool = false) {
-    if enabled == toggleView.toggleSwitch.isOn { return } // Nothing to do
-    toggleView.toggleSwitch.isOn = enabled
+    toggleView.toggleSwitch.setOn(enabled, animated: animated)
     if (animated) {
       if !toggleView.toggleSwitch.isOn {
         self.disabledTextView.alpha = 0
