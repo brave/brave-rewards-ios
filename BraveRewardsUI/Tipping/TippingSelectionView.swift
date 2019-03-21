@@ -114,6 +114,8 @@ public class TippingSelectionView: UIView {
     $0.tintColor = .white
   }
   
+  private let layoutGuide = UILayoutGuide()
+  
   // MARK: -
   
   @available(*, unavailable)
@@ -134,24 +136,25 @@ public class TippingSelectionView: UIView {
     addSubview(monthlyToggleButton)
     addSubview(sendTipButton)
     addSubview(insufficientFundsButton)
+    addLayoutGuide(layoutGuide)
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(self).offset(20.0)
-      $0.leading.equalTo(self).offset(25.0)
+      $0.leading.equalTo(layoutGuide).offset(15.0)
       $0.trailing.lessThanOrEqualTo(self.walletBalanceView.snp.leading).offset(-15.0)
     }
     walletBalanceView.snp.makeConstraints {
       $0.firstBaseline.equalTo(self.titleLabel)
-      $0.trailing.equalTo(self).offset(-25.0)
+      $0.trailing.equalTo(layoutGuide).inset(15.0)
     }
     optionsStackView.snp.makeConstraints {
       $0.top.equalTo(self.titleLabel.snp.bottom).offset(20.0)
-      $0.leading.trailing.equalTo(self).inset(15.0)
+      $0.leading.trailing.equalTo(layoutGuide).inset(15.0)
     }
     monthlyToggleButton.snp.makeConstraints {
       $0.top.equalTo(self.optionsStackView.snp.bottom).offset(20.0)
-      $0.leading.greaterThanOrEqualTo(self).offset(25.0)
-      $0.trailing.lessThanOrEqualTo(self).offset(25.0)
+      $0.leading.greaterThanOrEqualTo(layoutGuide).offset(25.0)
+      $0.trailing.lessThanOrEqualTo(layoutGuide).offset(25.0)
       $0.centerX.equalTo(self)
     }
     sendTipButton.snp.makeConstraints {
@@ -165,10 +168,16 @@ public class TippingSelectionView: UIView {
   
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
-    
     let isWideLayout = traitCollection.horizontalSizeClass == .regular
-    optionsStackView.axis = isWideLayout ? .vertical : .horizontal
-    optionsStackView.distribution = isWideLayout ? .fill : .fillEqually
+    layoutGuide.snp.remakeConstraints {
+      if isWideLayout {
+        $0.centerX.equalTo(self)
+        $0.width.equalTo(375.0)
+        $0.top.bottom.equalTo(self)
+      } else {
+        $0.edges.equalTo(self)
+      }
+    }
   }
   
   // MARK: - Actions

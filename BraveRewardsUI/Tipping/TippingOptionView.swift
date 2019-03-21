@@ -15,6 +15,7 @@ class TippingOptionView: UIControl {
   
   // Thing that holds the BAT amount + USD label
   let containerStackView = UIStackView().then {
+    $0.axis = .vertical
     $0.spacing = 6.0
     $0.isUserInteractionEnabled = false
   }
@@ -80,14 +81,6 @@ class TippingOptionView: UIControl {
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()
-  }
-  
-  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
-    
-    let isWideLayout = traitCollection.horizontalSizeClass == .regular
-    containerStackView.axis = isWideLayout ? .horizontal : .vertical
-    containerStackView.alignment = isWideLayout ? .center : .fill
   }
   
   // MARK: -
