@@ -119,7 +119,7 @@ public class TippingView: UIView {
         $0.width.equalTo(500.0)
         $0.height.equalTo(600.0)
       } else {
-        $0.top.equalTo(self.safeAreaLayoutGuide).offset(88.0)
+        $0.top.equalTo(self.safeAreaLayoutGuide).offset(38.0)
         $0.leading.trailing.bottom.equalTo(self)
       }
     }
@@ -196,7 +196,7 @@ extension TippingView: UIScrollViewDelegate {
   }
   
   private var dismissalThreshold: CGFloat {
-    return -85.0
+    return -65.0
   }
   
   public func scrollViewDidScroll(_ scrollView: UIScrollView) {
