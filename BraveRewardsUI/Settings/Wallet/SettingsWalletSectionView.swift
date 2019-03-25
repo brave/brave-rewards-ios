@@ -9,6 +9,11 @@ public class SettingsWalletSectionView: SettingsSectionView {
     usdBalanceLabel.text = dollarValue
   }
   
+  @objc public let viewDetailsButton = SettingsViewDetailsButton(type: .system).then {
+    $0.tintColor = .white
+    $0.setTitleColor(.white, for: .normal)
+  }
+  
   private let backgroundView = GradientView().then {
     $0.gradientLayer.colors = [ UIColor(57, 45, 209).cgColor,
                                 UIColor(87, 19, 166).cgColor ]
@@ -60,6 +65,8 @@ public class SettingsWalletSectionView: SettingsSectionView {
     clippedContentView.addSubview(stackView)
     stackView.addArrangedSubview(altcurrencyContainerView)
     stackView.addArrangedSubview(usdBalanceLabel)
+    stackView.setCustomSpacing(8.0, after: usdBalanceLabel)
+    stackView.addArrangedSubview(viewDetailsButton)
     altcurrencyContainerView.addArrangedSubview(balanceLabel)
     altcurrencyContainerView.addArrangedSubview(altcurrencyTypeLabel)
     
