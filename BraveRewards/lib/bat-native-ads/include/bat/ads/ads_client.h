@@ -25,13 +25,13 @@
 
 namespace ads {
 
-enum ADS_EXPORT LogLevel {
+enum LogLevel {
   LOG_ERROR = 1,
   LOG_WARNING,
   LOG_INFO
 };
 
-enum ADS_EXPORT URLRequestMethod {
+enum URLRequestMethod {
   GET = 0,
   PUT = 1,
   POST = 2
@@ -111,7 +111,7 @@ class ADS_EXPORT AdsClient {
   virtual void SetCatalogIssuers(std::unique_ptr<IssuersInfo> info) = 0;
 
   // Should be called to inform Confirmations that an ad was sustained
-  virtual void AdSustained(std::unique_ptr<NotificationInfo> info) = 0;
+  virtual void ConfirmAd(std::unique_ptr<NotificationInfo> info) = 0;
 
   // Should create a timer to trigger after the time offset specified in
   // seconds. If the timer was created successfully a unique identifier should

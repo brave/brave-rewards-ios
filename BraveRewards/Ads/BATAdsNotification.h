@@ -6,6 +6,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, BATAdsConfirmationType) {
+  BATAdsConfirmationTypeUnknown,  // = ads::ConfirmationType::UNKNOWN
+  BATAdsConfirmationTypeClick,    // = ads::ConfirmationType::CLICK
+  BATAdsConfirmationTypeDismiss,  // = ads::ConfirmationType::DISMISS
+  BATAdsConfirmationTypeView,     // = ads::ConfirmationType::VIEW
+  BATAdsConfirmationTypeLanded    // = ads::ConfirmationType::LANDED
+} NS_SWIFT_NAME(ConfirmationType);
+
+extern BATAdsConfirmationType BATAdsConfirmationTypeForString(NSString *string);
+
 NS_SWIFT_NAME(AdsNotification)
 @interface BATAdsNotification : NSObject
 @property (nonatomic, readonly, copy) NSString *creativeSetID;
@@ -14,6 +24,7 @@ NS_SWIFT_NAME(AdsNotification)
 @property (nonatomic, readonly, copy) NSString *text;
 @property (nonatomic, readonly, copy) NSURL *url;
 @property (nonatomic, readonly, copy) NSString *uuid;
+@property (nonatomic, readonly) BATAdsConfirmationType confirmationType;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -22,6 +22,7 @@
 namespace ledger {
 
 extern bool is_production;
+extern bool is_debug;
 extern bool is_testing;
 extern int reconcile_time;  // minutes
 extern bool short_retries;
@@ -205,7 +206,9 @@ class LEDGER_EXPORT Ledger {
   virtual void SolveGrantCaptcha(const std::string& solution,
                                  const std::string& promotionId) const = 0;
 
-  virtual void GetGrantCaptcha() const = 0;
+  virtual void GetGrantCaptcha(
+      const std::string& promotion_id,
+      const std::string& promotion_type) const = 0;
 
   virtual std::string GetWalletPassphrase() const = 0;
 
@@ -270,7 +273,7 @@ class LEDGER_EXPORT Ledger {
 
   virtual void SetCatalogIssuers(const std::string& info) = 0;
 
-  virtual void AdSustained(const std::string& info) = 0;
+  virtual void ConfirmAd(const std::string& info) = 0;
   virtual void GetConfirmationsHistory(
       const uint64_t from_timestamp_seconds,
       const uint64_t to_timestamp_seconds,

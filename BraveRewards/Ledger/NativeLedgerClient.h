@@ -74,7 +74,8 @@ namespace ledger {
     void LoadMediaPublisherInfo(const std::string& media_key, PublisherInfoCallback callback) override;
     void SaveMediaPublisherInfo(const std::string& media_key, const std::string& publisher_id) override;
     void FetchWalletProperties() override;
-    void GetGrantCaptcha() override;
+    void GetGrantCaptcha(const std::string& promotion_id,
+                         const std::string& promotion_type) override;
     std::string URIEncode(const std::string& value) override;
     void SavePendingContribution(const PendingContributionList& list) override;
     void LoadActivityInfo(ActivityInfoFilter filter, PublisherInfoCallback callback) override;

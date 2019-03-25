@@ -83,7 +83,7 @@ namespace ads {
     void SetCatalogIssuers(std::unique_ptr<IssuersInfo> info);
     
     // Should be called to inform Confirmations that an ad was sustained
-    void AdSustained(std::unique_ptr<NotificationInfo> info);
+    void ConfirmAd(std::unique_ptr<NotificationInfo> info);
     
     /// Should create a timer to trigger after the time offset specified in
     /// seconds. If the timer was created successfully a unique identifier should

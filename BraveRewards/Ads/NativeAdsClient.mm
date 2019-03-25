@@ -160,7 +160,7 @@ namespace ads {
   }
   
   // Should be called to inform Confirmations that an ad was sustained
-  void NativeAdsClient::AdSustained(std::unique_ptr<NotificationInfo> info) {
+  void NativeAdsClient::ConfirmAd(std::unique_ptr<NotificationInfo> info) {
     // TODO: Add implementation
   }
   
