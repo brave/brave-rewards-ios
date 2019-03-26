@@ -121,9 +121,15 @@ class PopoverController: UIViewController {
             make.edges.equalTo(self.view)
         }
         
+        #if compiler(>=5.0)
+        addChild(contentController)
+        containerView.contentView.addSubview(contentController.view)
+        contentController.didMove(toParent: self)
+        #else
         addChildViewController(contentController)
         containerView.contentView.addSubview(contentController.view)
         contentController.didMove(toParentViewController: self)
+        #endif
         
         switch contentSizeBehavior {
         case .autoLayout:
