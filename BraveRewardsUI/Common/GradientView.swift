@@ -23,7 +23,7 @@ public class GradientView: UIView {
 
 public extension GradientView {
   
-  public class func purpleRewardsGradientView() -> GradientView {
+  class func purpleRewardsGradientView() -> GradientView {
     let view = GradientView()
     view.gradientLayer.colors = [ UIColor(57, 45, 209).cgColor,
                                   UIColor(255, 26, 26).cgColor ]
@@ -32,7 +32,7 @@ public extension GradientView {
     return view
   }
   
-  public class func softBlueToClearGradientView() -> GradientView {
+  class func softBlueToClearGradientView() -> GradientView {
     let view = GradientView()
     view.gradientLayer.colors = [ UIColor(white: 1.0, alpha: 0.0).cgColor,
                                   UIColor(white: 1.0, alpha: 0.0).cgColor,
