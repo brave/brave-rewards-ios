@@ -101,11 +101,14 @@
 
 - (void)tappedClaimGrant
 {
-  self.navigationController.definesPresentationContext = YES;
-  const auto controller = [[BraveRewardsSettingsViewController alloc] initWithLedger:self.ledger];
-  const auto container = [[BATPopoverNavigationController alloc] initWithRootViewController:controller];
-  container.modalPresentationStyle = UIModalPresentationCurrentContext;
-  [self presentViewController:container animated:YES completion:nil];
+  self.view.grantSection.claimGrantButton.loading = YES;
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    const auto controller = [[GrantClaimedViewController alloc] initWithGrantAmount:@"30.0 BAT" expirationDate:[[NSDate date] dateByAddingTimeInterval:30*24*60*60]];
+    const auto container = [[BATPopoverNavigationController alloc] initWithRootViewController:controller];
+    container.modalPresentationStyle = UIModalPresentationCurrentContext;
+    [self presentViewController:container animated:YES completion:nil];
+    self.view.grantSection.claimGrantButton.loading = NO;
+  });
 }
 
 @end

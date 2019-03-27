@@ -7,6 +7,7 @@ import UIKit
 struct SettingsUX {
   static let backgroundColor = Colors.neutral800
   static let headerTextColor = Colors.grey100
+  static let subtitleTextColor = Colors.neutral200
   static let bodyTextColor = Colors.grey300
   static let disabledSectionTitleColor = Colors.grey300
   

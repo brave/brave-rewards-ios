@@ -6,7 +6,8 @@ import UIKit
 
 public class SettingsGrantSectionView: SettingsSectionView {
   
-  @objc public let claimGrantButton = Button(type: .system).then {
+  @objc public let claimGrantButton = Button().then {
+    $0.loaderView = LoaderView(size: .small)
     $0.backgroundColor = BraveUX.braveOrange
     $0.tintColor = .white
     $0.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .bold)
