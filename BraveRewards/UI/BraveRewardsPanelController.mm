@@ -10,8 +10,8 @@
 
 #import "bat/ledger/wallet_info.h"
 
-#import "BraveRewardsCreateWalletViewController.h"
-#import "BraveRewardsPublisherViewController.h"
+#import "BATCreateWalletViewController.h"
+#import "BATPublisherViewController.h"
 
 @interface BraveRewardsPanelController ()
 @end
@@ -34,9 +34,9 @@
     panelState.dataSource = dataSource;
     
     if (!ledger.walletCreated) {
-      self.viewControllers = @[ [[BraveRewardsCreateWalletViewController alloc] initWithPanelState:panelState] ];
+      self.viewControllers = @[ [[BATCreateWalletViewController alloc] initWithPanelState:panelState] ];
     } else {
-      self.viewControllers = @[ [[BraveRewardsPublisherViewController alloc] initWithPanelState:panelState] ];
+      self.viewControllers = @[ [[BATPublisherViewController alloc] initWithPanelState:panelState] ];
     }
   }
   return self;

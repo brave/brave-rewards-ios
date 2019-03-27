@@ -82,10 +82,6 @@ class ViewController: UIViewController {
   }
   
   @IBAction func tappedSettings() {
-    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : BraveLedger()
-    let controller = BraveRewardsSettingsViewController(ledger: ledger)
-    let container = UINavigationController(rootViewController: controller)
-    present(container, animated: true)
   }
   
   @IBAction func tappedResetMockLedger() {

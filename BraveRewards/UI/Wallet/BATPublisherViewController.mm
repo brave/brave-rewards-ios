@@ -2,17 +2,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BraveRewardsPublisherViewController.h"
+#import "BATPublisherViewController.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 #import "BATBraveLedger.h"
 #import "bat/ledger/wallet_info.h"
 
-#import "BraveRewardsSettingsViewController.h"
-#import "BraveRewardsTippingViewController.h"
+#import "BATSettingsViewController.h"
+#import "BATTippingViewController.h"
 #import "BraveRewardsDataDelegate.h"
 #import "BraveRewardsDataDelegate.h"
 
-@interface BraveRewardsPublisherViewController ()
+@interface BATPublisherViewController ()
 @property (nonatomic, strong) BATPanelState *panelState;
 
 @property (nonatomic) NSArray<NSLayoutConstraint *> *walletViewLayoutConstraints;
@@ -23,7 +23,7 @@
 @property (nonatomic) PublisherSummaryView *publisherSummaryView;
 @end
 
-@implementation BraveRewardsPublisherViewController
+@implementation BATPublisherViewController
 
 - (instancetype)initWithPanelState:(BATPanelState *)panelState
 {
@@ -170,7 +170,7 @@
 
 - (void)tappedSendTip
 {
-  const auto controller = [[BraveRewardsTippingViewController alloc] initWithLedger:self.panelState.ledger
+  const auto controller = [[BATTippingViewController alloc] initWithLedger:self.panelState.ledger
                                                                         publisherId:@""]; // TODO: Pass publisher id
   [self.panelState.delegate presentBraveRewardsController:controller];
 }
@@ -184,7 +184,7 @@
 
 - (void)tappedSettings
 {
-  const auto settingsController = [[BraveRewardsSettingsViewController alloc] initWithLedger:self.panelState.ledger];
+  const auto settingsController = [[BATSettingsViewController alloc] initWithLedger:self.panelState.ledger];
   [self showViewController:settingsController sender:self];
 }
 

@@ -2,18 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BraveRewardsTippingViewController.h"
+#import "BATTippingViewController.h"
 
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
 #import "BATBraveLedger.h"
 
-@interface BraveRewardsTippingViewController () <UIViewControllerTransitioningDelegate>
+@interface BATTippingViewController () <UIViewControllerTransitioningDelegate>
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) TippingView *view;
 @end
 
-@implementation BraveRewardsTippingViewController
+@implementation BATTippingViewController
 @dynamic view;
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger publisherId:(NSString *)publisherId

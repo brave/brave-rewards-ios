@@ -2,18 +2,18 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BraveRewardsCreateWalletViewController.h"
+#import "BATCreateWalletViewController.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 
-#import "BraveRewardsPublisherViewController.h"
+#import "BATPublisherViewController.h"
 #import "BATBraveLedger.h"
 
-@interface BraveRewardsCreateWalletViewController ()
+@interface BATCreateWalletViewController ()
 @property (nonatomic) BATPanelState *panelState;
 @property (nonatomic) CreateWalletView *view;
 @end
 
-@implementation BraveRewardsCreateWalletViewController
+@implementation BATCreateWalletViewController
 @dynamic view;
 
 - (instancetype)initWithPanelState:(BATPanelState *)panelState
@@ -58,7 +58,7 @@
     }
     self.panelState.ledger.enabled = YES;
     
-    __auto_type controller = [[BraveRewardsPublisherViewController alloc] initWithPanelState:self.panelState];
+    __auto_type controller = [[BATPublisherViewController alloc] initWithPanelState:self.panelState];
     [self showViewController:controller sender:self];
   }];
 }

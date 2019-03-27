@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BraveRewardsPublisherViewController : UIViewController
+@interface BATPublisherViewController : UIViewController
 
 - (instancetype)initWithPanelState:(BATPanelState *)panelState NS_DESIGNATED_INITIALIZER;
 

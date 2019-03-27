@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-#import "BraveRewardsSettingsViewController.h"
+#import "BATSettingsViewController.h"
 #import "BATBraveLedger.h"
 #import "BATPanelState.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
@@ -10,12 +10,12 @@
 
 #import "bat/ledger/wallet_info.h"
 
-@interface BraveRewardsSettingsViewController ()
+@interface BATSettingsViewController ()
 @property (nonatomic) BATBraveLedger *ledger;
 @property (nonatomic) SettingsView *view;
 @end
 
-@implementation BraveRewardsSettingsViewController
+@implementation BATSettingsViewController
 @dynamic view;
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger
@@ -50,6 +50,7 @@
   [self.view.walletSection setWalletBalance:[NSString stringWithFormat:@"%.1f", _walletInfo.balance_]
                                      crypto:[NSString stringWithUTF8String:_walletInfo.altcurrency_.c_str()]
                                 dollarValue:@"0.00 USD"];
+  [self.view.walletSection.viewDetailsButton addTarget:self action:@selector(tappedWalletViewDetails) forControlEvents:UIControlEventTouchUpInside];
   
   [self.view.autoContributeSection.toggleSwitch addTarget:self action:@selector(autoContributeToggleValueChanged) forControlEvents:UIControlEventValueChanged];
   [self.view.rewardsToggleSection.toggleSwitch addTarget:self action:@selector(rewardsSwitchValueChanged) forControlEvents:UIControlEventValueChanged];
@@ -81,6 +82,15 @@
 }
 
 #pragma mark - Actions
+
+- (void)tappedWalletViewDetails
+{
+  const auto controller = [[WalletViewController alloc] init];
+  [controller.headerView setWalletBalance:@"30" crypto:@"BAT" dollarValue:@"0.00"];
+  controller.headerView.settingsButton.hidden = YES;
+  controller.preferredContentSize = self.preferredContentSize;
+  [self.navigationController pushViewController:controller animated:YES];
+}
 
 - (void)rewardsSwitchValueChanged
 {

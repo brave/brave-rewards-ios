@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BraveRewardsTippingViewController : UIViewController
+@interface BATTippingViewController : UIViewController
 
 - (instancetype)initWithLedger:(BATBraveLedger *)ledger publisherId:(NSString *)publisherId;
 

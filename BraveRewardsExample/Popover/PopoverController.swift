@@ -193,6 +193,11 @@ class PopoverController: UIViewController {
         }
         if case .preferredContentSize = contentSizeBehavior {
             var size = container.preferredContentSize
+            if size == .zero {
+                // Do nothing, keep it whatever it is currently
+                return
+            }
+            
             size.width = min(size.width, UIScreen.main.bounds.width - outerMargins.left - outerMargins.right)
             size.height = min(size.height, UIScreen.main.bounds.height - containerView.frame.origin.y - view.safeAreaInsets.bottom - arrowDistance)
             if contentController.view.bounds.size == size { return }

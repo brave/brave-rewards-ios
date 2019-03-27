@@ -60,6 +60,8 @@ public class WalletViewController: UIViewController {
   public override func viewDidLoad() {
     super.viewDidLoad()
     
+    view.backgroundColor = .white
+    
     view.addLayoutGuide(summaryLayoutGuide)
     view.addSubview(headerView)
     

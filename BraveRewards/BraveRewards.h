@@ -19,4 +19,3 @@ FOUNDATION_EXPORT const unsigned char BraveRewardsVersionString[];
 
 // UI
 #import <BraveRewards/BraveRewardsPanelController.h>
-#import <BraveRewards/BraveRewardsSettingsViewController.h>
