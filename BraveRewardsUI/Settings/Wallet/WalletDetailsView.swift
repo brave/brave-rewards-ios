@@ -53,7 +53,7 @@ public class WalletDetailsView: UIView {
 
 extension WalletDetailsView {
   /// What is shown when the user has an empty balance.
-  class EmptyWalletView: SettingsSectionView {
+  private class EmptyWalletView: SettingsSectionView {
     override init(frame: CGRect) {
       super.init(frame: frame)
       
@@ -113,10 +113,9 @@ extension WalletDetailsView {
       }
     }
   }
-}
-
-extension WalletDetailsView {
-  class PoweredByUpholdView: UIView {
+  
+  /// "{icon} Your Brave wallet is managed by Uphold" view
+  private class PoweredByUpholdView: UIView {
     override init(frame: CGRect) {
       super.init(frame: frame)
       let stackView = UIStackView().then {
