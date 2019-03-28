@@ -6,13 +6,19 @@
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 #import "BATPopoverNavigationController.h"
 
+#import "BATPanelState.h"
 #import "bat/ledger/wallet_info.h"
 
 @interface BATWalletDetailsViewController ()
-
+@property (nonatomic) WalletDetailsView *view;
 @end
 
 @implementation BATWalletDetailsViewController
+@dynamic view;
 
+- (void)loadView
+{
+  self.view = [[WalletDetailsView alloc] init];
+}
 
 @end

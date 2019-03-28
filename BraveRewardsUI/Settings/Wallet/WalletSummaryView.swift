@@ -3,15 +3,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 public class SettingsWalletSectionView: SettingsSectionView {
+  enum ButtonType {
+    case none
+    case viewDetails
+    case addFunds
+  }
+  
   @objc public func setWalletBalance(_ value: String, crypto: String, dollarValue: String) {
     balanceLabel.text = value
     altcurrencyTypeLabel.text = crypto
     usdBalanceLabel.text = dollarValue
   }
   
-  @objc public let viewDetailsButton = SettingsViewDetailsButton(type: .system).then {
+  @objc public private(set) lazy var viewDetailsButton = SettingsViewDetailsButton(type: .system).then {
     $0.tintColor = .white
     $0.setTitleColor(.white, for: .normal)
+  }
+  
+  @objc public private(set) lazy var addFundsButton = Button(type: .system).then {
+    $0.setTitleColor(.white, for: .normal)
+    $0.setTitle(BATLocalizedString("BraveRewardsAddFunds", "Add Funds"), for: .normal)
+    $0.setImage(UIImage(frameworkResourceNamed: "wallet-icon").alwaysOriginal, for: .normal)
+    $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8.0)
+    $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -8.0)
+    $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5.0, bottom: 0, right: 5.0)
+    $0.titleLabel?.font = .systemFont(ofSize: 14.0)
+    $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   
   private let backgroundView = GradientView().then {
@@ -56,8 +73,8 @@ public class SettingsWalletSectionView: SettingsSectionView {
     $0.font = .systemFont(ofSize: 12.0)
   }
   
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(buttonType: ButtonType) {
+    super.init(frame: .zero)
     
     clippedContentView.addSubview(backgroundView)
     clippedContentView.addSubview(watermarkImageView)
@@ -66,9 +83,20 @@ public class SettingsWalletSectionView: SettingsSectionView {
     stackView.addArrangedSubview(altcurrencyContainerView)
     stackView.addArrangedSubview(usdBalanceLabel)
     stackView.setCustomSpacing(8.0, after: usdBalanceLabel)
-    stackView.addArrangedSubview(viewDetailsButton)
     altcurrencyContainerView.addArrangedSubview(balanceLabel)
     altcurrencyContainerView.addArrangedSubview(altcurrencyTypeLabel)
+    
+    switch buttonType {
+    case .none:
+      break
+    case .viewDetails:
+      stackView.addArrangedSubview(viewDetailsButton)
+    case .addFunds:
+      stackView.addArrangedSubview(addFundsButton)
+      addFundsButton.snp.makeConstraints {
+        $0.height.equalTo(38)
+      }
+    }
     
     backgroundView.snp.makeConstraints {
       $0.edges.equalTo(self)

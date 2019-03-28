@@ -84,7 +84,7 @@
 		279A2079224C157700192214 /* WalletDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279A2078224C157700192214 /* WalletDetailsView.swift */; };
 		279A207C224C1A8F00192214 /* BATWalletDetailsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 279A207A224C1A8F00192214 /* BATWalletDetailsViewController.h */; };
 		279A207D224C1A8F00192214 /* BATWalletDetailsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 279A207B224C1A8F00192214 /* BATWalletDetailsViewController.mm */; };
-		27A47073224150A300596431 /* SettingsWalletSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A47072224150A300596431 /* SettingsWalletSectionView.swift */; };
+		27A47073224150A300596431 /* WalletSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A47072224150A300596431 /* WalletSummaryView.swift */; };
 		27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */; };
 		27A4707822417E6200596431 /* SettingsViewDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */; };
 		27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */; };
@@ -246,7 +246,7 @@
 		279A2078224C157700192214 /* WalletDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailsView.swift; sourceTree = "<group>"; };
 		279A207A224C1A8F00192214 /* BATWalletDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATWalletDetailsViewController.h; sourceTree = "<group>"; };
 		279A207B224C1A8F00192214 /* BATWalletDetailsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATWalletDetailsViewController.mm; sourceTree = "<group>"; };
-		27A47072224150A300596431 /* SettingsWalletSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWalletSectionView.swift; sourceTree = "<group>"; };
+		27A47072224150A300596431 /* WalletSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSummaryView.swift; sourceTree = "<group>"; };
 		27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAutoContributeSectionView.swift; sourceTree = "<group>"; };
 		27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDetailsButton.swift; sourceTree = "<group>"; };
 		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
@@ -368,6 +368,7 @@
 		2704835E2221AABF0051239C /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				273404752220BD60008CABC9 /* WalletHeaderView.swift */,
 				2704835F2221AAD70051239C /* WalletViewController.swift */,
 			);
 			path = Wallet;
@@ -474,7 +475,6 @@
 				273404712220B8AF008CABC9 /* ActionButton.swift */,
 				2751E5C82242F3B300CB1B6B /* DismissButton.swift */,
 				273404732220BA73008CABC9 /* GradientView.swift */,
-				273404752220BD60008CABC9 /* WalletHeaderView.swift */,
 				270483502220F1D80051239C /* SeparatorView.swift */,
 				270483522220F2C70051239C /* Colors.swift */,
 				270483542220F5060051239C /* SwitchRow.swift */,
@@ -595,7 +595,7 @@
 		27A470712241506400596431 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				27A47072224150A300596431 /* SettingsWalletSectionView.swift */,
+				27A47072224150A300596431 /* WalletSummaryView.swift */,
 				279A2078224C157700192214 /* WalletDetailsView.swift */,
 			);
 			path = Wallet;
@@ -972,7 +972,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27A47073224150A300596431 /* SettingsWalletSectionView.swift in Sources */,
+				27A47073224150A300596431 /* WalletSummaryView.swift in Sources */,
 				2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */,
 				270483552220F5060051239C /* SwitchRow.swift in Sources */,
 				273404672220B041008CABC9 /* Button.swift in Sources */,

@@ -21,7 +21,7 @@ public class SettingsView: UIView {
   
   @objc public let rewardsToggleSection = SettingsRewardsSectionView()
   @objc public let grantSection = SettingsGrantSectionView()
-  @objc public let walletSection = SettingsWalletSectionView()
+  @objc public let walletSection = SettingsWalletSectionView(buttonType: .viewDetails)
   @objc public let adsSection = SettingsAdSectionView()
   @objc public let autoContributeSection = SettingsAutoContributeSectionView()
   @objc public let tipsSection = SettingsTipsSectionView()

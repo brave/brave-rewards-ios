@@ -9,7 +9,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// The error domain for ledger related errors
-extern NSString * const BATBraveLedgerErrorDomain;
+extern NSString * const BATBraveLedgerErrorDomain NS_SWIFT_NAME(BraveLedgerErrorDomain);
 
 NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject

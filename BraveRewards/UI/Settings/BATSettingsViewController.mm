@@ -7,6 +7,7 @@
 #import "BATPanelState.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 #import "BATPopoverNavigationController.h"
+#import "BATWalletDetailsViewController.h"
 
 #import "bat/ledger/wallet_info.h"
 
@@ -85,9 +86,7 @@
 
 - (void)tappedWalletViewDetails
 {
-  const auto controller = [[WalletViewController alloc] init];
-  [controller.headerView setWalletBalance:@"30" crypto:@"BAT" dollarValue:@"0.00"];
-  controller.headerView.settingsButton.hidden = YES;
+  const auto controller = [[BATWalletDetailsViewController alloc] init];
   controller.preferredContentSize = self.preferredContentSize;
   [self.navigationController pushViewController:controller animated:YES];
 }
