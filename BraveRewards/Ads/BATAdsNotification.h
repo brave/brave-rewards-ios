@@ -14,8 +14,6 @@ typedef NS_ENUM(NSInteger, BATAdsConfirmationType) {
   BATAdsConfirmationTypeLanded    // = ads::ConfirmationType::LANDED
 } NS_SWIFT_NAME(ConfirmationType);
 
-extern BATAdsConfirmationType BATAdsConfirmationTypeForString(NSString *string);
-
 NS_SWIFT_NAME(AdsNotification)
 @interface BATAdsNotification : NSObject
 @property (nonatomic, readonly, copy) NSString *creativeSetID;

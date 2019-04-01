@@ -193,7 +193,6 @@ namespace ledger {
                                                   PublisherInfoCallback callback) { }
   void NativeLedgerClient::SaveMediaPublisherInfo(const std::string& media_key, const std::string& publisher_id) { }
   
-  void NativeLedgerClient::FetchWalletProperties() { }
   void NativeLedgerClient::GetGrantCaptcha(const std::string& promotion_id,
                                            const std::string& promotion_type) { }
   

@@ -6,21 +6,6 @@
 #include "bat/ads/notification_info.h"
 #import <map>
 
-BATAdsConfirmationType BATAdsConfirmationTypeForString(NSString *string)
-{
-  std::map<std::string, BATAdsConfirmationType> map {
-    {std::string(ads::kConfirmationTypeClick), BATAdsConfirmationTypeClick},
-    {std::string(ads::kConfirmationTypeDismiss), BATAdsConfirmationTypeDismiss},
-    {std::string(ads::kConfirmationTypeView), BATAdsConfirmationTypeView},
-    {std::string(ads::kConfirmationTypeLanded), BATAdsConfirmationTypeLanded}
-  };
-  const auto key = std::string(string.UTF8String);
-  if (map.count(key) == 0) {
-    return BATAdsConfirmationTypeUnknown;
-  }
-  return map[key];
-}
-
 @interface BATAdsNotification ()
 @property (nonatomic, copy) NSString *creativeSetID;
 @property (nonatomic, copy) NSString *category;
@@ -42,7 +27,8 @@ BATAdsConfirmationType BATAdsConfirmationTypeForString(NSString *string)
     self.text = [NSString stringWithUTF8String:info.text.c_str()];
     self.url = [NSURL URLWithString:[NSString stringWithUTF8String:info.url.c_str()]];
     self.uuid = [NSString stringWithUTF8String:info.uuid.c_str()];
-    self.confirmationType = (BATAdsConfirmationType)info.type;
+    // FIXME: Move to ConfirmationsType class here, instead of just casting its enum value
+    self.confirmationType = (BATAdsConfirmationType)info.type.value();
   }
   return self;
 }

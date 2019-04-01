@@ -73,7 +73,6 @@ namespace ledger {
     std::unique_ptr<LogStream> Log(const char* file, int line, LogLevel level) const override;
     void LoadMediaPublisherInfo(const std::string& media_key, PublisherInfoCallback callback) override;
     void SaveMediaPublisherInfo(const std::string& media_key, const std::string& publisher_id) override;
-    void FetchWalletProperties() override;
     void GetGrantCaptcha(const std::string& promotion_id,
                          const std::string& promotion_type) override;
     std::string URIEncode(const std::string& value) override;
