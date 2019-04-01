@@ -19,7 +19,8 @@ public class WalletDetailsView: UIView {
     addSubview(scrollView)
     scrollView.addSubview(stackView)
     stackView.addArrangedSubview(walletSection)
-    stackView.addArrangedSubview(EmptyWalletView())
+//    stackView.addArrangedSubview(EmptyWalletView())
+    stackView.addArrangedSubview(WalletActivityView())
     stackView.addArrangedSubview(PoweredByUpholdView())
     
     scrollView.snp.makeConstraints {

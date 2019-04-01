@@ -20,6 +20,7 @@
 		270483632221AC260051239C /* RewardsSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483622221AC260051239C /* RewardsSummaryView.swift */; };
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
+		2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58122527BC300B9EAF7 /* WalletActivityView.swift */; };
 		272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B787122248E8800B7B81E /* TippingOverviewView.swift */; };
 		272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7873222494F600B7B81E /* TippingOptionView.swift */; };
 		272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7875222498EA00B7B81E /* TippingSelectionView.swift */; };
@@ -184,6 +185,7 @@
 		270483622221AC260051239C /* RewardsSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryView.swift; sourceTree = "<group>"; };
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
+		2726B58122527BC300B9EAF7 /* WalletActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActivityView.swift; sourceTree = "<group>"; };
 		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
 		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
 		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
@@ -597,6 +599,7 @@
 			children = (
 				27A47072224150A300596431 /* WalletSummaryView.swift */,
 				279A2078224C157700192214 /* WalletDetailsView.swift */,
+				2726B58122527BC300B9EAF7 /* WalletActivityView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -878,7 +881,7 @@
 					};
 					A1FDE6D020D2AA7400F92CAF = {
 						CreatedOnToolsVersion = 9.4;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -1008,6 +1011,7 @@
 				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
 				27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */,
 				2730DF8D2231C75B0031845C /* SettingsRewardsSectionView.swift in Sources */,
+				2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
 				27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */,
