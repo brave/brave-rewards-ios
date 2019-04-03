@@ -5,20 +5,45 @@
 #import "BATWalletDetailsViewController.h"
 #import <BraveRewardsUI/BraveRewardsUI-Swift.h>
 #import "BATPopoverNavigationController.h"
+#import "BATAddFundsViewController.h"
 
 #import "BATPanelState.h"
 #import "bat/ledger/wallet_info.h"
 
 @interface BATWalletDetailsViewController ()
 @property (nonatomic) WalletDetailsView *view;
+@property (nonatomic) BATBraveLedger *ledger;
 @end
 
 @implementation BATWalletDetailsViewController
 @dynamic view;
 
+- (instancetype)initWithLedger:(BATBraveLedger *)ledger
+{
+  if ((self = [super initWithNibName:nil bundle:nil])) {
+    self.ledger = ledger;
+  }
+  return self;
+}
+
 - (void)loadView
 {
   self.view = [[WalletDetailsView alloc] init];
+}
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  
+  [self.view.walletSection.addFundsButton addTarget:self action:@selector(addFundsTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)addFundsTapped
+{
+  const auto controller = [[BATAddFundsViewController alloc] initWithLedger:self.ledger];
+  const auto container = [[BATPopoverNavigationController alloc] initWithRootViewController:controller];
+  container.modalPresentationStyle = UIModalPresentationCurrentContext;
+  [self presentViewController:container animated:YES completion:nil];
 }
 
 @end

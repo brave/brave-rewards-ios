@@ -86,7 +86,7 @@
 
 - (void)tappedWalletViewDetails
 {
-  const auto controller = [[BATWalletDetailsViewController alloc] init];
+  const auto controller = [[BATWalletDetailsViewController alloc] initWithLedger:self.ledger];
   controller.preferredContentSize = self.preferredContentSize;
   [self.navigationController pushViewController:controller animated:YES];
 }

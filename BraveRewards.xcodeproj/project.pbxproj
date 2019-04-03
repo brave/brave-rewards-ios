@@ -21,6 +21,8 @@
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
 		2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58122527BC300B9EAF7 /* WalletActivityView.swift */; };
+		2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58422528EE100B9EAF7 /* AddFundsView.swift */; };
+		2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B5862252989900B9EAF7 /* TokenAddressView.swift */; };
 		272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B787122248E8800B7B81E /* TippingOverviewView.swift */; };
 		272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7873222494F600B7B81E /* TippingOptionView.swift */; };
 		272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7875222498EA00B7B81E /* TippingSelectionView.swift */; };
@@ -111,6 +113,9 @@
 		27F3E5B121FB9876009A54D5 /* UIGestureRecognizerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5A921FB9876009A54D5 /* UIGestureRecognizerExtensions.swift */; };
 		27F3E5B221FB9876009A54D5 /* SnapKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5AA21FB9876009A54D5 /* SnapKitExtensions.swift */; };
 		27F3E5B321FB9876009A54D5 /* BasicAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E5AB21FB9876009A54D5 /* BasicAnimationController.swift */; };
+		27F4C1D42253FD0D00CFCD67 /* BATAddFundsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 27F4C1D22253FD0D00CFCD67 /* BATAddFundsViewController.h */; };
+		27F4C1D52253FD0D00CFCD67 /* BATAddFundsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C1D32253FD0D00CFCD67 /* BATAddFundsViewController.mm */; };
+		27F4C1D722551D6B00CFCD67 /* UIStackViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C1D622551D6B00CFCD67 /* UIStackViewExtensions.swift */; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
 		27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD393321E7D80100443796 /* libbat-native-ledger.a */; };
@@ -186,6 +191,8 @@
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
 		2726B58122527BC300B9EAF7 /* WalletActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActivityView.swift; sourceTree = "<group>"; };
+		2726B58422528EE100B9EAF7 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
+		2726B5862252989900B9EAF7 /* TokenAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAddressView.swift; sourceTree = "<group>"; };
 		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
 		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
 		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
@@ -278,6 +285,9 @@
 		27F3E5A921FB9876009A54D5 /* UIGestureRecognizerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIGestureRecognizerExtensions.swift; sourceTree = "<group>"; };
 		27F3E5AA21FB9876009A54D5 /* SnapKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapKitExtensions.swift; sourceTree = "<group>"; };
 		27F3E5AB21FB9876009A54D5 /* BasicAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = BasicAnimationController.swift; sourceTree = "<group>"; tabWidth = 4; };
+		27F4C1D22253FD0D00CFCD67 /* BATAddFundsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATAddFundsViewController.h; sourceTree = "<group>"; };
+		27F4C1D32253FD0D00CFCD67 /* BATAddFundsViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATAddFundsViewController.mm; sourceTree = "<group>"; };
+		27F4C1D622551D6B00CFCD67 /* UIStackViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExtensions.swift; sourceTree = "<group>"; };
 		27FD38E021E6B69700443796 /* BraveRewardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BraveRewardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27FD38E221E6B69700443796 /* AdsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTests.swift; sourceTree = "<group>"; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -347,6 +357,7 @@
 			children = (
 				2704834A2220E9380051239C /* UIImageExtensions.swift */,
 				2704834C2220EC1D0051239C /* BundleExtensions.swift */,
+				27F4C1D622551D6B00CFCD67 /* UIStackViewExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -393,6 +404,15 @@
 				27FD393221E7D7D900443796 /* bat-native-ledger */,
 			);
 			path = lib;
+			sourceTree = "<group>";
+		};
+		2726B58322528ECD00B9EAF7 /* Add Funds */ = {
+			isa = PBXGroup;
+			children = (
+				2726B58422528EE100B9EAF7 /* AddFundsView.swift */,
+				2726B5862252989900B9EAF7 /* TokenAddressView.swift */,
+			);
+			path = "Add Funds";
 			sourceTree = "<group>";
 		};
 		272D13E421F61CEA00768D30 /* Shared */ = {
@@ -462,6 +482,7 @@
 				270483612221AB960051239C /* Rewards Summary */,
 				27598841222450CD00B2E47A /* Publisher */,
 				2704835E2221AABF0051239C /* Wallet */,
+				2726B58322528ECD00B9EAF7 /* Add Funds */,
 				27598848222479AB00B2E47A /* Tipping */,
 				2730DF8522318FA90031845C /* Settings */,
 			);
@@ -590,6 +611,8 @@
 				2746145C223C55B5002DBE79 /* BATCreateWalletViewController.m */,
 				27461457223C5557002DBE79 /* BATPublisherViewController.h */,
 				27461458223C5557002DBE79 /* BATPublisherViewController.mm */,
+				27F4C1D22253FD0D00CFCD67 /* BATAddFundsViewController.h */,
+				27F4C1D32253FD0D00CFCD67 /* BATAddFundsViewController.mm */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -772,6 +795,7 @@
 				27516FD222138C5200E04FE1 /* NativeLedgerBridge.h in Headers */,
 				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
+				27F4C1D42253FD0D00CFCD67 /* BATAddFundsViewController.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				278107F6221DD911000D6281 /* BATTippingViewController.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
@@ -990,6 +1014,7 @@
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				279A2079224C157700192214 /* WalletDetailsView.swift in Sources */,
 				27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */,
+				27F4C1D722551D6B00CFCD67 /* UIStackViewExtensions.swift in Sources */,
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */,
@@ -1004,6 +1029,7 @@
 				2730DF912232FB030031845C /* SettingsAdSectionView.swift in Sources */,
 				2730DF8722318FBD0031845C /* SettingsView.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
+				2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */,
 				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				2730DF942236CA110031845C /* SettingsGrantSectionView.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
@@ -1014,6 +1040,7 @@
 				2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
+				2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */,
 				27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */,
 				273404792220BDC5008CABC9 /* Then.swift in Sources */,
 				2751E5C92242F3B300CB1B6B /* DismissButton.swift in Sources */,
@@ -1065,6 +1092,7 @@
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				27FD396121EFD88500443796 /* NativeLedgerClient.mm in Sources */,
 				2746145A223C5557002DBE79 /* BATPublisherViewController.mm in Sources */,
+				27F4C1D52253FD0D00CFCD67 /* BATAddFundsViewController.mm in Sources */,
 				278107F7221DD911000D6281 /* BATTippingViewController.mm in Sources */,
 				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
 			);
@@ -1429,6 +1457,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1461,6 +1490,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.brave.ios.rewards;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

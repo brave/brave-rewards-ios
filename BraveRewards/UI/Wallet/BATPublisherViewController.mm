@@ -12,6 +12,9 @@
 #import "BraveRewardsDataDelegate.h"
 #import "BraveRewardsDataDelegate.h"
 
+#import "BATAddFundsViewController.h"
+#import "BATPopoverNavigationController.h"
+
 @interface BATPublisherViewController ()
 @property (nonatomic, strong) BATPanelState *panelState;
 
@@ -100,14 +103,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
   [super viewWillAppear:animated];
-  [self.navigationController setNavigationBarHidden:YES animated:animated];
+  if (!self.presentedViewController) {
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+  }
   [self reloadState];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
   [super viewWillDisappear:animated];
-  [self.navigationController setNavigationBarHidden:NO animated:animated];
+  if (!self.presentedViewController) {
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+  }
 }
 
 #pragma mark -
@@ -179,7 +186,10 @@
 
 - (void)tappedAddFunds
 {
-  
+  const auto controller = [[BATAddFundsViewController alloc] initWithLedger:self.panelState.ledger];
+  const auto container = [[BATPopoverNavigationController alloc] initWithRootViewController:controller];
+  container.modalPresentationStyle = UIModalPresentationCurrentContext;
+  [self presentViewController:container animated:YES completion:nil];
 }
 
 - (void)tappedSettings
