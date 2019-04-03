@@ -272,14 +272,14 @@ namespace ads {
   
   // Should get ads for the specified region and category from the previously
   // persisted bundle state
-  void NativeAdsClient::GetAds(const std::string& region, const std::string& category, OnGetAdsCallback callback) {
+  void NativeAdsClient::GetAds(const std::string& category, OnGetAdsCallback callback) {
     auto categories = bundleState->categories.find(category);
     if (categories == bundleState->categories.end()) {
-      callback(FAILED, region, category, {});
+      callback(FAILED, category, {});
       return;
     }
     
-    callback(SUCCESS, region, category, categories->second);
+    callback(SUCCESS, category, categories->second);
   }
   
   // Should log an event to persistent storage however as events may be queued

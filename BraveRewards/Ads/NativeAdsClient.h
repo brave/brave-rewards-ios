@@ -126,8 +126,7 @@ namespace ads {
     
     /// Should get ads for the specified region and category from the previously
     /// persisted bundle state
-    void GetAds(const std::string& region,
-                const std::string& category,
+    void GetAds(const std::string& category,
                 OnGetAdsCallback callback);
     
     /// Should log an event to persistent storage however as events may be queued
