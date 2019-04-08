@@ -53,6 +53,8 @@
                                 dollarValue:@"0.00 USD"];
   [self.view.walletSection.viewDetailsButton addTarget:self action:@selector(tappedWalletViewDetails) forControlEvents:UIControlEventTouchUpInside];
   
+  [self.view.tipsSection.viewDetailsButton addTarget:self action:@selector(tappedTipsViewDetails) forControlEvents:UIControlEventTouchUpInside];
+  
   [self.view.autoContributeSection.toggleSwitch addTarget:self action:@selector(autoContributeToggleValueChanged) forControlEvents:UIControlEventValueChanged];
   [self.view.rewardsToggleSection.toggleSwitch addTarget:self action:@selector(rewardsSwitchValueChanged) forControlEvents:UIControlEventValueChanged];
   
@@ -87,6 +89,13 @@
 - (void)tappedWalletViewDetails
 {
   const auto controller = [[BATWalletDetailsViewController alloc] initWithLedger:self.ledger];
+  controller.preferredContentSize = self.preferredContentSize;
+  [self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)tappedTipsViewDetails
+{
+  const auto controller = [[TipsDetailViewController alloc] init];//WithLedger:self.ledger];
   controller.preferredContentSize = self.preferredContentSize;
   [self.navigationController pushViewController:controller animated:YES];
 }
