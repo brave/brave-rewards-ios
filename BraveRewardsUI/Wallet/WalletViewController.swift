@@ -31,7 +31,7 @@ class WalletViewController: UIViewController {
   }
   
   override func loadView() {
-    view = View()
+    view = View(frame: UIScreen.main.bounds)
   }
   
   
@@ -171,7 +171,8 @@ class WalletViewController: UIViewController {
   }
   
   @objc private func tappedEnableBraveRewards() {
-    
+    state.ledger.isEnabled = true
+    reloadUIState()
   }
   
   @objc private func tappedRewardsSummaryButton() {
