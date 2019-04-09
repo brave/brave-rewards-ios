@@ -5,7 +5,7 @@
 import UIKit
 
 /// The base of all the sections in the settings view
-public class SettingsSectionView: UIView {
+class SettingsSectionView: UIView {
   
   /// Add subviews to this view if they need to be clipped
   /// correctly based on the rounded corners
@@ -19,7 +19,7 @@ public class SettingsSectionView: UIView {
     }
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = .white
@@ -36,11 +36,5 @@ public class SettingsSectionView: UIView {
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()
-  }
-  
-  public override func layoutSubviews() {
-    super.layoutSubviews()
-    
-//    layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
   }
 }

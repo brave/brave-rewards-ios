@@ -84,7 +84,7 @@ extension TippingViewController {
       $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
       super.init(frame: frame)
       
       addSubview(backgroundView)
@@ -111,7 +111,7 @@ extension TippingViewController {
       optionSelectionView.selectedOptionIndex = 1
     }
     
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
       super.traitCollectionDidChange(previousTraitCollection)
       
       let isWideLayout = traitCollection.horizontalSizeClass == .regular
@@ -142,7 +142,7 @@ extension TippingViewController {
 }
 
 extension TippingViewController.View: BasicAnimationControllerDelegate {
-  public func animatePresentation(context: UIViewControllerContextTransitioning) {
+  func animatePresentation(context: UIViewControllerContextTransitioning) {
     context.containerView.addSubview(self)
     frame = context.containerView.bounds
     let isWideLayout = context.containerView.traitCollection.horizontalSizeClass == .regular
@@ -171,7 +171,7 @@ extension TippingViewController.View: BasicAnimationControllerDelegate {
     }, completion: nil)
     context.completeTransition(true)
   }
-  public func animateDismissal(context: UIViewControllerContextTransitioning) {
+  func animateDismissal(context: UIViewControllerContextTransitioning) {
     // Animate
     let isWideLayout = context.containerView.traitCollection.horizontalSizeClass == .regular
     UIView.animate(withDuration: 0.15) {
@@ -202,7 +202,7 @@ extension TippingViewController.View: UIScrollViewDelegate {
     return -65.0
   }
   
-  public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+  func scrollViewDidScroll(_ scrollView: UIScrollView) {
     // Don't adjust transform once its going to dismiss (dismiss animation will handle that) or if we're on iPad layout
     if !isGesturalDismissEnabled || isDismissingByGesture { return }
     
@@ -240,7 +240,7 @@ extension TippingViewController.View: UIScrollViewDelegate {
     }
   }
   
-  public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
     if isGesturalDismissEnabled && scrollView.contentOffset.y + scrollView.contentInset.top < dismissalThreshold {
       isDismissingByGesture = true
       self.gesturalDismissExecuted?()

@@ -4,14 +4,14 @@
 
 import UIKit
 
-public class SettingsAdSectionView: SettingsSectionView {
+class SettingsAdSectionView: SettingsSectionView {
   
   private struct UX {
     static let titleColor = UIColor(hex: 0xB13677) // No close color in Brave palette
     static let comingSoonTextColor = UIColor(hex: 0xC9B5DE) // Has to match icon color (which has no close color)
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     addSubview(stackView)

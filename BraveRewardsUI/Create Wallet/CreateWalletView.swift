@@ -78,7 +78,7 @@ extension CreateWalletViewController {
       $0.numberOfLines = 0
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
       super.init(frame: frame)
       
       addSubview(backgroundView)

@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class TippingOverviewView: UIView {
+class TippingOverviewView: UIView {
   private struct UX {
     static let backgroundColor = Colors.blurple800
     static let headerBackgroundColor = Colors.grey300
@@ -15,7 +15,7 @@ public class TippingOverviewView: UIView {
     static let bodyColor = Colors.grey200
   }
   
-  @objc public let dismissButton = DismissButton()
+  let dismissButton = DismissButton()
   
   let headerView = UIImageView().then {
     $0.backgroundColor = UX.headerBackgroundColor
@@ -128,7 +128,7 @@ public class TippingOverviewView: UIView {
     fatalError()
   }
   
-  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     grabberView.isHidden = traitCollection.horizontalSizeClass == .regular
   }

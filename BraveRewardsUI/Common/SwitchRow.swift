@@ -4,24 +4,24 @@
 
 import UIKit
 
-public class SwitchRow: UIStackView {
+class SwitchRow: UIStackView {
   
   private struct UX {
     static let textColor = Colors.grey200
   }
   
-  public let textLabel = UILabel().then {
+  let textLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 14.0)
     $0.textColor = UX.textColor
     $0.numberOfLines = 0
   }
   
-  public let toggleSwitch = UISwitch().then {
+  let toggleSwitch = UISwitch().then {
     $0.onTintColor = BraveUX.switchOnColor
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
    
     addArrangedSubview(textLabel)

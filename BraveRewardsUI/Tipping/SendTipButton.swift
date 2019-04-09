@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class SendTipButton: UIControl {
+class SendTipButton: UIControl {
   
   private let stackView = UIStackView().then {
     $0.spacing = 15.0
@@ -26,7 +26,7 @@ public class SendTipButton: UIControl {
     fatalError()
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = Colors.blurple400
@@ -52,7 +52,7 @@ public class SendTipButton: UIControl {
   
   // MARK: -
   
-  public override var isHighlighted: Bool {
+  override var isHighlighted: Bool {
     didSet {
       // Replicating usual UIButton highlight animation
       UIView.animate(withDuration: isHighlighted ? 0.05 : 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {

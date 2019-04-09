@@ -4,13 +4,13 @@
 
 import UIKit
 
-public class SettingsAutoContributeSectionView: SettingsSectionView {
+class SettingsAutoContributeSectionView: SettingsSectionView {
   
   private struct UX {
     static let titleColor = UIColor(hex: 0x90329C) // No close color in Brave palette
   }
   
-  @objc public func setSectionEnabled(_ enabled: Bool, hidesToggle: Bool, animated: Bool = false) {
+  func setSectionEnabled(_ enabled: Bool, hidesToggle: Bool, animated: Bool = false) {
     if animated {
       if enabled {
         viewDetailsButton.alpha = 0.0
@@ -28,14 +28,14 @@ public class SettingsAutoContributeSectionView: SettingsSectionView {
     }
   }
   
-  @objc public let toggleSwitch = UISwitch().then {
+  let toggleSwitch = UISwitch().then {
     $0.onTintColor = BraveUX.switchOnColor
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
-  @objc public let viewDetailsButton = SettingsViewDetailsButton(type: .system)
+  let viewDetailsButton = SettingsViewDetailsButton(type: .system)
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     viewDetailsButton.hitTestSlop = UIEdgeInsets(top: -stackView.spacing, left: 0, bottom: -stackView.spacing, right: 0)

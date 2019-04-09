@@ -9,7 +9,7 @@ extension WalletDetailsViewController {
     
     let walletSection = SettingsWalletSectionView(buttonType: .addFunds)
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
       super.init(frame: frame)
       
       backgroundColor = SettingsUX.backgroundColor

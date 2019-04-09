@@ -4,15 +4,13 @@
 
 import UIKit
 
-public class PublisherView: UIStackView {
+class PublisherView: UIStackView {
   
-  @objc(setVerificationStatusHidden:)
-  public func setVerificationStatusHidden(_ hidden: Bool) {
+  func setVerificationStatusHidden(_ hidden: Bool) {
     verifiedLabelStackView.isHidden = hidden
   }
   
-  @objc(setVerifiedStatus:)
-  public func setVerified(_ status: Bool) {
+  func setVerified(_ status: Bool) {
     if status {
       verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-verify")
       verifiedLabel.text = BATLocalizedString("BraveRewardsVerified", "Brave Verified Publisher")
@@ -24,7 +22,7 @@ public class PublisherView: UIStackView {
     }
   }
   
-  @objc public let faviconImageView = UIImageView().then {
+  let faviconImageView = UIImageView().then {
     $0.backgroundColor = UX.faviconBackgroundColor
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds = true
@@ -35,14 +33,14 @@ public class PublisherView: UIStackView {
   }
   
   // "reddit.com" / "Bart Baker on YouTube"
-  @objc public let publisherNameLabel = UILabel().then {
+  let publisherNameLabel = UILabel().then {
     $0.textColor = UX.publisherNameColor
     $0.font = .systemFont(ofSize: 18.0, weight: .medium)
     $0.numberOfLines = 0
   }
   
   /// The learn more button on the unverified publisher disclaimer was tapped
-  @objc public var learnMoreTapped: (() -> Void)? {
+  var learnMoreTapped: (() -> Void)? {
     didSet {
       unverifiedDisclaimerView.learnMoreTapped = learnMoreTapped
     }
@@ -92,7 +90,7 @@ public class PublisherView: UIStackView {
     fatalError()
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     axis = .vertical

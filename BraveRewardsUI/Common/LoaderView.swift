@@ -5,7 +5,7 @@
 import UIKit
 
 /// A Brave styled activity indicator view
-public class LoaderView: UIView {
+class LoaderView: UIView {
   /// The size of the indicator
   enum Size {
     case small
@@ -30,11 +30,11 @@ public class LoaderView: UIView {
     }
   }
   
-  @objc public func start() {
+  func start() {
     loaderLayer.add(rotateAnimation, forKey: "rotation")
   }
   
-  @objc public func stop() {
+  func stop() {
     loaderLayer.removeAnimation(forKey: "rotation")
   }
   
@@ -48,20 +48,20 @@ public class LoaderView: UIView {
     layer.addSublayer(loaderLayer)
   }
   
-  public override var tintColor: UIColor! {
+  override var tintColor: UIColor! {
     didSet {
       loaderLayer.strokeColor = tintColor.cgColor
     }
   }
   
-  public override func layoutSubviews() {
+  override func layoutSubviews() {
     super.layoutSubviews()
     
     loaderLayer.frame = bounds
     loaderLayer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
   }
   
-  public override var intrinsicContentSize: CGSize {
+  override var intrinsicContentSize: CGSize {
     return size.size
   }
   

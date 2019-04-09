@@ -4,9 +4,9 @@
 
 import Foundation
 
-public class RewardsDisabledView: UIView {
+class RewardsDisabledView: UIView {
   
-  @objc public var enableRewardsButton: UIButton {
+  var enableRewardsButton: UIButton {
     return contentView.enableRewardsButton
   }
   
@@ -17,7 +17,7 @@ public class RewardsDisabledView: UIView {
   }
   private let contentView = ContentView()
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     addSubview(gradientView)
@@ -46,11 +46,11 @@ public class RewardsDisabledView: UIView {
 }
 
 extension RewardsDisabledView: WalletContentView {
-  public var displaysRewardsSummaryButton: Bool {
+  var displaysRewardsSummaryButton: Bool {
     return false
   }
   
-  public var innerScrollView: UIScrollView? {
+  var innerScrollView: UIScrollView? {
     return scrollView
   }
 }

@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class RewardsSummaryView: UIView {
+class RewardsSummaryView: UIView {
   private struct UX {
     static let monthYearColor = Colors.blurple400
     static let gradientColors: [UIColor] = [Colors.blurple800, .white, .white]
@@ -12,13 +12,13 @@ public class RewardsSummaryView: UIView {
     static let buttonHeight = 48.0
   }
   
-  @objc public let rewardsSummaryButton = RewardsSummaryViewButton()
-  public let monthYearLabel = UILabel().then {
+  let rewardsSummaryButton = RewardsSummaryViewButton()
+  let monthYearLabel = UILabel().then {
     $0.textColor = UX.monthYearColor
     $0.font = .systemFont(ofSize: 22.0)
     $0.isHidden = true
   }
-  public let scrollView = UIScrollView()
+  let scrollView = UIScrollView()
   let gradientView = GradientView().then {
     $0.gradientLayer.colors = UX.gradientColors.map { $0.cgColor }
     $0.gradientLayer.locations = UX.gradientLocations
@@ -27,7 +27,7 @@ public class RewardsSummaryView: UIView {
     $0.axis = .vertical
   }
   
-  public var rows: [RowView] = [] {
+  var rows: [RowView] = [] {
     willSet {
       stackView.arrangedSubviews.forEach {
         $0.removeFromSuperview()
@@ -43,7 +43,7 @@ public class RewardsSummaryView: UIView {
     }
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     addSubview(gradientView)
@@ -80,7 +80,7 @@ public class RewardsSummaryView: UIView {
     fatalError()
   }
   
-  public override func layoutSubviews() {
+  override func layoutSubviews() {
     super.layoutSubviews()
     
     scrollView.layoutIfNeeded()

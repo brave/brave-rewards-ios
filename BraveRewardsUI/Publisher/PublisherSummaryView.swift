@@ -4,9 +4,9 @@
 
 import UIKit
 
-public class PublisherSummaryView: UIView {
+class PublisherSummaryView: UIView {
   
-  @objc public func setLocal(_ local: Bool) {
+  func setLocal(_ local: Bool) {
     if local {
       publisherView.publisherNameLabel.text = "Brave Browser";
       publisherView.faviconImageView.image = UIImage(frameworkResourceNamed: "local-icon")
@@ -15,17 +15,17 @@ public class PublisherSummaryView: UIView {
     publisherView.faviconImageView.contentMode = local ? .center : .scaleAspectFill
   }
   
-  let scrollView = UIScrollView().then {
+  private let scrollView = UIScrollView().then {
     $0.contentInsetAdjustmentBehavior = .never
     $0.delaysContentTouches = false
   }
-  let stackView = UIStackView().then {
+  private let stackView = UIStackView().then {
     $0.spacing = 8.0
     $0.axis = .vertical
   }
-  @objc public let publisherView = PublisherView()
-  @objc public let attentionView = PublisherAttentionView()
-  @objc public let tipButton = ActionButton(type: .system).then {
+  let publisherView = PublisherView()
+  let attentionView = PublisherAttentionView()
+  let tipButton = ActionButton(type: .system).then {
     $0.tintColor = Colors.blurple400
     $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
     $0.setTitle(BATLocalizedString("BraveRewardsPublisherSendTip", "Send a tip").uppercased(), for: .normal)
@@ -71,10 +71,10 @@ public class PublisherSummaryView: UIView {
 }
 
 extension PublisherSummaryView: WalletContentView {
-  public var innerScrollView: UIScrollView? {
+  var innerScrollView: UIScrollView? {
     return scrollView
   }
-  public var displaysRewardsSummaryButton: Bool {
+  var displaysRewardsSummaryButton: Bool {
     return true
   }
 }

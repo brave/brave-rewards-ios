@@ -4,13 +4,13 @@
 
 import UIKit
 
-public final class GrabberView: UIView {
+final class GrabberView: UIView {
   
   private struct UX {
     static let size = CGSize(width: 32.0, height: 4.0)
   }
   
-  public enum Style {
+  enum Style {
     case light
     case dark
     
@@ -24,7 +24,7 @@ public final class GrabberView: UIView {
     }
   }
   
-  public init(style: Style) {
+  init(style: Style) {
     super.init(frame: CGRect(origin: .zero, size: UX.size))
     
     clipsToBounds = true
@@ -39,11 +39,11 @@ public final class GrabberView: UIView {
   
   // MARK: -
   
-  public override func sizeToFit() {
+  override func sizeToFit() {
     bounds = CGRect(origin: .zero, size: UX.size)
   }
   
-  public override var intrinsicContentSize: CGSize {
+  override var intrinsicContentSize: CGSize {
     return UX.size
   }
 }

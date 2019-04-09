@@ -13,7 +13,7 @@ extension UIColor {
   }
 }
 
-public class Colors {
+class Colors {
   static let grey000 = UIColor(hex: 0x1E2029)
   static let grey100 = UIColor(hex: 0x3B3E4F)
   static let grey200 = UIColor(hex: 0x5E6175)

@@ -4,22 +4,22 @@
 
 import UIKit
 
-public class WalletActivityView: SettingsSectionView {
+class WalletActivityView: SettingsSectionView {
   
   private struct UX {
     static let monthYearColor = Colors.blurple400
   }
   
-  let stackView = UIStackView().then {
+  private let stackView = UIStackView().then {
     $0.axis = .vertical
   }
   
-  public let monthYearLabel = UILabel().then {
+  let monthYearLabel = UILabel().then {
     $0.textColor = UX.monthYearColor
     $0.font = .systemFont(ofSize: 22.0, weight: .medium)
   }
   
-  public var rows: [RowView] = [] {
+  var rows: [RowView] = [] {
     willSet {
       rows.forEach {
         $0.removeFromSuperview()
@@ -35,7 +35,7 @@ public class WalletActivityView: SettingsSectionView {
     }
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     // FIXME: Remove temp values

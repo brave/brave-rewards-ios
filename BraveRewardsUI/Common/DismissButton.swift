@@ -4,13 +4,13 @@
 
 import UIKit
 
-public class DismissButton: Button {
+class DismissButton: Button {
   
   private struct UX {
     static let dismissButtonSize = CGSize(width: 28.0, height: 28.0)
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     setImage(UIImage(frameworkResourceNamed: "close-icon").alwaysTemplate, for: .normal)
@@ -27,7 +27,7 @@ public class DismissButton: Button {
     fatalError()
   }
   
-  public override var isHighlighted: Bool {
+  override var isHighlighted: Bool {
     didSet {
       if isHighlighted {
         imageView?.tintColor = .white
@@ -39,7 +39,7 @@ public class DismissButton: Button {
     }
   }
   
-  public override var intrinsicContentSize: CGSize {
+  override var intrinsicContentSize: CGSize {
     return UX.dismissButtonSize
   }
 }

@@ -4,42 +4,42 @@
 
 import UIKit
 
-public class WalletHeaderView: UIView {
+class WalletHeaderView: UIView {
   
-  let backgroundImageView = UIImageView().then {
+  private let backgroundImageView = UIImageView().then {
     $0.image = UIImage(frameworkResourceNamed: "header")
     $0.clipsToBounds = true
     $0.contentMode = .scaleAspectFill
   }
   
-  let titleLabel = UILabel().then {
+  private let titleLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 16.0, weight: .medium)
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
     $0.text = BATLocalizedString("BraveRewardsWalletHeaderTitle", "Your Wallet")
   }
   
-  let altcurrencyContainerView = UIStackView().then {
+  private let altcurrencyContainerView = UIStackView().then {
     $0.spacing = 4.0
     $0.alignment = .lastBaseline
   }
   
-  public let balanceLabel = UILabel().then {
+  let balanceLabel = UILabel().then {
     $0.textColor = .white
     $0.font = .systemFont(ofSize: 36.0)
   }
   
-  public let altcurrencyTypeLabel = UILabel().then {
+  let altcurrencyTypeLabel = UILabel().then {
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
     $0.font = .systemFont(ofSize: 18.0)
   }
   
-  public let usdBalanceLabel = UILabel().then {
+  let usdBalanceLabel = UILabel().then {
     $0.textAlignment = .center
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
     $0.font = .systemFont(ofSize: 12.0)
   }
   
-  public let grantsButton = ActionButton(type: .system).then {
+  let grantsButton = ActionButton(type: .system).then {
     $0.flipImageOrigin = true
     $0.titleLabel?.font = .systemFont(ofSize: 10.0, weight: .semibold)
     $0.setImage(UIImage(frameworkResourceNamed: "down-arrow"), for: .normal)
@@ -49,7 +49,7 @@ public class WalletHeaderView: UIView {
     $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10.0)
   }
   
-  @objc public let addFundsButton = UIButton(type: .system).then {
+  let addFundsButton = UIButton(type: .system).then {
     $0.setTitleColor(UIColor(white: 1.0, alpha: 0.75), for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsAddFunds", "Add Funds"), for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "wallet-icon").alwaysOriginal, for: .normal)
@@ -60,7 +60,7 @@ public class WalletHeaderView: UIView {
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   
-  @objc public let settingsButton = UIButton(type: .system).then {
+  let settingsButton = UIButton(type: .system).then {
     $0.setTitleColor(UIColor(white: 1.0, alpha: 0.75), for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsSettings", "Settings"), for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "bat").alwaysOriginal, for: .normal)
@@ -71,14 +71,14 @@ public class WalletHeaderView: UIView {
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   
-  let buttonsContainerView = UIStackView().then {
+  private let buttonsContainerView = UIStackView().then {
     $0.spacing = 20.0
     $0.alignment = .center
     $0.distribution = .fillEqually
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = .clear
@@ -128,7 +128,7 @@ public class WalletHeaderView: UIView {
     fatalError()
   }
   
-  public override func layoutSubviews() {
+  override func layoutSubviews() {
     super.layoutSubviews()
     
     backgroundImageView.frame = bounds
@@ -136,7 +136,7 @@ public class WalletHeaderView: UIView {
 }
 
 extension WalletHeaderView {
-  @objc public func setWalletBalance(_ value: String, crypto: String, dollarValue: String) {
+  func setWalletBalance(_ value: String, crypto: String, dollarValue: String) {
     balanceLabel.text = value
     altcurrencyTypeLabel.text = crypto
     usdBalanceLabel.text = dollarValue

@@ -2,25 +2,25 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-public class SettingsWalletSectionView: SettingsSectionView {
+class SettingsWalletSectionView: SettingsSectionView {
   enum ButtonType {
     case none
     case viewDetails
     case addFunds
   }
   
-  @objc public func setWalletBalance(_ value: String, crypto: String, dollarValue: String) {
+  func setWalletBalance(_ value: String, crypto: String, dollarValue: String) {
     balanceLabel.text = value
     altcurrencyTypeLabel.text = crypto
     usdBalanceLabel.text = dollarValue
   }
   
-  @objc public private(set) lazy var viewDetailsButton = SettingsViewDetailsButton(type: .system).then {
+  private(set) lazy var viewDetailsButton = SettingsViewDetailsButton(type: .system).then {
     $0.tintColor = .white
     $0.setTitleColor(.white, for: .normal)
   }
   
-  @objc public private(set) lazy var addFundsButton = Button(type: .system).then {
+  private(set) lazy var addFundsButton = Button(type: .system).then {
     $0.setTitleColor(.white, for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsAddFunds", "Add Funds"), for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "wallet-icon").alwaysOriginal, for: .normal)
@@ -46,28 +46,28 @@ public class SettingsWalletSectionView: SettingsSectionView {
     $0.alignment = .center
   }
   
-  let titleLabel = UILabel().then {
+  private let titleLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 14.0, weight: .medium)
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
     $0.text = BATLocalizedString("BraveRewardsWalletHeaderTitle", "Your Wallet")
   }
   
-  let altcurrencyContainerView = UIStackView().then {
+  private let altcurrencyContainerView = UIStackView().then {
     $0.spacing = 4.0
     $0.alignment = .lastBaseline
   }
   
-  public let balanceLabel = UILabel().then {
+  let balanceLabel = UILabel().then {
     $0.textColor = .white
     $0.font = .systemFont(ofSize: 30.0)
   }
   
-  public let altcurrencyTypeLabel = UILabel().then {
+  let altcurrencyTypeLabel = UILabel().then {
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
     $0.font = .systemFont(ofSize: 16.0)
   }
   
-  public let usdBalanceLabel = UILabel().then {
+  let usdBalanceLabel = UILabel().then {
     $0.textAlignment = .center
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
     $0.font = .systemFont(ofSize: 12.0)

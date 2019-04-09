@@ -35,7 +35,7 @@ class WalletViewController: UIViewController {
   }
   
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     
     navigationController?.setNavigationBarHidden(true, animated: false)
@@ -80,7 +80,7 @@ class WalletViewController: UIViewController {
     }
   }
   
-  public override func viewDidLayoutSubviews() {
+  override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
     walletView.headerView.layoutIfNeeded()

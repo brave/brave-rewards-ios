@@ -5,7 +5,7 @@
 import UIKit
 import BraveRewards
 
-public class TipsDetailViewController: UIViewController {
+class TipsDetailViewController: UIViewController {
   
   private var tipsView: View {
     return view as! View
@@ -23,11 +23,11 @@ public class TipsDetailViewController: UIViewController {
     fatalError()
   }
   
-  public override func loadView() {
+  override func loadView() {
     self.view = View()
   }
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     
     tipsView.tableView.delegate = self
@@ -47,16 +47,16 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     case tips
   }
   
-  public func numberOfSections(in tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return Section.allCases.count
   }
   
-  public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let typedSection = Section(rawValue: section), typedSection == .tips else { return nil }
     return headerView
   }
   
-  public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     guard let typedSection = Section(rawValue: section), typedSection == .tips else { return 0.0 }
     return headerView.systemLayoutSizeFitting(
       CGSize(width: tableView.bounds.width, height: tableView.bounds.height),
@@ -65,7 +65,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     ).height
   }
   
-  public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
@@ -75,7 +75,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     }
   }
   
-  public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let section = Section(rawValue: indexPath.section) else {
       assertionFailure()
       return UITableViewCell()

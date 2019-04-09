@@ -4,15 +4,15 @@
 
 import UIKit
 
-public class PublisherAttentionView: UIView {
+class PublisherAttentionView: UIView {
   
-  @objc public let titleLabel = UILabel().then {
+  let titleLabel = UILabel().then {
     $0.textColor = Colors.grey000
     $0.text = BATLocalizedString("BraveRewardsAttention", "Attention")
     $0.font = .systemFont(ofSize: 14.0)
   }
   /// Either "X%" or "–"
-  @objc public let valueLabel = UILabel().then {
+  let valueLabel = UILabel().then {
     $0.textColor = Colors.grey000
     $0.font = .systemFont(ofSize: 14.0, weight: .semibold)
     $0.textAlignment = .right
@@ -24,7 +24,7 @@ public class PublisherAttentionView: UIView {
     fatalError()
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     let paddingGuide = UILayoutGuide()

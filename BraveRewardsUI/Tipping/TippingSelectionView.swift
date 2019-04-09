@@ -4,15 +4,15 @@
 
 import UIKit
 
-public class TippingOption: NSObject {
-  @objc public var value: String
-  @objc public var crypto: String
-  @objc public var cryptoImage: UIImage
-  @objc public var dollarValue: String
+class TippingOption: NSObject {
+  var value: String
+  var crypto: String
+  var cryptoImage: UIImage
+  var dollarValue: String
   
   fileprivate var view: TippingOptionView?
   
-  public init(value: String, crypto: String, cryptoImage: UIImage, dollarValue: String) {
+  init(value: String, crypto: String, cryptoImage: UIImage, dollarValue: String) {
     self.value = value
     self.crypto = crypto
     self.cryptoImage = cryptoImage
@@ -21,7 +21,7 @@ public class TippingOption: NSObject {
     super.init()
   }
   
-  @objc public class func batAmount(_ value: String, dollarValue: String) -> TippingOption {
+  class func batAmount(_ value: String, dollarValue: String) -> TippingOption {
     return TippingOption(
       value: value,
       crypto: "BAT",
@@ -31,35 +31,35 @@ public class TippingOption: NSObject {
   }
 }
 
-public class TippingSelectionView: UIView {
+class TippingSelectionView: UIView {
   
-  @objc public func setEnoughFundsAvailable(_ enoughFunds: Bool) {
+  func setEnoughFundsAvailable(_ enoughFunds: Bool) {
     sendTipButton.isHidden = !enoughFunds
     insufficientFundsButton.isHidden = enoughFunds
   }
   
-  @objc public let sendTipButton = SendTipButton()
+  let sendTipButton = SendTipButton()
   
-  @objc public let insufficientFundsButton = InsufficientFundsButton().then {
+  let insufficientFundsButton = InsufficientFundsButton().then {
     $0.isHidden = true
   }
   
   // MARK: - Wallet Balance
   
-  @objc public func setWalletBalance(_ value: String, crypto: String) {
+  func setWalletBalance(_ value: String, crypto: String) {
     walletBalanceView.valueLabel.text = value
     walletBalanceView.cryptoLabel.text = crypto
   }
   
   // MARK: - Options
   
-  @objc public var isMonthly: Bool = false {
+  var isMonthly: Bool = false {
     didSet {
       monthlyToggleButton.setImage(UIImage(frameworkResourceNamed: isMonthly ? "checkbox-checked" : "checkbox").alwaysOriginal, for: .normal)
     }
   }
   
-  @objc public var selectedOptionIndex: Int {
+  var selectedOptionIndex: Int {
     get {
       return options.firstIndex(where: { $0.view?.isSelected == true }) ?? -1
     }
@@ -70,9 +70,9 @@ public class TippingSelectionView: UIView {
     }
   }
   
-  @objc public var optionChanged: ((TippingOption) -> Void)?
+  var optionChanged: ((TippingOption) -> Void)?
   
-  @objc public var options: [TippingOption] = [] {
+  var options: [TippingOption] = [] {
     willSet {
       options.forEach { $0.view?.removeFromSuperview() }
     }
@@ -123,7 +123,7 @@ public class TippingSelectionView: UIView {
     fatalError()
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = Colors.blurple500
@@ -166,7 +166,7 @@ public class TippingSelectionView: UIView {
     }
   }
   
-  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     let isWideLayout = traitCollection.horizontalSizeClass == .regular
     layoutGuide.snp.remakeConstraints {

@@ -5,7 +5,7 @@
 import Foundation
 import UIKit
 
-@objc public protocol BasicAnimationControllerDelegate: class {
+protocol BasicAnimationControllerDelegate: class {
   
   /// Animate the presentation of a controller
   ///
@@ -24,11 +24,10 @@ import UIKit
 /// some sort of state for whether or not its being dismissed or presented.
 ///
 /// It also allows us to access private variables/properties without having to expose them to the animation controller.
-public class BasicAnimationController: NSObject {
+class BasicAnimationController: NSObject {
   
   /// The animation direction
-  @objc(BasicAnimationDirection)
-  public enum Direction: Int {
+  enum Direction {
     /// The controller is being presented
     case presenting
     /// The controller is being dismissed
@@ -41,7 +40,7 @@ public class BasicAnimationController: NSObject {
   /// The controller to handle animating
   private(set) weak var delegate: BasicAnimationControllerDelegate?
   
-  @objc public init(delegate: BasicAnimationControllerDelegate, direction: Direction) {
+  init(delegate: BasicAnimationControllerDelegate, direction: Direction) {
     self.direction = direction
     self.delegate = delegate
   }
@@ -49,12 +48,12 @@ public class BasicAnimationController: NSObject {
 
 extension BasicAnimationController: UIViewControllerAnimatedTransitioning {
   
-  public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+  func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
     // This value doesn't really matter... We could have it assignable as a property if we need it really...
     return 0.2
   }
   
-  public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
+  func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     switch direction {
     case .presenting:
       delegate?.animatePresentation(context: transitionContext)

@@ -5,7 +5,7 @@
 import UIKit
 import CoreImage
 
-public class TokenAddressView: UIView {
+class TokenAddressView: UIView {
   
   enum TokenKind {
     case bitcoin

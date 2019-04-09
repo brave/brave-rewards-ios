@@ -4,9 +4,9 @@
 
 import UIKit
 
-public class SettingsGrantSectionView: SettingsSectionView {
+class SettingsGrantSectionView: SettingsSectionView {
   
-  @objc public let claimGrantButton = Button().then {
+  let claimGrantButton = Button().then {
     $0.loaderView = LoaderView(size: .small)
     $0.backgroundColor = BraveUX.braveOrange
     $0.tintColor = .white
@@ -17,7 +17,7 @@ public class SettingsGrantSectionView: SettingsSectionView {
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     clippedContentView.addSubview(claimGrantButton)

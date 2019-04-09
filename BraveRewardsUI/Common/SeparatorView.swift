@@ -5,7 +5,7 @@
 import UIKit
 
 /// A simple view that has constant height and defaults to a gray color
-public class SeparatorView: UIView {
+class SeparatorView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)

@@ -4,12 +4,12 @@
 
 import Foundation
 
-public class Button: UIButton {
+class Button: UIButton {
   
   // MARK: - Activity
   
   /// Where the loader should go when it begins animating
-  public enum LoaderPlacement {
+  enum LoaderPlacement {
     /// Hides any title/image and centers the loader
     case replacesContent
     /// To the right of the title
@@ -17,11 +17,11 @@ public class Button: UIButton {
   }
   
   /// Set an activity indicator you would like to see in this button
-  public var loaderView: LoaderView?
+  var loaderView: LoaderView?
   
-  public var loaderPlacement: LoaderPlacement = .replacesContent
+  var loaderPlacement: LoaderPlacement = .replacesContent
   
-  @objc(loading) public var isLoading: Bool = false {
+  var isLoading: Bool = false {
     didSet {
       guard let loaderView = loaderView else {
         fatalError()
@@ -70,9 +70,9 @@ public class Button: UIButton {
   
   // MARK: - Image Placement
   
-  public var flipImageOrigin: Bool = false
+  var flipImageOrigin: Bool = false
   
-  public override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
+  override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
     var frame = super.imageRect(forContentRect: contentRect)
     if flipImageOrigin {
       frame.origin.x = super.titleRect(forContentRect: contentRect).maxX - frame.width - imageEdgeInsets.right + imageEdgeInsets.left + titleEdgeInsets.right - titleEdgeInsets.left
@@ -80,7 +80,7 @@ public class Button: UIButton {
     return frame
   }
   
-  public override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
+  override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
     var frame = super.titleRect(forContentRect: contentRect)
     if flipImageOrigin {
       frame.origin.x -= imageRect(forContentRect: contentRect).width
@@ -88,7 +88,7 @@ public class Button: UIButton {
     return frame
   }
   
-  public override var intrinsicContentSize: CGSize {
+  override var intrinsicContentSize: CGSize {
     var size = super.intrinsicContentSize
     size.width += abs(imageEdgeInsets.left) + abs(imageEdgeInsets.right) +
       abs(titleEdgeInsets.left) + abs(titleEdgeInsets.right)
@@ -99,7 +99,7 @@ public class Button: UIButton {
   
   var hitTestSlop: UIEdgeInsets = .zero
   
-  public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+  override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
     if bounds.inset(by: hitTestSlop).contains(point) {
       return true
     }

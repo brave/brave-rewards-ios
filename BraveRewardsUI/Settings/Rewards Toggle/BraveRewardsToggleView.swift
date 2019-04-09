@@ -48,7 +48,7 @@ class BraveRewardsToggleView: UIView {
   
   // MARK: - Accessibility
   
-  public override func accessibilityActivate() -> Bool {
+  override func accessibilityActivate() -> Bool {
     toggleSwitch.setOn(!toggleSwitch.isOn, animated: true)
     toggleSwitch.sendActions(for: .valueChanged)
     return true

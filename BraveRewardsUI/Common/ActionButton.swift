@@ -4,9 +4,9 @@
 
 import Foundation
 
-public class ActionButton: Button {
+class ActionButton: Button {
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = .clear
@@ -19,13 +19,13 @@ public class ActionButton: Button {
     fatalError()
   }
   
-  public override func layoutSubviews() {
+  override func layoutSubviews() {
     super.layoutSubviews()
    
     layer.cornerRadius = bounds.height / 2.0
   }
   
-  public override var tintColor: UIColor! {
+  override var tintColor: UIColor! {
     didSet {
       setTitleColor(tintColor, for: .normal)
       layer.borderColor = tintColor.withAlphaComponent(0.5).cgColor

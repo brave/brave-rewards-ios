@@ -5,7 +5,7 @@
 import UIKit
 
 /// Displayed when the user does not have enough tokens to complete a tip
-public class InsufficientFundsButton: UIControl {
+class InsufficientFundsButton: UIControl {
   
   private struct UX {
     static let backgroundColor = Colors.blurple000
@@ -34,7 +34,7 @@ public class InsufficientFundsButton: UIControl {
     fatalError()
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     backgroundColor = UX.backgroundColor

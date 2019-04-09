@@ -4,14 +4,14 @@
 
 import UIKit
 
-public class SettingsRewardsSectionView: SettingsSectionView {
+class SettingsRewardsSectionView: SettingsSectionView {
   
-  @objc public var toggleSwitch: UISwitch {
+  var toggleSwitch: UISwitch {
     return toggleView.toggleSwitch
   }
   
   /// Set the rewards enabled state based on the ledger.
-  @objc public func setRewardsEnabled(_ enabled: Bool, animated: Bool = false) {
+  func setRewardsEnabled(_ enabled: Bool, animated: Bool = false) {
     if disabledTextView.isHidden == enabled {
       // Nothing to do
       return
@@ -29,7 +29,7 @@ public class SettingsRewardsSectionView: SettingsSectionView {
     }
   }
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     addSubview(stackView)

@@ -5,7 +5,7 @@
 import UIKit
 
 //extension RewardsSummaryView {
-  public class RewardsSummaryViewButton: UIControl {
+  class RewardsSummaryViewButton: UIControl {
     
     private struct UX {
       static let backgroundColor = Colors.blurple800
@@ -19,11 +19,11 @@ import UIKit
     }
     
     /// Should be set to "slide-up"/"slide-down" image based on slide status; Defaults to "slide-up"
-    public let slideToggleImageView = UIImageView(image: UIImage(frameworkResourceNamed: "slide-up")).then {
+    let slideToggleImageView = UIImageView(image: UIImage(frameworkResourceNamed: "slide-up")).then {
       $0.setContentHuggingPriority(.required, for: .horizontal)
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
       super.init(frame: frame)
       
       backgroundColor = UX.backgroundColor

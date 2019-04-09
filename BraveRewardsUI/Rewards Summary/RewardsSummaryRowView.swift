@@ -6,7 +6,7 @@ import UIKit
 
 //extension RewardsSummaryView {
 
-  public class RowView: UIView {
+  class RowView: UIView {
     private struct UX {
       static let titleColor = Colors.grey000
       static let cryptoCurrencyColor = Colors.grey200
@@ -43,7 +43,7 @@ import UIKit
       $0.setContentHuggingPriority(.required, for: .horizontal)
     }
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
       super.init(frame: frame)
       
       let paddingGuide = UILayoutGuide()
@@ -68,7 +68,7 @@ import UIKit
       }
     }
     
-    public convenience init(title: String, batValue: String, usdDollarValue: String) {
+    convenience init(title: String, batValue: String, usdDollarValue: String) {
       self.init(frame: .zero)
       titleLabel.text = title
       cryptoCurrencyLabel.text = "BAT"

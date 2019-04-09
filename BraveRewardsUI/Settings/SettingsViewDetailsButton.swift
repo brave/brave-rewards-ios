@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class SettingsViewDetailsButton: Button {
+class SettingsViewDetailsButton: Button {
   
   override init(frame: CGRect) {
     super.init(frame: frame)

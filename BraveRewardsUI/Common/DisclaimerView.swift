@@ -4,7 +4,7 @@
 
 import UIKit
 
-public class DisclaimerView: UIView {
+class DisclaimerView: UIView {
   
   private struct UX {
     static let textColor = Colors.grey200
@@ -29,7 +29,7 @@ public class DisclaimerView: UIView {
     $0.textContainerInset = .zero
   }
   
-  public init(text: String) {
+  init(text: String) {
     self.text = text
     
     super.init(frame: .zero)
@@ -80,7 +80,7 @@ public class DisclaimerView: UIView {
 }
 
 extension DisclaimerView: UITextViewDelegate {
-  public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+  func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
     self.learnMoreTapped?()
     return false
   }

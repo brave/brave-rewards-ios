@@ -4,13 +4,13 @@
 
 import UIKit
 
-public class SettingsTipsSectionView: SettingsSectionView {
+class SettingsTipsSectionView: SettingsSectionView {
   
   private struct UX {
     static let titleColor = UIColor(hex: 0x6A71D5) // No close color in Brave palette
   }
   
-  @objc public func setSectionEnabled(_ enabled: Bool, animated: Bool = false) {
+  func setSectionEnabled(_ enabled: Bool, animated: Bool = false) {
     if viewDetailsButton.isHidden != enabled {
       // Nothing to do
       return
@@ -29,9 +29,9 @@ public class SettingsTipsSectionView: SettingsSectionView {
     }
   }
   
-  @objc public let viewDetailsButton = SettingsViewDetailsButton(type: .system)
+  let viewDetailsButton = SettingsViewDetailsButton(type: .system)
   
-  public override init(frame: CGRect) {
+  override init(frame: CGRect) {
     super.init(frame: frame)
     
     addSubview(stackView)

@@ -9,12 +9,12 @@ private let claimGrantDateFormatter = DateFormatter().then {
   $0.timeStyle = .none
 }
 
-public class GrantClaimedViewController: UIViewController {
+class GrantClaimedViewController: UIViewController {
   
   let grantAmount: String
   let expirationDate: Date
   
-  @objc public init(grantAmount: String, expirationDate: Date) {
+  init(grantAmount: String, expirationDate: Date) {
     self.grantAmount = grantAmount
     self.expirationDate = expirationDate
     
@@ -30,11 +30,11 @@ public class GrantClaimedViewController: UIViewController {
     return view as! View
   }
   
-  public override func loadView() {
+  override func loadView() {
     view = View()
   }
   
-  public override func viewDidLoad() {
+  override func viewDidLoad() {
     super.viewDidLoad()
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissController))

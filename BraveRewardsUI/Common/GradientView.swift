@@ -10,18 +10,18 @@ extension UIColor {
   }
 }
 
-public class GradientView: UIView {
+class GradientView: UIView {
   
-  public var gradientLayer: CAGradientLayer {
+  var gradientLayer: CAGradientLayer {
     return layer as! CAGradientLayer
   }
   
-  public override class var layerClass: AnyClass {
+  override class var layerClass: AnyClass {
     return CAGradientLayer.self
   }
 }
 
-public extension GradientView {
+extension GradientView {
   
   class func purpleRewardsGradientView() -> GradientView {
     let view = GradientView()
