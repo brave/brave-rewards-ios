@@ -30,6 +30,10 @@ public class GrantClaimedViewController: UIViewController {
     return view as! View
   }
   
+  public override func loadView() {
+    view = View()
+  }
+  
   public override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -38,10 +42,6 @@ public class GrantClaimedViewController: UIViewController {
     grantView.infoView.freeTokenAmountLabel.text = grantAmount
     grantView.infoView.expirationDateLabel.text = claimGrantDateFormatter.string(from: expirationDate)
     grantView.okButton.addTarget(self, action: #selector(dismissController), for: .touchUpInside)
-  }
-  
-  public override func loadView() {
-    view = View()
   }
   
   @objc private func dismissController() {

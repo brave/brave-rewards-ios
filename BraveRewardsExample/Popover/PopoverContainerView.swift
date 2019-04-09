@@ -40,7 +40,7 @@ extension PopoverController {
         
         /// Where to display the arrow on the popover
         var arrowOrigin = CGPoint.zero {
-            didSet {
+            didSet { 
                 setNeedsLayout()
                 setNeedsUpdateConstraints()
                 updateConstraintsIfNeeded()

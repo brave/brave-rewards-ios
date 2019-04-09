@@ -26,7 +26,7 @@ import CoreGraphics
   import UIKit.UIGeometry
 #endif
 
-public protocol Then {}
+protocol Then {}
 
 extension Then where Self: Any {
 
@@ -36,7 +36,7 @@ extension Then where Self: Any {
   ///       $0.origin.x = 10
   ///       $0.size.width = 100
   ///     }
-  public func with(_ block: (inout Self) throws -> Void) rethrows -> Self {
+  func with(_ block: (inout Self) throws -> Void) rethrows -> Self {
     var copy = self
     try block(&copy)
     return copy
@@ -49,7 +49,7 @@ extension Then where Self: Any {
   ///       $0.set("devxoul@gmail.com", forKey: "email")
   ///       $0.synchronize()
   ///     }
-  public func `do`(_ block: (Self) throws -> Void) rethrows {
+  func `do`(_ block: (Self) throws -> Void) rethrows {
     try block(self)
   }
 
@@ -64,7 +64,7 @@ extension Then where Self: AnyObject {
   ///       $0.textColor = UIColor.blackColor()
   ///       $0.text = "Hello, World!"
   ///     }
-  public func then(_ block: (Self) throws -> Void) rethrows -> Self {
+  func then(_ block: (Self) throws -> Void) rethrows -> Self {
     try block(self)
     return self
   }

@@ -4,6 +4,7 @@
 
 import UIKit
 import BraveRewards
+import BraveRewardsUI
 
 class UIMockLedger: BraveLedger {
   let defaults = UserDefaults.standard
@@ -38,7 +39,7 @@ class UIMockLedger: BraveLedger {
 }
 
 
-extension BraveRewardsPanelController: PopoverContentComponent {
+extension RewardsPanelController: PopoverContentComponent {
   var extendEdgeIntoArrow: Bool {
     return true
   }
@@ -58,7 +59,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    braveRewardsPanelButton.setImage(BraveRewardsPanelController.batLogoImage, for: .normal)
+    braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
   }
 
   @IBAction func tappedBraveRewards() {
@@ -69,7 +70,7 @@ class ViewController: UIViewController {
     
     let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : BraveLedger()
     let url = URL(string: "https://github.com")!
-    let braveRewardsPanel = BraveRewardsPanelController(
+    let braveRewardsPanel = RewardsPanelController(
       ledger: ledger,
       url: url,
       faviconURL: URL(string: "https://github.com/apple-touch-icon.png")!,
@@ -92,7 +93,7 @@ class ViewController: UIViewController {
   }
 }
 
-extension ViewController: BraveRewardsDelegate {
+extension ViewController: RewardsDelegate {
   func presentBraveRewardsController(_ viewController: UIViewController) {
     popover?.dismiss(animated: true) {
       self.present(viewController, animated: true)
@@ -100,21 +101,21 @@ extension ViewController: BraveRewardsDelegate {
   }
 }
 
-extension ViewController: BraveRewardsDataSource {
+extension ViewController: RewardsDataSource {
   func displayString(for url: URL) -> String? {
     return url.host
   }
   
-  func retrieveFavicon(with url: URL, completion completionBlock: @escaping (UIImage?) -> Void) {
+  func retrieveFavicon(with url: URL, completion: @escaping (UIImage?) -> Void) {
     DispatchQueue.global().async {
       if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
         DispatchQueue.main.async {
-          completionBlock(image)
+          completion(image)
         }
         return
       }
       DispatchQueue.main.async {
-        completionBlock(nil)
+        completion(nil)
       }
     }
   }

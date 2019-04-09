@@ -4,141 +4,144 @@
 
 import UIKit
 
-/// `BraveRewardsTippingViewController`'s loaded view
-public class TippingView: UIView {
+extension TippingViewController {
   
-  @objc public var gesturalDismissExecuted: (() -> Void)?
-  
-  @objc public func setTippingConfirmationVisible(_ visible: Bool, animated: Bool = true) {
-    if confirmationView.isHidden == !visible {
-      // nothing to do
-      return
-    }
+  /// `BraveRewardsTippingViewController`'s loaded view
+  class View: UIView {
     
-    if visible {
-      addSubview(confirmationView)
-      confirmationView.isHidden = false
-      confirmationView.faviconImageView.image = overviewView.faviconImageView.image
-      confirmationView.snp.makeConstraints {
-        $0.edges.equalTo(self)
+    var gesturalDismissExecuted: (() -> Void)?
+    
+    func setTippingConfirmationVisible(_ visible: Bool, animated: Bool = true) {
+      if confirmationView.isHidden == !visible {
+        // nothing to do
+        return
       }
-      if animated {
-        confirmationView.stackView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
-        confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor.withAlphaComponent(0.0)
-        
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
-          self.confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor
-        }, completion: nil)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
-          self.confirmationView.stackView.transform = .identity
-        }, completion: nil)
-      }
-    } else {
-      if animated {
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
-          self.confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor.withAlphaComponent(0.0)
-        }, completion: nil)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
-          self.confirmationView.stackView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
-        }, completion: { _ in
+      
+      if visible {
+        addSubview(confirmationView)
+        confirmationView.isHidden = false
+        confirmationView.faviconImageView.image = overviewView.faviconImageView.image
+        confirmationView.snp.makeConstraints {
+          $0.edges.equalTo(self)
+        }
+        if animated {
+          confirmationView.stackView.transform = CGAffineTransform(translationX: 0, y: bounds.height)
+          confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor.withAlphaComponent(0.0)
+          
+          UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+            self.confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor
+          }, completion: nil)
+          UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+            self.confirmationView.stackView.transform = .identity
+          }, completion: nil)
+        }
+      } else {
+        if animated {
+          UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+            self.confirmationView.backgroundColor = TippingConfirmationView.UX.backgroundColor.withAlphaComponent(0.0)
+          }, completion: nil)
+          UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: [.beginFromCurrentState], animations: {
+            self.confirmationView.stackView.transform = CGAffineTransform(translationX: 0, y: self.bounds.height)
+          }, completion: { _ in
+            self.confirmationView.isHidden = true
+            self.confirmationView.removeFromSuperview()
+          })
+        } else {
           self.confirmationView.isHidden = true
           self.confirmationView.removeFromSuperview()
-        })
-      } else {
-        self.confirmationView.isHidden = true
-        self.confirmationView.removeFromSuperview()
+        }
       }
     }
-  }
-  
-  // MARK: -
-  
-  private struct UX {
-    static let overlayBackgroundColor = UIColor(white: 0.0, alpha: 0.5)
-  }
-  
-  private let backgroundView = UIView().then {
-    $0.backgroundColor = UX.overlayBackgroundColor
-  }
-  
-  private let confirmationView = TippingConfirmationView().then {
-    $0.isHidden = true
-  }
-  
-  private let contentView = UIView().then {
-    $0.backgroundColor = .clear
-    $0.layer.shadowRadius = 4.0
-    $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-    $0.layer.shadowOpacity = 0.35
-  }
-  
-  @objc public let overviewView = TippingOverviewView()
-  
-  @objc public let optionSelectionView = TippingSelectionView().then {
-    // iPhone only... probably
-    $0.layer.shadowRadius = 8.0
-    $0.layer.shadowOffset = CGSize(width: 0, height: -2)
-    $0.layer.shadowOpacity = 0.35
-    $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-  }
-  
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
     
-    addSubview(backgroundView)
-    addSubview(contentView)
-    contentView.addSubview(overviewView)
-    contentView.addSubview(optionSelectionView)
+    // MARK: -
     
-    overviewView.scrollView.delegate = self
-    
-    backgroundView.snp.makeConstraints {
-      $0.edges.equalTo(self)
-    }
-    optionSelectionView.snp.makeConstraints {
-      $0.bottom.leading.trailing.equalTo(contentView)
-    }
-    overviewView.snp.makeConstraints {
-      $0.top.leading.trailing.equalTo(contentView)
-      $0.bottom.equalTo(self.optionSelectionView.snp.top)
+    private struct UX {
+      static let overlayBackgroundColor = UIColor(white: 0.0, alpha: 0.5)
     }
     
-    // FIXME: Remove fake data
-    optionSelectionView.setWalletBalance("30", crypto: "BAT")
-    optionSelectionView.options = ["1", "5", "10"].map { TippingOption.batAmount($0, dollarValue: "0.00 USD") }
-    optionSelectionView.selectedOptionIndex = 1
-  }
-  
-  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
+    private let backgroundView = UIView().then {
+      $0.backgroundColor = UX.overlayBackgroundColor
+    }
     
-    let isWideLayout = traitCollection.horizontalSizeClass == .regular
-    contentView.snp.remakeConstraints {
-      if isWideLayout {
-        $0.center.equalTo(self)
-        $0.width.equalTo(500.0)
-        $0.height.equalTo(600.0)
-      } else {
-        $0.top.equalTo(self.safeAreaLayoutGuide).offset(38.0)
-        $0.leading.trailing.bottom.equalTo(self)
+    private let confirmationView = TippingConfirmationView().then {
+      $0.isHidden = true
+    }
+    
+    private let contentView = UIView().then {
+      $0.backgroundColor = .clear
+      $0.layer.shadowRadius = 4.0
+      $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+      $0.layer.shadowOpacity = 0.35
+    }
+    
+    let overviewView = TippingOverviewView()
+    
+    let optionSelectionView = TippingSelectionView().then {
+      // iPhone only... probably
+      $0.layer.shadowRadius = 8.0
+      $0.layer.shadowOffset = CGSize(width: 0, height: -2)
+      $0.layer.shadowOpacity = 0.35
+      $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+    }
+    
+    public override init(frame: CGRect) {
+      super.init(frame: frame)
+      
+      addSubview(backgroundView)
+      addSubview(contentView)
+      contentView.addSubview(overviewView)
+      contentView.addSubview(optionSelectionView)
+      
+      overviewView.scrollView.delegate = self
+      
+      backgroundView.snp.makeConstraints {
+        $0.edges.equalTo(self)
       }
+      optionSelectionView.snp.makeConstraints {
+        $0.bottom.leading.trailing.equalTo(contentView)
+      }
+      overviewView.snp.makeConstraints {
+        $0.top.leading.trailing.equalTo(contentView)
+        $0.bottom.equalTo(self.optionSelectionView.snp.top)
+      }
+      
+      // FIXME: Remove fake data
+      optionSelectionView.setWalletBalance("30", crypto: "BAT")
+      optionSelectionView.options = ["1", "5", "10"].map { TippingOption.batAmount($0, dollarValue: "0.00 USD") }
+      optionSelectionView.selectedOptionIndex = 1
     }
-    contentView.layer.cornerRadius = isWideLayout ? 8.0 : 0.0
-    optionSelectionView.layer.cornerRadius = contentView.layer.cornerRadius
-    contentView.layer.shadowOpacity = isWideLayout ? 0.35 : 0.0
-    optionSelectionView.clipsToBounds = isWideLayout
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+      super.traitCollectionDidChange(previousTraitCollection)
+      
+      let isWideLayout = traitCollection.horizontalSizeClass == .regular
+      contentView.snp.remakeConstraints {
+        if isWideLayout {
+          $0.center.equalTo(self)
+          $0.width.equalTo(500.0)
+          $0.height.equalTo(600.0)
+        } else {
+          $0.top.equalTo(self.safeAreaLayoutGuide).offset(38.0)
+          $0.leading.trailing.bottom.equalTo(self)
+        }
+      }
+      contentView.layer.cornerRadius = isWideLayout ? 8.0 : 0.0
+      optionSelectionView.layer.cornerRadius = contentView.layer.cornerRadius
+      contentView.layer.shadowOpacity = isWideLayout ? 0.35 : 0.0
+      optionSelectionView.clipsToBounds = isWideLayout
+    }
+    
+    @available(*, unavailable)
+    required init(coder: NSCoder) {
+      fatalError()
+    }
+    
+    private var isPassedDismissalThreshold = false
+    private var isDismissingByGesture = false
   }
-  
-  @available(*, unavailable)
-  required init(coder: NSCoder) {
-    fatalError()
-  }
-  
-  private var isPassedDismissalThreshold = false
-  private var isDismissingByGesture = false
 }
 
-extension TippingView: BasicAnimationControllerDelegate {
+extension TippingViewController.View: BasicAnimationControllerDelegate {
   public func animatePresentation(context: UIViewControllerContextTransitioning) {
     context.containerView.addSubview(self)
     frame = context.containerView.bounds
@@ -189,7 +192,7 @@ extension TippingView: BasicAnimationControllerDelegate {
   }
 }
 
-extension TippingView: UIScrollViewDelegate {
+extension TippingViewController.View: UIScrollViewDelegate {
   
   private var isGesturalDismissEnabled: Bool {
     return self.traitCollection.horizontalSizeClass == .compact

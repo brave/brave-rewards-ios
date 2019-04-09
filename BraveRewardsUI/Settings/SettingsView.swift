@@ -4,67 +4,56 @@
 
 import UIKit
 
-struct SettingsUX {
-  static let backgroundColor = Colors.neutral800
-  static let headerTextColor = Colors.grey100
-  static let subtitleTextColor = Colors.neutral200
-  static let bodyTextColor = Colors.grey300
-  static let disabledSectionTitleColor = Colors.grey300
-  
-  static let titleFont = UIFont.systemFont(ofSize: 16.0, weight: .bold)
-  static let bodyFont = UIFont.systemFont(ofSize: 14.0)
-  
-  static let layoutMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-}
-
-public class SettingsView: UIView {
-  
-  @objc public let rewardsToggleSection = SettingsRewardsSectionView()
-  @objc public let grantSection = SettingsGrantSectionView()
-  @objc public let walletSection = SettingsWalletSectionView(buttonType: .viewDetails)
-  @objc public let adsSection = SettingsAdSectionView()
-  @objc public let autoContributeSection = SettingsAutoContributeSectionView()
-  @objc public let tipsSection = SettingsTipsSectionView()
-  
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
+extension SettingsViewController {
+  class View: UIView {
     
-    backgroundColor = SettingsUX.backgroundColor
+    let rewardsToggleSection = SettingsRewardsSectionView()
+    let grantSection = SettingsGrantSectionView()
+    let walletSection = SettingsWalletSectionView(buttonType: .viewDetails)
+    let adsSection = SettingsAdSectionView()
+    let autoContributeSection = SettingsAutoContributeSectionView()
+    let tipsSection = SettingsTipsSectionView()
     
-    addSubview(scrollView)
-    scrollView.addSubview(stackView)
-    stackView.addArrangedSubview(rewardsToggleSection)
-    stackView.addArrangedSubview(grantSection)
-    stackView.addArrangedSubview(walletSection)
-    stackView.addArrangedSubview(adsSection)
-    stackView.addArrangedSubview(autoContributeSection)
-    stackView.addArrangedSubview(tipsSection)
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+      
+      backgroundColor = SettingsUX.backgroundColor
+      
+      addSubview(scrollView)
+      scrollView.addSubview(stackView)
+      stackView.addArrangedSubview(rewardsToggleSection)
+      stackView.addArrangedSubview(grantSection)
+      stackView.addArrangedSubview(walletSection)
+      stackView.addArrangedSubview(adsSection)
+      stackView.addArrangedSubview(autoContributeSection)
+      stackView.addArrangedSubview(tipsSection)
+      
+      scrollView.snp.makeConstraints {
+        $0.edges.equalTo(self)
+      }
+      scrollView.contentLayoutGuide.snp.makeConstraints {
+        $0.width.equalTo(self)
+      }
+      stackView.snp.makeConstraints {
+        $0.edges.equalTo(self.scrollView.contentLayoutGuide).inset(10.0)
+      }
+    }
     
-    scrollView.snp.makeConstraints {
-      $0.edges.equalTo(self)
+    @available(*, unavailable)
+    required init(coder: NSCoder) {
+      fatalError()
     }
-    scrollView.contentLayoutGuide.snp.makeConstraints {
-      $0.width.equalTo(self)
+    
+    // MARK: - Private UI
+    
+    private let scrollView = UIScrollView().then {
+      $0.alwaysBounceVertical = true
+      $0.delaysContentTouches = false
     }
-    stackView.snp.makeConstraints {
-      $0.edges.equalTo(self.scrollView.contentLayoutGuide).inset(10.0)
+    
+    private let stackView = UIStackView().then {
+      $0.axis = .vertical
+      $0.spacing = 10.0
     }
-  }
-  
-  @available(*, unavailable)
-  required init(coder: NSCoder) {
-    fatalError()
-  }
-  
-  // MARK: - Private UI
-  
-  private let scrollView = UIScrollView().then {
-    $0.alwaysBounceVertical = true
-    $0.delaysContentTouches = false
-  }
-  
-  private let stackView = UIStackView().then {
-    $0.axis = .vertical
-    $0.spacing = 10.0
   }
 }

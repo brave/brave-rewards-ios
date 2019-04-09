@@ -7,7 +7,7 @@ import CoreImage
 
 public class TokenAddressView: UIView {
   
-  @objc public enum TokenKind: Int {
+  enum TokenKind {
     case bitcoin
     case ethereum
     case basicAttentionToken
@@ -28,16 +28,26 @@ public class TokenAddressView: UIView {
     var image: UIImage {
       return UIImage(frameworkResourceNamed: "bat-dragable")
     }
+    var codePrefix: String {
+      switch self {
+      case .bitcoin:
+        return "bitcoin"
+      case .ethereum, .basicAttentionToken:
+        return "ethereum"
+      case .litecoin:
+        return "litecoin"
+      }
+    }
   }
   
-  @objc public func setQRCode(image: UIImage?) {
+  func setQRCode(image: UIImage?) {
     qrCodeView.qrCodeButton.isHidden = image != nil
     qrCodeView.imageView.image = image
   }
   
-  @objc public var viewQRCodeButtonTapped: ((TokenAddressView) -> Void)?
+  var viewQRCodeButtonTapped: ((TokenAddressView) -> Void)?
   
-  @objc public let addressTextView = UITextView().then {
+  let addressTextView = UITextView().then {
     $0.isScrollEnabled = false
     $0.isEditable = false
     $0.layer.borderColor = Colors.grey600.cgColor
@@ -48,11 +58,11 @@ public class TokenAddressView: UIView {
     $0.font = UIFont(name: "Menlo-Regular", size: 13.0)
   }
   
-  @objc public let tokenKind: TokenKind
+  let tokenKind: TokenKind
   
   private let qrCodeView = QRCodeView()
   
-  @objc public init(tokenKind: TokenKind) {
+  init(tokenKind: TokenKind) {
     self.tokenKind = tokenKind
     
     super.init(frame: .zero)
@@ -142,33 +152,6 @@ extension TokenAddressView {
     @available(*, unavailable)
     required init(coder: NSCoder) {
       fatalError()
-    }
-  }
-}
-
-extension TokenAddressView {
-  @objc(BATQRCode) public final class QRCode: NSObject {
-    @objc public static func image(for code: String, size: CGSize) -> UIImage? {
-      guard let filter = CIFilter(name: "CIQRCodeGenerator"),
-        let data = code.data(using: .utf8) else {
-        return nil
-      }
-      filter.setValue(data, forKey: "inputMessage")
-      guard let ciImage = filter.outputImage else {
-        return nil
-      }
-      let genSize = ciImage.extent.integral.size
-      let scale = UIScreen.main.scale
-      let scaledSize = size.applying(CGAffineTransform(scaleX: scale, y: scale))
-      let resizedImage = ciImage.transformed(by: CGAffineTransform(
-        scaleX: scaledSize.width / genSize.width,
-        y: scaledSize.height / genSize.height
-      ))
-      return UIImage(
-        ciImage: resizedImage,
-        scale: scale,
-        orientation: .up
-      )
     }
   }
 }

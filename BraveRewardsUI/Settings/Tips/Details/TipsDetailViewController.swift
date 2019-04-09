@@ -3,8 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
-// FIXME: Uncomment when it wont cause cyclical dependency
-//import BraveRewards
+import BraveRewards
 
 public class TipsDetailViewController: UIViewController {
   
@@ -12,17 +11,17 @@ public class TipsDetailViewController: UIViewController {
     return view as! View
   }
   
-//  private let ledger: BraveLedger
-//
-//  init(ledger: BraveLedger) {
-//    self.ledger = ledger
-//    super.init(nibName: nil, bundle: nil)
-//  }
+  private let ledger: BraveLedger
+
+  init(ledger: BraveLedger) {
+    self.ledger = ledger
+    super.init(nibName: nil, bundle: nil)
+  }
   
-//  @available(*, unavailable)
-//  required init(coder: NSCoder) {
-//    fatalError()
-//  }
+  @available(*, unavailable)
+  required init(coder: NSCoder) {
+    fatalError()
+  }
   
   public override func loadView() {
     self.view = View()

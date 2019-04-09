@@ -4,55 +4,57 @@
 
 import UIKit
 
-public class WalletDetailsView: UIView {
-  
-  @objc public let walletSection = SettingsWalletSectionView(buttonType: .addFunds)
-  
-  public override init(frame: CGRect) {
-    super.init(frame: frame)
+extension WalletDetailsViewController {
+  class View: UIView {
     
-    backgroundColor = SettingsUX.backgroundColor
+    let walletSection = SettingsWalletSectionView(buttonType: .addFunds)
     
-    // FIXME: Remove temp values
-    walletSection.setWalletBalance("30", crypto: "BAT", dollarValue: "0.00 USD")
-    
-    addSubview(scrollView)
-    scrollView.addSubview(stackView)
-    stackView.addArrangedSubview(walletSection)
-//    stackView.addArrangedSubview(EmptyWalletView())
-    stackView.addArrangedSubview(WalletActivityView())
-    stackView.addArrangedSubview(PoweredByUpholdView())
-    
-    scrollView.snp.makeConstraints {
-      $0.edges.equalTo(self)
+    public override init(frame: CGRect) {
+      super.init(frame: frame)
+      
+      backgroundColor = SettingsUX.backgroundColor
+      
+      // FIXME: Remove temp values
+      walletSection.setWalletBalance("30", crypto: "BAT", dollarValue: "0.00 USD")
+      
+      addSubview(scrollView)
+      scrollView.addSubview(stackView)
+      stackView.addArrangedSubview(walletSection)
+      //    stackView.addArrangedSubview(EmptyWalletView())
+      stackView.addArrangedSubview(WalletActivityView())
+      stackView.addArrangedSubview(PoweredByUpholdView())
+      
+      scrollView.snp.makeConstraints {
+        $0.edges.equalTo(self)
+      }
+      scrollView.contentLayoutGuide.snp.makeConstraints {
+        $0.width.equalTo(self)
+      }
+      stackView.snp.makeConstraints {
+        $0.edges.equalTo(self.scrollView.contentLayoutGuide).inset(10.0)
+      }
     }
-    scrollView.contentLayoutGuide.snp.makeConstraints {
-      $0.width.equalTo(self)
+    
+    @available(*, unavailable)
+    required init(coder: NSCoder) {
+      fatalError()
     }
-    stackView.snp.makeConstraints {
-      $0.edges.equalTo(self.scrollView.contentLayoutGuide).inset(10.0)
+    
+    // MARK: - Private UI
+    
+    private let scrollView = UIScrollView().then {
+      $0.alwaysBounceVertical = true
+      $0.delaysContentTouches = false
     }
-  }
-  
-  @available(*, unavailable)
-  required init(coder: NSCoder) {
-    fatalError()
-  }
-  
-  // MARK: - Private UI
-  
-  private let scrollView = UIScrollView().then {
-    $0.alwaysBounceVertical = true
-    $0.delaysContentTouches = false
-  }
-  
-  private let stackView = UIStackView().then {
-    $0.axis = .vertical
-    $0.spacing = 10.0
+    
+    private let stackView = UIStackView().then {
+      $0.axis = .vertical
+      $0.spacing = 10.0
+    }
   }
 }
 
-extension WalletDetailsView {
+extension WalletDetailsViewController.View {
   /// What is shown when the user has an empty balance.
   private class EmptyWalletView: SettingsSectionView {
     override init(frame: CGRect) {

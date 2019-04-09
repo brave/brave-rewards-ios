@@ -5,46 +5,18 @@
 import UIKit
 import SnapKit
 
-@objc public protocol WalletContentView: AnyObject {
+protocol WalletContentView: AnyObject {
   var innerScrollView: UIScrollView? { get }
   var displaysRewardsSummaryButton: Bool { get }
 }
 
-public class WalletViewController: UIViewController {
+class WalletViewController: UIViewController {
   
-  @objc public let headerView = WalletHeaderView()//.then {
-//    $0.setContentCompressionResistancePriority(.required, for: .vertical)
-//  }
+  let state: RewardsState
   
-  @objc public var contentView: (UIView & WalletContentView)? {
-    willSet {
-      contentView?.removeFromSuperview()
-    }
-    didSet {
-      if (isViewLoaded) {
-        setupContentView()
-      }
-    }
-  }
-  
-  @objc public let rewardsSummaryView = RewardsSummaryView()
-  
-  public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+  init(state: RewardsState) {
+    self.state = state
     super.init(nibName: nil, bundle: nil)
-    
-    rewardsSummaryView.rewardsSummaryButton.addTarget(self, action: #selector(tappedRewardsSummaryButton), for: .touchUpInside)
-    
-    // FIXME: Remove temp values
-    rewardsSummaryView.monthYearLabel.text = "MARCH 2019"
-    rewardsSummaryView.rows = [
-      RowView(title: "Total Grants Claimed Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),
-      RowView(title: "Earnings from Ads", batValue: "10.0", usdDollarValue: "5.25"),
-      RowView(title: "Auto-Contribute", batValue: "-10.0", usdDollarValue: "-5.25"),
-      RowView(title: "One-Time Tips", batValue: "-2.0", usdDollarValue: "-1.05"),
-      RowView(title: "Monthly Tips", batValue: "-19.0", usdDollarValue: "-9.97"),
-    ]
-    
-    setupContentView()
   }
   
   @available(*, unavailable)
@@ -54,74 +26,158 @@ public class WalletViewController: UIViewController {
   
   // MARK: -
   
-  private var heightConstraint: Constraint?
-  private var summaryLayoutGuide = UILayoutGuide()
+  var walletView: View {
+    return view as! View
+  }
+  
+  override func loadView() {
+    view = View()
+  }
+  
   
   public override func viewDidLoad() {
     super.viewDidLoad()
     
-    view.backgroundColor = .white
+    navigationController?.setNavigationBarHidden(true, animated: false)
     
-    view.addLayoutGuide(summaryLayoutGuide)
-    view.addSubview(headerView)
+    let rewardsSummaryView = walletView.rewardsSummaryView
     
-    headerView.snp.makeConstraints {
-      $0.top.leading.trailing.equalTo(self.view)
+    rewardsSummaryView.rewardsSummaryButton.addTarget(self, action: #selector(tappedRewardsSummaryButton), for: .touchUpInside)
+    
+    walletView.headerView.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
+    walletView.headerView.settingsButton.addTarget(self, action: #selector(tappedSettings), for: .touchUpInside)
+    
+    // FIXME: Remove temp values
+    walletView.headerView.setWalletBalance("30.0", crypto: "BAT", dollarValue: "0.00 USD")
+    
+    rewardsSummaryView.monthYearLabel.text = "MARCH 2019"
+    rewardsSummaryView.rows = [
+      RowView(title: "Total Grants Claimed Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),
+      RowView(title: "Earnings from Ads", batValue: "10.0", usdDollarValue: "5.25"),
+      RowView(title: "Auto-Contribute", batValue: "-10.0", usdDollarValue: "-5.25"),
+      RowView(title: "One-Time Tips", batValue: "-2.0", usdDollarValue: "-1.05"),
+      RowView(title: "Monthly Tips", batValue: "-19.0", usdDollarValue: "-9.97"),
+    ]
+    
+    reloadUIState()
+    view.layoutIfNeeded()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    if presentedViewController == nil {
+      navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-    summaryLayoutGuide.snp.makeConstraints {
-      $0.top.equalTo(self.headerView.snp.bottom).offset(20.0)
-      $0.leading.trailing.equalTo(self.view)
-    }
+    reloadUIState()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
     
-    setupContentView()
+    if presentedViewController == nil {
+      navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
   }
   
   public override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    headerView.layoutIfNeeded()
-    contentView?.layoutIfNeeded()
+    walletView.headerView.layoutIfNeeded()
+    walletView.contentView?.layoutIfNeeded()
+    
+    guard let contentView = walletView.contentView else { return }
+    
+    var height: CGFloat = walletView.headerView.bounds.height + walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height
+    if let scrollView = walletView.contentView?.innerScrollView {
+      scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
+      scrollView.scrollIndicatorInsets = scrollView.contentInset
+      
+      height += scrollView.contentSize.height
+    } else {
+      height += contentView.bounds.height
+    }
+    
+    if state.ledger.isEnabled {
+      height = RewardsUX.preferredPanelSize.height
+    }
+    
+    let newSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: height)
+    if preferredContentSize != newSize {
+      preferredContentSize = newSize
+    }
   }
   
   // MARK: -
   
-  private func setupContentView() {
-    guard let contentView = contentView else { return }
+  private lazy var publisherSummaryView = PublisherSummaryView().then(setupPublisherView)
+  private lazy var rewardsDisabledView = RewardsDisabledView()
+  
+  func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
+    publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     
-    view.insertSubview(contentView, belowSubview: headerView)
+    let publisherView = publisherSummaryView.publisherView
+    let attentionView = publisherSummaryView.attentionView
     
-    contentView.snp.makeConstraints {
-      if let _ = contentView.innerScrollView {
-        $0.top.equalTo(self.view)
-      } else {
-        $0.top.equalTo(self.headerView.snp.bottom)
+    publisherView.setVerificationStatusHidden(isLocal)
+    
+    publisherSummaryView.setLocal(isLocal)
+    if !isLocal {
+      publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
+      
+      // FIXME: Remove fake data
+      publisherView.setVerified(true)
+      attentionView.valueLabel.text = "19%"
+      
+      if let faviconURL = state.faviconURL {
+        state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] image in
+          self?.publisherSummaryView.publisherView.faviconImageView.image = image
+        })
       }
-      $0.leading.trailing.equalTo(self.view)
     }
-    
-    if contentView.displaysRewardsSummaryButton {
-      view.insertSubview(rewardsSummaryView, belowSubview: headerView)
-      contentView.snp.makeConstraints {
-        $0.bottom.equalTo(self.rewardsSummaryView.snp.top)
-      }
-      rewardsSummaryView.snp.makeConstraints {
-        $0.leading.trailing.equalTo(self.view)
-        $0.height.equalTo(self.summaryLayoutGuide)
-      }
-      rewardsSummaryView.rewardsSummaryButton.snp.makeConstraints {
-        $0.bottom.equalTo(self.view)
-      }
+  }
+  
+  var isLocal: Bool {
+    return state.url.host == "127.0.0.1" || state.url.host == "localhost"
+  }
+  
+  func reloadUIState() {
+    if state.ledger.isEnabled {
+      walletView.contentView = publisherSummaryView
     } else {
-      rewardsSummaryView.removeFromSuperview()
-      contentView.snp.makeConstraints {
-        $0.bottom.equalTo(self.view)
+      if rewardsDisabledView.enableRewardsButton.allTargets.count == 0 {
+        rewardsDisabledView.enableRewardsButton.addTarget(self, action: #selector(tappedEnableBraveRewards), for: .touchUpInside)
       }
+      walletView.contentView = rewardsDisabledView
     }
+  }
+  
+  // MARK: - Actions
+  
+  @objc private func tappedAddFunds() {
+    let controller = AddFundsViewController(ledger: state.ledger)
+    let container = PopoverNavigationController(rootViewController: controller)
+    present(container, animated: true)
+  }
+  
+  @objc private func tappedSettings() {
+    let controller = SettingsViewController(ledger: state.ledger)
+    navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  @objc private func tappedSendTip() {
+    let controller = TippingViewController(ledger: state.ledger, publisherId: "") // TODO: pass publisher Id
+    state.delegate?.presentBraveRewardsController(controller)
+  }
+  
+  @objc private func tappedEnableBraveRewards() {
     
-    summaryLayoutGuide.snp.makeConstraints { $0.bottom.equalTo(self.view) }
   }
   
   @objc private func tappedRewardsSummaryButton() {
+    let contentView = walletView.contentView
+    let rewardsSummaryView = walletView.rewardsSummaryView
+    
     let isExpanding = rewardsSummaryView.transform.ty == 0;
     rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image =
       UIImage(frameworkResourceNamed: isExpanding ? "slide-down" : "slide-up")
@@ -129,12 +185,12 @@ public class WalletViewController: UIViewController {
     // Animating the rewards summary with a bit of a bounce
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
       if (isExpanding) {
-        self.rewardsSummaryView.transform = CGAffineTransform(
+        rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
-          y: -self.summaryLayoutGuide.layoutFrame.height + self.rewardsSummaryView.rewardsSummaryButton.bounds.height
+          y: -self.walletView.summaryLayoutGuide.layoutFrame.height + rewardsSummaryView.rewardsSummaryButton.bounds.height
         )
       } else {
-        self.rewardsSummaryView.transform = .identity
+        rewardsSummaryView.transform = .identity
       }
     }, completion: nil)
     
@@ -146,17 +202,17 @@ public class WalletViewController: UIViewController {
     // But animate the rest without a bounce (since it doesnt make sense)
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
       if (isExpanding) {
-        self.contentView?.alpha = 0.0
-        self.rewardsSummaryView.monthYearLabel.alpha = 1.0
+        contentView?.alpha = 0.0
+        rewardsSummaryView.monthYearLabel.alpha = 1.0
         self.view.backgroundColor = Colors.blurple800
       } else {
-        self.contentView?.alpha = 1.0
-        self.rewardsSummaryView.monthYearLabel.alpha = 0.0
+        contentView?.alpha = 1.0
+        rewardsSummaryView.monthYearLabel.alpha = 0.0
         self.view.backgroundColor = .white
       }
     }) { _ in
-      self.rewardsSummaryView.monthYearLabel.isHidden = !(self.rewardsSummaryView.monthYearLabel.alpha > 0.0)
-      self.rewardsSummaryView.alpha = 1.0
+      rewardsSummaryView.monthYearLabel.isHidden = !(rewardsSummaryView.monthYearLabel.alpha > 0.0)
+      rewardsSummaryView.alpha = 1.0
     }
   }
 }
