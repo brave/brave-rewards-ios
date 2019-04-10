@@ -42,7 +42,7 @@ class WalletHeaderView: UIView {
   let grantsButton = ActionButton(type: .system).then {
     $0.flipImageOrigin = true
     $0.titleLabel?.font = .systemFont(ofSize: 10.0, weight: .semibold)
-    $0.setImage(UIImage(frameworkResourceNamed: "down-arrow"), for: .normal)
+    $0.setImage(UIImage(frameworkResourceNamed: "right-arrow-small").alwaysTemplate, for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsWalletHeaderGrants", "Grants"), for: .normal)
     $0.setTitleColor(UIColor(white: 1.0, alpha: 0.75), for: .normal)
     $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5.0)

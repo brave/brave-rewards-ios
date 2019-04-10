@@ -47,6 +47,8 @@
 		273404742220BA73008CABC9 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404732220BA73008CABC9 /* GradientView.swift */; };
 		273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404752220BD60008CABC9 /* WalletHeaderView.swift */; };
 		273404792220BDC5008CABC9 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404782220BDC5008CABC9 /* Then.swift */; };
+		274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */; };
+		274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD35225E6DC800FA7364 /* GrantsItemView.swift */; };
 		27516FD222138C5200E04FE1 /* NativeLedgerBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27516FD122138C5200E04FE1 /* NativeLedgerBridge.h */; };
 		27516FD32213966A00E04FE1 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
 		27516FD42213966A00E04FE1 /* BraveRewards.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -217,6 +219,8 @@
 		273404732220BA73008CABC9 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		273404752220BD60008CABC9 /* WalletHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletHeaderView.swift; sourceTree = "<group>"; };
 		273404782220BDC5008CABC9 /* Then.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Then.swift; sourceTree = "<group>"; };
+		274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsListViewController.swift; sourceTree = "<group>"; };
+		274CDD35225E6DC800FA7364 /* GrantsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsItemView.swift; sourceTree = "<group>"; };
 		27516FD122138C5200E04FE1 /* NativeLedgerBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeLedgerBridge.h; sourceTree = "<group>"; };
 		2751E5C82242F3B300CB1B6B /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		275779A521E547C2005A0EAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -495,6 +499,7 @@
 				270483612221AB960051239C /* Rewards Summary */,
 				27598841222450CD00B2E47A /* Publisher */,
 				2704835E2221AABF0051239C /* Wallet */,
+				274CDD32225E6C8800FA7364 /* Grants */,
 				2726B58322528ECD00B9EAF7 /* Add Funds */,
 				27598848222479AB00B2E47A /* Tipping */,
 				2730DF8522318FA90031845C /* Settings */,
@@ -522,6 +527,15 @@
 				278A6B3B225BF91700175678 /* QRCode.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		274CDD32225E6C8800FA7364 /* Grants */ = {
+			isa = PBXGroup;
+			children = (
+				274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */,
+				274CDD35225E6DC800FA7364 /* GrantsItemView.swift */,
+			);
+			path = Grants;
 			sourceTree = "<group>";
 		};
 		275779B521E6B15D005A0EAF /* BraveRewards */ = {
@@ -968,10 +982,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				27A47073224150A300596431 /* WalletSummaryView.swift in Sources */,
+				274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */,
 				2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */,
 				278A6B34225BE2D000175678 /* RewardsState.swift in Sources */,
 				270483552220F5060051239C /* SwitchRow.swift in Sources */,
 				273404672220B041008CABC9 /* Button.swift in Sources */,
+				274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */,
 				270483532220F2C70051239C /* Colors.swift in Sources */,
 				278A6B32225BE21000175678 /* RewardsDataSource.swift in Sources */,
 				2730DF892231A65A0031845C /* BraveRewardsToggleView.swift in Sources */,

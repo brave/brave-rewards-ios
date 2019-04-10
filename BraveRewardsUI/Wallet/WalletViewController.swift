@@ -46,6 +46,7 @@ class WalletViewController: UIViewController {
     
     walletView.headerView.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     walletView.headerView.settingsButton.addTarget(self, action: #selector(tappedSettings), for: .touchUpInside)
+    walletView.headerView.grantsButton.addTarget(self, action: #selector(tappedGrantsButton), for: .touchUpInside)
     
     // FIXME: Remove temp values
     walletView.headerView.setWalletBalance("30.0", crypto: "BAT", dollarValue: "0.00 USD")
@@ -153,6 +154,11 @@ class WalletViewController: UIViewController {
   }
   
   // MARK: - Actions
+  
+  @objc private func tappedGrantsButton() {
+    let controller = GrantsListViewController(ledger: state.ledger)
+    navigationController?.pushViewController(controller, animated: true)
+  }
   
   @objc private func tappedAddFunds() {
     let controller = AddFundsViewController(ledger: state.ledger)
