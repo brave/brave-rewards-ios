@@ -63,7 +63,7 @@ class WalletHeaderView: UIView {
   let settingsButton = UIButton(type: .system).then {
     $0.setTitleColor(UIColor(white: 1.0, alpha: 0.75), for: .normal)
     $0.setTitle(BATLocalizedString("BraveRewardsSettings", "Settings"), for: .normal)
-    $0.setImage(UIImage(frameworkResourceNamed: "bat").alwaysOriginal, for: .normal)
+    $0.setImage(UIImage(frameworkResourceNamed: "bat-small").alwaysOriginal, for: .normal)
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8.0)
     $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -8.0)
     $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5.0, bottom: 0, right: 5.0)

@@ -25,7 +25,7 @@ class TippingOption: NSObject {
     return TippingOption(
       value: value,
       crypto: "BAT",
-      cryptoImage: UIImage(frameworkResourceNamed: "bat"),
+      cryptoImage: UIImage(frameworkResourceNamed: "bat-small"),
       dollarValue: dollarValue
     )
   }

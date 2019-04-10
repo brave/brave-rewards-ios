@@ -7,7 +7,7 @@ import BraveRewards
 
 public class RewardsPanelController: PopoverNavigationController {
   
-  public static let batLogoImage = UIImage(frameworkResourceNamed: "bat")
+  public static let batLogoImage = UIImage(frameworkResourceNamed: "bat-small")
   
   public init(ledger: BraveLedger, url: URL, faviconURL: URL?, delegate: RewardsDelegate, dataSource: RewardsDataSource) {
     super.init()

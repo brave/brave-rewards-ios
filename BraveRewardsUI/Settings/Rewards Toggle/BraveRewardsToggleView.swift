@@ -36,7 +36,7 @@ class BraveRewardsToggleView: UIView {
     $0.alignment = .center
   }
   
-  private let batLogoImageView = UIImageView(image: UIImage(frameworkResourceNamed: "bat")).then {
+  private let batLogoImageView = UIImageView(image: UIImage(frameworkResourceNamed: "bat-small")).then {
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   

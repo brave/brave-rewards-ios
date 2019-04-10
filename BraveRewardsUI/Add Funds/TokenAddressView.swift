@@ -26,7 +26,16 @@ class TokenAddressView: UIView {
       }
     }
     var image: UIImage {
-      return UIImage(frameworkResourceNamed: "bat-dragable")
+      switch self {
+      case .bitcoin:
+        return UIImage(frameworkResourceNamed: "token-btc")
+      case .basicAttentionToken:
+        return UIImage(frameworkResourceNamed: "token-bat")
+      case .ethereum:
+        return UIImage(frameworkResourceNamed: "token-eth")
+      case .litecoin:
+        return UIImage(frameworkResourceNamed: "token-ltc")
+      }
     }
     var codePrefix: String {
       switch self {
