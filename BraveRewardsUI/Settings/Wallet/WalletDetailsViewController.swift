@@ -30,6 +30,8 @@ class WalletDetailsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    title = BATLocalizedString("BraveRewardsWalletDetailsTitle", "Wallet Details")
+    
     detailsView.walletSection.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
   }
   

@@ -30,6 +30,8 @@ class SettingsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    title = BATLocalizedString("BraveRewardsSettingsTitle", "Settings")
+    
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDone))
     
     preferredContentSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: 750)

@@ -36,6 +36,9 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // Not actually visible, but good for accessibility
+    title = BATLocalizedString("BraveRewardsTippingTitle", "Send a tip")
+    
     tippingView.overviewView.dismissButton.addTarget(self, action: #selector(tappedDismissButton), for: .touchUpInside)
     tippingView.optionSelectionView.sendTipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     tippingView.optionSelectionView.optionChanged = { [unowned self] option in

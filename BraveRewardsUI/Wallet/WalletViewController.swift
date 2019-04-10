@@ -38,6 +38,9 @@ class WalletViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // Not actually visible from this controller
+    title = BATLocalizedString("BraveRewardsPanelTitle", "Rewards")
+    
     navigationController?.setNavigationBarHidden(true, animated: false)
     
     let rewardsSummaryView = walletView.rewardsSummaryView
