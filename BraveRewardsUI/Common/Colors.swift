@@ -20,6 +20,7 @@ class Colors {
   static let grey400 = UIColor(hex: 0xAEB1C2)
   static let grey300 = UIColor(hex: 0x84889C)
   static let grey600 = UIColor(hex: 0xCED0DB)
+  static let grey900 = UIColor(hex: 0xF0F2FF)
   static let neutral200 = UIColor(hex: 0x495057)
   static let neutral600 = UIColor(hex: 0xDEE2E6)
   static let neutral800 = UIColor(hex: 0xF1F3F5)
@@ -40,4 +41,8 @@ class Colors {
 struct BraveUX {
   static let braveOrange = Colors.orange400
   static let switchOnColor = Colors.blurple500
+  static let autoContributeTintColor = UIColor(hex: 0x90329C) // No close color in Brave palette
+  static let tipsTintColor = UIColor(hex: 0x6A71D5)  // No close color in Brave palette
+  static let adsTintColor = UIColor(hex: 0xB13677) // No close color in Brave palette
+  
 }

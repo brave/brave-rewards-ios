@@ -106,7 +106,9 @@ class SettingsViewController: UIViewController {
   }
   
   @objc private func tappedAutoContributeViewDetails() {
-    
+    let controller = AutoContributeDetailViewController(ledger: ledger)
+    controller.preferredContentSize = preferredContentSize
+    navigationController?.pushViewController(controller, animated: true)
   }
   
   @objc private func rewardsSwitchValueChanged() {

@@ -7,7 +7,6 @@ import UIKit
 class SettingsAdSectionView: SettingsSectionView {
   
   private struct UX {
-    static let titleColor = UIColor(hex: 0xB13677) // No close color in Brave palette
     static let comingSoonTextColor = UIColor(hex: 0xC9B5DE) // Has to match icon color (which has no close color)
   }
   
@@ -31,7 +30,7 @@ class SettingsAdSectionView: SettingsSectionView {
   
   private let titleLabel = UILabel().then {
     $0.text = BATLocalizedString("BraveRewardsSettingsAdsTitle", "Ads")
-    $0.textColor = UX.titleColor
+    $0.textColor = BraveUX.adsTintColor
     $0.font = SettingsUX.titleFont
   }
 

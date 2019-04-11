@@ -6,10 +6,6 @@ import UIKit
 
 class SettingsTipsSectionView: SettingsSectionView {
   
-  private struct UX {
-    static let titleColor = UIColor(hex: 0x6A71D5) // No close color in Brave palette
-  }
-  
   func setSectionEnabled(_ enabled: Bool, animated: Bool = false) {
     if viewDetailsButton.isHidden != enabled {
       // Nothing to do
@@ -51,7 +47,7 @@ class SettingsTipsSectionView: SettingsSectionView {
   
   private let titleLabel = UILabel().then {
     $0.text = BATLocalizedString("BraveRewardsSettingsTipsTitle", "Tips")
-    $0.textColor = UX.titleColor
+    $0.textColor = BraveUX.tipsTintColor
     $0.font = SettingsUX.titleFont
   }
   

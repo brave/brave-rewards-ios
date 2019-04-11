@@ -36,9 +36,20 @@ class TipsDetailViewController: UIViewController {
     title = BATLocalizedString("BraveRewardsTips", "Tips")
   }
   
-  private let headerView = TipsTableHeaderView().then {
-    $0.layoutMargins = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 25)
-  }
+  private let headerView = TableHeaderRowView(
+    columns: [
+      TableHeaderRowView.Column(
+        title: BATLocalizedString("BraveRewardsSite", "Site").uppercased(),
+        width: .percentage(0.7)
+      ),
+      TableHeaderRowView.Column(
+        title: BATLocalizedString("BraveRewardsTokens", "Tokens").uppercased(),
+        width: .percentage(0.3),
+        align: .right
+      ),
+    ],
+    tintColor: BraveUX.tipsTintColor
+  )
 }
 
 extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -89,7 +100,9 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       cell.usdValueView.amountLabel.text = "0.00"
       return cell
     case .tips:
-      return tableView.dequeueReusableCell(for: indexPath) as EmptyTipsTableCell
+      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
+      cell.label.text = BATLocalizedString("BraveRewardsEmptyTipsText", "Have you tipped your favourite content creator today?")
+      return cell
     }
   }
 }
@@ -104,7 +117,7 @@ extension TipsDetailViewController {
       tableView.separatorStyle = .none
       tableView.register(TipsEntryTableCell.self)
       tableView.register(TipsSummaryTableCell.self)
-      tableView.register(EmptyTipsTableCell.self)
+      tableView.register(EmptyTableCell.self)
       
       addSubview(tableView)
       tableView.snp.makeConstraints {

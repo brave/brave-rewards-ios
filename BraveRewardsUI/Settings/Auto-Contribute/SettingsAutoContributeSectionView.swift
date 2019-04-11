@@ -6,10 +6,6 @@ import UIKit
 
 class SettingsAutoContributeSectionView: SettingsSectionView {
   
-  private struct UX {
-    static let titleColor = UIColor(hex: 0x90329C) // No close color in Brave palette
-  }
-  
   func setSectionEnabled(_ enabled: Bool, hidesToggle: Bool, animated: Bool = false) {
     if animated {
       if enabled {
@@ -63,7 +59,7 @@ class SettingsAutoContributeSectionView: SettingsSectionView {
   
   private let titleLabel = UILabel().then {
     $0.text = BATLocalizedString("BraveRewardsSettingsAutoContributeTitle", "Auto-Contribute")
-    $0.textColor = UX.titleColor
+    $0.textColor = BraveUX.autoContributeTintColor
     $0.font = SettingsUX.titleFont
   }
   
