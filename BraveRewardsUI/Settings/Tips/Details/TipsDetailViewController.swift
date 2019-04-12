@@ -115,7 +115,7 @@ extension TipsDetailViewController {
       super.init(frame: frame)
       
       tableView.separatorStyle = .none
-      tableView.register(TipsEntryTableCell.self)
+      tableView.register(TipsTableCell.self)
       tableView.register(TipsSummaryTableCell.self)
       tableView.register(EmptyTableCell.self)
       

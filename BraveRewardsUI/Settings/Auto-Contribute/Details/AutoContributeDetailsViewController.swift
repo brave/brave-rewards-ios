@@ -6,6 +6,29 @@ import UIKit
 
 import BraveRewards
 
+// FIXME: Remove this struct when real data is available
+private struct UpcomingContribution {
+  let imageURL: URL?
+  let isVerified: Bool
+  let site: String
+  let attention: CGFloat
+}
+
+private let upcomingContributions = [
+  UpcomingContribution(imageURL: nil, isVerified: true, site: "myetherwallet.com", attention: 0.3),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "theverge.com", attention: 0.2),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "amazon.com", attention: 0.1),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "reddit.com", attention: 0.1),
+  UpcomingContribution(imageURL: nil, isVerified: true, site: "myetherwallet.com", attention: 0.05),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "theverge.com", attention: 0.05),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "amazon.com", attention: 0.05),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "reddit.com", attention: 0.05),
+  UpcomingContribution(imageURL: nil, isVerified: true, site: "myetherwallet.com", attention: 0.025),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "theverge.com", attention: 0.025),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "amazon.com", attention: 0.025),
+  UpcomingContribution(imageURL: nil, isVerified: false, site: "reddit.com", attention: 0.025)
+]
+
 class AutoContributeDetailViewController: UIViewController {
   
   private var contentView: View {
@@ -47,7 +70,8 @@ class AutoContributeDetailViewController: UIViewController {
     nextContributionDateLabel.label.text = dateFormatter.string(from: Date().addingTimeInterval(60*60*24*12))
     nextContributionDateLabel.bounds = CGRect(origin: .zero, size: nextContributionDateLabel.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     
-    supportedSitesCell.detailTextLabel?.attributedText = totalSitesAttributedString(from: 0)
+    supportedSitesCell.detailTextLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
+    monthlyPaymentCell.detailTextLabel?.text = "5 BAT (3.04 USD)"
   }
   
   private func totalSitesAttributedString(from total: Int) -> NSAttributedString {
@@ -81,9 +105,11 @@ class AutoContributeDetailViewController: UIViewController {
     $0.accessoryType = .disclosureIndicator
   }
   
-  private let monthlyPaymentCell = AutoContributeSummaryTableCell().then {
+  private let monthlyPaymentCell = AutoContributeSummaryTableCell(style: .value1, reuseIdentifier: nil).then {
     $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
     $0.textLabel?.font = SettingsUX.bodyFont
+    $0.detailTextLabel?.textColor = Colors.grey100
+    $0.detailTextLabel?.font = SettingsUX.bodyFont
     $0.accessoryType = .disclosureIndicator
   }
   
@@ -139,7 +165,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     case .summary:
       return 4
     case .contributions:
-      return 1
+      return upcomingContributions.isEmpty ? 1 : upcomingContributions.count
     }
   }
   
@@ -156,8 +182,17 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       }
       return UITableViewCell()
     case .contributions:
-      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
-      cell.label.text = BATLocalizedString("BraveRewardsEmptyAutoContribution", "Sites will appear as you browse1")
+      if upcomingContributions.isEmpty {
+        let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
+        cell.label.text = BATLocalizedString("BraveRewardsEmptyAutoContribution", "Sites will appear as you browse")
+        return cell
+      }
+      let contribution = upcomingContributions[indexPath.row]
+      let cell = tableView.dequeueReusableCell(for: indexPath) as AutoContributeCell
+      cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
+      cell.verifiedStatusImageView.isHidden = !contribution.isVerified
+      cell.siteNameLabel.text = contribution.site
+      cell.attentionAmount = contribution.attention
       return cell
     }
   }
@@ -172,6 +207,7 @@ extension AutoContributeDetailViewController {
       
       tableView.separatorStyle = .none
       tableView.register(AutoContributeSummaryTableCell.self)
+      tableView.register(AutoContributeCell.self)
       tableView.register(EmptyTableCell.self)
       tableView.layoutMargins = UIEdgeInsets(top: 15.0, left: 15.0, bottom: 15.0, right: 15.0)
       
