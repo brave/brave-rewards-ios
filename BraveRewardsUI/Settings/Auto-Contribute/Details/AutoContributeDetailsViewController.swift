@@ -66,6 +66,8 @@ class AutoContributeDetailViewController: UIViewController {
       $0.timeStyle = .none
     }
     
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
+    
     // FIXME: Remove temp values
     nextContributionDateLabel.label.text = dateFormatter.string(from: Date().addingTimeInterval(60*60*24*12))
     nextContributionDateLabel.bounds = CGRect(origin: .zero, size: nextContributionDateLabel.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
@@ -108,6 +110,7 @@ class AutoContributeDetailViewController: UIViewController {
   private let monthlyPaymentCell = AutoContributeSummaryTableCell(style: .value1, reuseIdentifier: nil).then {
     $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
     $0.textLabel?.font = SettingsUX.bodyFont
+    $0.textLabel?.numberOfLines = 0
     $0.detailTextLabel?.textColor = Colors.grey100
     $0.detailTextLabel?.font = SettingsUX.bodyFont
     $0.accessoryType = .disclosureIndicator
@@ -118,6 +121,7 @@ class AutoContributeDetailViewController: UIViewController {
   private lazy var nextContributeDateCell = AutoContributeSummaryTableCell().then {
     $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeNextDate", "Next contribution date")
     $0.textLabel?.font = SettingsUX.bodyFont
+    $0.textLabel?.numberOfLines = 0
     $0.selectionStyle = .none
     $0.accessoryView = nextContributionDateLabel
   }
@@ -125,9 +129,22 @@ class AutoContributeDetailViewController: UIViewController {
   private let supportedSitesCell = AutoContributeSummaryTableCell(style: .value1, reuseIdentifier: nil).then {
     $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
     $0.textLabel?.font = SettingsUX.bodyFont
+    $0.textLabel?.numberOfLines = 0
     $0.detailTextLabel?.textColor = Colors.grey100
     $0.detailTextLabel?.font = SettingsUX.bodyFont
     $0.selectionStyle = .none
+  }
+  
+  // MARK: - Actions
+  
+  @objc private func tappedEditButton() {
+    contentView.tableView.setEditing(true, animated: true)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDoneButton))
+  }
+  
+  @objc private func tappedDoneButton() {
+    contentView.tableView.setEditing(false, animated: true)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
   }
 }
 
@@ -167,6 +184,25 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     case .contributions:
       return upcomingContributions.isEmpty ? 1 : upcomingContributions.count
     }
+  }
+  
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    guard Section(rawValue: indexPath.section) == .contributions, !upcomingContributions.isEmpty else { return false }
+    return true
+  }
+  
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    guard Section(rawValue: indexPath.section) == .contributions, !upcomingContributions.isEmpty else { return .none }
+    return .delete
+  }
+  
+  func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+    return BATLocalizedString("BraveRewardsExclude", "Exclude")
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    guard Section(rawValue: indexPath.section) == .contributions else { return }
+    
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

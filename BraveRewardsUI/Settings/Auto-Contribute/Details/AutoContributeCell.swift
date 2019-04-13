@@ -11,12 +11,8 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
   
   var attentionAmount: CGFloat = 0.0 {
     didSet {
-      attentionBackgroundFillView.snp.remakeConstraints {
-        $0.trailing.equalTo(contentView)
-        $0.top.bottom.equalTo(contentView)
-        $0.width.equalTo(self).multipliedBy(attentionAmount)
-      }
       attentionLabel.text = String(format: "%ld%%", Int(attentionAmount * 100))
+      setNeedsLayout()
     }
   }
   
@@ -51,7 +47,7 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
     
     siteStackView.spacing = verifiedStatusImageView.image?.size.width ?? 10.0
     
-    backgroundView = attentionBackgroundFillView
+    insertSubview(attentionBackgroundFillView, belowSubview: contentView)
     contentView.addSubview(siteStackView)
     contentView.addSubview(attentionLabel)
     contentView.addSubview(verifiedStatusImageView)
@@ -59,15 +55,16 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
     siteStackView.addArrangedSubview(siteNameLabel)
     
     siteStackView.snp.makeConstraints {
-      $0.leading.top.bottom.equalTo(layoutMarginsGuide)
+      $0.top.bottom.equalTo(contentView).inset(10.0)
+      $0.leading.equalTo(contentView).inset(15.0)
       $0.trailing.lessThanOrEqualTo(attentionLabel.snp.leading).offset(-10.0)
     }
     verifiedStatusImageView.snp.makeConstraints {
-      $0.top.equalTo(layoutMarginsGuide)
+      $0.top.equalTo(siteStackView)
       $0.leading.equalTo(siteImageView.snp.trailing).offset(-4.0)
     }
     attentionLabel.snp.makeConstraints {
-      $0.trailing.equalTo(layoutMarginsGuide)
+      $0.trailing.equalTo(contentView).inset(15.0)
       $0.centerY.equalTo(contentView)
     }
   }
@@ -77,6 +74,17 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
     fatalError()
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    
+    let width = bounds.width * attentionAmount
+    attentionBackgroundFillView.frame = CGRect(
+      x: bounds.width - width,
+      y: 0,
+      width: width,
+      height: bounds.height
+    )
+  }
   
   // MARK: - Unavailable
   
