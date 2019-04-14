@@ -104,6 +104,10 @@
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
 		27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DED66022260E7700E0F0E3 /* TippingView.swift */; };
 		27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */; };
+		27EDB843223D607F008406EB /* Records.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27EDB83F223D607F008406EB /* Records.mm */; };
+		27EDB844223D607F008406EB /* Records+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB840223D607F008406EB /* Records+Private.h */; };
+		27EDB845223D607F008406EB /* Records.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB841223D607F008406EB /* Records.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27EDB846223D607F008406EB /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB842223D607F008406EB /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27F3E59221FB97CB009A54D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59121FB97CB009A54D5 /* AppDelegate.swift */; };
 		27F3E59421FB97CB009A54D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59321FB97CB009A54D5 /* ViewController.swift */; };
 		27F3E59721FB97CB009A54D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F3E59521FB97CB009A54D5 /* Main.storyboard */; };
@@ -281,6 +285,10 @@
 		27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+Extensions.mm"; sourceTree = "<group>"; };
 		27DED66022260E7700E0F0E3 /* TippingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingView.swift; sourceTree = "<group>"; };
 		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
+		27EDB83F223D607F008406EB /* Records.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Records.mm; sourceTree = "<group>"; };
+		27EDB840223D607F008406EB /* Records+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Records+Private.h"; sourceTree = "<group>"; };
+		27EDB841223D607F008406EB /* Records.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Records.h; sourceTree = "<group>"; };
+		27EDB842223D607F008406EB /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 		27F3E58F21FB97CB009A54D5 /* BraveRewardsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraveRewardsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F3E59121FB97CB009A54D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F3E59321FB97CB009A54D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -607,6 +615,7 @@
 		275779CB21E6B15D005A0EAF /* Ledger */ = {
 			isa = PBXGroup;
 			children = (
+				27EDB83E223D606E008406EB /* Generated */,
 				27B6C88A21F660D700F256EA /* Data */,
 				27516FD122138C5200E04FE1 /* NativeLedgerBridge.h */,
 				27FD395E21EFD88500443796 /* NativeLedgerClient.h */,
@@ -678,6 +687,17 @@
 				27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		27EDB83E223D606E008406EB /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				27EDB842223D607F008406EB /* Enums.h */,
+				27EDB841223D607F008406EB /* Records.h */,
+				27EDB83F223D607F008406EB /* Records.mm */,
+				27EDB840223D607F008406EB /* Records+Private.h */,
+			);
+			path = Generated;
 			sourceTree = "<group>";
 		};
 		27F3E59021FB97CB009A54D5 /* BraveRewardsExample */ = {
@@ -801,7 +821,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
+				27EDB845223D607F008406EB /* Records.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
+				27EDB844223D607F008406EB /* Records+Private.h in Headers */,
+				27EDB846223D607F008406EB /* Enums.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				27516FD222138C5200E04FE1 /* NativeLedgerBridge.h in Headers */,
@@ -1115,6 +1138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27EDB843223D607F008406EB /* Records.mm in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,

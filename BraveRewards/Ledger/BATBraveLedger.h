@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <Foundation/Foundation.h>
+#import "Records.h"
 
 @class BATBraveLedger;
 
@@ -45,7 +46,17 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
       NS_SWIFT_NAME(addRecurringPayment(publisherId:amount:));
 
-//- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency NS_SWIFT_NAME(makeDirectDonation(to:amount:currency:));
+- (void)makeDirectDonationToPublisher:(BATPublisherInfo *)publisher
+                               amount:(int)amount
+                             currency:(NSString *)currency;
+
+- (void)publisherInfoForId:(NSString *)publisherId completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
+
+- (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
+
+- (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey;
+
+@property (readonly) NSArray<BATContributionInfo *> *recurringContributions;
 //
 ///// Update a publishers exclusion state
 //- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState

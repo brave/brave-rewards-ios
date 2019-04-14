@@ -3,8 +3,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <UIKit/UIKit.h>
-
 #import "bat/ledger/ledger.h"
+
+#import "Records+Private.h"
 
 #import "BATBraveLedger.h"
 #import "NSURL+Extensions.h"
@@ -48,7 +49,7 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   delete ledgerClient;
 }
 
-- (ledger::LedgerClient *)ledgerClient
+- (ledger::NativeLedgerClient *)ledgerClient
 {
   return ledgerClient;
 }
@@ -175,10 +176,54 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledgerClient->ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
 }
 
-//- (void)makeDirectDonation:(BATPublisher *)publisher amount:(int)amount currency:(NSString *)currency
-//{
-//  ledgerClient->ledger->DoDirectDonation(publisher.publisherInfo, amount, std::string(currency.UTF8String));
-//}
+- (void)makeDirectDonation:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
+{
+//  ledgerClient->ledger->DoDirectDonation(publisher, amount, std::string(currency.UTF8String));
+}
+
+- (void)publisherInfoForId:(NSString *)publisherId completion:(void (^)(BATPublisherInfo * _Nullable))completion
+{
+  ledgerClient->ledger->GetPublisherInfo(std::string(publisherId.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
+    if (result == ledger::LEDGER_OK) {
+      const auto& publisherInfo = info.get();
+      if (publisherInfo != nullptr) {
+        completion([[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo]);
+      }
+    } else {
+      completion(nil);
+    }
+  });
+}
+
+- (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable))completion
+{
+  ledgerClient->ledger->GetMediaPublisherInfo(std::string(mediaKey.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
+    if (result == ledger::LEDGER_OK) {
+      const auto& publisherInfo = info.get();
+      if (publisherInfo != nullptr) {
+        completion([[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo]);
+      }
+    } else {
+      completion(nil);
+    }
+  });
+}
+
+- (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey
+{
+  ledgerClient->ledger->SetMediaPublisherInfo(std::string(publisherId.UTF8String), std::string(mediaKey.UTF8String));
+}
+
+- (NSArray<BATContributionInfo *> *)recurringContributions
+{
+  const auto contributions = ledgerClient->ledger->GetRecurringDonationPublisherInfo();
+  const auto recurringContributions = [[NSMutableArray alloc] init];
+  for (const auto& c : contributions) {
+    [recurringContributions addObject:[[BATContributionInfo alloc] initWithContributionInfo:c]];
+  }
+  return recurringContributions;
+}
+
 //
 //- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
 //{
