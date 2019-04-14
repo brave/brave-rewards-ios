@@ -62,6 +62,12 @@ NS_SWIFT_NAME(BraveLedger)
 //- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
 //      NS_SWIFT_NAME(updatePublisher(withId:exclusionState:));
 
+#pragma mark - Grants
+
+- (void)grantCaptchaForPromotionId:(NSString *)promoID
+                     promotionType:(NSString *)promotionType
+                        completion:(void (^)(NSString *image, NSString *hint))completion;
+
 #pragma mark - Reporting
 
 @property (nonatomic, assign) UInt32 selectedTabId;

@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "bat/ledger/export.h"
+#include "bat/ledger/publisher_info.h"
 
 namespace ledger {
 

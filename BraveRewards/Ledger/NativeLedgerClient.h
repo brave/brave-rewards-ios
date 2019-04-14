@@ -33,7 +33,7 @@ namespace ledger {
     /// Called when the user creates a wallet by calling `ledger->CreateWallet()`
     void OnWalletInitialized(Result result) override;
     void OnWalletProperties(Result result, std::unique_ptr<WalletInfo> info) override {
-      [bridge ledger:this walletInitialized:result];
+      [bridge walletInitialized:result];
     };
     void OnGrant(Result result, const Grant& grant) override;
     void OnGrantCaptcha(const std::string& image, const std::string& hint) override;

@@ -1,134 +1,11 @@
 #import "Records.h"
 #import "Records+Private.h"
-#include "bat/ledger/ledger.h"
-#include <vector>
-#include <map>
-#include <string>
-#import <objc/runtime.h>
+#import "CppTransformations.h"
 
-/// Convert a vector storing primatives to an array of NSNumber's
-template <class T>
-NS_INLINE NSArray<NSNumber *> *NSArrayFromVector(std::vector<T> v) {
-	const auto a = [NSMutableArray new];
-	if (v.empty()) {
-		return @[];
-	}
-	std::map<const char *, SEL> map = {
-		{ @encode(bool), @selector(numberWithBool:) },
-		{ @encode(char), @selector(numberWithChar:) },
-		{ @encode(double), @selector(numberWithDouble:) },
-		{ @encode(float), @selector(numberWithFloat:) },
-		{ @encode(int), @selector(numberWithInt:) },
-		{ @encode(NSInteger), @selector(numberWithInteger:) },
-		{ @encode(long), @selector(numberWithLong:) },
-		{ @encode(long long), @selector(numberWithLongLong:) },
-		{ @encode(short), @selector(numberWithShort:) },
-		{ @encode(unsigned char), @selector(numberWithUnsignedChar:) },
-		{ @encode(unsigned int), @selector(numberWithUnsignedInt:) },
-		{ @encode(NSUInteger), @selector(numberWithUnsignedInteger:) },
-		{ @encode(unsigned long), @selector(numberWithUnsignedLong:) },
-		{ @encode(unsigned long long), @selector(numberWithUnsignedLongLong:) },
-		{ @encode(unsigned short), @selector(numberWithUnsignedShort:) },
-	};
-	// Since vector's are uniformly typed, we can just use v[0]
-	const auto encode = @encode(__typeof__(v[0]));
-	const auto selector = map[encode];
-	if (selector == nullptr) { return @[]; }
-	const auto method = class_getClassMethod(NSNumber.class, selector);
-//	const auto call = 
-	typedef NSNumber *(*NSNumberCall)(id,SEL,T);
-	NSNumberCall call = (NSNumberCall)method_getImplementation(method);
-
-	for (auto t : v) {
-		NSNumber *number = (NSNumber *)call(NSNumber.class, selector, t);
-		[a addObject:number];
-	}
-	return a;
-}
-
-/// Convert a vector storing strings to an array of NSString's
-NS_INLINE NSArray<NSString *> *NSArrayFromVector(std::vector<std::string> v) {
-	const auto a = [NSMutableArray new];
-	for (auto s : v) {
-		[a addObject:[NSString stringWithCString:s.c_str() encoding:NSUTF8StringEncoding]];
-	}
-	return a;
-}
-
-/// Convert a vector storing objects to an array of transformed objects's
-template <class T, class U>
-NS_INLINE NSArray<T> *NSArrayFromVector(std::vector<U> v, T(^transform)(const U&)) {
-	const auto a = [NSMutableArray new];
-	for (const auto& o : v) {
-		[a addObject:transform(o)];
-	}
-	return a;
-}
-
-template <typename T>
-NS_INLINE NSNumber* NumberFromPrimitive(T t) {
-  std::map<const char *, SEL> map = {
-    { @encode(bool), @selector(numberWithBool:) },
-    { @encode(char), @selector(numberWithChar:) },
-    { @encode(double), @selector(numberWithDouble:) },
-    { @encode(float), @selector(numberWithFloat:) },
-    { @encode(int), @selector(numberWithInt:) },
-    { @encode(NSInteger), @selector(numberWithInteger:) },
-    { @encode(long), @selector(numberWithLong:) },
-    { @encode(long long), @selector(numberWithLongLong:) },
-    { @encode(short), @selector(numberWithShort:) },
-    { @encode(unsigned char), @selector(numberWithUnsignedChar:) },
-    { @encode(unsigned int), @selector(numberWithUnsignedInt:) },
-    { @encode(NSUInteger), @selector(numberWithUnsignedInteger:) },
-    { @encode(unsigned long), @selector(numberWithUnsignedLong:) },
-    { @encode(unsigned long long), @selector(numberWithUnsignedLongLong:) },
-    { @encode(unsigned short), @selector(numberWithUnsignedShort:) },
-  };
-  const auto encode = @encode(__typeof__(t));
-  const auto selector = map[encode];
-  if (selector == nullptr) { return nil; }
-  const auto method = class_getClassMethod(NSNumber.class, selector);
-  typedef NSNumber *(*NSNumberCall)(id,SEL,T);
-  NSNumberCall call = (NSNumberCall)method_getImplementation(method);
-  return (NSNumber *)call(NSNumber.class, selector, t);
-}
-
-template <typename T>
-NS_INLINE NSDictionary<NSString *, NSNumber *> *NSDictionaryFromMap(std::map<std::string, T> m) {
-  const auto d = [NSMutableDictionary new];
-  if (m.empty()) {
-    return @{};
-  }
-  for (auto item : m) {
-    d[[NSString stringWithCString:item.first.c_str() encoding:NSUTF8StringEncoding]] =
-    NumberFromPrimitive(item.second);
-  }
-  return d;
-};
-
-NS_INLINE NSDictionary<NSString *, NSString *> *NSDictionaryFromMap(std::map<std::string, std::string> m) {
-  const auto d = [NSMutableDictionary new];
-  if (m.empty()) {
-    return @{};
-  }
-  for (auto item : m) {
-    d[[NSString stringWithCString:item.first.c_str() encoding:NSUTF8StringEncoding]] =
-    [NSString stringWithCString:item.second.c_str() encoding:NSUTF8StringEncoding];
-  }
-  return d;
-};
-
-template <typename V, class ObjCObj>
-NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::string, V> m, ObjCObj(^transform)(V)) {
-  const auto d = [NSMutableDictionary new];
-  if (m.empty()) {
-    return @{};
-  }
-  for (auto item : m) {
-    d[[NSString stringWithCString:item.first.c_str() encoding:NSUTF8StringEncoding]] = transform(item.second);
-  }
-  return d;
-};
+#import "bat/ledger/ledger.h"
+#import <vector>
+#import <map>
+#import <string>
 
 @implementation BATAutoContributeProps
 - (instancetype)initWithAutoContributeProps:(const ledger::AutoContributeProps&)obj {
@@ -142,6 +19,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATTransactionInfo
@@ -149,9 +27,11 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   if ((self = [super init])) {
     self.timestampInSeconds = obj.timestamp_in_seconds;
     self.estimatedRedemptionValue = obj.estimated_redemption_value;
+    self.confirmationType = [NSString stringWithCString:obj.confirmation_type.c_str() encoding:NSUTF8StringEncoding];
   }
   return self;
 }
+
 @end
 
 @implementation BATTwitchEventInfo
@@ -163,6 +43,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATWalletInfo
@@ -180,6 +61,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATContributionInfo
@@ -191,6 +73,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATPublisherBanner
@@ -209,6 +92,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATPublisherInfo
@@ -232,6 +116,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATPublisherInfoListStruct
@@ -241,6 +126,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATTransactionsInfo
@@ -250,6 +136,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATBalanceReportInfo
@@ -267,6 +154,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATGrant
@@ -280,6 +168,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATRewardsInternalsInfo
@@ -291,6 +180,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATPendingContribution
@@ -300,10 +190,11 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
     self.amount = obj.amount;
     self.addedDate = obj.added_date;
     self.viewingId = [NSString stringWithCString:obj.viewing_id.c_str() encoding:NSUTF8StringEncoding];
-    self.category = obj.category;
+    self.category = (BATRewardsCategory)obj.category;
   }
   return self;
 }
+
 @end
 
 @implementation BATPendingContributionList
@@ -313,6 +204,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATReconcileInfo
@@ -325,6 +217,7 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 
 @implementation BATVisitData
@@ -341,5 +234,6 @@ NS_INLINE NSDictionary<NSString *, ObjCObj> *NSDictionaryFromMap(std::map<std::s
   }
   return self;
 }
+
 @end
 

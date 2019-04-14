@@ -13,6 +13,8 @@
 #import "NativeLedgerClient.h"
 #import "NativeLedgerBridge.h"
 
+#import <objc/runtime.h>
+
 #define BATLedgerReadonlyBridge(__type, __objc_getter, __cpp_getter) \
 - (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); }
 
@@ -231,6 +233,20 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 //                                            (ledger::PUBLISHER_EXCLUDE)excludeState);
 //}
 
+#pragma mark - Grants
+
+- (void)grantCaptchaForPromotionId:(NSString *)promoID promotionType:(NSString *)promotionType completion:(void (^)(NSString * _Nonnull, NSString * _Nonnull))completion
+{
+  auto method = class_getInstanceMethod(self.class, @selector(onGrantCaptcha:hint:));
+  auto block = ^(std::string& image, std::string& hint) {
+    completion([NSString stringWithUTF8String:image.c_str()],
+               [NSString stringWithUTF8String:hint.c_str()]);
+  };
+  method_setImplementation(method, imp_implementationWithBlock(block));
+  ledgerClient->ledger->GetGrantCaptcha(std::string(promoID.UTF8String),
+                                        std::string(promotionType.UTF8String));
+}
+
 #pragma mark -
 
 - (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info
@@ -369,14 +385,19 @@ BATLedgerBridge(BOOL,
 
 #pragma mark - NativeLedgerBridge
 
-- (void)ledger:(ledger::NativeLedgerClient *)client walletInitialized:(ledger::Result)result
+- (void)walletInitialized:(ledger::Result)result
 {
   if (self.walletInitializedBlock) {
     self.walletInitializedBlock(result);
   }
 }
 
-- (void)ledger:(ledger::NativeLedgerClient *)client onWalletProperties:(ledger::Result)result info:(std::unique_ptr<ledger::WalletInfo>)info
+- (void)onWalletProperties:(ledger::Result)result info:(std::unique_ptr<ledger::WalletInfo>)info
+{
+  
+}
+
+- (void)onGrantCaptcha:(std::string)image hint:(std::string)hint
 {
   
 }

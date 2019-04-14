@@ -72,7 +72,7 @@ namespace ledger {
   }
   
   void NativeLedgerClient::OnWalletInitialized(Result result) {
-    [bridge ledger:this walletInitialized:result];
+    [bridge walletInitialized:result];
   }
   
   //  void NativeLedgerClient::OnWalletProperties(Result result, std::unique_ptr<ledger::WalletInfo> info) {
@@ -89,7 +89,9 @@ namespace ledger {
   }
   
   void NativeLedgerClient::OnGrant(Result result, const Grant& grant) { }
-  void NativeLedgerClient::OnGrantCaptcha(const std::string& image, const std::string& hint) { }
+  void NativeLedgerClient::OnGrantCaptcha(const std::string& image, const std::string& hint) {
+    [bridge onGrantCaptcha:image hint:hint];
+  }
   
   void NativeLedgerClient::OnReconcileComplete(Result result,
                                                const std::string& viewing_id,

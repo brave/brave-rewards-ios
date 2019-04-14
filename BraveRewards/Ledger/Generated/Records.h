@@ -1,22 +1,25 @@
 #import <Foundation/Foundation.h>
 #import "Enums.h"
 
-@class BATAutoContributeProps, BATTransactionInfo, BATTwitchEventInfo, BATWalletInfo, BATContributionInfo, BATPublisherBanner, BATPublisherInfo, BATPublisherInfoListStruct, BATTransactionsInfo, BATBalanceReportInfo, BATGrant, BATReconcileInfo, BATRewardsInternalsInfo, BATPendingContribution, BATPendingContributionList, BATReconcileInfo, BATVisitData;
+@class BATAutoContributeProps, BATTransactionInfo, BATTwitchEventInfo, BATWalletInfo, BATContributionInfo, BATPublisherBanner, BATPublisherInfo, BATPublisherInfoListStruct, BATTransactionsInfo, BATBalanceReportInfo, BATGrant, BATRewardsInternalsInfo, BATPendingContribution, BATPendingContributionList, BATReconcileInfo, BATVisitData;
+
+NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(AutoContributeProps)
 @interface BATAutoContributeProps : NSObject
 @property (nonatomic) bool enabledContribute;
-@property (nonatomic) uint64_t contributionMinTime;
-@property (nonatomic) int32_t contributionMinVisits;
+@property (nonatomic) unsigned long long contributionMinTime;
+@property (nonatomic) int contributionMinVisits;
 @property (nonatomic) bool contributionNonVerified;
 @property (nonatomic) bool contributionVideos;
-@property (nonatomic) uint64_t reconcileStamp;
+@property (nonatomic) unsigned long long reconcileStamp;
 @end
 
 NS_SWIFT_NAME(TransactionInfo)
 @interface BATTransactionInfo : NSObject
-@property (nonatomic) uint64_t timestampInSeconds;
+@property (nonatomic) unsigned long long timestampInSeconds;
 @property (nonatomic) double estimatedRedemptionValue;
+@property (nonatomic) NSString * confirmationType;
 @end
 
 NS_SWIFT_NAME(TwitchEventInfo)
@@ -43,7 +46,7 @@ NS_SWIFT_NAME(ContributionInfo)
 @interface BATContributionInfo : NSObject
 @property (nonatomic) NSString * publisher;
 @property (nonatomic) double value;
-@property (nonatomic) uint64_t date;
+@property (nonatomic) unsigned long long date;
 @end
 
 NS_SWIFT_NAME(PublisherBanner)
@@ -63,14 +66,14 @@ NS_SWIFT_NAME(PublisherBanner)
 NS_SWIFT_NAME(PublisherInfo)
 @interface BATPublisherInfo : NSObject
 @property (nonatomic) NSString * id;
-@property (nonatomic) uint64_t duration;
+@property (nonatomic) unsigned long long duration;
 @property (nonatomic) double score;
-@property (nonatomic) uint32_t visits;
-@property (nonatomic) uint32_t percent;
+@property (nonatomic) unsigned int visits;
+@property (nonatomic) unsigned int percent;
 @property (nonatomic) double weight;
 @property (nonatomic) BATPublisherExclude excluded;
 @property (nonatomic) BATRewardsCategory category;
-@property (nonatomic) uint64_t reconcileStamp;
+@property (nonatomic) unsigned long long reconcileStamp;
 @property (nonatomic) bool verified;
 @property (nonatomic) NSString * name;
 @property (nonatomic) NSString * url;
@@ -107,7 +110,7 @@ NS_SWIFT_NAME(Grant)
 @property (nonatomic) NSString * altcurrency;
 @property (nonatomic) NSString * probi;
 @property (nonatomic) NSString * promotionId;
-@property (nonatomic) uint64_t expiryTime;
+@property (nonatomic) unsigned long long expiryTime;
 @property (nonatomic) NSString * type;
 @end
 
@@ -122,9 +125,9 @@ NS_SWIFT_NAME(PendingContribution)
 @interface BATPendingContribution : NSObject
 @property (nonatomic) NSString * publisherKey;
 @property (nonatomic) double amount;
-@property (nonatomic) uint64_t addedDate;
+@property (nonatomic) unsigned long long addedDate;
 @property (nonatomic) NSString * viewingId;
-@property (nonatomic) int category;
+@property (nonatomic) BATRewardsCategory category;
 @end
 
 NS_SWIFT_NAME(PendingContributionList)
@@ -145,10 +148,12 @@ NS_SWIFT_NAME(VisitData)
 @property (nonatomic) NSString * tld;
 @property (nonatomic) NSString * domain;
 @property (nonatomic) NSString * path;
-@property (nonatomic) uint32_t tabId;
+@property (nonatomic) unsigned int tabId;
 @property (nonatomic) NSString * name;
 @property (nonatomic) NSString * url;
 @property (nonatomic) NSString * provider;
 @property (nonatomic) NSString * faviconUrl;
 @end
+
+NS_ASSUME_NONNULL_END
 

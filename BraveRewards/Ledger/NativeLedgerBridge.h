@@ -6,20 +6,18 @@
 
 #import "bat/ledger/ledger.h"
 
-namespace ledger { class NativeLedgerClient; }
+#import <string>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol NativeLedgerBridge <NSObject>
 @required
 
-- (void)ledger:(ledger::NativeLedgerClient *)client walletInitialized:(ledger::Result)result;
-- (void)ledger:(ledger::NativeLedgerClient *)client
-onWalletProperties:(ledger::Result)result
-          info:(std::unique_ptr<ledger::WalletInfo>)info;
+- (void)walletInitialized:(ledger::Result)result;
+- (void)onWalletProperties:(ledger::Result)result info:(std::unique_ptr<ledger::WalletInfo>)info;
+- (void)onGrantCaptcha:(std::string)image hint:(std::string)hint;
 
 //void OnGrant(Result result, const Grant& grant) override;
-//void OnGrantCaptcha(const std::string& image, const std::string& hint) override;
 //void OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) override;
 //void OnReconcileComplete(Result result,
 //                         const std::string& viewing_id,
