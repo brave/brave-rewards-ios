@@ -40,9 +40,8 @@ typedef NS_ENUM(NSInteger, BATResult) {
 
 typedef NS_ENUM(NSInteger, BATRewardsCategory) {
   BATRewardsCategoryAutoContribute = 2,
-  BATRewardsCategoryTipping = 4,
-  BATRewardsCategoryDirectDonation = 8,
-  BATRewardsCategoryRecurringDonation = 16,
+  BATRewardsCategoryOneTimeTip = 8,
+  BATRewardsCategoryRecurringTip = 16,
   BATRewardsCategoryAllCategories = 31,
 } NS_SWIFT_NAME(RewardsCategory);
 
