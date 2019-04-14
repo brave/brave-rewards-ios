@@ -184,7 +184,8 @@ namespace ledger {
                                                 const uint32_t date,
                                                 const std::string& publisher_key,
                                                 const REWARDS_CATEGORY category) { }
-  void NativeLedgerClient::GetRecurringDonations(PublisherInfoListCallback callback) { }
+  void NativeLedgerClient::GetRecurringTips(PublisherInfoListCallback callback) { }
+  void NativeLedgerClient::GetOneTimeTips(ledger::PublisherInfoListCallback callback) { }
   std::unique_ptr<LogStream> NativeLedgerClient::Log(const char* file, int line, LogLevel level) const {
     return std::make_unique<LogStreamImpl>(file, line, level);
   }

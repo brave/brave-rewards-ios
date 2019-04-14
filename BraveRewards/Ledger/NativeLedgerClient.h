@@ -69,7 +69,8 @@ namespace ledger {
                               const uint32_t date,
                               const std::string& publisher_key,
                               const REWARDS_CATEGORY category) override;
-    void GetRecurringDonations(PublisherInfoListCallback callback) override;
+    void GetRecurringTips(PublisherInfoListCallback callback) override;
+    void GetOneTimeTips(PublisherInfoListCallback callback) override;
     std::unique_ptr<LogStream> Log(const char* file, int line, LogLevel level) const override;
     void LoadMediaPublisherInfo(const std::string& media_key, PublisherInfoCallback callback) override;
     void SaveMediaPublisherInfo(const std::string& media_key, const std::string& publisher_id) override;
