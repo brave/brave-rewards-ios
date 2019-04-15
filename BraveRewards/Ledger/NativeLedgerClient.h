@@ -32,9 +32,7 @@ namespace ledger {
     std::string GenerateGUID() const override;
     /// Called when the user creates a wallet by calling `ledger->CreateWallet()`
     void OnWalletInitialized(Result result) override;
-    void OnWalletProperties(Result result, std::unique_ptr<WalletInfo> info) override {
-      [bridge walletInitialized:result];
-    };
+    void OnWalletProperties(Result result, std::unique_ptr<WalletInfo> info) override;
     void OnGrant(Result result, const Grant& grant) override;
     void OnGrantCaptcha(const std::string& image, const std::string& hint) override;
     void OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) override;

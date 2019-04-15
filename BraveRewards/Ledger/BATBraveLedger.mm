@@ -27,6 +27,7 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 @interface BATBraveLedger () <NativeLedgerBridge> {
   ledger::NativeLedgerClient *ledgerClient;
 }
+@property (nonatomic) BATWalletInfo *walletInfo;
 @property (nonatomic, copy, nullable) void (^walletInitializedBlock)(const ledger::Result result);
 @end
 
@@ -41,6 +42,10 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
     // Add notifications for standard app foreground/background
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    if (self.walletCreated) {
+      [self fetchWalletDetails:nil];
+    }
   }
   return self;
 }
@@ -94,6 +99,19 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
   //   - BAD_REGISTRATION_RESPONSE: Request credentials call failure or malformed data
   //   - REGISTRATION_VERIFICATION_FAILED: Missing master user token
   ledgerClient->ledger->CreateWallet();
+}
+
+- (void)fetchWalletDetails:(void (^)(BATWalletInfo *))completion
+{
+  ledgerClient->ledger->FetchWalletProperties(^(ledger::Result result, std::unique_ptr<ledger::WalletInfo> info) {
+    const auto walletInfo = info.get();
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self onWalletProperties:result info:std::unique_ptr<ledger::WalletInfo>(walletInfo)];
+      if (completion) {
+        completion(self.walletInfo);
+      }
+    });
+  });
 }
 
 - (NSString *)walletPassphrase
@@ -394,7 +412,14 @@ BATLedgerBridge(BOOL,
 
 - (void)onWalletProperties:(ledger::Result)result info:(std::unique_ptr<ledger::WalletInfo>)info
 {
-  
+  if (result == ledger::LEDGER_OK) {
+    const auto walletInfo = info.get();
+    if (walletInfo != nullptr) {
+      self.walletInfo = [[BATWalletInfo alloc] initWithWalletInfo:*walletInfo];
+    } else {
+      self.walletInfo = nil;
+    }
+  }
 }
 
 - (void)onGrantCaptcha:(std::string)image hint:(std::string)hint

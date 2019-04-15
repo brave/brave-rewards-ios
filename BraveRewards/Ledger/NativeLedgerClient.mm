@@ -75,9 +75,9 @@ namespace ledger {
     [bridge walletInitialized:result];
   }
   
-  //  void NativeLedgerClient::OnWalletProperties(Result result, std::unique_ptr<ledger::WalletInfo> info) {
-  //    [bridge ledger:this onWalletProperties:result info:std::move(info)];
-  //  }
+  void NativeLedgerClient::OnWalletProperties(Result result, std::unique_ptr<ledger::WalletInfo> info) {
+    [bridge onWalletProperties:result info:std::move(info)];
+  }
   
   void NativeLedgerClient::OnRecoverWallet(Result result, double balance, const std::vector<Grant>& grants) {
     if (walletRecoveredBlock != nullptr) {

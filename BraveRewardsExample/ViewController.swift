@@ -61,6 +61,8 @@ class ViewController: UIViewController {
     
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
   }
+  
+  var ledger = BraveLedger()
 
   @IBAction func tappedBraveRewards() {
     if UIDevice.current.userInterfaceIdiom != .pad && UIApplication.shared.statusBarOrientation.isLandscape {
@@ -68,7 +70,7 @@ class ViewController: UIViewController {
       UIDevice.current.setValue(value, forKey: "orientation")
     }
     
-    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : BraveLedger()
+    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
     let url = URL(string: "https://github.com")!
     let braveRewardsPanel = RewardsPanelController(
       ledger: ledger,
@@ -90,6 +92,7 @@ class ViewController: UIViewController {
     let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
     let ledgerStatePath = documents.appendingPathComponent("brave_ledger")
     try? FileManager.default.removeItem(atPath: ledgerStatePath)
+    ledger = BraveLedger()
   }
 }
 
