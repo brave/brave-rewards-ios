@@ -29,15 +29,15 @@
 @implementation BATBalanceReportInfo
 - (instancetype)initWithBalanceReportInfo:(const ledger::BalanceReportInfo&)obj {
   if ((self = [super init])) {
-    self.openingBalance = [NSString stringWithCString:obj.opening_balance_.c_str() encoding:NSUTF8StringEncoding];
-    self.closingBalance = [NSString stringWithCString:obj.closing_balance_.c_str() encoding:NSUTF8StringEncoding];
-    self.deposits = [NSString stringWithCString:obj.deposits_.c_str() encoding:NSUTF8StringEncoding];
-    self.grants = [NSString stringWithCString:obj.grants_.c_str() encoding:NSUTF8StringEncoding];
-    self.earningFromAds = [NSString stringWithCString:obj.earning_from_ads_.c_str() encoding:NSUTF8StringEncoding];
-    self.autoContribute = [NSString stringWithCString:obj.auto_contribute_.c_str() encoding:NSUTF8StringEncoding];
-    self.recurringDonation = [NSString stringWithCString:obj.recurring_donation_.c_str() encoding:NSUTF8StringEncoding];
-    self.oneTimeDonation = [NSString stringWithCString:obj.one_time_donation_.c_str() encoding:NSUTF8StringEncoding];
-    self.total = [NSString stringWithCString:obj.total_.c_str() encoding:NSUTF8StringEncoding];
+    self.openingBalance = [NSString stringWithUTF8String:obj.opening_balance_.c_str()];
+    self.closingBalance = [NSString stringWithUTF8String:obj.closing_balance_.c_str()];
+    self.deposits = [NSString stringWithUTF8String:obj.deposits_.c_str()];
+    self.grants = [NSString stringWithUTF8String:obj.grants_.c_str()];
+    self.earningFromAds = [NSString stringWithUTF8String:obj.earning_from_ads_.c_str()];
+    self.autoContribute = [NSString stringWithUTF8String:obj.auto_contribute_.c_str()];
+    self.recurringDonation = [NSString stringWithUTF8String:obj.recurring_donation_.c_str()];
+    self.oneTimeDonation = [NSString stringWithUTF8String:obj.one_time_donation_.c_str()];
+    self.total = [NSString stringWithUTF8String:obj.total_.c_str()];
   }
   return self;
 }
@@ -46,7 +46,7 @@
 @implementation BATContributionInfo
 - (instancetype)initWithContributionInfo:(const ledger::ContributionInfo&)obj {
   if ((self = [super init])) {
-    self.publisher = [NSString stringWithCString:obj.publisher.c_str() encoding:NSUTF8StringEncoding];
+    self.publisher = [NSString stringWithUTF8String:obj.publisher.c_str()];
     self.value = obj.value;
     self.date = obj.date;
   }
@@ -57,11 +57,11 @@
 @implementation BATGrant
 - (instancetype)initWithGrant:(const ledger::Grant&)obj {
   if ((self = [super init])) {
-    self.altcurrency = [NSString stringWithCString:obj.altcurrency.c_str() encoding:NSUTF8StringEncoding];
-    self.probi = [NSString stringWithCString:obj.probi.c_str() encoding:NSUTF8StringEncoding];
-    self.promotionId = [NSString stringWithCString:obj.promotionId.c_str() encoding:NSUTF8StringEncoding];
+    self.altcurrency = [NSString stringWithUTF8String:obj.altcurrency.c_str()];
+    self.probi = [NSString stringWithUTF8String:obj.probi.c_str()];
+    self.promotionId = [NSString stringWithUTF8String:obj.promotionId.c_str()];
     self.expiryTime = obj.expiryTime;
-    self.type = [NSString stringWithCString:obj.type.c_str() encoding:NSUTF8StringEncoding];
+    self.type = [NSString stringWithUTF8String:obj.type.c_str()];
   }
   return self;
 }
@@ -70,10 +70,10 @@
 @implementation BATPendingContribution
 - (instancetype)initWithPendingContribution:(const ledger::PendingContribution&)obj {
   if ((self = [super init])) {
-    self.publisherKey = [NSString stringWithCString:obj.publisher_key.c_str() encoding:NSUTF8StringEncoding];
+    self.publisherKey = [NSString stringWithUTF8String:obj.publisher_key.c_str()];
     self.amount = obj.amount;
     self.addedDate = obj.added_date;
-    self.viewingId = [NSString stringWithCString:obj.viewing_id.c_str() encoding:NSUTF8StringEncoding];
+    self.viewingId = [NSString stringWithUTF8String:obj.viewing_id.c_str()];
     self.category = (BATRewardsCategory)obj.category;
   }
   return self;
@@ -92,14 +92,14 @@
 @implementation BATPublisherBanner
 - (instancetype)initWithPublisherBanner:(const ledger::PublisherBanner&)obj {
   if ((self = [super init])) {
-    self.publisherKey = [NSString stringWithCString:obj.publisher_key.c_str() encoding:NSUTF8StringEncoding];
-    self.title = [NSString stringWithCString:obj.title.c_str() encoding:NSUTF8StringEncoding];
-    self.name = [NSString stringWithCString:obj.name.c_str() encoding:NSUTF8StringEncoding];
-    self.description = [NSString stringWithCString:obj.description.c_str() encoding:NSUTF8StringEncoding];
-    self.background = [NSString stringWithCString:obj.background.c_str() encoding:NSUTF8StringEncoding];
-    self.logo = [NSString stringWithCString:obj.logo.c_str() encoding:NSUTF8StringEncoding];
+    self.publisherKey = [NSString stringWithUTF8String:obj.publisher_key.c_str()];
+    self.title = [NSString stringWithUTF8String:obj.title.c_str()];
+    self.name = [NSString stringWithUTF8String:obj.name.c_str()];
+    self.description = [NSString stringWithUTF8String:obj.description.c_str()];
+    self.background = [NSString stringWithUTF8String:obj.background.c_str()];
+    self.logo = [NSString stringWithUTF8String:obj.logo.c_str()];
     self.amounts = NSArrayFromVector(obj.amounts);
-    self.provider = [NSString stringWithCString:obj.provider.c_str() encoding:NSUTF8StringEncoding];
+    self.provider = [NSString stringWithUTF8String:obj.provider.c_str()];
     self.social = NSDictionaryFromMap(obj.social);
     self.verified = obj.verified;
   }
@@ -110,7 +110,7 @@
 @implementation BATPublisherInfo
 - (instancetype)initWithPublisherInfo:(const ledger::PublisherInfo&)obj {
   if ((self = [super init])) {
-    self.id = [NSString stringWithCString:obj.id.c_str() encoding:NSUTF8StringEncoding];
+    self.id = [NSString stringWithUTF8String:obj.id.c_str()];
     self.duration = obj.duration;
     self.score = obj.score;
     self.visits = obj.visits;
@@ -120,10 +120,10 @@
     self.category = (BATRewardsCategory)obj.category;
     self.reconcileStamp = obj.reconcile_stamp;
     self.verified = obj.verified;
-    self.name = [NSString stringWithCString:obj.name.c_str() encoding:NSUTF8StringEncoding];
-    self.url = [NSString stringWithCString:obj.url.c_str() encoding:NSUTF8StringEncoding];
-    self.provider = [NSString stringWithCString:obj.provider.c_str() encoding:NSUTF8StringEncoding];
-    self.faviconUrl = [NSString stringWithCString:obj.favicon_url.c_str() encoding:NSUTF8StringEncoding];
+    self.name = [NSString stringWithUTF8String:obj.name.c_str()];
+    self.url = [NSString stringWithUTF8String:obj.url.c_str()];
+    self.provider = [NSString stringWithUTF8String:obj.provider.c_str()];
+    self.faviconUrl = [NSString stringWithUTF8String:obj.favicon_url.c_str()];
     self.contributions = NSArrayFromVector(obj.contributions, ^BATContributionInfo *(const ledger::ContributionInfo& o){ return [[BATContributionInfo alloc] initWithContributionInfo: o]; });
   }
   return self;
@@ -142,8 +142,8 @@
 @implementation BATReconcileInfo
 - (instancetype)initWithReconcileInfo:(const ledger::ReconcileInfo&)obj {
   if ((self = [super init])) {
-    self.viewingid = [NSString stringWithCString:obj.viewingId_.c_str() encoding:NSUTF8StringEncoding];
-    self.amount = [NSString stringWithCString:obj.amount_.c_str() encoding:NSUTF8StringEncoding];
+    self.viewingid = [NSString stringWithUTF8String:obj.viewingId_.c_str()];
+    self.amount = [NSString stringWithUTF8String:obj.amount_.c_str()];
     self.retryStep = (BATContributionRetry)obj.retry_step_;
     self.retryLevel = obj.retry_level_;
   }
@@ -154,7 +154,7 @@
 @implementation BATRewardsInternalsInfo
 - (instancetype)initWithRewardsInternalsInfo:(const ledger::RewardsInternalsInfo&)obj {
   if ((self = [super init])) {
-    self.paymentId = [NSString stringWithCString:obj.payment_id.c_str() encoding:NSUTF8StringEncoding];
+    self.paymentId = [NSString stringWithUTF8String:obj.payment_id.c_str()];
     self.isKeyInfoSeedValid = obj.is_key_info_seed_valid;
     self.currentReconciles = NSDictionaryFromMap(obj.current_reconciles, ^BATReconcileInfo *(ledger::ReconcileInfo o){ return [[BATReconcileInfo alloc] initWithReconcileInfo:o]; });
   }
@@ -167,7 +167,7 @@
   if ((self = [super init])) {
     self.timestampInSeconds = obj.timestamp_in_seconds;
     self.estimatedRedemptionValue = obj.estimated_redemption_value;
-    self.confirmationType = [NSString stringWithCString:obj.confirmation_type.c_str() encoding:NSUTF8StringEncoding];
+    self.confirmationType = [NSString stringWithUTF8String:obj.confirmation_type.c_str()];
   }
   return self;
 }
@@ -185,9 +185,9 @@
 @implementation BATTwitchEventInfo
 - (instancetype)initWithTwitchEventInfo:(const ledger::TwitchEventInfo&)obj {
   if ((self = [super init])) {
-    self.event = [NSString stringWithCString:obj.event_.c_str() encoding:NSUTF8StringEncoding];
-    self.time = [NSString stringWithCString:obj.time_.c_str() encoding:NSUTF8StringEncoding];
-    self.status = [NSString stringWithCString:obj.status_.c_str() encoding:NSUTF8StringEncoding];
+    self.event = [NSString stringWithUTF8String:obj.event_.c_str()];
+    self.time = [NSString stringWithUTF8String:obj.time_.c_str()];
+    self.status = [NSString stringWithUTF8String:obj.status_.c_str()];
   }
   return self;
 }
@@ -196,14 +196,14 @@
 @implementation BATVisitData
 - (instancetype)initWithVisitData:(const ledger::VisitData&)obj {
   if ((self = [super init])) {
-    self.tld = [NSString stringWithCString:obj.tld.c_str() encoding:NSUTF8StringEncoding];
-    self.domain = [NSString stringWithCString:obj.domain.c_str() encoding:NSUTF8StringEncoding];
-    self.path = [NSString stringWithCString:obj.path.c_str() encoding:NSUTF8StringEncoding];
+    self.tld = [NSString stringWithUTF8String:obj.tld.c_str()];
+    self.domain = [NSString stringWithUTF8String:obj.domain.c_str()];
+    self.path = [NSString stringWithUTF8String:obj.path.c_str()];
     self.tabId = obj.tab_id;
-    self.name = [NSString stringWithCString:obj.name.c_str() encoding:NSUTF8StringEncoding];
-    self.url = [NSString stringWithCString:obj.url.c_str() encoding:NSUTF8StringEncoding];
-    self.provider = [NSString stringWithCString:obj.provider.c_str() encoding:NSUTF8StringEncoding];
-    self.faviconUrl = [NSString stringWithCString:obj.favicon_url.c_str() encoding:NSUTF8StringEncoding];
+    self.name = [NSString stringWithUTF8String:obj.name.c_str()];
+    self.url = [NSString stringWithUTF8String:obj.url.c_str()];
+    self.provider = [NSString stringWithUTF8String:obj.provider.c_str()];
+    self.faviconUrl = [NSString stringWithUTF8String:obj.favicon_url.c_str()];
   }
   return self;
 }
@@ -212,8 +212,8 @@
 @implementation BATWalletInfo
 - (instancetype)initWithWalletInfo:(const ledger::WalletInfo&)obj {
   if ((self = [super init])) {
-    self.altcurrency = [NSString stringWithCString:obj.altcurrency_.c_str() encoding:NSUTF8StringEncoding];
-    self.probi = [NSString stringWithCString:obj.probi_.c_str() encoding:NSUTF8StringEncoding];
+    self.altcurrency = [NSString stringWithUTF8String:obj.altcurrency_.c_str()];
+    self.probi = [NSString stringWithUTF8String:obj.probi_.c_str()];
     self.balance = obj.balance_;
     self.feeAmount = obj.fee_amount_;
     self.rates = NSDictionaryFromMap(obj.rates_);

@@ -147,7 +147,7 @@ extension Cursor {
         }
         return "NSDictionaryFromMap(\(accessingObjName).\(name))"
       } else if typeString.hasPrefix("std::string") {
-        return "[NSString stringWithCString:\(accessingObjName).\(name).c_str() encoding:NSUTF8StringEncoding]";
+        return "[NSString stringWithUTF8String:\(accessingObjName).\(name).c_str()]";
       }
     default:
       break
