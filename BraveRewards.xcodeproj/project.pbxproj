@@ -23,7 +23,6 @@
 		2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58122527BC300B9EAF7 /* WalletActivityView.swift */; };
 		2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58422528EE100B9EAF7 /* AddFundsView.swift */; };
 		2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B5862252989900B9EAF7 /* TokenAddressView.swift */; };
-		2726B57E224FF20400B9EAF7 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 2726B57D224FF20300B9EAF7 /* CppTransformations.h */; };
 		272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B787122248E8800B7B81E /* TippingOverviewView.swift */; };
 		272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7873222494F600B7B81E /* TippingOptionView.swift */; };
 		272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7875222498EA00B7B81E /* TippingSelectionView.swift */; };
@@ -78,6 +77,7 @@
 		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
+		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
 		278A6B2B225BDFCD00175678 /* RewardsPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */; };
 		278A6B2E225BE01000175678 /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2D225BE01000175678 /* PopoverNavigationController.swift */; };
 		278A6B30225BE18200175678 /* RewardsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2F225BE18200175678 /* RewardsDelegate.swift */; };
@@ -104,11 +104,11 @@
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
 		27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DED66022260E7700E0F0E3 /* TippingView.swift */; };
-		27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */; };
 		27EDB843223D607F008406EB /* Records.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27EDB83F223D607F008406EB /* Records.mm */; };
 		27EDB844223D607F008406EB /* Records+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB840223D607F008406EB /* Records+Private.h */; };
 		27EDB845223D607F008406EB /* Records.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB841223D607F008406EB /* Records.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27EDB846223D607F008406EB /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB842223D607F008406EB /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */; };
 		27F3E59221FB97CB009A54D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59121FB97CB009A54D5 /* AppDelegate.swift */; };
 		27F3E59421FB97CB009A54D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59321FB97CB009A54D5 /* ViewController.swift */; };
 		27F3E59721FB97CB009A54D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F3E59521FB97CB009A54D5 /* Main.storyboard */; };
@@ -156,6 +156,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = A1FDE6D020D2AA7400F92CAF;
 			remoteInfo = BraveRewards;
+		};
+		27885E4E2263D61C00A47647 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 27885E402263D61C00A47647;
+			remoteInfo = "objc-gen";
+		};
+		27885E802264FD3300A47647 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 27885E552263D64300A47647;
+			remoteInfo = Clang;
 		};
 		27F3E5A121FB97EA009A54D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -205,7 +219,6 @@
 		2726B58122527BC300B9EAF7 /* WalletActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActivityView.swift; sourceTree = "<group>"; };
 		2726B58422528EE100B9EAF7 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
 		2726B5862252989900B9EAF7 /* TokenAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAddressView.swift; sourceTree = "<group>"; };
-		2726B57D224FF20300B9EAF7 /* CppTransformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CppTransformations.h; sourceTree = "<group>"; };
 		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
 		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
 		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
@@ -259,6 +272,8 @@
 		2759884922247F4F00B2E47A /* SendTipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTipButton.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
+		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
+		27885E882265087000A47647 /* CppTransformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CppTransformations.h; path = "BraveRewards/objc-gen/CppTransformations.h"; sourceTree = SOURCE_ROOT; };
 		278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsPanelController.swift; sourceTree = "<group>"; };
 		278A6B2D225BE01000175678 /* PopoverNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverNavigationController.swift; sourceTree = "<group>"; };
 		278A6B2F225BE18200175678 /* RewardsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsDelegate.swift; sourceTree = "<group>"; };
@@ -286,11 +301,11 @@
 		27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Extensions.h"; sourceTree = "<group>"; };
 		27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+Extensions.mm"; sourceTree = "<group>"; };
 		27DED66022260E7700E0F0E3 /* TippingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingView.swift; sourceTree = "<group>"; };
-		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
 		27EDB83F223D607F008406EB /* Records.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Records.mm; sourceTree = "<group>"; };
 		27EDB840223D607F008406EB /* Records+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Records+Private.h"; sourceTree = "<group>"; };
 		27EDB841223D607F008406EB /* Records.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Records.h; sourceTree = "<group>"; };
 		27EDB842223D607F008406EB /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
+		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
 		27F3E58F21FB97CB009A54D5 /* BraveRewardsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraveRewardsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F3E59121FB97CB009A54D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F3E59321FB97CB009A54D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -446,6 +461,7 @@
 		272D13E421F61CEA00768D30 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				27885E882265087000A47647 /* CppTransformations.h */,
 				272D13E521F61E5500768D30 /* BATCommonOperations.h */,
 				272D13E621F61E5500768D30 /* BATCommonOperations.mm */,
 				27B6C88621F64C0300F256EA /* NSArray+Vector.h */,
@@ -580,6 +596,7 @@
 		275779B521E6B15D005A0EAF /* BraveRewards */ = {
 			isa = PBXGroup;
 			children = (
+				27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */,
 				270EE71F220DE4BC004AD31E /* lib */,
 				272D13E421F61CEA00768D30 /* Shared */,
 				275779B621E6B15D005A0EAF /* Ads */,
@@ -654,6 +671,15 @@
 			path = Tipping;
 			sourceTree = "<group>";
 		};
+		27885E4B2263D61C00A47647 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				27885E4F2263D61C00A47647 /* objc-gen */,
+				27885E812264FD3300A47647 /* Clang.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		27A470712241506400596431 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,7 +720,6 @@
 		27EDB83E223D606E008406EB /* Generated */ = {
 			isa = PBXGroup;
 			children = (
-				2726B57D224FF20300B9EAF7 /* CppTransformations.h */,
 				27EDB842223D607F008406EB /* Enums.h */,
 				27EDB841223D607F008406EB /* Records.h */,
 				27EDB83F223D607F008406EB /* Records.mm */,
@@ -827,10 +852,10 @@
 				27EDB845223D607F008406EB /* Records.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				27EDB844223D607F008406EB /* Records+Private.h in Headers */,
-				2726B57E224FF20400B9EAF7 /* CppTransformations.h in Headers */,
 				27EDB846223D607F008406EB /* Enums.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
+				27885E892265087000A47647 /* CppTransformations.h in Headers */,
 				27516FD222138C5200E04FE1 /* NativeLedgerBridge.h in Headers */,
 				27FD396021EFD88500443796 /* NativeLedgerClient.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
@@ -957,6 +982,12 @@
 			mainGroup = A1FDE6C720D2AA7400F92CAF;
 			productRefGroup = A1FDE6D220D2AA7400F92CAF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 27885E4B2263D61C00A47647 /* Products */;
+					ProjectRef = 27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				A1FDE6D020D2AA7400F92CAF /* BraveRewards */,
@@ -966,6 +997,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		27885E4F2263D61C00A47647 /* objc-gen */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "objc-gen";
+			remoteRef = 27885E4E2263D61C00A47647 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		27885E812264FD3300A47647 /* Clang.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Clang.framework;
+			remoteRef = 27885E802264FD3300A47647 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		273404572220B004008CABC9 /* Resources */ = {

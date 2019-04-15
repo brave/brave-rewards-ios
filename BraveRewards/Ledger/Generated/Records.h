@@ -1,7 +1,13 @@
+/* WARNING: THIS FILE IS GENERATED. ANY CHANGES TO THIS FILE WILL BE OVERWRITTEN
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 #import <Foundation/Foundation.h>
 #import "Enums.h"
 
-@class BATAutoContributeProps, BATTransactionInfo, BATTwitchEventInfo, BATWalletInfo, BATContributionInfo, BATPublisherBanner, BATPublisherInfo, BATPublisherInfoListStruct, BATTransactionsInfo, BATBalanceReportInfo, BATGrant, BATRewardsInternalsInfo, BATPendingContribution, BATPendingContributionList, BATReconcileInfo, BATVisitData;
+@class BATAutoContributeProps, BATBalanceReportInfo, BATContributionInfo, BATGrant, BATPendingContribution, BATPendingContributionList, BATPublisherBanner, BATPublisherInfo, BATPublisherInfoListStruct, BATReconcileInfo, BATRewardsInternalsInfo, BATTransactionInfo, BATTransactionsInfo, BATTwitchEventInfo, BATVisitData, BATWalletInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,31 +21,17 @@ NS_SWIFT_NAME(AutoContributeProps)
 @property (nonatomic) unsigned long long reconcileStamp;
 @end
 
-NS_SWIFT_NAME(TransactionInfo)
-@interface BATTransactionInfo : NSObject
-@property (nonatomic) unsigned long long timestampInSeconds;
-@property (nonatomic) double estimatedRedemptionValue;
-@property (nonatomic) NSString * confirmationType;
-@end
-
-NS_SWIFT_NAME(TwitchEventInfo)
-@interface BATTwitchEventInfo : NSObject
-@property (nonatomic) NSString * event;
-@property (nonatomic) NSString * time;
-@property (nonatomic) NSString * status;
-@end
-
-NS_SWIFT_NAME(WalletInfo)
-@interface BATWalletInfo : NSObject
-@property (nonatomic) NSString * altcurrency;
-@property (nonatomic) NSString * probi;
-@property (nonatomic) double balance;
-@property (nonatomic) double feeAmount;
-@property (nonatomic) NSDictionary<NSString *, NSNumber *> * rates;
-@property (nonatomic) NSArray<NSNumber *> * parametersChoices;
-@property (nonatomic) NSArray<NSNumber *> * parametersRange;
-@property (nonatomic) unsigned int parametersDays;
-@property (nonatomic) NSArray<BATGrant *> * grants;
+NS_SWIFT_NAME(BalanceReportInfo)
+@interface BATBalanceReportInfo : NSObject
+@property (nonatomic) NSString * openingBalance;
+@property (nonatomic) NSString * closingBalance;
+@property (nonatomic) NSString * deposits;
+@property (nonatomic) NSString * grants;
+@property (nonatomic) NSString * earningFromAds;
+@property (nonatomic) NSString * autoContribute;
+@property (nonatomic) NSString * recurringDonation;
+@property (nonatomic) NSString * oneTimeDonation;
+@property (nonatomic) NSString * total;
 @end
 
 NS_SWIFT_NAME(ContributionInfo)
@@ -47,6 +39,29 @@ NS_SWIFT_NAME(ContributionInfo)
 @property (nonatomic) NSString * publisher;
 @property (nonatomic) double value;
 @property (nonatomic) unsigned long long date;
+@end
+
+NS_SWIFT_NAME(Grant)
+@interface BATGrant : NSObject
+@property (nonatomic) NSString * altcurrency;
+@property (nonatomic) NSString * probi;
+@property (nonatomic) NSString * promotionId;
+@property (nonatomic) unsigned long long expiryTime;
+@property (nonatomic) NSString * type;
+@end
+
+NS_SWIFT_NAME(PendingContribution)
+@interface BATPendingContribution : NSObject
+@property (nonatomic) NSString * publisherKey;
+@property (nonatomic) double amount;
+@property (nonatomic) unsigned long long addedDate;
+@property (nonatomic) NSString * viewingId;
+@property (nonatomic) BATRewardsCategory category;
+@end
+
+NS_SWIFT_NAME(PendingContributionList)
+@interface BATPendingContributionList : NSObject
+@property (nonatomic) NSArray<BATPendingContribution *> * list;
 @end
 
 NS_SWIFT_NAME(PublisherBanner)
@@ -87,31 +102,12 @@ NS_SWIFT_NAME(PublisherInfoListStruct)
 @property (nonatomic) NSArray<BATPublisherInfo *> * list;
 @end
 
-NS_SWIFT_NAME(TransactionsInfo)
-@interface BATTransactionsInfo : NSObject
-@property (nonatomic) NSArray<BATTransactionInfo *> * transactions;
-@end
-
-NS_SWIFT_NAME(BalanceReportInfo)
-@interface BATBalanceReportInfo : NSObject
-@property (nonatomic) NSString * openingBalance;
-@property (nonatomic) NSString * closingBalance;
-@property (nonatomic) NSString * deposits;
-@property (nonatomic) NSString * grants;
-@property (nonatomic) NSString * earningFromAds;
-@property (nonatomic) NSString * autoContribute;
-@property (nonatomic) NSString * recurringDonation;
-@property (nonatomic) NSString * oneTimeDonation;
-@property (nonatomic) NSString * total;
-@end
-
-NS_SWIFT_NAME(Grant)
-@interface BATGrant : NSObject
-@property (nonatomic) NSString * altcurrency;
-@property (nonatomic) NSString * probi;
-@property (nonatomic) NSString * promotionId;
-@property (nonatomic) unsigned long long expiryTime;
-@property (nonatomic) NSString * type;
+NS_SWIFT_NAME(ReconcileInfo)
+@interface BATReconcileInfo : NSObject
+@property (nonatomic) NSString * viewingid;
+@property (nonatomic) NSString * amount;
+@property (nonatomic) BATContributionRetry retryStep;
+@property (nonatomic) int retryLevel;
 @end
 
 NS_SWIFT_NAME(RewardsInternalsInfo)
@@ -121,26 +117,23 @@ NS_SWIFT_NAME(RewardsInternalsInfo)
 @property (nonatomic) NSDictionary<NSString *, BATReconcileInfo *> * currentReconciles;
 @end
 
-NS_SWIFT_NAME(PendingContribution)
-@interface BATPendingContribution : NSObject
-@property (nonatomic) NSString * publisherKey;
-@property (nonatomic) double amount;
-@property (nonatomic) unsigned long long addedDate;
-@property (nonatomic) NSString * viewingId;
-@property (nonatomic) BATRewardsCategory category;
+NS_SWIFT_NAME(TransactionInfo)
+@interface BATTransactionInfo : NSObject
+@property (nonatomic) unsigned long long timestampInSeconds;
+@property (nonatomic) double estimatedRedemptionValue;
+@property (nonatomic) NSString * confirmationType;
 @end
 
-NS_SWIFT_NAME(PendingContributionList)
-@interface BATPendingContributionList : NSObject
-@property (nonatomic) NSArray<BATPendingContribution *> * list;
+NS_SWIFT_NAME(TransactionsInfo)
+@interface BATTransactionsInfo : NSObject
+@property (nonatomic) NSArray<BATTransactionInfo *> * transactions;
 @end
 
-NS_SWIFT_NAME(ReconcileInfo)
-@interface BATReconcileInfo : NSObject
-@property (nonatomic) NSString * viewingid;
-@property (nonatomic) NSString * amount;
-@property (nonatomic) BATContributionRetry retryStep;
-@property (nonatomic) int retryLevel;
+NS_SWIFT_NAME(TwitchEventInfo)
+@interface BATTwitchEventInfo : NSObject
+@property (nonatomic) NSString * event;
+@property (nonatomic) NSString * time;
+@property (nonatomic) NSString * status;
 @end
 
 NS_SWIFT_NAME(VisitData)
@@ -155,5 +148,17 @@ NS_SWIFT_NAME(VisitData)
 @property (nonatomic) NSString * faviconUrl;
 @end
 
-NS_ASSUME_NONNULL_END
+NS_SWIFT_NAME(WalletInfo)
+@interface BATWalletInfo : NSObject
+@property (nonatomic) NSString * altcurrency;
+@property (nonatomic) NSString * probi;
+@property (nonatomic) double balance;
+@property (nonatomic) double feeAmount;
+@property (nonatomic) NSDictionary<NSString *, NSNumber *> * rates;
+@property (nonatomic) NSArray<NSNumber *> * parametersChoices;
+@property (nonatomic) NSArray<NSNumber *> * parametersRange;
+@property (nonatomic) unsigned int parametersDays;
+@property (nonatomic) NSArray<BATGrant *> * grants;
+@end
 
+NS_ASSUME_NONNULL_END
