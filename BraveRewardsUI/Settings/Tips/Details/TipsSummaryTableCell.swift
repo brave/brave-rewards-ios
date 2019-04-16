@@ -40,6 +40,8 @@ class TipsSummaryTableCell: UITableViewCell, TableViewReusable {
       $0.addArrangedSubview(usdValueView)
     }
     
+    selectionStyle = .none
+    
     contentView.addSubview(totalTipsThisMonthLabel)
     contentView.addSubview(currenciesStackView)
     

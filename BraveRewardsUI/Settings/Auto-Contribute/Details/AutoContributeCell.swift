@@ -8,7 +8,6 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
   
   private let siteStackView = UIStackView()
   
-  
   var attentionAmount: CGFloat = 0.0 {
     didSet {
       attentionLabel.text = String(format: "%ld%%", Int(attentionAmount * 100))

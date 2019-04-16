@@ -30,6 +30,8 @@ class TipsDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
+    
     tipsView.tableView.delegate = self
     tipsView.tableView.dataSource = self
 
@@ -50,6 +52,18 @@ class TipsDetailViewController: UIViewController {
     ],
     tintColor: BraveUX.tipsTintColor
   )
+  
+  // MARK: - Actions
+  
+  @objc private func tappedEditButton() {
+    tipsView.tableView.setEditing(true, animated: true)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDoneButton))
+  }
+  
+  @objc private func tappedDoneButton() {
+    tipsView.tableView.setEditing(false, animated: true)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
+  }
 }
 
 extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
@@ -82,8 +96,13 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     case .summary:
       return 1
     case .tips:
-      return 1
+//      return 1
+      return 3
     }
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -100,10 +119,36 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       cell.usdValueView.amountLabel.text = "0.00"
       return cell
     case .tips:
-      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
-      cell.label.text = BATLocalizedString("BraveRewardsEmptyTipsText", "Have you tipped your favourite content creator today?")
+//      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
+//      cell.label.text = BATLocalizedString("BraveRewardsEmptyTipsText", "Have you tipped your favourite content creator today?")
+//      return cell
+      let cell = tableView.dequeueReusableCell(for: indexPath) as TipsTableCell
+      cell.siteNameLabel.text = "theguardian.com"
+      cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
+      cell.verifiedStatusImageView.isHidden = indexPath.row != 0
+      cell.typeNameLabel.text = "Recurring"
       return cell
     }
+  }
+  
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    guard Section(rawValue: indexPath.section) == .tips else { return false }
+    // TODO: Only return true for recurring tips
+    return true
+  }
+  
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    guard Section(rawValue: indexPath.section) == .tips else { return .none }
+    return .delete
+  }
+  
+  func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+    return BATLocalizedString("BraveRewardsRemove", "Remove")
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    guard Section(rawValue: indexPath.section) == .tips else { return }
+    
   }
 }
 

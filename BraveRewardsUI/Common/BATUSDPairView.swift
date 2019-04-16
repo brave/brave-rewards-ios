@@ -5,25 +5,11 @@
 import UIKit
 
 /// A view which pairs a BAT amount and USD amount
-class BATUSDPairView: UIView {
-  private let stackView = UIStackView()
+class BATUSDPairView: UIStackView {
   /// The BAT amount container
   let batContainer: CurrencyContainerView
   /// The USD amount container
   let usdContainer: CurrencyContainerView
-  /// Whether or not to display them side-by-side horizontally (i.e. "0 BAT 0 USD") or centered
-  /// vertically (i.e. "0 BAT \n 0 USD")
-  var axis: NSLayoutConstraint.Axis = .horizontal {
-    didSet {
-      stackView.axis = axis
-      switch axis {
-      case .horizontal:
-        stackView.alignment = .bottom
-      case .vertical:
-        stackView.alignment = .center
-      }
-    }
-  }
   
   init(batAmountConfig: (UILabel) -> Void,
        batKindConfig: (UILabel) -> Void,
@@ -34,15 +20,12 @@ class BATUSDPairView: UIView {
   
     super.init(frame: .zero)
     
-    addSubview(stackView)
-    stackView.addArrangedSubview(batContainer)
-    stackView.addArrangedSubview(usdContainer)
-    
-    stackView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    addArrangedSubview(batContainer)
+    addArrangedSubview(usdContainer)
     
     // Defaults
-    stackView.spacing = 5.0
-    stackView.alignment = .bottom
+    spacing = 5.0
+    alignment = .bottom
     
     batContainer.kindLabel.text = "BAT"
     batContainer.amountLabel.text = "0"
