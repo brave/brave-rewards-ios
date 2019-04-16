@@ -14,6 +14,8 @@
 		27885E682263E72700A47647 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885E672263E72700A47647 /* Interface.swift */; };
 		27885E7B2264F18C00A47647 /* Cursor+ObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885E7A2264F18C00A47647 /* Cursor+ObjC.swift */; };
 		27885E7D2264F73800A47647 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885E7C2264F73800A47647 /* Output.swift */; };
+		27885E8D2265319700A47647 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885E8C2265319700A47647 /* Bridge.swift */; };
+		27885E8F2265400A00A47647 /* BridgeOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27885E8E2265400A00A47647 /* BridgeOutput.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		27885E7A2264F18C00A47647 /* Cursor+ObjC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cursor+ObjC.swift"; sourceTree = "<group>"; };
 		27885E7C2264F73800A47647 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
 		27885E822264FF4E00A47647 /* CppTransformations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CppTransformations.h; sourceTree = "<group>"; };
+		27885E8C2265319700A47647 /* Bridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		27885E8E2265400A00A47647 /* BridgeOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeOutput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 				27885E652263E5A700A47647 /* Enum.swift */,
 				27885E672263E72700A47647 /* Interface.swift */,
 				27885E7C2264F73800A47647 /* Output.swift */,
+				27885E8C2265319700A47647 /* Bridge.swift */,
+				27885E8E2265400A00A47647 /* BridgeOutput.swift */,
 			);
 			path = "objc-gen";
 			sourceTree = "<group>";
@@ -224,6 +230,8 @@
 			files = (
 				27885E7D2264F73800A47647 /* Output.swift in Sources */,
 				27885E682263E72700A47647 /* Interface.swift in Sources */,
+				27885E8D2265319700A47647 /* Bridge.swift in Sources */,
+				27885E8F2265400A00A47647 /* BridgeOutput.swift in Sources */,
 				27885E7B2264F18C00A47647 /* Cursor+ObjC.swift in Sources */,
 				27885E442263D61C00A47647 /* main.swift in Sources */,
 				27885E642263E09F00A47647 /* Cursor.swift in Sources */,

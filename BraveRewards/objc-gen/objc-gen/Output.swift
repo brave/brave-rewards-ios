@@ -21,7 +21,7 @@ let thisFileIsGeneratedString = """
 """
 
 /// Enums.h
-class EnumHeaderOutput: TemplateOutput {
+final class EnumHeaderOutput: TemplateOutput {
   let enums: [Enum]
   init(enums: [Enum]) {
     self.enums = enums
@@ -41,7 +41,7 @@ class EnumHeaderOutput: TemplateOutput {
 }
 
 /// Records.h
-class RecordsHeaderOutput: TemplateOutput {
+final class RecordsHeaderOutput: TemplateOutput {
   let interfaces: [Interface]
   init(interfaces: [Interface]) {
     self.interfaces = interfaces
@@ -69,7 +69,7 @@ class RecordsHeaderOutput: TemplateOutput {
 }
 
 /// Records+Private.h
-class PrivateRecordsHeaderOutput: TemplateOutput {
+final class PrivateRecordsHeaderOutput: TemplateOutput {
   let interfaces: [Interface]
   let cppIncludes: [String]
   init(interfaces: [Interface], cppIncludes: [String]) {
@@ -95,7 +95,7 @@ class PrivateRecordsHeaderOutput: TemplateOutput {
 }
 
 /// Records.mm
-class ImplementationSourceOutput: TemplateOutput {
+final class ImplementationSourceOutput: TemplateOutput {
   let interfaces: [Interface]
   init(interfaces: [Interface]) {
     self.interfaces = interfaces

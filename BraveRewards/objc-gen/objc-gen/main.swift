@@ -91,7 +91,7 @@ func generate(from files: [String], includePaths: [String], outputDirectory: Str
   let cppIncludes: [String] = fudgedSortedFiles.map { filename in
     var updatedPath = filename
     includePaths.forEach {
-      updatedPath = filename.replacingOccurrences(of: $0, with: "")
+      updatedPath = updatedPath.replacingOccurrences(of: $0, with: "")
     }
     if updatedPath.hasPrefix("/") {
       updatedPath = String(updatedPath.dropFirst())
@@ -135,4 +135,5 @@ do {
   let outputPath = ledgerPath.appending("/Generated")
   
   generate(from: filePaths, includePaths: [includePath], outputDirectory: outputPath)
+  createBridge(from: "\(headersPath)/ledger_client.h", className: "LedgerClient", includePaths: [includePath], outputDirectory: outputPath)
 }

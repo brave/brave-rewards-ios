@@ -9,8 +9,6 @@
 
 @interface BATBraveLedger (Private)
 
-@property (readonly) ledger::NativeLedgerClient *ledgerClient;
-
 //- (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info;
 
 @end

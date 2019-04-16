@@ -8,36 +8,45 @@
 #import "Records+Private.h"
 
 #import "BATBraveLedger.h"
+#import "BATCommonOperations.h"
 #import "NSURL+Extensions.h"
 
 #import "NativeLedgerClient.h"
-#import "NativeLedgerBridge.h"
+#import "NativeLedgerClientBridge.h"
+#import "LedgerLogStream.h"
 
 #import <objc/runtime.h>
 
 #define BATLedgerReadonlyBridge(__type, __objc_getter, __cpp_getter) \
-- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); }
+- (__type)__objc_getter { return ledger->__cpp_getter(); }
 
 #define BATLedgerBridge(__type, __objc_getter, __objc_setter, __cpp_getter, __cpp_setter) \
-- (__type)__objc_getter { return ledgerClient->ledger->__cpp_getter(); } \
-- (void)__objc_setter:(__type)newValue { ledgerClient->ledger->__cpp_setter(newValue); }
+- (__type)__objc_getter { return ledger->__cpp_getter(); } \
+- (void)__objc_setter:(__type)newValue { ledger->__cpp_setter(newValue); }
 
 NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 
-@interface BATBraveLedger () <NativeLedgerBridge> {
-  ledger::NativeLedgerClient *ledgerClient;
+@interface BATBraveLedger () <NativeLedgerClientBridge> {
+  NativeLedgerClient *ledgerClient;
+  ledger::Ledger *ledger;
 }
 @property (nonatomic) BATWalletInfo *walletInfo;
 @property (nonatomic, copy, nullable) void (^walletInitializedBlock)(const ledger::Result result);
+@property (nonatomic, copy, nullable) void (^walletRecoveredBlock)(const ledger::Result result, const double balance, const std::vector<ledger::Grant> &grants);
+@property (nonatomic) BATCommonOperations *commonOps;
+
 @end
 
 @implementation BATBraveLedger
 
 - (instancetype)init
 {
-  if ((self = [super init])) {    
-    ledgerClient = new ledger::NativeLedgerClient(self);
-    ledgerClient->ledger->Initialize();
+  if ((self = [super init])) {
+    self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:@"brave_ledger"];
+    
+    ledgerClient = new NativeLedgerClient(self);
+    ledger = ledger::Ledger::CreateInstance(ledgerClient);
+    ledger->Initialize();
     
     // Add notifications for standard app foreground/background
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -54,11 +63,8 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 {
   [NSNotificationCenter.defaultCenter removeObserver:self];
   delete ledgerClient;
-}
-
-- (ledger::NativeLedgerClient *)ledgerClient
-{
-  return ledgerClient;
+  // FIXME: Uncomment when it doesnt crash in confirmations_impl.cc
+//  delete ledger;
 }
 
 #pragma mark - Wallet
@@ -98,15 +104,15 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
   //   - LEDGER_ERROR: Already initialized
   //   - BAD_REGISTRATION_RESPONSE: Request credentials call failure or malformed data
   //   - REGISTRATION_VERIFICATION_FAILED: Missing master user token
-  ledgerClient->ledger->CreateWallet();
+  ledger->CreateWallet();
 }
 
 - (void)fetchWalletDetails:(void (^)(BATWalletInfo *))completion
 {
-  ledgerClient->ledger->FetchWalletProperties(^(ledger::Result result, std::unique_ptr<ledger::WalletInfo> info) {
-    const auto walletInfo = info.get();
+  ledger->FetchWalletProperties(^(ledger::Result result, std::unique_ptr<ledger::WalletInfo> info) {
+    const auto walletInfo = *info.get();
     dispatch_async(dispatch_get_main_queue(), ^{
-      [self onWalletProperties:result info:std::unique_ptr<ledger::WalletInfo>(walletInfo)];
+      [self onWalletProperties:result arg1:std::make_unique<ledger::WalletInfo>(walletInfo)];
       if (completion) {
         completion(self.walletInfo);
       }
@@ -116,8 +122,8 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
 
 - (NSString *)walletPassphrase
 {
-  if (ledgerClient->ledger->IsWalletCreated()) {
-    return [NSString stringWithUTF8String:ledgerClient->ledger->GetWalletPassphrase().c_str()];
+  if (ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledger->GetWalletPassphrase().c_str()];
   }
   return nil;
 }
@@ -125,7 +131,7 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
 - (void)recoverWalletUsingPassphrase:(NSString *)passphrase completion:(void (^)(NSError *_Nullable))completion
 {
   const auto __weak weakSelf = self;
-  ledgerClient->walletRecoveredBlock = ^(const ledger::Result result, const double balance, const NSArray<BATLedgerGrant *> *grants) {
+  self.walletRecoveredBlock = ^(const ledger::Result result, const double balance, const std::vector<ledger::Grant> &grants) {
     const auto strongSelf = weakSelf;
     if (!strongSelf) { return; }
     NSError *error = nil;
@@ -143,42 +149,42 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
     if (completion) {
       completion(error);
     }
-    strongSelf->ledgerClient->walletRecoveredBlock = nullptr;
+    strongSelf.walletRecoveredBlock = nil;
   };
   // Results that can come from CreateWallet():
   //   - LEDGER_OK: Good to go
   //   - LEDGER_ERROR: Recovery failed
-  ledgerClient->ledger->RecoverWallet(std::string(passphrase.UTF8String));
+  ledger->RecoverWallet(std::string(passphrase.UTF8String));
 }
 
 - (NSString *)BATAddress
 {
-  if (ledgerClient->ledger->IsWalletCreated()) {
-    return [NSString stringWithUTF8String:ledgerClient->ledger->GetBATAddress().c_str()];
+  if (ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledger->GetBATAddress().c_str()];
   }
   return nil;
 }
 
 - (NSString *)BTCAddress
 {
-  if (ledgerClient->ledger->IsWalletCreated()) {
-    return [NSString stringWithUTF8String:ledgerClient->ledger->GetBTCAddress().c_str()];
+  if (ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledger->GetBTCAddress().c_str()];
   }
   return nil;
 }
 
 - (NSString *)ETHAddress
 {
-  if (ledgerClient->ledger->IsWalletCreated()) {
-    return [NSString stringWithUTF8String:ledgerClient->ledger->GetETHAddress().c_str()];
+  if (ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledger->GetETHAddress().c_str()];
   }
   return nil;
 }
 
 - (NSString *)LTCAddress
 {
-  if (ledgerClient->ledger->IsWalletCreated()) {
-    return [NSString stringWithUTF8String:ledgerClient->ledger->GetLTCAddress().c_str()];
+  if (ledger->IsWalletCreated()) {
+    return [NSString stringWithUTF8String:ledger->GetLTCAddress().c_str()];
   }
   return nil;
 }
@@ -193,17 +199,17 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
 {
-  ledgerClient->ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
+  ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
 }
 
 - (void)makeDirectDonation:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
 {
-//  ledgerClient->ledger->DoDirectDonation(publisher, amount, std::string(currency.UTF8String));
+//  ledger->DoDirectDonation(publisher, amount, std::string(currency.UTF8String));
 }
 
 - (void)publisherInfoForId:(NSString *)publisherId completion:(void (^)(BATPublisherInfo * _Nullable))completion
 {
-  ledgerClient->ledger->GetPublisherInfo(std::string(publisherId.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
+  ledger->GetPublisherInfo(std::string(publisherId.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
     if (result == ledger::LEDGER_OK) {
       const auto& publisherInfo = info.get();
       if (publisherInfo != nullptr) {
@@ -217,7 +223,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable))completion
 {
-  ledgerClient->ledger->GetMediaPublisherInfo(std::string(mediaKey.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
+  ledger->GetMediaPublisherInfo(std::string(mediaKey.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
     if (result == ledger::LEDGER_OK) {
       const auto& publisherInfo = info.get();
       if (publisherInfo != nullptr) {
@@ -231,12 +237,12 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey
 {
-  ledgerClient->ledger->SetMediaPublisherInfo(std::string(publisherId.UTF8String), std::string(mediaKey.UTF8String));
+  ledger->SetMediaPublisherInfo(std::string(publisherId.UTF8String), std::string(mediaKey.UTF8String));
 }
 
 - (NSArray<BATContributionInfo *> *)recurringContributions
 {
-  const auto contributions = ledgerClient->ledger->GetRecurringDonationPublisherInfo();
+  const auto contributions = ledger->GetRecurringDonationPublisherInfo();
   const auto recurringContributions = [[NSMutableArray alloc] init];
   for (const auto& c : contributions) {
     [recurringContributions addObject:[[BATContributionInfo alloc] initWithContributionInfo:c]];
@@ -247,7 +253,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 //
 //- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
 //{
-//  ledgerClient->ledger->SetPublisherExclude(std::string(publisherId.UTF8String),
+//  ledger->SetPublisherExclude(std::string(publisherId.UTF8String),
 //                                            (ledger::PUBLISHER_EXCLUDE)excludeState);
 //}
 
@@ -261,7 +267,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
                [NSString stringWithUTF8String:hint.c_str()]);
   };
   method_setImplementation(method, imp_implementationWithBlock(block));
-  ledgerClient->ledger->GetGrantCaptcha(std::string(promoID.UTF8String),
+  ledger->GetGrantCaptcha(std::string(promoID.UTF8String),
                                         std::string(promotionType.UTF8String));
 }
 
@@ -297,26 +303,26 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 - (void)setSelectedTabId:(UInt32)selectedTabId
 {
   if (selectedTabId != 0) {
-    ledgerClient->ledger->OnHide(_selectedTabId, [[NSDate date] timeIntervalSince1970]);
+    ledger->OnHide(_selectedTabId, [[NSDate date] timeIntervalSince1970]);
   }
   _selectedTabId = selectedTabId;
-  ledgerClient->ledger->OnShow(_selectedTabId, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnShow(_selectedTabId, [[NSDate date] timeIntervalSince1970]);
 }
 
 - (void)applicationDidBecomeActive
 {
-  ledgerClient->ledger->OnForeground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnForeground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
 }
 
 - (void)applicationDidBackground
 {
-  ledgerClient->ledger->OnBackground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnBackground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
 }
 
 - (void)reportLoadedPageWithURL:(NSURL *)url tabId:(UInt32)tabId
 {
   const auto visit = [self visitDataForURL:url tabId:tabId];
-  ledgerClient->ledger->OnLoad(visit, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnLoad(visit, [[NSDate date] timeIntervalSince1970]);
 }
 
 - (void)reportXHRLoad:(NSURL *)url tabId:(UInt32)tabId firstPartyURL:(NSURL *)firstPartyURL referrerURL:(NSURL *)referrerURL
@@ -332,7 +338,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
                           tabId,
                           "", "", "", "");
   
-  ledgerClient->ledger->OnXHRLoad(tabId,
+  ledger->OnXHRLoad(tabId,
                                   std::string(url.absoluteString.UTF8String),
                                   partsMap,
                                   std::string(firstPartyURL.absoluteString.UTF8String),
@@ -349,7 +355,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   
   const auto postDataString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];
   
-  ledgerClient->ledger->OnPostData(std::string(url.absoluteString.UTF8String),
+  ledger->OnPostData(std::string(url.absoluteString.UTF8String),
                                    std::string(firstPartyURL.absoluteString.UTF8String),
                                    std::string(referrerURL.absoluteString.UTF8String),
                                    std::string(postDataString.UTF8String),
@@ -358,17 +364,17 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)reportMediaStartedWithTabId:(UInt32)tabId
 {
-  ledgerClient->ledger->OnMediaStart(tabId, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnMediaStart(tabId, [[NSDate date] timeIntervalSince1970]);
 }
 
 - (void)reportMediaStoppedWithTabId:(UInt32)tabId
 {
-  ledgerClient->ledger->OnMediaStop(tabId, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnMediaStop(tabId, [[NSDate date] timeIntervalSince1970]);
 }
 
 - (void)reportTabClosedWithTabId:(UInt32)tabId
 {
-  ledgerClient->ledger->OnUnload(tabId, [[NSDate date] timeIntervalSince1970]);
+  ledger->OnUnload(tabId, [[NSDate date] timeIntervalSince1970]);
 }
 
 #pragma mark - Preferences
@@ -403,17 +409,17 @@ BATLedgerBridge(BOOL,
 
 #pragma mark - NativeLedgerBridge
 
-- (void)walletInitialized:(ledger::Result)result
+- (void)onWalletInitialized:(ledger::Result)result
 {
   if (self.walletInitializedBlock) {
     self.walletInitializedBlock(result);
   }
 }
 
-- (void)onWalletProperties:(ledger::Result)result info:(std::unique_ptr<ledger::WalletInfo>)info
+- (void)onWalletProperties:(ledger::Result)result arg1:(std::unique_ptr<ledger::WalletInfo>)arg1
 {
   if (result == ledger::LEDGER_OK) {
-    const auto walletInfo = info.get();
+    const auto walletInfo = arg1.get();
     if (walletInfo != nullptr) {
       self.walletInfo = [[BATWalletInfo alloc] initWithWalletInfo:*walletInfo];
     } else {
@@ -422,9 +428,144 @@ BATLedgerBridge(BOOL,
   }
 }
 
-- (void)onGrantCaptcha:(std::string)image hint:(std::string)hint
+- (void)onGrantCaptcha:(const std::string &)image hint:(const std::string &)hint
 {
   
 }
+
+- (void)loadLedgerState:(ledger::LedgerCallbackHandler *)handler
+{
+  const auto contents = [self.commonOps loadContentsFromFileWithName:"ledger_state.json"];
+  if (contents.length() > 0) {
+    handler->OnLedgerStateLoaded(ledger::LEDGER_OK, contents);
+  } else {
+    handler->OnLedgerStateLoaded(ledger::LEDGER_ERROR, contents);
+  }
+}
+
+- (void)saveLedgerState:(const std::string &)ledger_state handler:(ledger::LedgerCallbackHandler *)handler
+{
+  const auto result = [self.commonOps saveContents:ledger_state name:"ledger_state.json"];
+  handler->OnLedgerStateSaved(result ? ledger::LEDGER_OK : ledger::LEDGER_ERROR);
+}
+
+- (void)loadPublisherState:(ledger::LedgerCallbackHandler *)handler
+{
+  const auto contents = [self.commonOps loadContentsFromFileWithName:"publisher_state.json"];
+  if (contents.length() > 0) {
+    handler->OnPublisherStateLoaded(ledger::LEDGER_OK, contents);
+  } else {
+    handler->OnPublisherStateLoaded(ledger::LEDGER_ERROR, contents);
+  }
+}
+
+- (void)savePublisherState:(const std::string &)publisher_state handler:(ledger::LedgerCallbackHandler *)handler
+{
+  const auto result = [self.commonOps saveContents:publisher_state name:"publisher_state.json"];
+  handler->OnPublisherStateSaved(result ? ledger::LEDGER_OK : ledger::LEDGER_ERROR);
+}
+
+- (void)loadPublisherList:(ledger::LedgerCallbackHandler *)handler
+{
+  const auto contents = [self.commonOps loadContentsFromFileWithName:"publisher_list.json"];
+  if (contents.length() > 0) {
+    handler->OnPublisherListLoaded(ledger::LEDGER_OK, contents);
+  } else {
+    handler->OnPublisherListLoaded(ledger::LEDGER_ERROR, contents);
+  }
+}
+
+- (void)savePublishersList:(const std::string &)publisher_state handler:(ledger::LedgerCallbackHandler *)handler
+{
+  const auto result = [self.commonOps saveContents:publisher_state name:"publisher_list.json"];
+  handler->OnPublishersListSaved(result ? ledger::LEDGER_OK : ledger::LEDGER_ERROR);
+}
+
+- (void)setTimer:(uint64_t)time_offset timerId:(uint32_t *)timer_id
+{
+  const auto __weak weakSelf = self;
+  const auto createdTimerID = [self.commonOps createTimerWithOffset:time_offset timerFired:^(uint32_t firedTimerID) {
+    const auto strongSelf = weakSelf;
+    if (!strongSelf.commonOps) { return; }
+    strongSelf->ledger->OnTimer(firedTimerID);
+  }];
+  *timer_id = createdTimerID;
+}
+
+- (void)killTimer:(const uint32_t)timer_id
+{
+  [self.commonOps removeTimerWithID:timer_id];
+}
+
+- (void)loadURL:(const std::string &)url headers:(const std::vector<std::string> &)headers content:(const std::string &)content contentType:(const std::string &)contentType method:(const ledger::URL_METHOD)method callback:(ledger::LoadURLCallback)callback
+{
+  std::map<ledger::URL_METHOD, std::string> methodMap {
+    {ledger::GET, "GET"},
+    {ledger::POST, "POST"},
+    {ledger::PUT, "PUT"}
+  };
+  return [self.commonOps loadURLRequest:url headers:headers content:content content_type:contentType method:methodMap[method] callback:^(int statusCode, const std::string &response, const std::map<std::string, std::string> &headers) {
+    callback(statusCode, response, headers);
+  }];
+}
+
+- (std::unique_ptr<ledger::LogStream>)verboseLog:(const char *)file line:(int)line vlogLevel:(int)vlog_level
+{
+  return std::make_unique<LogStreamImpl>(file, line, vlog_level);
+}
+
+- (std::unique_ptr<ledger::LogStream>)log:(const char *)file line:(int)line logLevel:(const ledger::LogLevel)log_level
+{
+  return std::make_unique<LogStreamImpl>(file, line, log_level);
+}
+
+- (std::string)URIEncode:(const std::string &)value
+{
+  const auto allowedCharacters = [NSMutableCharacterSet alphanumericCharacterSet];
+  [allowedCharacters addCharactersInString:@"-._~"];
+  const auto string = [NSString stringWithUTF8String:value.c_str()];
+  const auto encoded = [string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+  return std::string(encoded.UTF8String);
+}
+
+- (std::string)generateGUID
+{
+  return [self.commonOps generateUUID];
+}
+
+// TODO: Implement the rest of these methods
+
+- (void)confirmationsTransactionHistoryDidChange { }
+- (void)fetchFavIcon:(const std::string &)url faviconKey:(const std::string &)favicon_key callback:(ledger::FetchIconCallback)callback { }
+- (void)fetchGrants:(const std::string &)lang paymentId:(const std::string &)paymentId { }
+- (void)getActivityInfoList:(uint32_t)start limit:(uint32_t)limit filter:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoListCallback)callback { }
+- (void)getExcludedPublishersNumberDB:(ledger::GetExcludedPublishersNumberDBCallback)callback { }
+- (void)getGrantCaptcha:(const std::string &)promotion_id promotionType:(const std::string &)promotion_type { }
+- (void)getOneTimeTips:(ledger::PublisherInfoListCallback)callback { }
+- (void)getRecurringTips:(ledger::PublisherInfoListCallback)callback { }
+- (void)loadActivityInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
+- (void)loadMediaPublisherInfo:(const std::string &)media_key callback:(ledger::PublisherInfoCallback)callback { }
+- (void)loadNicewareList:(ledger::GetNicewareListCallback)callback { }
+- (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
+- (void)loadPublisherInfo:(const std::string &)publisher_key callback:(ledger::PublisherInfoCallback)callback { }
+- (void)loadState:(const std::string &)name callback:(ledger::OnLoadCallback)callback { }
+- (void)onExcludedSitesChanged:(const std::string &)publisher_id exclude:(ledger::PUBLISHER_EXCLUDE)exclude { }
+- (void)onGrant:(ledger::Result)result grant:(const ledger::Grant &)grant { }
+- (void)onGrantFinish:(ledger::Result)result grant:(const ledger::Grant &)grant { }
+- (void)onPanelPublisherInfo:(ledger::Result)result arg1:(std::unique_ptr<ledger::PublisherInfo>)arg1 windowId:(uint64_t)windowId { }
+- (void)onReconcileComplete:(ledger::Result)result viewingId:(const std::string &)viewing_id category:(ledger::REWARDS_CATEGORY)category probi:(const std::string &)probi { }
+- (void)onRecoverWallet:(ledger::Result)result balance:(double)balance grants:(const std::vector<ledger::Grant> &)grants { }
+- (void)onRemoveRecurring:(const std::string &)publisher_key callback:(ledger::RecurringRemoveCallback)callback { }
+- (void)onRestorePublishers:(ledger::OnRestoreCallback)callback { }
+- (void)resetState:(const std::string &)name callback:(ledger::OnResetCallback)callback { }
+- (void)saveActivityInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback { }
+- (void)saveContributionInfo:(const std::string &)probi month:(const int)month year:(const int)year date:(const uint32_t)date publisherKey:(const std::string &)publisher_key category:(const ledger::REWARDS_CATEGORY)category { }
+- (void)saveMediaPublisherInfo:(const std::string &)media_key publisherId:(const std::string &)publisher_id { }
+- (void)saveNormalizedPublisherList:(const ledger::PublisherInfoListStruct &)normalized_list { }
+- (void)savePendingContribution:(const ledger::PendingContributionList &)list { }
+- (void)savePublisherInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback { }
+- (void)saveState:(const std::string &)name value:(const std::string &)value callback:(ledger::OnSaveCallback)callback { }
+- (void)setConfirmationsIsReady:(const bool)is_ready { }
+
 
 @end
