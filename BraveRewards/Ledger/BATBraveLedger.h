@@ -109,11 +109,11 @@ NS_SWIFT_NAME(BraveLedger)
 @property (nonatomic, assign) UInt64 minimumVisitDuration;
 /// The minimum number of visits before a publisher is added
 @property (nonatomic, assign) UInt32 minimumNumberOfVisits;
-/// Whether or not to add unverified publishers
+/// Whether or not to allow auto contributions to unverified publishers
 @property (nonatomic, assign) BOOL allowUnverifiedPublishers;
-/// ??
-@property (nonatomic, assign) BOOL allowVideos;
-/// ??
+/// Whether or not to allow auto contributions to videos
+@property (nonatomic, assign) BOOL allowVideoContributions;
+/// The auto-contribute amount
 @property (nonatomic, assign) double contributionAmount;
 /// Whether or not the user will automatically contribute
 @property (nonatomic, assign, getter=isAutoContributeEnabled) BOOL autoContributeEnabled;

@@ -72,8 +72,10 @@ class AutoContributeDetailViewController: UIViewController {
     nextContributionDateLabel.label.text = dateFormatter.string(from: Date().addingTimeInterval(60*60*24*12))
     nextContributionDateLabel.bounds = CGRect(origin: .zero, size: nextContributionDateLabel.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     
-    supportedSitesCell.detailTextLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
-    monthlyPaymentCell.detailTextLabel?.text = "5 BAT (3.04 USD)"
+    supportedSitesCell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
+    if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
+      monthlyPaymentCell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
+    }
   }
   
   private func totalSitesAttributedString(from total: Int) -> NSAttributedString {
@@ -99,39 +101,43 @@ class AutoContributeDetailViewController: UIViewController {
     tintColor: BraveUX.autoContributeTintColor
   )
   
-  private let settingsCell = AutoContributeSummaryTableCell().then {
-    $0.textLabel?.text = BATLocalizedString("BraveRewardsSettings", "Settings")
-    $0.textLabel?.font = SettingsUX.bodyFont
+  private let settingsCell = TableViewCell().then {
+    $0.label.text = BATLocalizedString("BraveRewardsSettings", "Settings")
+    $0.label.font = SettingsUX.bodyFont
+    $0.label.lineBreakMode = .byWordWrapping
     $0.imageView?.image = UIImage(frameworkResourceNamed: "settings").alwaysTemplate
     $0.imageView?.tintColor = BraveUX.autoContributeTintColor
     $0.accessoryType = .disclosureIndicator
   }
   
-  private let monthlyPaymentCell = AutoContributeSummaryTableCell(style: .value1, reuseIdentifier: nil).then {
-    $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
-    $0.textLabel?.font = SettingsUX.bodyFont
-    $0.textLabel?.numberOfLines = 0
-    $0.detailTextLabel?.textColor = Colors.grey100
-    $0.detailTextLabel?.font = SettingsUX.bodyFont
+  private let monthlyPaymentCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
+    $0.label.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+    $0.label.font = SettingsUX.bodyFont
+    $0.label.numberOfLines = 0
+    $0.label.lineBreakMode = .byWordWrapping
+    $0.accessoryLabel?.textColor = Colors.grey100
+    $0.accessoryLabel?.font = SettingsUX.bodyFont
     $0.accessoryType = .disclosureIndicator
   }
   
   private let nextContributionDateLabel =  NextContributionDateView()
   
-  private lazy var nextContributeDateCell = AutoContributeSummaryTableCell().then {
-    $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeNextDate", "Next contribution date")
-    $0.textLabel?.font = SettingsUX.bodyFont
-    $0.textLabel?.numberOfLines = 0
+  private lazy var nextContributeDateCell = TableViewCell().then {
+    $0.label.text = BATLocalizedString("BraveRewardsAutoContributeNextDate", "Next contribution date")
+    $0.label.font = SettingsUX.bodyFont
+    $0.label.numberOfLines = 0
+    $0.label.lineBreakMode = .byWordWrapping
     $0.selectionStyle = .none
     $0.accessoryView = nextContributionDateLabel
   }
   
-  private let supportedSitesCell = AutoContributeSummaryTableCell(style: .value1, reuseIdentifier: nil).then {
-    $0.textLabel?.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
-    $0.textLabel?.font = SettingsUX.bodyFont
-    $0.textLabel?.numberOfLines = 0
-    $0.detailTextLabel?.textColor = Colors.grey100
-    $0.detailTextLabel?.font = SettingsUX.bodyFont
+  private let supportedSitesCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
+    $0.label.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
+    $0.label.font = SettingsUX.bodyFont
+    $0.label.numberOfLines = 0
+    $0.label.lineBreakMode = .byWordWrapping
+    $0.accessoryLabel?.textColor = Colors.grey100
+    $0.accessoryLabel?.font = SettingsUX.bodyFont
     $0.selectionStyle = .none
   }
   
@@ -156,6 +162,13 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
+    
+    guard let typedSection = Section(rawValue: indexPath.section), typedSection == .summary else { return }
+    if indexPath.row == 0 {
+      // Settings
+      let controller = AutoContributeSettingsViewController(ledger: ledger)
+      navigationController?.pushViewController(controller, animated: true)
+    }
   }
   
   func numberOfSections(in tableView: UITableView) -> Int {
@@ -242,7 +255,6 @@ extension AutoContributeDetailViewController {
       super.init(frame: frame)
       
       tableView.separatorStyle = .none
-      tableView.register(AutoContributeSummaryTableCell.self)
       tableView.register(AutoContributeCell.self)
       tableView.register(EmptyTableCell.self)
       tableView.layoutMargins = UIEdgeInsets(top: 15.0, left: 15.0, bottom: 15.0, right: 15.0)

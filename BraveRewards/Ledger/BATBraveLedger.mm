@@ -396,7 +396,7 @@ BATLedgerBridge(BOOL,
                 GetPublisherAllowNonVerified, SetPublisherAllowNonVerified);
 
 BATLedgerBridge(BOOL,
-                allowVideos, setAllowVideos,
+                allowVideoContributions, setAllowVideoContributions,
                 GetPublisherAllowVideos, SetPublisherAllowVideos);
 
 BATLedgerBridge(double,

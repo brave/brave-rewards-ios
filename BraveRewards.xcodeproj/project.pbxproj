@@ -50,7 +50,6 @@
 		274CDD2C225D446800FA7364 /* AutoContributeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */; };
 		274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */; };
 		274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD35225E6DC800FA7364 /* GrantsItemView.swift */; };
-		274CDD38225F88D600FA7364 /* AutoContributeSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD37225F88D600FA7364 /* AutoContributeSummaryTableCell.swift */; };
 		274CDD3A225F9E7D00FA7364 /* AutoContributeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD39225F9E7D00FA7364 /* AutoContributeCell.swift */; };
 		274CDD3D225FE0F700FA7364 /* TableHeaderRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD3C225FE0F700FA7364 /* TableHeaderRowView.swift */; };
 		274CDD3F225FE4E600FA7364 /* EmptyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD3E225FE4E600FA7364 /* EmptyTableCell.swift */; };
@@ -96,6 +95,9 @@
 		278A6B46225C08AE00175678 /* WalletDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B45225C08AE00175678 /* WalletDetailsViewController.swift */; };
 		278A6B48225C09AE00175678 /* TippingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B47225C09AE00175678 /* TippingViewController.swift */; };
 		278A6B49225C0D3300175678 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
+		278B55D422667F6F00BB7B89 /* AutoContributeSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278B55D322667F6F00BB7B89 /* AutoContributeSettingsViewController.swift */; };
+		278B55D62266835A00BB7B89 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278B55D52266835A00BB7B89 /* TableViewCell.swift */; };
+		278B55D822677AB300BB7B89 /* BraveLedgerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278B55D722677AB300BB7B89 /* BraveLedgerExtensions.swift */; };
 		279A2079224C157700192214 /* WalletDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279A2078224C157700192214 /* WalletDetailsView.swift */; };
 		27A47073224150A300596431 /* WalletSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A47072224150A300596431 /* WalletSummaryView.swift */; };
 		27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */; };
@@ -246,7 +248,6 @@
 		274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoContributeDetailsViewController.swift; sourceTree = "<group>"; };
 		274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsListViewController.swift; sourceTree = "<group>"; };
 		274CDD35225E6DC800FA7364 /* GrantsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsItemView.swift; sourceTree = "<group>"; };
-		274CDD37225F88D600FA7364 /* AutoContributeSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoContributeSummaryTableCell.swift; sourceTree = "<group>"; };
 		274CDD39225F9E7D00FA7364 /* AutoContributeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoContributeCell.swift; sourceTree = "<group>"; };
 		274CDD3C225FE0F700FA7364 /* TableHeaderRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableHeaderRowView.swift; sourceTree = "<group>"; };
 		274CDD3E225FE4E600FA7364 /* EmptyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableCell.swift; sourceTree = "<group>"; };
@@ -292,6 +293,9 @@
 		278A6B43225C04B200175678 /* SettingsUX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUX.swift; sourceTree = "<group>"; };
 		278A6B45225C08AE00175678 /* WalletDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailsViewController.swift; sourceTree = "<group>"; };
 		278A6B47225C09AE00175678 /* TippingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingViewController.swift; sourceTree = "<group>"; };
+		278B55D322667F6F00BB7B89 /* AutoContributeSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoContributeSettingsViewController.swift; sourceTree = "<group>"; };
+		278B55D52266835A00BB7B89 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		278B55D722677AB300BB7B89 /* BraveLedgerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraveLedgerExtensions.swift; sourceTree = "<group>"; };
 		279A2078224C157700192214 /* WalletDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletDetailsView.swift; sourceTree = "<group>"; };
 		27A47072224150A300596431 /* WalletSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletSummaryView.swift; sourceTree = "<group>"; };
 		27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAutoContributeSectionView.swift; sourceTree = "<group>"; };
@@ -400,6 +404,7 @@
 				2704834C2220EC1D0051239C /* BundleExtensions.swift */,
 				27F4C1D622551D6B00CFCD67 /* UIStackViewExtensions.swift */,
 				27F4C1DC2256A67700CFCD67 /* UITableViewExtensions.swift */,
+				278B55D722677AB300BB7B89 /* BraveLedgerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -571,7 +576,6 @@
 			isa = PBXGroup;
 			children = (
 				274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */,
-				274CDD37225F88D600FA7364 /* AutoContributeSummaryTableCell.swift */,
 				274CDD39225F9E7D00FA7364 /* AutoContributeCell.swift */,
 			);
 			path = Details;
@@ -589,6 +593,7 @@
 		274CDD3B225FE0E700FA7364 /* Tables */ = {
 			isa = PBXGroup;
 			children = (
+				278B55D52266835A00BB7B89 /* TableViewCell.swift */,
 				274CDD3C225FE0F700FA7364 /* TableHeaderRowView.swift */,
 				274CDD3E225FE4E600FA7364 /* EmptyTableCell.swift */,
 			);
@@ -680,6 +685,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		278B55D022667F5F00BB7B89 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				278B55D322667F6F00BB7B89 /* AutoContributeSettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		27A470712241506400596431 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,6 +707,7 @@
 		27A4707422417B3100596431 /* Auto-Contribute */ = {
 			isa = PBXGroup;
 			children = (
+				278B55D022667F5F00BB7B89 /* Settings */,
 				274CDD2A225D445A00FA7364 /* Details */,
 				27A4707522417B4F00596431 /* SettingsAutoContributeSectionView.swift */,
 			);
@@ -1089,7 +1103,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				27A47073224150A300596431 /* WalletSummaryView.swift in Sources */,
+				278B55D822677AB300BB7B89 /* BraveLedgerExtensions.swift in Sources */,
 				274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */,
+				278B55D422667F6F00BB7B89 /* AutoContributeSettingsViewController.swift in Sources */,
 				2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */,
 				278A6B34225BE2D000175678 /* RewardsState.swift in Sources */,
 				270483552220F5060051239C /* SwitchRow.swift in Sources */,
@@ -1134,7 +1150,6 @@
 				2730DF912232FB030031845C /* SettingsAdSectionView.swift in Sources */,
 				2730DF8722318FBD0031845C /* SettingsView.swift in Sources */,
 				278A6B2B225BDFCD00175678 /* RewardsPanelController.swift in Sources */,
-				274CDD38225F88D600FA7364 /* AutoContributeSummaryTableCell.swift in Sources */,
 				278A6B44225C04B200175678 /* SettingsUX.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
 				278A6B3A225BF49B00175678 /* AddFundsViewController.swift in Sources */,
@@ -1148,6 +1163,7 @@
 				278A6B3E225BFC2100175678 /* RewardsUX.swift in Sources */,
 				278A6B40225BFE5400175678 /* WalletView.swift in Sources */,
 				278A6B2E225BE01000175678 /* PopoverNavigationController.swift in Sources */,
+				278B55D62266835A00BB7B89 /* TableViewCell.swift in Sources */,
 				27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */,
 				27F4C1E62257AA1A00CFCD67 /* CurrencyContainerView.swift in Sources */,
 				2730DF8D2231C75B0031845C /* SettingsRewardsSectionView.swift in Sources */,
