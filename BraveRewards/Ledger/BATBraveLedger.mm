@@ -14,6 +14,7 @@
 #import "NativeLedgerClient.h"
 #import "NativeLedgerClientBridge.h"
 #import "LedgerLogStream.h"
+#import "CppTransformations.h"
 
 #import <objc/runtime.h>
 
@@ -62,9 +63,8 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 - (void)dealloc
 {
   [NSNotificationCenter.defaultCenter removeObserver:self];
+  delete ledger;
   delete ledgerClient;
-  // FIXME: Uncomment when it doesnt crash in confirmations_impl.cc
-//  delete ledger;
 }
 
 #pragma mark - Wallet
@@ -202,9 +202,25 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
 }
 
-- (void)makeDirectDonation:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
+- (void)makeDirectDonationToPublisher:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
 {
-//  ledger->DoDirectDonation(publisher, amount, std::string(currency.UTF8String));
+  ledger::PublisherInfo info;
+  info.id = std::string(publisher.id.UTF8String);
+  info.duration = publisher.duration;
+  info.score = publisher.score;
+  info.visits = publisher.visits;
+  info.percent = publisher.percent;
+  info.weight = publisher.weight;
+  info.excluded = (ledger::PUBLISHER_EXCLUDE)publisher.excluded;
+  info.category = (ledger::REWARDS_CATEGORY)publisher.category;
+  info.reconcile_stamp = publisher.reconcileStamp;
+  info.verified = publisher.verified;
+  info.name = std::string(publisher.name.UTF8String);
+  info.url = std::string(publisher.url.UTF8String);
+  info.provider = std::string(publisher.provider.UTF8String);
+  info.favicon_url = std::string(publisher.faviconUrl.UTF8String);
+  
+  ledger->DoDirectDonation(info, amount, std::string(currency.UTF8String));
 }
 
 - (void)publisherInfoForId:(NSString *)publisherId completion:(void (^)(BATPublisherInfo * _Nullable))completion
@@ -243,19 +259,30 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 - (NSArray<BATContributionInfo *> *)recurringContributions
 {
   const auto contributions = ledger->GetRecurringDonationPublisherInfo();
-  const auto recurringContributions = [[NSMutableArray alloc] init];
-  for (const auto& c : contributions) {
-    [recurringContributions addObject:[[BATContributionInfo alloc] initWithContributionInfo:c]];
-  }
-  return recurringContributions;
+  return NSArrayFromVector(contributions, ^BATContributionInfo *(const ledger::ContributionInfo& info) {
+    return [[BATContributionInfo alloc] initWithContributionInfo:info];
+  });
 }
 
-//
-//- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
-//{
-//  ledger->SetPublisherExclude(std::string(publisherId.UTF8String),
-//                                            (ledger::PUBLISHER_EXCLUDE)excludeState);
-//}
+- (void)updatePublisherExclusionState:(NSString *)publisherId state:(BATPublisherExclude)state
+{
+  ledger->SetPublisherExclude(std::string(publisherId.UTF8String), (ledger::PUBLISHER_EXCLUDE)state);
+}
+
+- (void)restoreAllExcludedPublishers
+{
+  ledger->RestorePublishers();
+}
+
+- (void)publisherBannerForId:(NSString *)publisherId completion:(void (^)(BATPublisherBanner * _Nullable banner))completion
+{
+  ledger->GetPublisherBanner(std::string(publisherId.UTF8String), ^(std::unique_ptr<ledger::PublisherBanner> banner) {
+    auto bridgedBanner = banner.get() != nullptr ? [[BATPublisherBanner alloc] initWithPublisherBanner:*banner.get()] : nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      completion(bridgedBanner);
+    });
+  });
+}
 
 #pragma mark - Grants
 
@@ -271,17 +298,30 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
                                         std::string(promotionType.UTF8String));
 }
 
-#pragma mark -
+#pragma mark - Auto Contribute
 
-- (void)handleUpdatedWallet:(ledger::Result)result walletInfo:(std::unique_ptr<ledger::WalletInfo>)info
+- (NSDictionary<NSString *, BATBalanceReportInfo *> *)balanceReports
 {
-  // Results that can come from OnWalletProperties:
-  //   - CORRUPTED_WALLET: Payment ID or Passphase is empty
-  //   - LEDGER_ERROR: Network call to get wallet properties failed or failed to parse json
-  //   - LEDGER_OK: Good to go
-  if (result != ledger::LEDGER_OK) {
-    return;
-  }
+  const auto reports = ledger->GetAllBalanceReports();
+  return NSDictionaryFromMap(reports, ^BATBalanceReportInfo *(ledger::BalanceReportInfo info){
+    return [[BATBalanceReportInfo alloc] initWithBalanceReportInfo:info];
+  });
+}
+
+- (BATAutoContributeProps *)autoContributeProps
+{
+  ledger::AutoContributeProps props;
+  ledger->GetAutoContributeProps(&props);
+  return [[BATAutoContributeProps alloc] initWithAutoContributeProps:props];
+}
+
+#pragma mark - Misc
+
+- (BATRewardsInternalsInfo *)rewardsInternalInfo
+{
+  ledger::RewardsInternalsInfo info;
+  ledger->GetRewardsInternalsInfo(&info);
+  return [[BATRewardsInternalsInfo alloc] initWithRewardsInternalsInfo:info];
 }
 
 #pragma mark - Reporting
@@ -339,11 +379,11 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
                           "", "", "", "");
   
   ledger->OnXHRLoad(tabId,
-                                  std::string(url.absoluteString.UTF8String),
-                                  partsMap,
-                                  std::string(firstPartyURL.absoluteString.UTF8String),
-                                  std::string(referrerURL.absoluteString.UTF8String),
-                                  visit);
+                    std::string(url.absoluteString.UTF8String),
+                    partsMap,
+                    std::string(firstPartyURL.absoluteString.UTF8String),
+                    std::string(referrerURL.absoluteString.UTF8String),
+                    visit);
 }
 
 - (void)reportPostData:(NSData *)postData url:(NSURL *)url tabId:(UInt32)tabId firstPartyURL:(NSURL *)firstPartyURL referrerURL:(NSURL *)referrerURL
@@ -356,10 +396,10 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   const auto postDataString = [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding];
   
   ledger->OnPostData(std::string(url.absoluteString.UTF8String),
-                                   std::string(firstPartyURL.absoluteString.UTF8String),
-                                   std::string(referrerURL.absoluteString.UTF8String),
-                                   std::string(postDataString.UTF8String),
-                                   visit);
+                     std::string(firstPartyURL.absoluteString.UTF8String),
+                     std::string(referrerURL.absoluteString.UTF8String),
+                     std::string(postDataString.UTF8String),
+                     visit);
 }
 
 - (void)reportMediaStartedWithTabId:(UInt32)tabId

@@ -63,16 +63,32 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey;
 
 @property (readonly) NSArray<BATContributionInfo *> *recurringContributions;
-//
-///// Update a publishers exclusion state
-//- (void)updatePublisherWithId:(NSString *)publisherId exclusionState:(BATPublisherExclude)excludeState
-//      NS_SWIFT_NAME(updatePublisher(withId:exclusionState:));
+
+/// Update a publishers exclusion state
+- (void)updatePublisherExclusionState:(NSString *)publisherId state:(BATPublisherExclude)state
+      NS_SWIFT_NAME(updatePublisherExclusionState(withId:state:));
+
+/// Restore all sites which had been previously excluded
+- (void)restoreAllExcludedPublishers;
+
+- (void)publisherBannerForId:(NSString *)publisherId
+                  completion:(void (^)(BATPublisherBanner * _Nullable banner))completion;
 
 #pragma mark - Grants
 
 - (void)grantCaptchaForPromotionId:(NSString *)promoID
                      promotionType:(NSString *)promotionType
                         completion:(void (^)(NSString *image, NSString *hint))completion;
+
+#pragma mark - Auto Contribute
+
+@property (readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;
+
+@property (readonly) BATAutoContributeProps *autoContributeProps;
+
+#pragma mark - Misc
+
+@property (readonly) BATRewardsInternalsInfo *rewardsInternalInfo;
 
 #pragma mark - Reporting
 

@@ -305,7 +305,6 @@
 		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
 		27A4707C2242EA6C00596431 /* GrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabberView.swift; sourceTree = "<group>"; };
 		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
-		27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveLedger+Private.h"; sourceTree = "<group>"; };
 		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Extensions.h"; sourceTree = "<group>"; };
@@ -655,7 +654,6 @@
 				27EDB83E223D606E008406EB /* Generated */,
 				27B6C88A21F660D700F256EA /* Data */,
 				27885E99226586C600A47647 /* LedgerLogStream.h */,
-				27B6C88521F62B1B00F256EA /* BATBraveLedger+Private.h */,
 				275779CD21E6B15D005A0EAF /* BATBraveLedger.h */,
 				275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */,
 			);
