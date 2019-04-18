@@ -20,6 +20,7 @@
 		270483632221AC260051239C /* RewardsSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483622221AC260051239C /* RewardsSummaryView.swift */; };
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
+		271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */; };
 		2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58122527BC300B9EAF7 /* WalletActivityView.swift */; };
 		2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58422528EE100B9EAF7 /* AddFundsView.swift */; };
 		2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B5862252989900B9EAF7 /* TokenAddressView.swift */; };
@@ -219,6 +220,7 @@
 		270483622221AC260051239C /* RewardsSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryView.swift; sourceTree = "<group>"; };
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
+		271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsSelectionViewController.swift; sourceTree = "<group>"; };
 		2726B58122527BC300B9EAF7 /* WalletActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActivityView.swift; sourceTree = "<group>"; };
 		2726B58422528EE100B9EAF7 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
 		2726B5862252989900B9EAF7 /* TokenAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAddressView.swift; sourceTree = "<group>"; };
@@ -455,6 +457,14 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		271E1C2E2268E65B00E933B0 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
 		2726B58322528ECD00B9EAF7 /* Add Funds */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +496,7 @@
 				278A6B43225C04B200175678 /* SettingsUX.swift */,
 				2730DF8A2231A72F0031845C /* SettingsSectionView.swift */,
 				27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */,
+				271E1C2E2268E65B00E933B0 /* Options */,
 				2730DF8E2231C7670031845C /* Rewards Toggle */,
 				2730DF922236C9FE0031845C /* Grants */,
 				27A470712241506400596431 /* Wallet */,
@@ -1156,6 +1167,7 @@
 				2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */,
 				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				278A6B48225C09AE00175678 /* TippingViewController.swift in Sources */,
+				271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */,
 				2730DF942236CA110031845C /* SettingsGrantSectionView.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
 				272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */,

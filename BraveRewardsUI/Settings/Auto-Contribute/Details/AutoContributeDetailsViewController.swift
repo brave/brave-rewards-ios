@@ -61,21 +61,27 @@ class AutoContributeDetailViewController: UIViewController {
     
     title = BATLocalizedString("BraveRewardsAutoContribute", "Auto-Contribute")
     
+    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
+    
+    reloadData()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    reloadData()
+  }
+  
+  func reloadData() {
+    // FIXME: Remove temp values
     let dateFormatter = DateFormatter().then {
       $0.dateStyle = .short
       $0.timeStyle = .none
     }
+    nextContributionDateView.label.text = dateFormatter.string(from: Date().addingTimeInterval(60*60*24*12))
+    nextContributionDateView.bounds = CGRect(origin: .zero, size: nextContributionDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
-    
-    // FIXME: Remove temp values
-    nextContributionDateLabel.label.text = dateFormatter.string(from: Date().addingTimeInterval(60*60*24*12))
-    nextContributionDateLabel.bounds = CGRect(origin: .zero, size: nextContributionDateLabel.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
-    
-    supportedSitesCell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
-    if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
-      monthlyPaymentCell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
-    }
+    contentView.tableView.reloadData()
   }
   
   private func totalSitesAttributedString(from total: Int) -> NSAttributedString {
@@ -101,45 +107,23 @@ class AutoContributeDetailViewController: UIViewController {
     tintColor: BraveUX.autoContributeTintColor
   )
   
-  private let settingsCell = TableViewCell().then {
-    $0.label.text = BATLocalizedString("BraveRewardsSettings", "Settings")
-    $0.label.font = SettingsUX.bodyFont
-    $0.label.lineBreakMode = .byWordWrapping
-    $0.imageView?.image = UIImage(frameworkResourceNamed: "settings").alwaysTemplate
-    $0.imageView?.tintColor = BraveUX.autoContributeTintColor
-    $0.accessoryType = .disclosureIndicator
+  enum SummaryRows: Int, CaseIterable {
+    case settings
+    case monthlyPayment
+    case nextContribution
+    case supportedSites
+    
+    func dequeuedCell(from tableView: UITableView, indexPath: IndexPath) -> TableViewCell {
+      switch self {
+      case .monthlyPayment, .supportedSites:
+        return tableView.dequeueReusableCell(for: indexPath) as Value1TableViewCell
+      case .nextContribution, .settings:
+        return tableView.dequeueReusableCell(for: indexPath) as TableViewCell
+      }
+    }
   }
   
-  private let monthlyPaymentCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
-    $0.label.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
-    $0.label.font = SettingsUX.bodyFont
-    $0.label.numberOfLines = 0
-    $0.label.lineBreakMode = .byWordWrapping
-    $0.accessoryLabel?.textColor = Colors.grey100
-    $0.accessoryLabel?.font = SettingsUX.bodyFont
-    $0.accessoryType = .disclosureIndicator
-  }
-  
-  private let nextContributionDateLabel =  NextContributionDateView()
-  
-  private lazy var nextContributeDateCell = TableViewCell().then {
-    $0.label.text = BATLocalizedString("BraveRewardsAutoContributeNextDate", "Next contribution date")
-    $0.label.font = SettingsUX.bodyFont
-    $0.label.numberOfLines = 0
-    $0.label.lineBreakMode = .byWordWrapping
-    $0.selectionStyle = .none
-    $0.accessoryView = nextContributionDateLabel
-  }
-  
-  private let supportedSitesCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
-    $0.label.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
-    $0.label.font = SettingsUX.bodyFont
-    $0.label.numberOfLines = 0
-    $0.label.lineBreakMode = .byWordWrapping
-    $0.accessoryLabel?.textColor = Colors.grey100
-    $0.accessoryLabel?.font = SettingsUX.bodyFont
-    $0.selectionStyle = .none
-  }
+  private let nextContributionDateView =  NextContributionDateView()
   
   // MARK: - Actions
   
@@ -164,10 +148,37 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     tableView.deselectRow(at: indexPath, animated: true)
     
     guard let typedSection = Section(rawValue: indexPath.section), typedSection == .summary else { return }
-    if indexPath.row == 0 {
+    switch indexPath.row {
+    case SummaryRows.settings.rawValue:
       // Settings
       let controller = AutoContributeSettingsViewController(ledger: ledger)
       navigationController?.pushViewController(controller, animated: true)
+    case SummaryRows.monthlyPayment.rawValue:
+      // Monthly payment
+      guard let wallet = ledger.walletInfo else { break }
+      let monthlyPayment = ledger.contributionAmount
+      let choices = wallet.parametersChoices.map { $0.doubleValue }
+      let selectedIndex = choices.index(of: monthlyPayment) ?? 0
+      let stringChoices = choices.map { choice -> String in
+        var amount = "\(choice) \(wallet.altcurrency)"
+        if let dollarRate = ledger.dollarStringForBATAmount(choice) {
+          amount.append(" (\(dollarRate))")
+        }
+        return amount
+      }
+      let controller = OptionsSelectionViewController(
+        options: stringChoices,
+        selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
+          guard let self = self else { return }
+          if selectedIndex < choices.count {
+            self.ledger.contributionAmount = choices[selectedIndex]
+          }
+          self.navigationController?.popViewController(animated: true)
+      }
+      controller.title = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+      navigationController?.pushViewController(controller, animated: true)
+    default:
+      break
     }
   }
   
@@ -193,7 +204,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
-      return 4
+      return SummaryRows.allCases.count
     case .contributions:
       return upcomingContributions.isEmpty ? 1 : upcomingContributions.count
     }
@@ -225,11 +236,34 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     }
     switch section {
     case .summary:
-      let cells = [settingsCell, monthlyPaymentCell, nextContributeDateCell, supportedSitesCell]
-      if indexPath.row < cells.count {
-        return cells[indexPath.row]
+      guard let row = SummaryRows(rawValue: indexPath.row) else { return UITableViewCell() }
+      let cell = row.dequeuedCell(from: tableView, indexPath: indexPath)
+      cell.label.font = SettingsUX.bodyFont
+      cell.label.numberOfLines = 0
+      cell.accessoryLabel?.textColor = Colors.grey100
+      cell.accessoryLabel?.font = SettingsUX.bodyFont
+      switch row {
+      case .settings:
+        cell.label.text = BATLocalizedString("BraveRewardsSettings", "Settings")
+        cell.imageView?.image = UIImage(frameworkResourceNamed: "settings").alwaysTemplate
+        cell.imageView?.tintColor = BraveUX.autoContributeTintColor
+        cell.accessoryType = .disclosureIndicator
+      case .monthlyPayment:
+        cell.label.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+        cell.accessoryType = .disclosureIndicator
+        if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
+          cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
+        }
+      case .nextContribution:
+        cell.label.text = BATLocalizedString("BraveRewardsAutoContributeNextDate", "Next contribution date")
+        cell.accessoryView = nextContributionDateView
+        cell.selectionStyle = .none
+      case .supportedSites:
+        cell.label.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
+        cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
+        cell.selectionStyle = .none
       }
-      return UITableViewCell()
+      return cell
     case .contributions:
       if upcomingContributions.isEmpty {
         let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
@@ -256,6 +290,8 @@ extension AutoContributeDetailViewController {
       
       tableView.separatorStyle = .none
       tableView.register(AutoContributeCell.self)
+      tableView.register(TableViewCell.self)
+      tableView.register(Value1TableViewCell.self)
       tableView.register(EmptyTableCell.self)
       tableView.layoutMargins = UIEdgeInsets(top: 15.0, left: 15.0, bottom: 15.0, right: 15.0)
       

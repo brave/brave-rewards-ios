@@ -34,7 +34,9 @@ class TableViewCell: UITableViewCell, TableViewReusable {
     case .default:
       accessoryLabel = nil
     case .value1:
-      accessoryLabel = UILabel()
+      accessoryLabel = UILabel().then {
+        $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+      }
     case .subtitle, .value2:
       fatalError("Currently not supported")
     }
@@ -52,6 +54,18 @@ class TableViewCell: UITableViewCell, TableViewReusable {
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()
+  }
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    
+    label.text = nil
+    accessoryLabel?.text = nil
+    // Not sure if this is done by UITableViewCell:
+    imageView?.image = nil
+    accessoryView = nil
+    
+    setNeedsDisplay()
   }
   
   override func draw(_ rect: CGRect) {
@@ -115,5 +129,12 @@ class TableViewCell: UITableViewCell, TableViewReusable {
   override var detailTextLabel: UILabel? {
     get { return nil }
     set { }
+  }
+}
+
+/// Just a TableViewCell which uses the `value1` style by default
+class Value1TableViewCell: TableViewCell {
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: .value1, reuseIdentifier: reuseIdentifier)
   }
 }

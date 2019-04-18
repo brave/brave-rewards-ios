@@ -33,30 +33,48 @@ class AutoContributeSettingsViewController: UIViewController {
     contentView.tableView.delegate = self
     contentView.tableView.dataSource = self
     
-    contentView.allowUnverifiedContributionsSwitch.isOn = ledger.allowUnverifiedPublishers
-    contentView.allowVideoContributionsSwitch.isOn = ledger.allowVideoContributions
-    
-    contentView.minimumLengthCell.accessoryLabel?.text =
-      String(format: BATLocalizedString("BraveRewardsAutoContributeMinimumLengthValue", "%d seconds"), ledger.minimumVisitDuration)
-    contentView.minimumVisitsCell.accessoryLabel?.text =
-      String(format: BATLocalizedString("BraveRewardsAutoContributeMinimumVisitsValue", "%d visits"), ledger.minimumNumberOfVisits)
-    
-    if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
-      contentView.monthlyPaymentCell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
-    }
-    
     contentView.allowVideoContributionsSwitch.addTarget(self, action: #selector(allowVideoValueChanged), for: .valueChanged)
     contentView.allowUnverifiedContributionsSwitch.addTarget(self, action: #selector(allowUnverifiedValueChanged), for: .valueChanged)
+    
+    reloadData()
   }
   
-  var rows: [UITableViewCell] {
-    return [
-      contentView.monthlyPaymentCell,
-      contentView.minimumLengthCell,
-      contentView.minimumVisitsCell,
-      contentView.allowUnverifiedContributionsCell,
-      contentView.allowVideoContributionsCell
-    ]
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    reloadData()
+  }
+  
+  func reloadData() {
+    contentView.allowUnverifiedContributionsSwitch.isOn = ledger.allowUnverifiedPublishers
+    contentView.allowVideoContributionsSwitch.isOn = ledger.allowVideoContributions
+
+    contentView.tableView.reloadData()
+  }
+  
+  enum Row: Int, CaseIterable {
+    case monthlyPayment
+    case minimumLength
+    case minimumVisits
+    case allowUnverifiedContributions
+    case allowVideoContributions
+    
+    func dequeuedCell(from tableView: UITableView, indexPath: IndexPath) -> TableViewCell {
+      switch self {
+      case .monthlyPayment, .minimumLength, .minimumVisits:
+        return tableView.dequeueReusableCell(for: indexPath) as Value1TableViewCell
+      default:
+        return tableView.dequeueReusableCell(for: indexPath) as TableViewCell
+      }
+    }
+    var accessoryType: UITableViewCell.AccessoryType {
+      switch self {
+      case .monthlyPayment, .minimumLength, .minimumVisits:
+        return .disclosureIndicator
+      default:
+        return .none
+      }
+    }
   }
   
   // MARK: - Actions
@@ -73,14 +91,98 @@ class AutoContributeSettingsViewController: UIViewController {
 extension AutoContributeSettingsViewController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
+    guard let row = Row(rawValue: indexPath.row) else { return }
+    switch row {
+    case .monthlyPayment:
+      guard let wallet = ledger.walletInfo else { break }
+      let monthlyPayment = ledger.contributionAmount
+      let choices = wallet.parametersChoices.map { $0.doubleValue }
+      let selectedIndex = choices.index(of: monthlyPayment) ?? 0
+      let stringChoices = choices.map { choice -> String in
+        var amount = "\(choice) \(wallet.altcurrency)"
+        if let dollarRate = ledger.dollarStringForBATAmount(choice) {
+          amount.append(" (\(dollarRate))")
+        }
+        return amount
+      }
+      let controller = OptionsSelectionViewController(
+        options: stringChoices,
+        selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
+          guard let self = self else { return }
+          if selectedIndex < choices.count {
+            self.ledger.contributionAmount = choices[selectedIndex]
+          }
+          self.navigationController?.popViewController(animated: true)
+      }
+      controller.title = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+      navigationController?.pushViewController(controller, animated: true)
+    case .minimumLength:
+      let choices = BraveLedger.MinimumVisitDurationOptions.allCases.map { $0.rawValue }
+      let selectedIndex = choices.index(of: ledger.minimumVisitDuration) ?? 0
+      let controller = OptionsSelectionViewController(
+        options: BraveLedger.MinimumVisitDurationOptions.allCases,
+        selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
+          guard let self = self else { return }
+          if selectedIndex < choices.count {
+            self.ledger.minimumVisitDuration = choices[selectedIndex]
+          }
+          self.navigationController?.popViewController(animated: true)
+      }
+      controller.title = BATLocalizedString("BraveRewardsAutoContributeMinimumLength", "Minimum Length")
+      navigationController?.pushViewController(controller, animated: true)
+    case .minimumVisits:
+      let choices = BraveLedger.MinimumVisitsOptions.allCases.map { $0.rawValue }
+      let selectedIndex = choices.index(of: ledger.minimumNumberOfVisits) ?? 0
+      let controller = OptionsSelectionViewController(
+        options: BraveLedger.MinimumVisitsOptions.allCases,
+        selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
+          guard let self = self else { return }
+          if selectedIndex < choices.count {
+            self.ledger.minimumNumberOfVisits = choices[selectedIndex]
+          }
+          self.navigationController?.popViewController(animated: true)
+      }
+      controller.title = BATLocalizedString("BraveRewardsAutoContributeMinimumVisits", "Minimum Visits")
+      navigationController?.pushViewController(controller, animated: true)
+    default:
+      break
+    }
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return rows.count
+    return Row.allCases.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    return rows[indexPath.row]
+    guard let row = Row(rawValue: indexPath.row) else { return UITableViewCell() }
+    // Setup
+    let cell = row.dequeuedCell(from: tableView, indexPath: indexPath)
+    cell.label.font = SettingsUX.bodyFont
+    cell.label.numberOfLines = 0
+    cell.label.lineBreakMode = .byWordWrapping
+    cell.accessoryLabel?.textColor = Colors.grey100
+    cell.accessoryLabel?.font = SettingsUX.bodyFont
+    cell.accessoryType = row.accessoryType
+    switch row {
+    case .monthlyPayment:
+      cell.label.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+      if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
+        cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
+      }
+    case .minimumLength:
+      cell.label.text = BATLocalizedString("BraveRewardsAutoContributeMinimumLength", "Minimum page time before logging a visit")
+      cell.accessoryLabel?.text = BraveLedger.MinimumVisitDurationOptions(rawValue: ledger.minimumVisitDuration)?.displayString
+    case .minimumVisits:
+      cell.label.text = BATLocalizedString("BraveRewardsAutoContributeMinimumVisits", "Minimum visits for publisher relavancy")
+      cell.accessoryLabel?.text = BraveLedger.MinimumVisitsOptions(rawValue: ledger.minimumNumberOfVisits)?.displayString
+    case .allowUnverifiedContributions:
+      cell.label.text = BATLocalizedString("BraveRewardsAutoContributeToUnverifiedSites", "Allow contributions to non-verified sites")
+      cell.accessoryView = contentView.allowUnverifiedContributionsSwitch
+    case .allowVideoContributions:
+      cell.label.text = BATLocalizedString("BraveRewardsAutoContributeToVideos", "Allow contribution to videos")
+      cell.accessoryView = contentView.allowVideoContributionsSwitch
+    }
+    return cell
   }
 }
 
@@ -92,9 +194,11 @@ extension AutoContributeSettingsViewController {
       super.init(frame: frame)
       
       tableView.backgroundView = UIView().then { $0.backgroundColor = SettingsUX.backgroundColor }
-      
       tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
       tableView.separatorStyle = .none
+      tableView.register(TableViewCell.self)
+      tableView.register(Value1TableViewCell.self)
+      
       addSubview(tableView)
       tableView.snp.makeConstraints {
         $0.edges.equalToSuperview()
@@ -107,57 +211,12 @@ extension AutoContributeSettingsViewController {
       fatalError()
     }
     
-    let monthlyPaymentCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
-      $0.label.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
-      $0.label.font = SettingsUX.bodyFont
-      $0.label.numberOfLines = 0
-      $0.label.lineBreakMode = .byWordWrapping
-      $0.accessoryLabel?.textColor = Colors.grey100
-      $0.accessoryLabel?.font = SettingsUX.bodyFont
-      $0.accessoryType = .disclosureIndicator
-    }
-    
-    let minimumLengthCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
-      $0.label.text = BATLocalizedString("BraveRewardsAutoContributeMinimumLength", "Minimum page time before logging a visit")
-      $0.label.font = SettingsUX.bodyFont
-      $0.label.lineBreakMode = .byWordWrapping
-      $0.label.numberOfLines = 0
-      $0.accessoryLabel?.textColor = Colors.grey100
-      $0.accessoryLabel?.font = SettingsUX.bodyFont
-      $0.accessoryType = .disclosureIndicator
-    }
-   
-    let minimumVisitsCell = TableViewCell(style: .value1, reuseIdentifier: nil).then {
-      $0.label.text = BATLocalizedString("BraveRewardsAutoContributeMinimumVisits", "Minimum visits for publisher relavancy")
-      $0.label.font = SettingsUX.bodyFont
-      $0.label.lineBreakMode = .byWordWrapping
-      $0.label.numberOfLines = 0
-      $0.accessoryLabel?.textColor = Colors.grey100
-      $0.accessoryLabel?.font = SettingsUX.bodyFont
-      $0.accessoryType = .disclosureIndicator
-    }
-    
     let allowUnverifiedContributionsSwitch = UISwitch().then {
       $0.onTintColor = BraveUX.braveOrange
-    }
-    lazy var allowUnverifiedContributionsCell = TableViewCell().then {
-      $0.label.text = BATLocalizedString("BraveRewardsAutoContributeToUnverifiedSites", "Allow contributions to non-verified sites")
-      $0.label.font = SettingsUX.bodyFont
-      $0.label.lineBreakMode = .byWordWrapping
-      $0.label.numberOfLines = 0
-      $0.accessoryView = allowUnverifiedContributionsSwitch
-      $0.selectionStyle = .none
     }
     
     let allowVideoContributionsSwitch = UISwitch().then {
       $0.onTintColor = BraveUX.braveOrange
-    }
-    lazy var allowVideoContributionsCell = TableViewCell().then {
-      $0.label.text = BATLocalizedString("BraveRewardsAutoContributeToVideos", "Allow contribution to videos")
-      $0.label.font = SettingsUX.bodyFont
-      $0.label.numberOfLines = 0
-      $0.accessoryView = allowVideoContributionsSwitch
-      $0.selectionStyle = .none
     }
   }
 }

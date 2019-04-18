@@ -50,8 +50,6 @@ extension RewardsPanelController: PopoverContentComponent {
 
 class ViewController: UIViewController {
   
-  var popover: PopoverController?
-  
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
   @IBOutlet var useMockLedgerSwitch: UISwitch!
@@ -70,7 +68,8 @@ class ViewController: UIViewController {
       UIDevice.current.setValue(value, forKey: "orientation")
     }
     
-    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
+//    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
+    let ledger = self.ledger
     let url = URL(string: "https://github.com")!
     let braveRewardsPanel = RewardsPanelController(
       ledger: ledger,
@@ -79,9 +78,9 @@ class ViewController: UIViewController {
       delegate: self,
       dataSource: self
     )
-    popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .preferredContentSize)
-    popover?.addsConvenientDismissalMargins = false
-    popover?.present(from: braveRewardsPanelButton, on: self)
+    let popover = PopoverController(contentController: braveRewardsPanel, contentSizeBehavior: .preferredContentSize)
+    popover.addsConvenientDismissalMargins = false
+    popover.present(from: braveRewardsPanelButton, on: self)
   }
   
   @IBAction func tappedSettings() {
@@ -98,7 +97,7 @@ class ViewController: UIViewController {
 
 extension ViewController: RewardsDelegate {
   func presentBraveRewardsController(_ viewController: UIViewController) {
-    popover?.dismiss(animated: true) {
+    self.presentedViewController?.dismiss(animated: true) {
       self.present(viewController, animated: true)
     }
   }
