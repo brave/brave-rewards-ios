@@ -21,6 +21,8 @@
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
 		271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */; };
+		271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C46226944A500E933B0 /* VectorTransformTests.mm */; };
+		271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C4B226944A500E933B0 /* TestFoo.mm */; };
 		2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58122527BC300B9EAF7 /* WalletActivityView.swift */; };
 		2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58422528EE100B9EAF7 /* AddFundsView.swift */; };
 		2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B5862252989900B9EAF7 /* TokenAddressView.swift */; };
@@ -221,6 +223,9 @@
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
 		271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsSelectionViewController.swift; sourceTree = "<group>"; };
+		271E1C46226944A500E933B0 /* VectorTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VectorTransformTests.mm; sourceTree = "<group>"; };
+		271E1C4A226944A500E933B0 /* TestFoo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFoo.h; sourceTree = "<group>"; };
+		271E1C4B226944A500E933B0 /* TestFoo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TestFoo.mm; sourceTree = "<group>"; };
 		2726B58122527BC300B9EAF7 /* WalletActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActivityView.swift; sourceTree = "<group>"; };
 		2726B58422528EE100B9EAF7 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
 		2726B5862252989900B9EAF7 /* TokenAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAddressView.swift; sourceTree = "<group>"; };
@@ -797,6 +802,9 @@
 			isa = PBXGroup;
 			children = (
 				27FD38E221E6B69700443796 /* AdsTests.swift */,
+				271E1C46226944A500E933B0 /* VectorTransformTests.mm */,
+				271E1C4A226944A500E933B0 /* TestFoo.h */,
+				271E1C4B226944A500E933B0 /* TestFoo.mm */,
 				27FD38E421E6B69700443796 /* Info.plist */,
 			);
 			path = BraveRewardsTests;
@@ -1213,6 +1221,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				27FD38E321E6B69700443796 /* AdsTests.swift in Sources */,
+				271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */,
+				271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
