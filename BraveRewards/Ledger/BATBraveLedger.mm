@@ -6,6 +6,7 @@
 #import "bat/ledger/ledger.h"
 
 #import "Records+Private.h"
+#import "BATActivityInfoFilter+Private.h"
 
 #import "BATBraveLedger.h"
 #import "BATCommonOperations.h"
@@ -197,35 +198,24 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 #pragma mark - Publishers
 
-- (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
-{
-  ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
-}
-
-- (void)makeDirectDonationToPublisher:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
-{
-  ledger::PublisherInfo info;
-  info.id = std::string(publisher.id.UTF8String);
-  info.duration = publisher.duration;
-  info.score = publisher.score;
-  info.visits = publisher.visits;
-  info.percent = publisher.percent;
-  info.weight = publisher.weight;
-  info.excluded = (ledger::PUBLISHER_EXCLUDE)publisher.excluded;
-  info.category = (ledger::REWARDS_CATEGORY)publisher.category;
-  info.reconcile_stamp = publisher.reconcileStamp;
-  info.verified = publisher.verified;
-  info.name = std::string(publisher.name.UTF8String);
-  info.url = std::string(publisher.url.UTF8String);
-  info.provider = std::string(publisher.provider.UTF8String);
-  info.favicon_url = std::string(publisher.faviconUrl.UTF8String);
-  
-  ledger->DoDirectDonation(info, amount, std::string(currency.UTF8String));
-}
-
 - (void)publisherInfoForId:(NSString *)publisherId completion:(void (^)(BATPublisherInfo * _Nullable))completion
 {
   ledger->GetPublisherInfo(std::string(publisherId.UTF8String), ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
+    if (result == ledger::LEDGER_OK) {
+      const auto& publisherInfo = info.get();
+      if (publisherInfo != nullptr) {
+        completion([[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo]);
+      }
+    } else {
+      completion(nil);
+    }
+  });
+}
+
+- (void)activityInfoWithFilter:(nullable BATActivityInfoFilter *)filter completion:(void (^)(BATPublisherInfo * _Nullable info))completion
+{
+  const auto cppFilter = filter ? filter.cppObj : ledger::ActivityInfoFilter();
+  ledger->GetActivityInfo(cppFilter, ^(ledger::Result result, std::unique_ptr<ledger::PublisherInfo> info) {
     if (result == ledger::LEDGER_OK) {
       const auto& publisherInfo = info.get();
       if (publisherInfo != nullptr) {
@@ -256,14 +246,6 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledger->SetMediaPublisherInfo(std::string(publisherId.UTF8String), std::string(mediaKey.UTF8String));
 }
 
-- (NSArray<BATContributionInfo *> *)recurringContributions
-{
-  const auto contributions = ledger->GetRecurringDonationPublisherInfo();
-  return NSArrayFromVector(contributions, ^BATContributionInfo *(const ledger::ContributionInfo& info) {
-    return [[BATContributionInfo alloc] initWithContributionInfo:info];
-  });
-}
-
 - (void)updatePublisherExclusionState:(NSString *)publisherId state:(BATPublisherExclude)state
 {
   ledger->SetPublisherExclude(std::string(publisherId.UTF8String), (ledger::PUBLISHER_EXCLUDE)state);
@@ -281,6 +263,49 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
     dispatch_async(dispatch_get_main_queue(), ^{
       completion(bridgedBanner);
     });
+  });
+}
+
+#pragma mark - Tips
+
+- (void)addRecurringTipToPublisherWithId:(NSString *)publisherId amount:(double)amount
+{
+  ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
+}
+
+- (void)removeRecurringTipForPublisherWithId:(NSString *)publisherId
+{
+  ledger->RemoveRecurringTip(std::string(publisherId.UTF8String));
+}
+
+- (void)tipPublisherDirectly:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
+{
+  ledger::PublisherInfo info;
+  info.id = std::string(publisher.id.UTF8String);
+  info.duration = publisher.duration;
+  info.score = publisher.score;
+  info.visits = publisher.visits;
+  info.percent = publisher.percent;
+  info.weight = publisher.weight;
+  info.excluded = (ledger::PUBLISHER_EXCLUDE)publisher.excluded;
+  info.category = (ledger::REWARDS_CATEGORY)publisher.category;
+  info.reconcile_stamp = publisher.reconcileStamp;
+  info.verified = publisher.verified;
+  info.name = std::string(publisher.name.UTF8String);
+  info.url = std::string(publisher.url.UTF8String);
+  info.provider = std::string(publisher.provider.UTF8String);
+  info.favicon_url = std::string(publisher.faviconUrl.UTF8String);
+  
+  ledger->DoDirectDonation(info, amount, std::string(currency.UTF8String));
+}
+
+#pragma mark -
+
+- (NSArray<BATContributionInfo *> *)recurringContributions
+{
+  const auto contributions = ledger->GetRecurringDonationPublisherInfo();
+  return NSArrayFromVector(contributions, ^BATContributionInfo *(const ledger::ContributionInfo& info) {
+    return [[BATContributionInfo alloc] initWithContributionInfo:info];
   });
 }
 
@@ -308,6 +333,13 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   });
 }
 
+- (BATBalanceReportInfo *)balanceReportForMonth:(BATActivityMonth)month year:(int)year
+{
+  ledger::BalanceReportInfo info;
+  ledger->GetBalanceReport((ledger::ACTIVITY_MONTH)month, year, &info);
+  return [[BATBalanceReportInfo alloc] initWithBalanceReportInfo:info];
+}
+
 - (BATAutoContributeProps *)autoContributeProps
 {
   ledger::AutoContributeProps props;
@@ -316,6 +348,19 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 }
 
 #pragma mark - Misc
+
++ (bool)isMediaURL:(NSURL *)url firstPartyURL:(NSURL *)firstPartyURL referrerURL:(NSURL *)referrerURL
+{
+  return ledger::Ledger::IsMediaLink(std::string(url.absoluteString.UTF8String),
+                                     std::string(firstPartyURL.absoluteString.UTF8String),
+                                     std::string(referrerURL.absoluteString.UTF8String));
+}
+
+- (NSString *)encodedURI:(NSString *)uri
+{
+  const auto encoded = ledger->URIEncode(std::string(uri.UTF8String));
+  return [NSString stringWithUTF8String:encoded.c_str()];
+}
 
 - (BATRewardsInternalsInfo *)rewardsInternalInfo
 {

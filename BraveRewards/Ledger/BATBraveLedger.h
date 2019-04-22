@@ -4,6 +4,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Records.h"
+#import "BATActivityInfoFilter.h"
 
 @class BATBraveLedger;
 
@@ -54,16 +55,14 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Publishers
 
-- (void)addRecurringPaymentToPublisherWithId:(NSString *)publisherId amount:(double)amount
-      NS_SWIFT_NAME(addRecurringPayment(publisherId:amount:));
+- (void)publisherInfoForId:(NSString *)publisherId
+                completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
 
-- (void)makeDirectDonationToPublisher:(BATPublisherInfo *)publisher
-                               amount:(int)amount
-                             currency:(NSString *)currency;
+- (void)activityInfoWithFilter:(nullable BATActivityInfoFilter *)filter
+                    completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
 
-- (void)publisherInfoForId:(NSString *)publisherId completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
-
-- (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
+- (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey
+                           completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
 
 - (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey;
 
@@ -79,6 +78,18 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)publisherBannerForId:(NSString *)publisherId
                   completion:(void (^)(BATPublisherBanner * _Nullable banner))completion;
 
+#pragma mark - Tips
+
+- (void)addRecurringTipToPublisherWithId:(NSString *)publisherId
+                                  amount:(double)amount NS_SWIFT_NAME(addRecurringTip(publisherId:amount:));
+
+- (void)removeRecurringTipForPublisherWithId:(NSString *)publisherId NS_SWIFT_NAME(removeRecurringTip(publisherId:));
+
+- (void)tipPublisherDirectly:(BATPublisherInfo *)publisher
+                      amount:(int)amount
+                    currency:(NSString *)currency;
+
+
 #pragma mark - Grants
 
 - (void)grantCaptchaForPromotionId:(NSString *)promoID
@@ -89,9 +100,19 @@ NS_SWIFT_NAME(BraveLedger)
 
 @property (readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;
 
+- (BATBalanceReportInfo *)balanceReportForMonth:(BATActivityMonth)month
+                                                    year:(int)year;
+
 @property (readonly) BATAutoContributeProps *autoContributeProps;
 
 #pragma mark - Misc
+
++ (bool)isMediaURL:(NSURL *)url
+     firstPartyURL:(nullable NSURL *)firstPartyURL
+       referrerURL:(nullable NSURL *)referrerURL;
+
+/// Get an encoded URL that can be placed in another URL
+- (NSString *)encodedURI:(NSString *)uri;
 
 @property (readonly) BATRewardsInternalsInfo *rewardsInternalInfo;
 

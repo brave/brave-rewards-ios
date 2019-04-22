@@ -7,8 +7,10 @@
 
 @interface BATActivityInfoFilterOrderPair (Private)
 - (instancetype)initWithStringBoolPair:(std::pair<std::string, bool>)obj;
+- (std::pair<std::string, bool>)cppObj;
 @end
 
 @interface BATActivityInfoFilter (Private)
 - (instancetype)initWithActivityInfoFilter:(const ledger::ActivityInfoFilter&)obj;
+- (ledger::ActivityInfoFilter)cppObj;
 @end

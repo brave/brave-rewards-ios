@@ -17,6 +17,11 @@
   return self;
 }
 
+- (std::pair<std::string, bool>)cppObj
+{
+  return std::pair<std::string, bool>(std::string(self.first.UTF8String), self.second);
+}
+
 @end
 
 @implementation BATActivityInfoFilter
@@ -35,6 +40,21 @@
     self.minVisits = obj.min_visits;
   }
   return self;
+}
+
+- (ledger::ActivityInfoFilter)cppObj
+{
+  ledger::ActivityInfoFilter obj;
+  obj.id = std::string(self.id.UTF8String);
+  obj.excluded = (ledger::EXCLUDE_FILTER)self.excluded;
+  obj.order_by = VectorFromNSArray(self.orderBy, ^std::pair<std::string, bool>(BATActivityInfoFilterOrderPair *o){
+    return [o cppObj];
+  });
+  obj.min_duration = self.minDuration;
+  obj.reconcile_stamp = self.reconcileStamp;
+  obj.non_verified = self.nonVerified;
+  obj.min_visits = obj.min_visits;
+  return obj;
 }
 
 @end
