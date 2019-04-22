@@ -15,6 +15,11 @@ extern NSString * const BATBraveLedgerErrorDomain NS_SWIFT_NAME(BraveLedgerError
 NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject
 
+/// Create a brave ledger that will read and write its state to the given path
+- (instancetype)initWithStateStoragePath:(NSString *)path;
+
+- (instancetype)init NS_UNAVAILABLE;
+
 #pragma mark - Wallet
 
 /// Whether or not the wallet has been created

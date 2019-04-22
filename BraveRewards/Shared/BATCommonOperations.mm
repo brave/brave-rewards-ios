@@ -22,9 +22,8 @@
     
     // Setup the ads directory for persistant storage
     if (self.storagePath.length > 0) {
-      const auto storageDirectory = [self storageParentDirectory];
-      if (![NSFileManager.defaultManager fileExistsAtPath:storageDirectory isDirectory:nil]) {
-        [NSFileManager.defaultManager createDirectoryAtPath:storageDirectory
+      if (![NSFileManager.defaultManager fileExistsAtPath:self.storagePath isDirectory:nil]) {
+        [NSFileManager.defaultManager createDirectoryAtPath:self.storagePath
                                 withIntermediateDirectories:true
                                                  attributes:nil
                                                       error:nil];
@@ -122,18 +121,9 @@
 
 #pragma mark -
 
-- (NSString *)storageParentDirectory
-{
-  const auto directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
-  if (self.storagePath.length > 0) {
-    return [directories.firstObject stringByAppendingPathComponent:self.storagePath];
-  }
-  return directories.firstObject;
-}
-
 - (NSString *)dataPathForFilename:(NSString *)filename
 {
-  return [[self storageParentDirectory] stringByAppendingPathComponent:filename];
+  return [self.storagePath stringByAppendingPathComponent:filename];
 }
 
 - (bool)saveContents:(const std::string &)contents name:(const std::string &)name

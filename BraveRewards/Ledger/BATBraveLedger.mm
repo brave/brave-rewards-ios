@@ -40,10 +40,10 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 
 @implementation BATBraveLedger
 
-- (instancetype)init
+- (instancetype)initWithStateStoragePath:(NSString *)path
 {
   if ((self = [super init])) {
-    self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:@"brave_ledger"];
+    self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:path];
     
     ledgerClient = new NativeLedgerClient(self);
     ledger = ledger::Ledger::CreateInstance(ledgerClient);

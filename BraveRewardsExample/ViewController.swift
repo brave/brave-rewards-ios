@@ -48,6 +48,12 @@ extension RewardsPanelController: PopoverContentComponent {
   }
 }
 
+let stateStoragePath: String = (NSSearchPathForDirectoriesInDomains(
+    .documentDirectory,
+    .userDomainMask,
+    true
+  ).first! as NSString).appendingPathComponent("brave_ledger")
+
 class ViewController: UIViewController {
   
   @IBOutlet var settingsButton: UIButton!
@@ -60,7 +66,7 @@ class ViewController: UIViewController {
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
   }
   
-  var ledger = BraveLedger()
+  var ledger = BraveLedger(stateStoragePath: stateStoragePath)
 
   @IBAction func tappedBraveRewards() {
     if UIDevice.current.userInterfaceIdiom != .pad && UIApplication.shared.statusBarOrientation.isLandscape {
@@ -88,10 +94,8 @@ class ViewController: UIViewController {
   
   @IBAction func tappedResetMockLedger() {
     UIMockLedger.reset()
-    let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
-    let ledgerStatePath = documents.appendingPathComponent("brave_ledger")
-    try? FileManager.default.removeItem(atPath: ledgerStatePath)
-    ledger = BraveLedger()
+    try? FileManager.default.removeItem(atPath: stateStoragePath)
+    ledger = BraveLedger(stateStoragePath: stateStoragePath)
   }
 }
 
