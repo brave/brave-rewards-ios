@@ -77,6 +77,8 @@
 		27598847222453D900B2E47A /* PublisherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598846222453D900B2E47A /* PublisherView.swift */; };
 		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
 		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
+		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
 		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
@@ -280,6 +282,9 @@
 		27598846222453D900B2E47A /* PublisherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherView.swift; sourceTree = "<group>"; };
 		2759884922247F4F00B2E47A /* SendTipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTipButton.swift; sourceTree = "<group>"; };
 		2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DictionaryTransformTests.mm; sourceTree = "<group>"; };
+		27695584226E47F5008E5DED /* BATActivityInfoFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfoFilter.h; sourceTree = "<group>"; };
+		27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATActivityInfoFilter.mm; sourceTree = "<group>"; };
+		27695588226E4802008E5DED /* BATActivityInfoFilter+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATActivityInfoFilter+Private.h"; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
@@ -658,6 +663,7 @@
 		275779CB21E6B15D005A0EAF /* Ledger */ = {
 			isa = PBXGroup;
 			children = (
+				27695583226E47D8008E5DED /* Models */,
 				27EDB83E223D606E008406EB /* Generated */,
 				27B6C88A21F660D700F256EA /* Data */,
 				27885E99226586C600A47647 /* LedgerLogStream.h */,
@@ -690,6 +696,16 @@
 				27AFF5432229798F009320F5 /* TippingConfirmationView.swift */,
 			);
 			path = Tipping;
+			sourceTree = "<group>";
+		};
+		27695583226E47D8008E5DED /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				27695588226E4802008E5DED /* BATActivityInfoFilter+Private.h */,
+				27695584226E47F5008E5DED /* BATActivityInfoFilter.h */,
+				27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		27885E4B2263D61C00A47647 /* Products */ = {
@@ -895,6 +911,7 @@
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				27885E892265087000A47647 /* CppTransformations.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
+				27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
 				27885E962265798A00A47647 /* NativeLedgerClient.h in Headers */,
@@ -1234,6 +1251,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */,
 				27EDB843223D607F008406EB /* Records.mm in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
