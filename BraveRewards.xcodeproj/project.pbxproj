@@ -76,6 +76,7 @@
 		27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598844222452A100B2E47A /* PublisherAttentionView.swift */; };
 		27598847222453D900B2E47A /* PublisherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598846222453D900B2E47A /* PublisherView.swift */; };
 		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
+		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
 		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
@@ -278,6 +279,7 @@
 		27598844222452A100B2E47A /* PublisherAttentionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherAttentionView.swift; sourceTree = "<group>"; };
 		27598846222453D900B2E47A /* PublisherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherView.swift; sourceTree = "<group>"; };
 		2759884922247F4F00B2E47A /* SendTipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTipButton.swift; sourceTree = "<group>"; };
+		2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DictionaryTransformTests.mm; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
@@ -803,6 +805,7 @@
 			children = (
 				27FD38E221E6B69700443796 /* AdsTests.swift */,
 				271E1C46226944A500E933B0 /* VectorTransformTests.mm */,
+				2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */,
 				271E1C4A226944A500E933B0 /* TestFoo.h */,
 				271E1C4B226944A500E933B0 /* TestFoo.mm */,
 				27FD38E421E6B69700443796 /* Info.plist */,
@@ -1222,6 +1225,7 @@
 			files = (
 				27FD38E321E6B69700443796 /* AdsTests.swift in Sources */,
 				271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */,
+				2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */,
 				271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
