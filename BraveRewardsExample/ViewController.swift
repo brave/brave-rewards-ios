@@ -99,11 +99,14 @@ class ViewController: UIViewController {
   }
 }
 
-extension ViewController: RewardsDelegate {
+extension ViewController: RewardsUIDelegate {
   func presentBraveRewardsController(_ viewController: UIViewController) {
     self.presentedViewController?.dismiss(animated: true) {
       self.present(viewController, animated: true)
     }
+  }
+  func loadNewTabWithURL(_ url: URL) {
+    print("Create new tab with URL: \(url.absoluteString)")
   }
 }
 

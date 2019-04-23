@@ -14,7 +14,7 @@ struct RewardsState {
   /// The favicon URL for `url`
   var faviconURL: URL?
   /// The Rewards delegate
-  weak var delegate: RewardsDelegate?
+  weak var delegate: RewardsUIDelegate?
   /// The Rewards data source
   weak var dataSource: RewardsDataSource?
 }

@@ -11,10 +11,10 @@ class AddFundsViewController: UIViewController {
     return view as! View
   }
   
-  let ledger: BraveLedger
+  let state: RewardsState
   
-  init(ledger: BraveLedger) {
-    self.ledger = ledger
+  init(state: RewardsState) {
+    self.state = state
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -34,11 +34,15 @@ class AddFundsViewController: UIViewController {
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDone))
     
+    addFundsView.faqLinkTapped = { [unowned self] url in
+      self.state.delegate?.loadNewTabWithURL(url)
+    }
+    
     let map: [(TokenAddressView.TokenKind, String?)] = [
-      (.bitcoin, ledger.btcAddress),
-      (.ethereum, ledger.ethAddress),
-      (.basicAttentionToken, ledger.batAddress),
-      (.litecoin, ledger.ltcAddress)
+      (.bitcoin, state.ledger.btcAddress),
+      (.ethereum, state.ledger.ethAddress),
+      (.basicAttentionToken, state.ledger.batAddress),
+      (.litecoin, state.ledger.ltcAddress)
     ]
     addFundsView.tokenViews = map.map { (kind, address) in
       TokenAddressView(tokenKind: kind).then {
@@ -59,10 +63,10 @@ class AddFundsViewController: UIViewController {
       }
     }
     let map: [TokenAddressView.TokenKind: String] = [
-      .bitcoin: ledger.btcAddress,
-      .ethereum: ledger.ethAddress,
-      .basicAttentionToken: ledger.batAddress,
-      .litecoin: ledger.ltcAddress
+      .bitcoin: state.ledger.btcAddress,
+      .ethereum: state.ledger.ethAddress,
+      .basicAttentionToken: state.ledger.batAddress,
+      .litecoin: state.ledger.ltcAddress
     ].compactMapValues({ $0 })
     guard let address = map[addressView.tokenKind] else { return }
     let qrCode = "\(addressView.tokenKind.codePrefix):\(address)"

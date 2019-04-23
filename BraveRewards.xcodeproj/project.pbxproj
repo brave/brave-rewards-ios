@@ -88,7 +88,7 @@
 		27885E9A226586C800A47647 /* LedgerLogStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E99226586C600A47647 /* LedgerLogStream.h */; };
 		278A6B2B225BDFCD00175678 /* RewardsPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */; };
 		278A6B2E225BE01000175678 /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2D225BE01000175678 /* PopoverNavigationController.swift */; };
-		278A6B30225BE18200175678 /* RewardsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2F225BE18200175678 /* RewardsDelegate.swift */; };
+		278A6B30225BE18200175678 /* RewardsUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2F225BE18200175678 /* RewardsUIDelegate.swift */; };
 		278A6B32225BE21000175678 /* RewardsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B31225BE21000175678 /* RewardsDataSource.swift */; };
 		278A6B34225BE2D000175678 /* RewardsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B33225BE2D000175678 /* RewardsState.swift */; };
 		278A6B36225BE4BC00175678 /* CreateWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B35225BE4BC00175678 /* CreateWalletViewController.swift */; };
@@ -295,7 +295,7 @@
 		27885E99226586C600A47647 /* LedgerLogStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LedgerLogStream.h; sourceTree = "<group>"; };
 		278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsPanelController.swift; sourceTree = "<group>"; };
 		278A6B2D225BE01000175678 /* PopoverNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverNavigationController.swift; sourceTree = "<group>"; };
-		278A6B2F225BE18200175678 /* RewardsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsDelegate.swift; sourceTree = "<group>"; };
+		278A6B2F225BE18200175678 /* RewardsUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsUIDelegate.swift; sourceTree = "<group>"; };
 		278A6B31225BE21000175678 /* RewardsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsDataSource.swift; sourceTree = "<group>"; };
 		278A6B33225BE2D000175678 /* RewardsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsState.swift; sourceTree = "<group>"; };
 		278A6B35225BE4BC00175678 /* CreateWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletViewController.swift; sourceTree = "<group>"; };
@@ -552,7 +552,7 @@
 				2734045C2220B004008CABC9 /* Info.plist */,
 				278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */,
 				278A6B31225BE21000175678 /* RewardsDataSource.swift */,
-				278A6B2F225BE18200175678 /* RewardsDelegate.swift */,
+				278A6B2F225BE18200175678 /* RewardsUIDelegate.swift */,
 				278A6B33225BE2D000175678 /* RewardsState.swift */,
 				278A6B3D225BFC2100175678 /* RewardsUX.swift */,
 				270483492220E9290051239C /* Extensions */,
@@ -1161,7 +1161,7 @@
 				2730DF8B2231A72F0031845C /* SettingsSectionView.swift in Sources */,
 				27F4C1D922569E2B00CFCD67 /* TipsDetailViewController.swift in Sources */,
 				27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */,
-				278A6B30225BE18200175678 /* RewardsDelegate.swift in Sources */,
+				278A6B30225BE18200175678 /* RewardsUIDelegate.swift in Sources */,
 				27F4C1DB2256A40100CFCD67 /* TipsTableCell.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				274CDD3A225F9E7D00FA7364 /* AutoContributeCell.swift in Sources */,

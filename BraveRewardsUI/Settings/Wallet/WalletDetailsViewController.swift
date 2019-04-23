@@ -7,10 +7,10 @@ import BraveRewards
 
 class WalletDetailsViewController: UIViewController {
 
-  let ledger: BraveLedger
+  let state: RewardsState
   
-  init(ledger: BraveLedger) {
-    self.ledger = ledger
+  init(state: RewardsState) {
+    self.state = state
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -53,7 +53,7 @@ class WalletDetailsViewController: UIViewController {
   // MARK: - Actions
   
   @objc private func tappedAddFunds() {
-    let controller = AddFundsViewController(ledger: ledger)
+    let controller = AddFundsViewController(state: state)
     let container = PopoverNavigationController(rootViewController: controller)
     present(container, animated: true)
   }

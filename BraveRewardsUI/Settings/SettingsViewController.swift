@@ -11,10 +11,10 @@ class SettingsViewController: UIViewController {
     return view as! View
   }
   
-  let ledger: BraveLedger
+  let state: RewardsState
   
-  init(ledger: BraveLedger) {
-    self.ledger = ledger
+  init(state: RewardsState) {
+    self.state = state
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -47,8 +47,8 @@ class SettingsViewController: UIViewController {
       // FIXME: Remove fake values
       $0.walletSection.setWalletBalance("30.0", crypto: "BAT", dollarValue: "0.00 USD")
       
-      $0.rewardsToggleSection.toggleSwitch.isOn = ledger.isEnabled
-      $0.autoContributeSection.toggleSwitch.isOn = ledger.isAutoContributeEnabled
+      $0.rewardsToggleSection.toggleSwitch.isOn = state.ledger.isEnabled
+      $0.autoContributeSection.toggleSwitch.isOn = state.ledger.isAutoContributeEnabled
     }
     
     updateVisualStateOfSections(animated: false)
@@ -64,6 +64,7 @@ class SettingsViewController: UIViewController {
   // MARK: -
   
   private func updateVisualStateOfSections(animated: Bool) {
+    let ledger = state.ledger
     settingsView.do {
       $0.rewardsToggleSection.setRewardsEnabled(ledger.isEnabled, animated: animated)
       $0.autoContributeSection.setSectionEnabled(
@@ -94,30 +95,30 @@ class SettingsViewController: UIViewController {
   }
   
   @objc private func tappedWalletViewDetails() {
-    let controller = WalletDetailsViewController(ledger: ledger)
+    let controller = WalletDetailsViewController(state: state)
     controller.preferredContentSize = preferredContentSize
     navigationController?.pushViewController(controller, animated: true)
   }
   
   @objc private func tappedTipsViewDetails() {
-    let controller = TipsDetailViewController(ledger: ledger)
+    let controller = TipsDetailViewController(ledger: state.ledger)
     controller.preferredContentSize = preferredContentSize
     navigationController?.pushViewController(controller, animated: true)
   }
   
   @objc private func tappedAutoContributeViewDetails() {
-    let controller = AutoContributeDetailViewController(ledger: ledger)
+    let controller = AutoContributeDetailViewController(ledger: state.ledger)
     controller.preferredContentSize = preferredContentSize
     navigationController?.pushViewController(controller, animated: true)
   }
   
   @objc private func rewardsSwitchValueChanged() {
-    ledger.isEnabled = settingsView.rewardsToggleSection.toggleSwitch.isOn
+    state.ledger.isEnabled = settingsView.rewardsToggleSection.toggleSwitch.isOn
     updateVisualStateOfSections(animated: true)
   }
   
   @objc private func autoContributeToggleValueChanged() {
-    ledger.isAutoContributeEnabled = settingsView.autoContributeSection.toggleSwitch.isOn
+    state.ledger.isAutoContributeEnabled = settingsView.autoContributeSection.toggleSwitch.isOn
     updateVisualStateOfSections(animated: true)
   }
 }

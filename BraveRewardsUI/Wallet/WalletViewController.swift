@@ -167,13 +167,13 @@ class WalletViewController: UIViewController {
   }
   
   @objc private func tappedAddFunds() {
-    let controller = AddFundsViewController(ledger: state.ledger)
+    let controller = AddFundsViewController(state: state)
     let container = PopoverNavigationController(rootViewController: controller)
     present(container, animated: true)
   }
   
   @objc private func tappedSettings() {
-    let controller = SettingsViewController(ledger: state.ledger)
+    let controller = SettingsViewController(state: state)
     navigationController?.pushViewController(controller, animated: true)
   }
   

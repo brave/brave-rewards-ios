@@ -7,6 +7,8 @@ import UIKit
 extension AddFundsViewController {
   class View: UIView {
     
+    var faqLinkTapped: ((URL) -> Void)?
+    
     var tokenViews: [TokenAddressView] = [] {
       willSet {
         tokenViews.forEach { $0.removeFromSuperview() }
@@ -45,12 +47,28 @@ extension AddFundsViewController {
         $0.numberOfLines = 0
       }
       
-      let disclaimerLabel = UILabel().then {
-        $0.textColor = SettingsUX.bodyTextColor
-        $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 12.0)
-        $0.text = BATLocalizedString("BraveRewardsAddFundsDisclaimer", "Reminder: The Brave Wallet is unidirectional and BAT flows to publisher sites. For more information about Brave Rewards, please visit the FAQ.")
-        $0.numberOfLines = 0
+      let disclaimerLabel = UITextView().then {
+        $0.delaysContentTouches = false
+        $0.isEditable = false
+        $0.isScrollEnabled = false
+        $0.delegate = self
+        $0.backgroundColor = .clear
+        $0.textDragInteraction?.isEnabled = false
+        $0.textContainerInset = .zero
+        let string = BATLocalizedString("BraveRewardsAddFundsDisclaimer", "Reminder: The Brave Wallet is unidirectional and BAT flows to publisher sites. For more information about Brave Rewards, please visit the FAQ.")
+        let attributedString = NSMutableAttributedString(string: string, attributes: [
+          .paragraphStyle: NSMutableParagraphStyle().then { $0.alignment = .center },
+          .font: UIFont.systemFont(ofSize: 12.0),
+          .foregroundColor: SettingsUX.bodyTextColor
+        ])
+        if let range = string.range(of: "the FAQ") {
+          attributedString.addAttribute(
+            .link,
+            value: "https://brave.com/faq-payments/#brave-payments",
+            range: NSRange(range, in: string)
+          )
+        }
+        $0.attributedText = attributedString
       }
       
       let scrollView = UIScrollView().then {
@@ -84,5 +102,12 @@ extension AddFundsViewController {
     required init(coder: NSCoder) {
       fatalError()
     }
+  }
+}
+
+extension AddFundsViewController.View: UITextViewDelegate {
+  func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    self.faqLinkTapped?(URL)
+    return false
   }
 }
