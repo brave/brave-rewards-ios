@@ -43,6 +43,16 @@ class TippingOverviewView: UIView {
     }
   }
   
+  private let bodyStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 10.0
+  }
+  
+  let disclaimerView = DisclaimerView(text: BATLocalizedString("BraveRewardsTippingUnverifiedDisclaimer", "NOTE: This creator has not yet signed up to receive contributions from Brave users. Your browser will keep trying to contribute until they verify, or until 90 days have passed.")).then {
+    $0.isHidden = true
+    $0.backgroundColor = .white
+  }
+  
   let titleLabel = UILabel().then {
     $0.text = BATLocalizedString("BraveRewardsTippingOverviewTitle", "Thanks for stopping by!")
     $0.textColor = UX.titleColor
@@ -80,8 +90,11 @@ class TippingOverviewView: UIView {
     // headerView.addSubview(heartsImageView)
     scrollView.addSubview(socialStackView)
     addSubview(faviconImageView)
-    scrollView.addSubview(titleLabel)
-    scrollView.addSubview(bodyLabel)
+    scrollView.addSubview(bodyStackView)
+    bodyStackView.addArrangedSubview(disclaimerView)
+    bodyStackView.setCustomSpacing(15.0, after: disclaimerView)
+    bodyStackView.addArrangedSubview(titleLabel)
+    bodyStackView.addArrangedSubview(bodyLabel)
     
     scrollView.snp.makeConstraints {
       $0.edges.equalTo(self)
@@ -112,13 +125,9 @@ class TippingOverviewView: UIView {
       $0.top.equalTo(self.scrollView.contentLayoutGuide).offset(20.0)
       $0.trailing.equalTo(self).offset(-20.0)
     }
-    titleLabel.snp.makeConstraints {
+    bodyStackView.snp.makeConstraints {
       $0.top.equalTo(self.socialStackView.snp.bottom).offset(25.0)
       $0.leading.trailing.equalTo(self).inset(25.0)
-    }
-    bodyLabel.snp.makeConstraints {
-      $0.top.equalTo(self.titleLabel.snp.bottom).offset(10.0)
-      $0.leading.trailing.equalTo(self.titleLabel)
       $0.bottom.equalTo(self.scrollView.contentLayoutGuide).inset(25.0)
     }
   }

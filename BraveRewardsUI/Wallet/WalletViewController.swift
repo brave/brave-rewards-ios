@@ -178,7 +178,7 @@ class WalletViewController: UIViewController {
   }
   
   @objc private func tappedSendTip() {
-    let controller = TippingViewController(ledger: state.ledger, publisherId: "") // TODO: pass publisher Id
+    let controller = TippingViewController(state: state, publisherId: "") // TODO: pass publisher Id
     state.delegate?.presentBraveRewardsController(controller)
   }
   

@@ -7,11 +7,11 @@ import BraveRewards
 
 class TippingViewController: UIViewController, UIViewControllerTransitioningDelegate {
   
-  let ledger: BraveLedger
+  let state: RewardsState
   let publisherId: String
   
-  init(ledger: BraveLedger, publisherId: String) {
-    self.ledger = ledger
+  init(state: RewardsState, publisherId: String) {
+    self.state = state
     self.publisherId = publisherId
     
     super.init(nibName: nil, bundle: nil)
@@ -49,6 +49,13 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     tippingView.gesturalDismissExecuted = { [weak self] in
       self?.dismiss(animated: true)
     };
+    tippingView.overviewView.disclaimerView.learnMoreTapped = { [weak self] in
+      let url = URL(string: "https://brave.com/faq-rewards/#unclaimed-funds")!
+      self?.state.delegate?.loadNewTabWithURL(url)
+    };
+    
+    // FIXME: Set this disclaimer hidden based on whether or not the publisher is verified
+    tippingView.overviewView.disclaimerView.isHidden = true
   }
   
   // MARK: - Actions
