@@ -46,6 +46,9 @@ class WalletViewController: UIViewController {
     let rewardsSummaryView = walletView.rewardsSummaryView
     
     rewardsSummaryView.rewardsSummaryButton.addTarget(self, action: #selector(tappedRewardsSummaryButton), for: .touchUpInside)
+    // FIXME: Set this disclaimer based on contributions going to unverified publishers
+    let disclaimerText = String(format: BATLocalizedString("BraveRewardsContributingToUnverifiedSites", "You've designated %d BAT for creators who haven't yet signed up to recieve contributions. Your browser will keep trying to contribute until they verify, or until 90 days have passed."), 52)
+    rewardsSummaryView.disclaimerView = DisclaimerView(text: disclaimerText)
     
     walletView.headerView.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     walletView.headerView.settingsButton.addTarget(self, action: #selector(tappedSettings), for: .touchUpInside)

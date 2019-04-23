@@ -728,10 +728,10 @@
 		27A470712241506400596431 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				278A6B45225C08AE00175678 /* WalletDetailsViewController.swift */,
 				27A47072224150A300596431 /* WalletSummaryView.swift */,
 				279A2078224C157700192214 /* WalletDetailsView.swift */,
 				2726B58122527BC300B9EAF7 /* WalletActivityView.swift */,
-				278A6B45225C08AE00175678 /* WalletDetailsViewController.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";

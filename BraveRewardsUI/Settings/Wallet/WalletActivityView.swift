@@ -32,23 +32,34 @@ class WalletActivityView: SettingsSectionView {
           stackView.addArrangedSubview(SeparatorView())
         }
       }
+      if let disclaimerView = disclaimerView {
+        if let finalRow = rows.last {
+          stackView.setCustomSpacing(10.0, after: finalRow)
+        }
+        stackView.addArrangedSubview(disclaimerView)
+      }
     }
   }
   
+  /// A disclaimer view to show below the rows (Used when the user has auto-contribute enabled
+  /// and has a portion of BAT designated to unverified publishers
+  var disclaimerView: DisclaimerView? {
+    willSet {
+      disclaimerView?.removeFromSuperview()
+    }
+    didSet {
+      if let disclaimerView = disclaimerView {
+        if let finalRow = rows.last {
+          stackView.setCustomSpacing(10.0, after: finalRow)
+        }
+        stackView.addArrangedSubview(disclaimerView)
+      }
+    }
+  }
+
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    // FIXME: Remove temp values
-    defer {
-      monthYearLabel.text = "March 2019"
-      rows = [
-        RowView(title: "Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),
-        RowView(title: "Earnings from Ads", batValue: "10.0", usdDollarValue: "5.25"),
-        RowView(title: "Auto-Contribute", batValue: "-10.0", usdDollarValue: "-5.25"),
-        RowView(title: "One-Time Tips", batValue: "-2.0", usdDollarValue: "-1.05"),
-        RowView(title: "Monthly Tips", batValue: "-19.0", usdDollarValue: "-9.97"),
-      ]
-    }
     
     addSubview(stackView)
     

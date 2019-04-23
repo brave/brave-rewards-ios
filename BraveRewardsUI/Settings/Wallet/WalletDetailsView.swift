@@ -3,25 +3,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
+import BraveRewards
 
 extension WalletDetailsViewController {
   class View: UIView {
     
     let walletSection = SettingsWalletSectionView(buttonType: .addFunds)
+    let activityView = WalletActivityView()
     
-    override init(frame: CGRect) {
-      super.init(frame: frame)
+    init(isEmpty: Bool) {
+      super.init(frame: .zero)
       
       backgroundColor = SettingsUX.backgroundColor
-      
-      // FIXME: Remove temp values
-      walletSection.setWalletBalance("30", crypto: "BAT", dollarValue: "0.00 USD")
       
       addSubview(scrollView)
       scrollView.addSubview(stackView)
       stackView.addArrangedSubview(walletSection)
-      //    stackView.addArrangedSubview(EmptyWalletView())
-      stackView.addArrangedSubview(WalletActivityView())
+      if isEmpty {
+        stackView.addArrangedSubview(EmptyWalletView())
+      } else {
+        stackView.addArrangedSubview(activityView)
+      }
       stackView.addArrangedSubview(PoweredByUpholdView())
       
       scrollView.snp.makeConstraints {
