@@ -36,15 +36,24 @@ class Button: UIButton {
       
       if isLoading {
         addSubview(loaderView)
-        loaderView.snp.makeConstraints {
-          $0.center.equalToSuperview()
+        switch loaderPlacement {
+        case .replacesContent:
+          loaderView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+          }
+        case .right:
+          loaderView.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            if let titleLabel = titleLabel {
+              $0.leading.equalTo(titleLabel.snp.trailing).offset(10.0)
+            }
+          }
         }
+        setNeedsLayout()
         layoutIfNeeded()
         loaderView.start()
       }
-      if loaderPlacement == .replacesContent, isLoading {
-        loaderView.alpha = 0.0
-      }
+      loaderView.alpha = 0.0
       switch loaderPlacement {
       case .replacesContent:
         let animatingOutViews = isLoading ? [self.titleLabel, self.imageView].compactMap { $0 } : [loaderView]
@@ -63,6 +72,14 @@ class Button: UIButton {
           }
         })
       case .right:
+        UIView.animate(withDuration: 0.25, animations: {
+          loaderView.alpha = self.isLoading ? 1.0 : 0.0
+        }) { _ in
+          if !self.isLoading {
+            loaderView.stop()
+            loaderView.removeFromSuperview()
+          }
+        }
         break
       }
     }

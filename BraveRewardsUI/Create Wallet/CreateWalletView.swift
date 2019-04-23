@@ -10,14 +10,21 @@ extension CreateWalletViewController {
     var isCreatingWallet: Bool = false {
       didSet {
         if isCreatingWallet {
-          createWalletButton.setTitle(BATLocalizedString("BraveRewardsCreatingWallet", "Creating Wallet").uppercased(), for: .normal)
+          self.createWalletButton.setTitle(BATLocalizedString("BraveRewardsCreatingWallet", "Creating Wallet").uppercased(), for: .normal)
+          // Make the load start when the new title label is in place (since its animated)
+          CATransaction.setCompletionBlock {
+            self.createWalletButton.isLoading = self.isCreatingWallet
+          }
         } else {
           createWalletButton.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
+          self.createWalletButton.isLoading = self.isCreatingWallet
         }
       }
     }
     
     let createWalletButton = ActionButton(type: .system).then {
+      $0.loaderView = LoaderView(size: .small)
+      $0.loaderPlacement = .right
       $0.setTitle(BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased(), for: .normal)
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
     }
