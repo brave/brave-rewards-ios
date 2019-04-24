@@ -38,6 +38,18 @@ class WalletViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // FIXME: Only show these when we have notifications to show?
+//    let notification = WalletNotificationView(
+//      notification: WalletNotification(
+//        category: .adsRewards,
+//        body: "You’ve earned 10 BAT.",
+//        date: Date()
+//      )
+//    )
+//    notification.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)
+//    notification.actionButton.addTarget(self, action: #selector(tappedNotificationAction), for: .touchUpInside)
+//    walletView.notificationView = notification
+    
     // Not actually visible from this controller
     title = BATLocalizedString("BraveRewardsPanelTitle", "Rewards")
     
@@ -160,6 +172,15 @@ class WalletViewController: UIViewController {
   }
   
   // MARK: - Actions
+  
+  @objc private func tappedNotificationClose() {
+    self.walletView.setNotificationView(nil, animated: true)
+  }
+  
+  @objc private func tappedNotificationAction() {
+    // TODO: Do something with the notification
+    self.walletView.setNotificationView(nil, animated: true)
+  }
   
   @objc private func tappedGrantsButton() {
     let controller = GrantsListViewController(ledger: state.ledger)

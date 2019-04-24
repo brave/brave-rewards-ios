@@ -9,6 +9,60 @@ extension WalletViewController {
   
   class View: UIView {
     
+    var notificationView: WalletNotificationView? {
+      willSet {
+        notificationView?.removeFromSuperview()
+      }
+      didSet {
+        guard let notificationView = notificationView else { return }
+        addSubview(notificationView)
+        notificationView.snp.makeConstraints {
+          $0.top.leading.trailing.equalTo(self)
+          $0.height.equalTo(headerView).offset(1.0)
+        }
+      }
+    }
+    
+    func setNotificationView(_ notificationView: WalletNotificationView?, animated: Bool) {
+      switch (self.notificationView, notificationView) {
+      case (.some(let oldNotificationView), .none):
+        // removing, animate out
+        UIView.animate(withDuration: 0.15, animations: {
+          oldNotificationView.alpha = 0.0
+        }) { _ in
+          self.notificationView = nil
+        }
+      case (.none, .some(let newNotificationView)):
+        // adding, animate in
+        self.notificationView = newNotificationView
+        newNotificationView.alpha = 0.0
+        UIView.animate(withDuration: 0.15) {
+          newNotificationView.alpha = 1.0
+        }
+      case (.some(let oldNotificationView), .some(let newNotificationView)):
+        // replacing, alpha replace
+        UIView.animate(withDuration: 0.1, animations: {
+          oldNotificationView.subviews.forEach { view in
+            view.alpha = 0.0
+          }
+        }) { _ in
+          self.notificationView = newNotificationView
+          newNotificationView.subviews.forEach { view in
+            view.alpha = 0.0
+          }
+          UIView.animate(withDuration: 0.1, animations: {
+            newNotificationView.subviews.forEach { view in
+              view.alpha = 1.0
+            }
+          })
+        }
+        break
+      case (.none, .none):
+        // nothing
+        break
+      }
+    }
+    
     let headerView = WalletHeaderView()
     
     var contentView: (UIView & WalletContentView)? {
