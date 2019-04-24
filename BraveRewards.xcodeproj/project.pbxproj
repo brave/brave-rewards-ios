@@ -317,7 +317,6 @@
 		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
 		27A4707C2242EA6C00596431 /* GrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabberView.swift; sourceTree = "<group>"; };
 		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
-		27B6C88621F64C0300F256EA /* NSArray+Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Vector.h"; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Extensions.h"; sourceTree = "<group>"; };
 		27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSURL+Extensions.mm"; sourceTree = "<group>"; };
@@ -492,7 +491,6 @@
 				27885E882265087000A47647 /* CppTransformations.h */,
 				272D13E521F61E5500768D30 /* BATCommonOperations.h */,
 				272D13E621F61E5500768D30 /* BATCommonOperations.mm */,
-				27B6C88621F64C0300F256EA /* NSArray+Vector.h */,
 				27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */,
 				27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */,
 			);
