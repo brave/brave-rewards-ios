@@ -112,14 +112,23 @@ class AutoContributeDetailViewController: UIViewController {
     case monthlyPayment
     case nextContribution
     case supportedSites
+    case excludedSites
     
     func dequeuedCell(from tableView: UITableView, indexPath: IndexPath) -> TableViewCell {
       switch self {
       case .monthlyPayment, .supportedSites:
         return tableView.dequeueReusableCell(for: indexPath) as Value1TableViewCell
-      case .nextContribution, .settings:
+      case .nextContribution, .settings, .excludedSites:
         return tableView.dequeueReusableCell(for: indexPath) as TableViewCell
       }
+    }
+    
+    static func numberOrRows(_ isExcludingSites: Bool) -> Int {
+      var cases = Set<SummaryRows>(SummaryRows.allCases)
+      if !isExcludingSites {
+        cases.remove(.excludedSites)
+      }
+      return cases.count
     }
   }
   
@@ -177,6 +186,16 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       }
       controller.title = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
       navigationController?.pushViewController(controller, animated: true)
+    case SummaryRows.excludedSites.rawValue:
+      // FIXME: Use actual number
+      let numberOfExcludedSites = 5
+      let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+      alert.addAction(UIAlertAction(title: String(format: BATLocalizedString("BraveRewardsAutoContributeRestoreExcludedSites", "Restore %ld excluded sites"), numberOfExcludedSites), style: .default, handler: { _ in
+        self.ledger.restoreAllExcludedPublishers()
+        self.reloadData()
+      }))
+      alert.addAction(UIAlertAction(title: BATLocalizedString("Cancel", "Cancel"), style: .cancel, handler: nil))
+      present(alert, animated: true)
     default:
       break
     }
@@ -204,7 +223,8 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
-      return SummaryRows.allCases.count
+      let isExcludingSites = true // FIXME: Change based on if user actually has excluded publishers
+      return SummaryRows.numberOrRows(isExcludingSites)
     case .contributions:
       return upcomingContributions.isEmpty ? 1 : upcomingContributions.count
     }
@@ -239,6 +259,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       guard let row = SummaryRows(rawValue: indexPath.row) else { return UITableViewCell() }
       let cell = row.dequeuedCell(from: tableView, indexPath: indexPath)
       cell.label.font = SettingsUX.bodyFont
+      cell.label.textColor = .black
       cell.label.numberOfLines = 0
       cell.accessoryLabel?.textColor = Colors.grey100
       cell.accessoryLabel?.font = SettingsUX.bodyFont
@@ -262,6 +283,11 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         cell.label.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
         cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
         cell.selectionStyle = .none
+      case .excludedSites:
+        // FIXME: Use actual number
+        let numberOfExcludedSites = 5
+        cell.label.text = String(format: BATLocalizedString("BraveRewardsAutoContributeRestoreExcludedSites", "Restore %ld excluded sites"), numberOfExcludedSites)
+        cell.label.textColor = Colors.blurple400
       }
       return cell
     case .contributions:
