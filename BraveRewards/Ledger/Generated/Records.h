@@ -114,6 +114,9 @@ NS_SWIFT_NAME(RewardsInternalsInfo)
 @interface BATRewardsInternalsInfo : NSObject
 @property (nonatomic) NSString * paymentId;
 @property (nonatomic) bool isKeyInfoSeedValid;
+@property (nonatomic) NSString * personaId;
+@property (nonatomic) NSString * userId;
+@property (nonatomic) unsigned long long bootStamp;
 @property (nonatomic) NSDictionary<NSString *, BATReconcileInfo *> * currentReconciles;
 @end
 

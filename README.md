@@ -2,7 +2,7 @@
 
 A framework for consuming Brave Rewards on [brave-ios](https://github.com/brave/brave-ios)
 
-Latest ledger/ads implementations were built around libraries compiled from brave-core/dc571d123ec08faa8f907a34ab95d95011118fa2 (`libbat-native-ads.a`, `libbat-native-ledger.a`, and `libchallenge_bypass_ristretto.a`)
+Latest ledger/ads implementations were built around libraries compiled from brave-core/069e0a6e40a80d41bff3fffa8dc406d87020ef58 (`libbat-native-ads.a`, `libbat-native-ledger.a`, and `libchallenge_bypass_ristretto.a`)
 
 These libraries are too large to include in the repo, therefore you must clone http://github.com/brave/brave-browser/ and run the script `gen_rewards_libs.sh` located in `BraveRewards/lib` pointing to that cloned and initialized repo.
 

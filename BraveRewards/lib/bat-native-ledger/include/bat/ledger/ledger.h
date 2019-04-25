@@ -57,11 +57,13 @@ using PublisherBannerCallback =
     std::function<void(std::unique_ptr<ledger::PublisherBanner> banner)>;
 using WalletAddressesCallback =
     std::function<void(std::map<std::string, std::string> addresses)>;
-using ConfirmationsHistoryCallback = std::function<void(
-    std::unique_ptr<ledger::TransactionsInfo> info)>;
+using GetTransactionHistoryForThisCycleCallback =
+    std::function<void(std::unique_ptr<ledger::TransactionsInfo> info)>;
 using GetExcludedPublishersNumberDBCallback = std::function<void(uint32_t)>;
 using OnWalletPropertiesCallback = std::function<void(const ledger::Result,
                                   std::unique_ptr<ledger::WalletInfo>)>;
+using OnRefreshPublisherCallback =
+    std::function<void(bool)>;
 
 class LEDGER_EXPORT Ledger {
  public:
@@ -277,15 +279,18 @@ class LEDGER_EXPORT Ledger {
   virtual void SetCatalogIssuers(const std::string& info) = 0;
 
   virtual void ConfirmAd(const std::string& info) = 0;
-  virtual void GetConfirmationsHistory(
-      const uint64_t from_timestamp_seconds,
-      const uint64_t to_timestamp_seconds,
-      ledger::ConfirmationsHistoryCallback callback) = 0;
+  virtual void GetTransactionHistoryForThisCycle(
+      GetTransactionHistoryForThisCycleCallback callback) = 0;
   virtual void GetRewardsInternalsInfo(ledger::RewardsInternalsInfo* info) = 0;
 
   virtual void GetRecurringTips(ledger::PublisherInfoListCallback callback) = 0;
 
   virtual void GetOneTimeTips(ledger::PublisherInfoListCallback callback) = 0;
+  virtual void RefreshPublisher(
+      const std::string& publisher_key,
+      ledger::OnRefreshPublisherCallback callback) = 0;
+
+  virtual void StartAutoContribute() = 0;
 };
 
 }  // namespace ledger

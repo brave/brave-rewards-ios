@@ -156,6 +156,9 @@
   if ((self = [super init])) {
     self.paymentId = [NSString stringWithUTF8String:obj.payment_id.c_str()];
     self.isKeyInfoSeedValid = obj.is_key_info_seed_valid;
+    self.personaId = [NSString stringWithUTF8String:obj.persona_id.c_str()];
+    self.userId = [NSString stringWithUTF8String:obj.user_id.c_str()];
+    self.bootStamp = obj.boot_stamp;
     self.currentReconciles = NSDictionaryFromMap(obj.current_reconciles, ^BATReconcileInfo *(ledger::ReconcileInfo o){ return [[BATReconcileInfo alloc] initWithReconcileInfo:o]; });
   }
   return self;
