@@ -32,7 +32,10 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   NativeLedgerClient *ledgerClient;
   ledger::Ledger *ledger;
 }
+@property (nonatomic, copy) NSString *storagePath;
 @property (nonatomic) BATWalletInfo *walletInfo;
+@property (nonatomic) dispatch_queue_t stateWriteThread;
+@property (nonatomic) NSMutableDictionary<NSString *, NSString *> *state;
 @property (nonatomic, copy, nullable) void (^walletInitializedBlock)(const ledger::Result result);
 @property (nonatomic, copy, nullable) void (^walletRecoveredBlock)(const ledger::Result result, const double balance, const std::vector<ledger::Grant> &grants);
 @property (nonatomic) BATCommonOperations *commonOps;
@@ -44,7 +47,10 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 - (instancetype)initWithStateStoragePath:(NSString *)path
 {
   if ((self = [super init])) {
+    self.storagePath = path;
     self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:path];
+    self.state = [[NSMutableDictionary alloc] initWithContentsOfFile:self.randomStatePath] ?: [[NSMutableDictionary alloc] init];
+    self.stateWriteThread = dispatch_queue_create("com.rewards.state", DISPATCH_QUEUE_SERIAL);
     
     ledgerClient = new NativeLedgerClient(self);
     ledger = ledger::Ledger::CreateInstance(ledgerClient);
@@ -68,6 +74,11 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
   delete ledgerClient;
 }
 
+- (NSString *)randomStatePath
+{
+  return [self.storagePath stringByAppendingString:@"random_state.plist"];
+}
+
 #pragma mark - Wallet
 
 BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
@@ -79,7 +90,7 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
     const auto strongSelf = weakSelf;
     if (!strongSelf) { return; }
     NSError *error = nil;
-    if (result != ledger::WALLET_CREATED && result != ledger::LEDGER_OK) {
+    if (result != ledger::WALLET_CREATED) {
       std::map<ledger::Result, std::string> errorDescriptions {
         { ledger::Result::LEDGER_ERROR, "The wallet was already initialized" },
         { ledger::Result::BAD_REGISTRATION_RESPONSE, "Request credentials call failure or malformed data" },
@@ -92,12 +103,11 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
       }
       error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
     }
-    if (result == ledger::WALLET_CREATED) {
-      if (completion) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          completion(error);
-        });
-      }
+    if (completion) {
+      strongSelf.walletInitializedBlock = nil;
+      dispatch_async(dispatch_get_main_queue(), ^{
+        completion(error);
+      });
     }
   };
   // Results that can come from CreateWallet():
@@ -618,6 +628,34 @@ BATLedgerBridge(BOOL,
   return [self.commonOps generateUUID];
 }
 
+- (void)loadState:(const std::string &)name callback:(ledger::OnLoadCallback)callback
+{
+  const auto key = [NSString stringWithUTF8String:name.c_str()];
+  const auto value = self.state[key];
+  if (value) {
+    callback(ledger::LEDGER_OK, std::string(value.UTF8String));
+  } else {
+    callback(ledger::LEDGER_ERROR, "");
+  }
+}
+
+- (void)resetState:(const std::string &)name callback:(ledger::OnResetCallback)callback
+{
+  const auto key = [NSString stringWithUTF8String:name.c_str()];
+  self.state[key] = nil;
+  callback(ledger::LEDGER_OK);
+}
+
+- (void)saveState:(const std::string &)name value:(const std::string &)value callback:(ledger::OnSaveCallback)callback
+{
+  const auto key = [NSString stringWithUTF8String:name.c_str()];
+  self.state[key] = [NSString stringWithUTF8String:value.c_str()];
+  callback(ledger::LEDGER_OK);
+  dispatch_async(self.stateWriteThread, ^{
+    [self.state writeToFile:self.randomStatePath atomically:YES];
+  });
+}
+
 // TODO: Implement the rest of these methods
 
 - (void)confirmationsTransactionHistoryDidChange { }
@@ -633,7 +671,6 @@ BATLedgerBridge(BOOL,
 - (void)loadNicewareList:(ledger::GetNicewareListCallback)callback { }
 - (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
 - (void)loadPublisherInfo:(const std::string &)publisher_key callback:(ledger::PublisherInfoCallback)callback { }
-- (void)loadState:(const std::string &)name callback:(ledger::OnLoadCallback)callback { }
 - (void)onExcludedSitesChanged:(const std::string &)publisher_id exclude:(ledger::PUBLISHER_EXCLUDE)exclude { }
 - (void)onGrant:(ledger::Result)result grant:(const ledger::Grant &)grant { }
 - (void)onGrantFinish:(ledger::Result)result grant:(const ledger::Grant &)grant { }
@@ -642,14 +679,12 @@ BATLedgerBridge(BOOL,
 - (void)onRecoverWallet:(ledger::Result)result balance:(double)balance grants:(const std::vector<ledger::Grant> &)grants { }
 - (void)onRemoveRecurring:(const std::string &)publisher_key callback:(ledger::RecurringRemoveCallback)callback { }
 - (void)onRestorePublishers:(ledger::OnRestoreCallback)callback { }
-- (void)resetState:(const std::string &)name callback:(ledger::OnResetCallback)callback { }
 - (void)saveActivityInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback { }
 - (void)saveContributionInfo:(const std::string &)probi month:(const int)month year:(const int)year date:(const uint32_t)date publisherKey:(const std::string &)publisher_key category:(const ledger::REWARDS_CATEGORY)category { }
 - (void)saveMediaPublisherInfo:(const std::string &)media_key publisherId:(const std::string &)publisher_id { }
 - (void)saveNormalizedPublisherList:(const ledger::PublisherInfoListStruct &)normalized_list { }
 - (void)savePendingContribution:(const ledger::PendingContributionList &)list { }
 - (void)savePublisherInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback { }
-- (void)saveState:(const std::string &)name value:(const std::string &)value callback:(ledger::OnSaveCallback)callback { }
 - (void)setConfirmationsIsReady:(const bool)is_ready { }
 
 
