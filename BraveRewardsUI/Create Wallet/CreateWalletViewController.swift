@@ -57,10 +57,12 @@ class CreateWalletViewController: UIViewController {
     createWalletView.isCreatingWallet = true
     state.ledger.createWallet { [weak self] error in
       guard let self = self else { return }
-      if let _ = error {
-        let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+      if let error = error {
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alertController, animated: true)
+        self.createWalletView.isCreatingWallet = false;
+        return;
       }
       self.state.ledger.isEnabled = true
       self.state.ledger.fetchWalletDetails({ [weak self] _ in
