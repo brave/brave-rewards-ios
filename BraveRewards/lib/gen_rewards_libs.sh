@@ -8,12 +8,16 @@ ads_drop_point="$current_dir/bat-native-ads"
 
 skip_update=0
 clean=0
+skip_reset=0
+build_only=0
 brave_browser_dir="${@: -1}"
 
 function usage() {
   echo "Usage: ./gen_rewards_libs.sh [--skip-update] [--clean] {\$home/brave/brave-browser}"
   echo " --skip-update:   Does not pull down any brave-core/brave-browser changes"
   echo " --clean:         Cleans build directories and runs a gn gen before building"
+  echo " --skip-reset:    Does not execute \`git reset --hard\` on brave-browser to dump patches."
+  echo " --build-only:    Does not copy include headers over or update the README after builing the static libraries"
   exit 1
 }
 
@@ -23,8 +27,16 @@ case $i in
     -h|--help)
     usage
     ;;
+    --skip-reset)
+    skip_reset=1
+    shift
+    ;;
     --skip-update)
     skip_update=1
+    shift
+    ;;
+    --build-only)
+    build_only=1
     shift
     ;;
     --clean)
@@ -54,8 +66,10 @@ else
   cd src
 fi
 
+if [ "$skip_reset" = 0 ]; then 
 # Have to dump the brave-browser/src patches until https://github.com/brave/brave-browser/issues/3080 is resolved
-git reset --hard HEAD
+  git reset --hard HEAD
+fi
 
 # TODO: Check if there are any changes made to any of the dependent vendors via git. If no files are changed,
 #       we can just skip building altogether
@@ -139,6 +153,10 @@ lipo -create out/sim-release/gen/challenge_bypass_ristretto/out/x86_64-apple-ios
              out/device-release/gen/challenge_bypass_ristretto/out/aarch64-apple-ios/release/libchallenge_bypass_ristretto.a \
              -output "$ledger_drop_point/libchallenge_bypass_ristretto.a"
 echo "Created static library: $ledger_drop_point/libchallenge_bypass_ristretto.a"
+
+if [ "$build_only" = 1 ]; then
+  exit 0
+fi
 
 # Copy include headers over. If these libraries ever begin to include Chromium dependencies–such as `base`–
 # in public headers we will also need to copy over those headers
