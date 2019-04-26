@@ -39,11 +39,18 @@ class WalletViewController: UIViewController {
     super.viewDidLoad()
     
     // FIXME: Only show these when we have notifications to show?
-//    let notification = WalletNotificationView(
-//      notification: WalletNotification(
+//    let notification = WalletActionNotificationView(
+//      notification: WalletActionNotification(
 //        category: .adsRewards,
 //        body: "You’ve earned 10 BAT.",
 //        date: Date()
+//      )
+//    )
+//    let notification = WalletMessageNotificationView(
+//      notification: WalletMessageNotification(
+//        category: .success,
+//        title: "Wallet restored!",
+//        body: "Your wallet key has been verified and loaded successfuly"
 //      )
 //    )
 //    notification.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)

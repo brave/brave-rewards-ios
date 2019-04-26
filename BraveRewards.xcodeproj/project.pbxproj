@@ -80,6 +80,8 @@
 		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
 		2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769558C2270A7CB008E5DED /* WalletNotificationView.swift */; };
+		2769559322738942008E5DED /* WalletActionNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559222738942008E5DED /* WalletActionNotificationView.swift */; };
+		2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletMessageNotificationView.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
 		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
@@ -287,6 +289,8 @@
 		27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATActivityInfoFilter.mm; sourceTree = "<group>"; };
 		27695588226E4802008E5DED /* BATActivityInfoFilter+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATActivityInfoFilter+Private.h"; sourceTree = "<group>"; };
 		2769558C2270A7CB008E5DED /* WalletNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNotificationView.swift; sourceTree = "<group>"; };
+		2769559222738942008E5DED /* WalletActionNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionNotificationView.swift; sourceTree = "<group>"; };
+		2769559622738C26008E5DED /* WalletMessageNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletMessageNotificationView.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
@@ -713,6 +717,8 @@
 			isa = PBXGroup;
 			children = (
 				2769558C2270A7CB008E5DED /* WalletNotificationView.swift */,
+				2769559222738942008E5DED /* WalletActionNotificationView.swift */,
+				2769559622738C26008E5DED /* WalletMessageNotificationView.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -1178,12 +1184,14 @@
 				27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */,
 				2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */,
 				27F4C1D722551D6B00CFCD67 /* UIStackViewExtensions.swift in Sources */,
+				2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */,
 				278A6B42225C044F00175678 /* SettingsViewController.swift in Sources */,
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
 				274CDD41225FE7CB00FA7364 /* BATUSDPairView.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */,
 				270483632221AC260051239C /* RewardsSummaryView.swift in Sources */,
+				2769559322738942008E5DED /* WalletActionNotificationView.swift in Sources */,
 				276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */,
 				2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */,
 				27A4707822417E6200596431 /* SettingsViewDetailsButton.swift in Sources */,
