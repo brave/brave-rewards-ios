@@ -91,6 +91,7 @@ extension OptionsSelectionViewController {
     override init(frame: CGRect) {
       super.init(frame: frame)
       
+      tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
       tableView.backgroundView = UIView().then { $0.backgroundColor = SettingsUX.backgroundColor }
       tableView.separatorColor = UIColor(white: 0.85, alpha: 1.0)
       tableView.register(UITableViewCell.self, forCellReuseIdentifier: "OptionCell")
