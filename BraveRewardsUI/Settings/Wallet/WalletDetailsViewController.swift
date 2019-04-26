@@ -36,7 +36,9 @@ class WalletDetailsViewController: UIViewController {
     detailsView.walletSection.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     
     // FIXME: Remove temp values
-    detailsView.walletSection.setWalletBalance("30", crypto: "BAT", dollarValue: "0.00 USD")
+    if let dollarString = state.ledger.dollarStringForBATAmount(30) {
+      detailsView.walletSection.setWalletBalance("30", crypto: "BAT", dollarValue: dollarString)
+    }
     detailsView.activityView.monthYearLabel.text = "March 2019"
     detailsView.activityView.rows = [
       RowView(title: "Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),

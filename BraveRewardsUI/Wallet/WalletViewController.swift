@@ -74,7 +74,9 @@ class WalletViewController: UIViewController {
     walletView.headerView.grantsButton.addTarget(self, action: #selector(tappedGrantsButton), for: .touchUpInside)
     
     // FIXME: Remove temp values
-    walletView.headerView.setWalletBalance("30.0", crypto: "BAT", dollarValue: "0.00 USD")
+    if let dollarString = state.ledger.dollarStringForBATAmount(30) {
+      walletView.headerView.setWalletBalance("30.0", crypto: "BAT", dollarValue: dollarString)
+    }
     
     rewardsSummaryView.monthYearLabel.text = "MARCH 2019"
     rewardsSummaryView.rows = [

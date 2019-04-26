@@ -104,11 +104,6 @@ extension TippingViewController {
         $0.top.leading.trailing.equalTo(contentView)
         $0.bottom.equalTo(self.optionSelectionView.snp.top)
       }
-      
-      // FIXME: Remove fake data
-      optionSelectionView.setWalletBalance("30", crypto: "BAT")
-      optionSelectionView.options = ["1", "5", "10"].map { TippingOption.batAmount($0, dollarValue: "0.00 USD") }
-      optionSelectionView.selectedOptionIndex = 1
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

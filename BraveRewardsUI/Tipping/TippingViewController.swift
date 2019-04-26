@@ -56,6 +56,13 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     
     // FIXME: Set this disclaimer hidden based on whether or not the publisher is verified
     tippingView.overviewView.disclaimerView.isHidden = true
+    
+    // FIXME: Remove fake data
+    tippingView.optionSelectionView.setWalletBalance("30", crypto: "BAT")
+    tippingView.optionSelectionView.options = [1.0, 5.0, 10.0].map {
+      TippingOption.batAmount("\($0)", dollarValue: state.ledger.dollarStringForBATAmount($0) ?? "")
+    }
+    tippingView.optionSelectionView.selectedOptionIndex = 1
   }
   
   // MARK: - Actions
