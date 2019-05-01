@@ -20,4 +20,10 @@ public class RewardsPanelController: PopoverNavigationController {
       viewControllers = [WalletViewController(state: state)]
     }
   }
+  
+  public override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    navigationBar.tintColor = Colors.blurple400
+  }
 }

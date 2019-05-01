@@ -8,7 +8,7 @@ import BraveRewards
 extension WalletDetailsViewController {
   class View: UIView {
     
-    let walletSection = SettingsWalletSectionView(buttonType: .addFunds)
+    let walletSection = SettingsWalletSectionView(buttonType: .none)
     let activityView = WalletActivityView()
     
     init(isEmpty: Bool) {

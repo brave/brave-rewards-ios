@@ -178,9 +178,11 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
     case .allowUnverifiedContributions:
       cell.label.text = BATLocalizedString("BraveRewardsAutoContributeToUnverifiedSites", "Allow contributions to non-verified sites")
       cell.accessoryView = contentView.allowUnverifiedContributionsSwitch
+      cell.selectionStyle = .none
     case .allowVideoContributions:
       cell.label.text = BATLocalizedString("BraveRewardsAutoContributeToVideos", "Allow contribution to videos")
       cell.accessoryView = contentView.allowVideoContributionsSwitch
+      cell.selectionStyle = .none
     }
     return cell
   }

@@ -66,7 +66,7 @@ class WalletHeaderView: UIView {
     $0.setImage(UIImage(frameworkResourceNamed: "bat-small").alwaysOriginal, for: .normal)
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8.0)
     $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -8.0)
-    $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5.0, bottom: 0, right: 5.0)
+    $0.contentEdgeInsets = UIEdgeInsets(top: 10.0, left: 5.0, bottom: 10.0, right: 5.0)
     $0.titleLabel?.font = .systemFont(ofSize: 14.0)
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
@@ -91,7 +91,6 @@ class WalletHeaderView: UIView {
     addSubview(usdBalanceLabel)
     addSubview(grantsButton)
     addSubview(buttonsContainerView)
-    buttonsContainerView.addArrangedSubview(addFundsButton)
     buttonsContainerView.addArrangedSubview(settingsButton)
     
     titleLabel.snp.makeConstraints {
@@ -118,8 +117,9 @@ class WalletHeaderView: UIView {
       $0.trailing.lessThanOrEqualTo(self).offset(-20.0)
     }
     buttonsContainerView.snp.makeConstraints {
-      $0.top.equalTo(self.grantsButton.snp.bottom).offset(20.0)
-      $0.leading.trailing.bottom.equalTo(self).inset(30.0)
+      $0.top.equalTo(self.grantsButton.snp.bottom).offset(10.0)
+      $0.leading.trailing.equalTo(self).inset(30.0)
+      $0.bottom.equalTo(self).inset(20.0)
     }
   }
   
