@@ -127,6 +127,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
       cell.verifiedStatusImageView.isHidden = indexPath.row != 0
       cell.typeNameLabel.text = "Recurring"
+      cell.selectionStyle = .none
       return cell
     }
   }
@@ -154,12 +155,16 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension TipsDetailViewController {
   class View: UIView {
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .grouped)
     
     override init(frame: CGRect) {
       super.init(frame: frame)
       
-      tableView.separatorStyle = .none
+      tableView.backgroundView = UIView().then {
+        $0.backgroundColor = SettingsUX.backgroundColor
+      }
+      tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+      tableView.separatorInset = .zero
       tableView.register(TipsTableCell.self)
       tableView.register(TipsSummaryTableCell.self)
       tableView.register(EmptyTableCell.self)

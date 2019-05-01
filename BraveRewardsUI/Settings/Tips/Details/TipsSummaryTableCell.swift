@@ -61,12 +61,4 @@ class TipsSummaryTableCell: UITableViewCell, TableViewReusable {
   required init(coder: NSCoder) {
     fatalError()
   }
-  
-  override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    
-    UIColor(white: 0.8, alpha: 1.0).setFill()
-    let height = 1.0 / UIScreen.main.scale
-    UIRectFill(CGRect(x: 0, y: rect.maxY - height, width: rect.width, height: height))
-  }
 }

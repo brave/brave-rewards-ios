@@ -258,6 +258,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     case .summary:
       guard let row = SummaryRows(rawValue: indexPath.row) else { return UITableViewCell() }
       let cell = row.dequeuedCell(from: tableView, indexPath: indexPath)
+      cell.manualSeparators = []
       cell.label.font = SettingsUX.bodyFont
       cell.label.textColor = .black
       cell.label.numberOfLines = 0
@@ -298,6 +299,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       }
       let contribution = upcomingContributions[indexPath.row]
       let cell = tableView.dequeueReusableCell(for: indexPath) as AutoContributeCell
+      cell.selectionStyle = .none
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
       cell.verifiedStatusImageView.isHidden = !contribution.isVerified
       cell.siteNameLabel.text = contribution.site
@@ -309,12 +311,16 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
 
 extension AutoContributeDetailViewController {
   class View: UIView {
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .grouped)
     
     override init(frame: CGRect) {
       super.init(frame: frame)
       
-      tableView.separatorStyle = .none
+      tableView.backgroundView = UIView().then {
+        $0.backgroundColor = SettingsUX.backgroundColor
+      }
+      tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+      tableView.separatorInset = .zero
       tableView.register(AutoContributeCell.self)
       tableView.register(TableViewCell.self)
       tableView.register(Value1TableViewCell.self)

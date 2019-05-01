@@ -23,7 +23,7 @@ class TableHeaderRowView: UIView {
   init(columns: [Column], tintColor: UIColor) {
     super.init(frame: .zero)
     
-    backgroundColor = .white
+    backgroundColor = .clear
     
     let stackView = UIStackView()
     let separatorView = SeparatorView().then {

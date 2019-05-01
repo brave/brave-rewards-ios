@@ -85,14 +85,6 @@ class TipsTableCell: UITableViewCell, TableViewReusable {
     }
   }
   
-  override func draw(_ rect: CGRect) {
-    super.draw(rect)
-    
-    UIColor(white: 0.85, alpha: 1.0).setFill()
-    let height = 1.0 / UIScreen.main.scale
-    UIRectFill(CGRect(x: 0, y: rect.maxY - height, width: rect.width, height: height))
-  }
-  
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()

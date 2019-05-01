@@ -23,7 +23,7 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
     $0.setContentHuggingPriority(.required, for: .horizontal)
     $0.contentMode = .scaleAspectFit
     $0.snp.makeConstraints {
-      $0.width.height.equalTo(28.0)
+      $0.width.equalTo(28.0)
     }
   }
   let verifiedStatusImageView = UIImageView(image: UIImage(frameworkResourceNamed: "icn-verify")).then {
