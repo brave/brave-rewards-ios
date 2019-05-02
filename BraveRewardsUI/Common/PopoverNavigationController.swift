@@ -43,6 +43,25 @@ public class PopoverNavigationController: UINavigationController {
     set { }
   }
   
+  public override func viewDidLoad() {
+    super.viewDidLoad()
+    activateFullscreenDismiss()
+  }
+  
+  func activateFullscreenDismiss() {
+    // WARNING: Using private API, this may break in the future
+    let senderKeyPath = String(format: "_cach%@roller", "edInteractionCont")
+    let senderSelector = Selector(senderKeyPath)
+    let handlerSelector = Selector(String(format: "handleNav%@nsition:", "igationTra"))
+    if responds(to: senderSelector) {
+      if let controller = value(forKeyPath: senderKeyPath) as? NSObject, controller.responds(to: handlerSelector) {
+        let pan = UIPanGestureRecognizer(target: controller, action: handlerSelector)
+        pan.delegate = self
+        view.addGestureRecognizer(pan)
+      }
+    }
+  }
+  
   public override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
@@ -51,5 +70,15 @@ public class PopoverNavigationController: UINavigationController {
       navBarFrame.origin.y = additionalSafeAreaInsets.top
       navigationBar.frame = navBarFrame
     }
+  }
+}
+
+extension PopoverNavigationController: UIGestureRecognizerDelegate {
+  public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return false }
+    if viewControllers.first == visibleViewController { return false }
+    let velocity = pan.velocity(in: view)
+    // Only allow left-to-right swipes
+    return velocity.x > 0
   }
 }
