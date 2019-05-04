@@ -84,6 +84,8 @@
 		2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletMessageNotificationView.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
+		27871A21227B466D003477D4 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A20227B466D003477D4 /* WelcomeViewController.swift */; };
+		27871A23227B4729003477D4 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A22227B4729003477D4 /* WelcomeView.swift */; };
 		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
 		27885E962265798A00A47647 /* NativeLedgerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E932265798A00A47647 /* NativeLedgerClient.h */; };
 		27885E972265798A00A47647 /* NativeLedgerClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27885E942265798A00A47647 /* NativeLedgerClient.mm */; };
@@ -122,6 +124,7 @@
 		27EDB844223D607F008406EB /* Records+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB840223D607F008406EB /* Records+Private.h */; };
 		27EDB845223D607F008406EB /* Records.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB841223D607F008406EB /* Records.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27EDB846223D607F008406EB /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB842223D607F008406EB /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */; };
 		27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */; };
 		27F3E59221FB97CB009A54D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59121FB97CB009A54D5 /* AppDelegate.swift */; };
 		27F3E59421FB97CB009A54D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59321FB97CB009A54D5 /* ViewController.swift */; };
@@ -293,6 +296,8 @@
 		2769559622738C26008E5DED /* WalletMessageNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletMessageNotificationView.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
+		27871A20227B466D003477D4 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		27871A22227B4729003477D4 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
 		27885E882265087000A47647 /* CppTransformations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CppTransformations.h; path = "BraveRewards/objc-gen/CppTransformations.h"; sourceTree = SOURCE_ROOT; };
 		27885E932265798A00A47647 /* NativeLedgerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeLedgerClient.h; sourceTree = "<group>"; };
@@ -331,6 +336,7 @@
 		27EDB840223D607F008406EB /* Records+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Records+Private.h"; sourceTree = "<group>"; };
 		27EDB841223D607F008406EB /* Records.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Records.h; sourceTree = "<group>"; };
 		27EDB842223D607F008406EB /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
+		27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletButton.swift; sourceTree = "<group>"; };
 		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
 		27F3E58F21FB97CB009A54D5 /* BraveRewardsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraveRewardsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F3E59121FB97CB009A54D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -563,6 +569,7 @@
 				270483492220E9290051239C /* Extensions */,
 				273404772220BD63008CABC9 /* Common */,
 				2704835A22219E360051239C /* Create Wallet */,
+				27871A1D227B461B003477D4 /* Welcome */,
 				2704835D2221A9A50051239C /* Disabled Brave Rewards */,
 				270483612221AB960051239C /* Rewards Summary */,
 				27598841222450CD00B2E47A /* Publisher */,
@@ -584,6 +591,7 @@
 				27A4707C2242EA6C00596431 /* GrabberView.swift */,
 				273404662220B041008CABC9 /* Button.swift */,
 				273404712220B8AF008CABC9 /* ActionButton.swift */,
+				27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */,
 				2751E5C82242F3B300CB1B6B /* DismissButton.swift */,
 				273404732220BA73008CABC9 /* GradientView.swift */,
 				270483502220F1D80051239C /* SeparatorView.swift */,
@@ -721,6 +729,15 @@
 				2769559622738C26008E5DED /* WalletMessageNotificationView.swift */,
 			);
 			path = Notifications;
+			sourceTree = "<group>";
+		};
+		27871A1D227B461B003477D4 /* Welcome */ = {
+			isa = PBXGroup;
+			children = (
+				27871A20227B466D003477D4 /* WelcomeViewController.swift */,
+				27871A22227B4729003477D4 /* WelcomeView.swift */,
+			);
+			path = Welcome;
 			sourceTree = "<group>";
 		};
 		27885E4B2263D61C00A47647 /* Products */ = {
@@ -1185,9 +1202,11 @@
 				2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */,
 				27F4C1D722551D6B00CFCD67 /* UIStackViewExtensions.swift in Sources */,
 				2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */,
+				27871A23227B4729003477D4 /* WelcomeView.swift in Sources */,
 				278A6B42225C044F00175678 /* SettingsViewController.swift in Sources */,
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
 				274CDD41225FE7CB00FA7364 /* BATUSDPairView.swift in Sources */,
+				27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */,
 				270483632221AC260051239C /* RewardsSummaryView.swift in Sources */,
@@ -1208,6 +1227,7 @@
 				278A6B44225C04B200175678 /* SettingsUX.swift in Sources */,
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
 				278A6B3A225BF49B00175678 /* AddFundsViewController.swift in Sources */,
+				27871A21227B466D003477D4 /* WelcomeViewController.swift in Sources */,
 				2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */,
 				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				278A6B48225C09AE00175678 /* TippingViewController.swift in Sources */,

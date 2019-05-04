@@ -4,16 +4,13 @@
 
 import UIKit
 
-class CreateWalletViewController: UIViewController {
+class WelcomeViewController: UIViewController {
   
   let state: RewardsState
   
-  var createWalletView: View {
-    return super.view as! View
-  }
-  
   init(state: RewardsState) {
     self.state = state
+    
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -22,24 +19,22 @@ class CreateWalletViewController: UIViewController {
     fatalError()
   }
   
+  var welcomeView: View {
+    return view as! View
+  }
+  
   override func loadView() {
-    self.view = View()
+    view = View()
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    navigationController?.setNavigationBarHidden(true, animated: false)
+    preferredContentSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: 750)
     
-    createWalletView.createWalletButton.addTarget(self, action: #selector(tappedCreateWallet), for: .touchUpInside)
-    createWalletView.learnMoreButton.addTarget(self, action: #selector(tappedLearnMore), for: .touchUpInside)
-    
-    let size = CGSize(width: RewardsUX.preferredPanelSize.width, height: UIScreen.main.bounds.height)
-    preferredContentSize = view.systemLayoutSizeFitting(
-      size,
-      withHorizontalFittingPriority: .required,
-      verticalFittingPriority: .fittingSizeLevel
-    )
+    welcomeView.createWalletButtons.forEach {
+      $0.addTarget(self, action: #selector(tappedCreateWallet(_:)), for: .touchUpInside)
+    }
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -51,36 +46,27 @@ class CreateWalletViewController: UIViewController {
     }
   }
   
-  // MARK: - Actions
-  
-  @objc private func tappedCreateWallet() {
-    if createWalletView.createWalletButton.isCreatingWallet {
+  @objc private func tappedCreateWallet(_ sender: CreateWalletButton) {
+    if sender.isCreatingWallet {
       return
     }
-    createWalletView.createWalletButton.isCreatingWallet = true
+    sender.isCreatingWallet = true
     state.ledger.createWallet { [weak self] error in
       guard let self = self else { return }
       if let error = error {
         let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alertController, animated: true)
-        self.createWalletView.createWalletButton.isCreatingWallet = false
+        sender.isCreatingWallet = false
         return
       }
       self.state.ledger.isEnabled = true
       self.state.ledger.isAutoContributeEnabled = true
       self.state.ledger.fetchWalletDetails({ [weak self] _ in
         guard let self = self else { return }
-        defer { self.createWalletView.createWalletButton.isCreatingWallet = false }
+        defer { sender.isCreatingWallet = false }
         self.show(WalletViewController(state: self.state), sender: self)
       })
     }
   }
-  
-  @objc private func tappedLearnMore() {
-    let controller = WelcomeViewController(state: state)
-    navigationController?.pushViewController(controller, animated: true)
-  }
 }
-
-
