@@ -26,6 +26,10 @@
 - (__type)__objc_getter { return ledger->__cpp_getter(); } \
 - (void)__objc_setter:(__type)newValue { ledger->__cpp_setter(newValue); }
 
+#define BATClassLedgerBridge(__type, __objc_getter, __objc_setter, __cpp_var) \
++ (__type)__objc_getter { return ledger::__cpp_var; } \
++ (void)__objc_setter:(__type)newValue { ledger::__cpp_var = newValue; }
+
 NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 
 @interface BATBraveLedger () <NativeLedgerClientBridge> {
@@ -78,6 +82,14 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 {
   return [self.storagePath stringByAppendingString:@"random_state.plist"];
 }
+
+#pragma mark - Global
+
+BATClassLedgerBridge(BOOL, isDebug, setDebug, is_debug);
+BATClassLedgerBridge(BOOL, isTesting, setTesting, is_testing);
+BATClassLedgerBridge(BOOL, isProduction, setProduction, is_production);
+BATClassLedgerBridge(int, reconcileTime, setReconcileTime, reconcile_time);
+BATClassLedgerBridge(BOOL, useShortRetries, setUseShortRetries, short_retries);
 
 #pragma mark - Wallet
 

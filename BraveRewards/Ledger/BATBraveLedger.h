@@ -21,6 +21,19 @@ NS_SWIFT_NAME(BraveLedger)
 
 - (instancetype)init NS_UNAVAILABLE;
 
+#pragma mark - Global
+
+/// Whether or not to use staging servers. Defaults to false
+@property (class, getter=isDebug) BOOL debug;
+/// Whether or not to use production servers. Defaults to true
+@property (class, getter=isProduction) BOOL production;
+/// Marks if this is being ran in a test environment. Defaults to false
+@property (class, getter=isTesting) BOOL testing;
+/// Number of minutes between reconciles override. Defaults to 0 (no override)
+@property (class) int reconcileTime;
+/// Whether or not to use short contribution retries. Defaults to false
+@property (class) BOOL useShortRetries;
+
 #pragma mark - Wallet
 
 /// Whether or not the wallet has been created

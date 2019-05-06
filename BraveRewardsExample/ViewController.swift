@@ -59,14 +59,23 @@ class ViewController: UIViewController {
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
   @IBOutlet var useMockLedgerSwitch: UISwitch!
+  
+  var ledger: BraveLedger
+  
+  required init?(coder aDecoder: NSCoder) {
+    BraveLedger.isDebug = true
+    BraveLedger.isProduction = false
+    
+    ledger = BraveLedger(stateStoragePath: stateStoragePath)
+    
+    super.init(coder: aDecoder)
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
   }
-  
-  var ledger = BraveLedger(stateStoragePath: stateStoragePath)
 
   @IBAction func tappedBraveRewards() {
     if UIDevice.current.userInterfaceIdiom != .pad && UIApplication.shared.statusBarOrientation.isLandscape {
