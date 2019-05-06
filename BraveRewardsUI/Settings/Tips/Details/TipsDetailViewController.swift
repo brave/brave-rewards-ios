@@ -115,8 +115,9 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       let cell = tableView.dequeueReusableCell(for: indexPath) as TipsSummaryTableCell
       cell.layoutMargins = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
       // FIXME: Replace temp data
-      cell.batValueView.amountLabel.text = "30.0"
-      cell.usdValueView.amountLabel.text = "0.00"
+      let tipAmount = 30.0
+      cell.batValueView.amountLabel.text = String(format: "%.1f", tipAmount)
+      cell.usdValueView.amountLabel.text = ledger.dollarStringForBATAmount(tipAmount)
       return cell
     case .tips:
 //      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell

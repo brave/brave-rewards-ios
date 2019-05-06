@@ -6,6 +6,14 @@ import Foundation
 import BraveRewards
 
 extension BraveLedger {
+  /// Get the current BAT wallet balance for display
+  var balanceString: String {
+    return String(format: "%.1f", balance)
+  }
+  /// Get the current USD wallet balance for display
+  var usdBalanceString: String {
+    return dollarStringForBATAmount(balance) ?? ""
+  }
   
   /// Gets the dollar string for some BAT amount using rates from the users wallet with the
   /// currency code appended (i.e. "6.42 USD")

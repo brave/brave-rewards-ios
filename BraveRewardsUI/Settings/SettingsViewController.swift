@@ -44,10 +44,8 @@ class SettingsViewController: UIViewController {
       $0.autoContributeSection.viewDetailsButton.addTarget(self, action: #selector(tappedAutoContributeViewDetails), for: .touchUpInside)
       $0.autoContributeSection.toggleSwitch.addTarget(self, action: #selector(autoContributeToggleValueChanged), for: .valueChanged)
       
-      // FIXME: Remove fake values
-      if let dollarString = state.ledger.dollarStringForBATAmount(30) {
-        $0.walletSection.setWalletBalance("30.0", crypto: "BAT", dollarValue: dollarString)
-      }
+      let dollarString = state.ledger.dollarStringForBATAmount(state.ledger.balance) ?? ""
+      $0.walletSection.setWalletBalance(state.ledger.balanceString, crypto: "BAT", dollarValue: dollarString)
       
       $0.rewardsToggleSection.toggleSwitch.isOn = state.ledger.isEnabled
       $0.autoContributeSection.toggleSwitch.isOn = state.ledger.isAutoContributeEnabled

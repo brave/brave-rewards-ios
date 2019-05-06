@@ -73,11 +73,13 @@ class WalletViewController: UIViewController {
     walletView.headerView.settingsButton.addTarget(self, action: #selector(tappedSettings), for: .touchUpInside)
     walletView.headerView.grantsButton.addTarget(self, action: #selector(tappedGrantsButton), for: .touchUpInside)
     
-    // FIXME: Remove temp values
-    if let dollarString = state.ledger.dollarStringForBATAmount(30) {
-      walletView.headerView.setWalletBalance("30.0", crypto: "BAT", dollarValue: dollarString)
-    }
+    walletView.headerView.setWalletBalance(
+      state.ledger.balanceString,
+      crypto: "BAT",
+      dollarValue: state.ledger.usdBalanceString
+    )
     
+    // FIXME: Remove temp values
     rewardsSummaryView.monthYearLabel.text = "MARCH 2019"
     rewardsSummaryView.rows = [
       RowView(title: "Total Grants Claimed Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),

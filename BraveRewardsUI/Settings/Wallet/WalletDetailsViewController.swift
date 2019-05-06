@@ -20,8 +20,7 @@ class WalletDetailsViewController: UIViewController {
   }
   
   override func loadView() {
-    // FIXME: Use ledger balance
-    view = View(isEmpty: false /*ledger.balance == 0.0*/)
+    view = View(isEmpty: state.ledger.balance == 0.0)
   }
   
   var detailsView: View {
@@ -35,10 +34,13 @@ class WalletDetailsViewController: UIViewController {
     
     detailsView.walletSection.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     
+    detailsView.walletSection.setWalletBalance(
+      state.ledger.balanceString,
+      crypto: "BAT",
+      dollarValue: state.ledger.usdBalanceString
+    )
+    
     // FIXME: Remove temp values
-    if let dollarString = state.ledger.dollarStringForBATAmount(30) {
-      detailsView.walletSection.setWalletBalance("30", crypto: "BAT", dollarValue: dollarString)
-    }
     detailsView.activityView.monthYearLabel.text = "March 2019"
     detailsView.activityView.rows = [
       RowView(title: "Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),
