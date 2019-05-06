@@ -33,17 +33,15 @@ class GrantsListViewController: UIViewController {
     
     title = BATLocalizedString("BraveRewardsGrants", "Grants")
     
-    // TODO: Get grants, fill them out
-    
-    // FIXME: Remove temp data
-    
-    let tempData: [(String, Date)] = [
-      ("8", Date().addingTimeInterval(60*60*24*15)),
-      ("10", Date().addingTimeInterval(60*60*24*20)),
-      ("10", Date().addingTimeInterval(60*60*24*30))
-    ]
-    tempData.forEach {
-      grantsView.stackView.addArrangedSubview(GrantsItemView(amount: $0.0, expirationDate: $0.1))
+    if let grants = ledger.walletInfo?.grants, !grants.isEmpty {
+      grants.forEach {
+        grantsView.stackView.addArrangedSubview(
+          GrantsItemView(
+            amount: $0.probi,
+            expirationDate: Date(timeIntervalSince1970: TimeInterval($0.expiryTime))
+          )
+        )
+      }
     }
   }
 }

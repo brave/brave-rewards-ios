@@ -9,7 +9,6 @@ class WalletHeaderView: UIView {
   private let backgroundImageView = UIImageView().then {
     $0.image = UIImage(frameworkResourceNamed: "header")
     $0.clipsToBounds = true
-    $0.contentMode = .scaleAspectFill
   }
   
   private let titleLabel = UILabel().then {
@@ -83,43 +82,35 @@ class WalletHeaderView: UIView {
     
     backgroundColor = .clear
     
+    let stackView = UIStackView().then {
+      $0.axis = .vertical
+      $0.alignment = .center
+      $0.spacing = 10.0
+    }
+    
     addSubview(backgroundImageView)
+    addSubview(stackView)
     addSubview(titleLabel)
-    addSubview(altcurrencyContainerView)
+    stackView.addArrangedSubview(altcurrencyContainerView)
     altcurrencyContainerView.addArrangedSubview(balanceLabel)
     altcurrencyContainerView.addArrangedSubview(altcurrencyTypeLabel)
-    addSubview(usdBalanceLabel)
-    addSubview(grantsButton)
-    addSubview(buttonsContainerView)
+    stackView.setCustomSpacing(4.0, after: altcurrencyContainerView)
+    stackView.addArrangedSubview(usdBalanceLabel)
+    stackView.setCustomSpacing(12.0, after: usdBalanceLabel)
+    stackView.addArrangedSubview(grantsButton)
+    stackView.addArrangedSubview(buttonsContainerView)
     buttonsContainerView.addArrangedSubview(settingsButton)
     
     titleLabel.snp.makeConstraints {
       $0.top.equalTo(self.safeAreaLayoutGuide).inset(15.0)
       $0.leading.trailing.equalTo(self).inset(15.0)
     }
-    altcurrencyContainerView.snp.makeConstraints {
-      $0.top.equalTo(self.titleLabel.snp.bottom).offset(10.0)
-      $0.centerX.equalTo(self)
-      $0.leading.greaterThanOrEqualTo(self).offset(20.0)
-      $0.trailing.lessThanOrEqualTo(self).offset(-20.0)
-    }
-    usdBalanceLabel.snp.makeConstraints {
-      $0.top.equalTo(self.altcurrencyTypeLabel.snp.bottom).offset(4.0)
-      $0.centerX.equalTo(self)
-      $0.leading.greaterThanOrEqualTo(self).offset(20.0)
-      $0.trailing.lessThanOrEqualTo(self).offset(-20.0)
+    stackView.snp.makeConstraints {
+      $0.top.equalTo(titleLabel.snp.bottom).offset(10.0)
+      $0.leading.trailing.bottom.equalTo(self.layoutMarginsGuide).inset(15.0)
     }
     grantsButton.snp.makeConstraints {
-      $0.top.equalTo(self.usdBalanceLabel.snp.bottom).offset(12.0)
-      $0.centerX.equalTo(self)
       $0.height.equalTo(26.0)
-      $0.leading.greaterThanOrEqualTo(self).offset(20.0)
-      $0.trailing.lessThanOrEqualTo(self).offset(-20.0)
-    }
-    buttonsContainerView.snp.makeConstraints {
-      $0.top.equalTo(self.grantsButton.snp.bottom).offset(10.0)
-      $0.leading.trailing.equalTo(self).inset(30.0)
-      $0.bottom.equalTo(self).inset(20.0)
     }
   }
   

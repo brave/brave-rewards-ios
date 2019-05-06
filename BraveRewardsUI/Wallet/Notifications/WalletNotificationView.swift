@@ -8,9 +8,7 @@ class WalletNotificationView: UIView {
   
   let closeButton = Button()
   
-  let backgroundView = UIImageView(image: UIImage(frameworkResourceNamed: "notification_header")).then {
-    $0.contentMode = .scaleAspectFill
-  }
+  let backgroundView = UIImageView(image: UIImage(frameworkResourceNamed: "notification_header"))
   
   override init(frame: CGRect) {
     super.init(frame: .zero)

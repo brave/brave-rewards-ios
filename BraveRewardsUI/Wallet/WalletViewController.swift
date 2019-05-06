@@ -60,6 +60,12 @@ class WalletViewController: UIViewController {
     // Not actually visible from this controller
     title = BATLocalizedString("BraveRewardsPanelTitle", "Rewards")
     
+    if let grants = state.ledger.walletInfo?.grants, !grants.isEmpty {
+      walletView.headerView.grantsButton.isHidden = false
+    } else {
+      walletView.headerView.grantsButton.isHidden = true
+    }
+    
     navigationController?.setNavigationBarHidden(true, animated: false)
     
     let rewardsSummaryView = walletView.rewardsSummaryView
