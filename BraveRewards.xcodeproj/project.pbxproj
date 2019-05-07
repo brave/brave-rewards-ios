@@ -119,6 +119,10 @@
 		27A4707822417E6200596431 /* SettingsViewDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */; };
 		27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */; };
 		27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707C2242EA6C00596431 /* GrabberView.swift */; };
+		27AC58E52282369B0014B480 /* BATPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 27AC58E32282369B0014B480 /* BATPublisher.h */; };
+		27AC58E62282369B0014B480 /* BATPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AC58E42282369B0014B480 /* BATPublisher.m */; };
+		27AC58EB228238590014B480 /* BATActivityInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 27AC58E9228238590014B480 /* BATActivityInfo.h */; };
+		27AC58EC228238590014B480 /* BATActivityInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AC58EA228238590014B480 /* BATActivityInfo.m */; };
 		27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AFF5432229798F009320F5 /* TippingConfirmationView.swift */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
@@ -335,6 +339,10 @@
 		27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDetailsButton.swift; sourceTree = "<group>"; };
 		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
 		27A4707C2242EA6C00596431 /* GrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabberView.swift; sourceTree = "<group>"; };
+		27AC58E32282369B0014B480 /* BATPublisher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPublisher.h; sourceTree = "<group>"; };
+		27AC58E42282369B0014B480 /* BATPublisher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATPublisher.m; sourceTree = "<group>"; };
+		27AC58E9228238590014B480 /* BATActivityInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfo.h; sourceTree = "<group>"; };
+		27AC58EA228238590014B480 /* BATActivityInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATActivityInfo.m; sourceTree = "<group>"; };
 		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Extensions.h"; sourceTree = "<group>"; };
@@ -810,6 +818,10 @@
 				27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */,
 				27091825228226380092B1F4 /* DataController.h */,
 				27091826228226380092B1F4 /* DataController.mm */,
+				27AC58E32282369B0014B480 /* BATPublisher.h */,
+				27AC58E42282369B0014B480 /* BATPublisher.m */,
+				27AC58E9228238590014B480 /* BATActivityInfo.h */,
+				27AC58EA228238590014B480 /* BATActivityInfo.m */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -955,6 +967,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27885E9A226586C800A47647 /* LedgerLogStream.h in Headers */,
+				27AC58EB228238590014B480 /* BATActivityInfo.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27EDB845223D607F008406EB /* Records.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
@@ -970,6 +983,7 @@
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
 				27885E962265798A00A47647 /* NativeLedgerClient.h in Headers */,
 				27885E982265798A00A47647 /* NativeLedgerClientBridge.h in Headers */,
+				27AC58E52282369B0014B480 /* BATPublisher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1313,7 +1327,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */,
+				27AC58EC228238590014B480 /* BATActivityInfo.m in Sources */,
 				27EDB843223D607F008406EB /* Records.mm in Sources */,
+				27AC58E62282369B0014B480 /* BATPublisher.m in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,

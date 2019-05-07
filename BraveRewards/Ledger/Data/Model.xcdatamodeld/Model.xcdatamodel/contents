@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18C54" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
-    <entity name="ActivityInfo" representedClassName="ActivityInfo" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ActivityInfo" representedClassName=".BATActivityInfo" syncable="YES">
         <attribute name="category" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="duration" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="month" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -12,7 +12,7 @@
         <attribute name="year" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="publisher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Publisher" inverseName="activity" inverseEntity="Publisher" syncable="YES"/>
     </entity>
-    <entity name="Publisher" representedClassName="Publisher" syncable="YES" codeGenerationType="class">
+    <entity name="Publisher" representedClassName=".BATPublisher" syncable="YES">
         <attribute name="excluded" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="faviconURL" attributeType="URI" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -23,7 +23,7 @@
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityInfo" inverseName="publisher" inverseEntity="ActivityInfo" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Publisher" positionX="-63" positionY="-18" width="128" height="165"/>
         <element name="ActivityInfo" positionX="-54" positionY="45" width="128" height="195"/>
+        <element name="Publisher" positionX="-63" positionY="-18" width="128" height="165"/>
     </elements>
 </model>
