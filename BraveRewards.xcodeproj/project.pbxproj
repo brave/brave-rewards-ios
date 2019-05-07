@@ -84,6 +84,7 @@
 		2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletMessageNotificationView.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
+		27787C7B2282176E003513BD /* wordlist in Resources */ = {isa = PBXBuildFile; fileRef = 27787C7A2282176E003513BD /* wordlist */; };
 		27871A21227B466D003477D4 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A20227B466D003477D4 /* WelcomeViewController.swift */; };
 		27871A23227B4729003477D4 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A22227B4729003477D4 /* WelcomeView.swift */; };
 		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
@@ -296,6 +297,7 @@
 		2769559622738C26008E5DED /* WalletMessageNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletMessageNotificationView.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
+		27787C7A2282176E003513BD /* wordlist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wordlist; sourceTree = "<group>"; };
 		27871A20227B466D003477D4 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		27871A22227B4729003477D4 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
@@ -731,6 +733,14 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		27787C792282176E003513BD /* niceware */ = {
+			isa = PBXGroup;
+			children = (
+				27787C7A2282176E003513BD /* wordlist */,
+			);
+			path = niceware;
+			sourceTree = "<group>";
+		};
 		27871A1D227B461B003477D4 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,6 +874,7 @@
 		27FD393221E7D7D900443796 /* bat-native-ledger */ = {
 			isa = PBXGroup;
 			children = (
+				27787C792282176E003513BD /* niceware */,
 				27FD395321E92F9C00443796 /* include */,
 				27FD393321E7D80100443796 /* libbat-native-ledger.a */,
 				2730DF78222DCB6E0031845C /* libchallenge_bypass_ristretto.a */,
@@ -1135,6 +1146,7 @@
 				27FD394121E7FF8D00443796 /* catalog-schema.json in Resources */,
 				27FD394721E8004400443796 /* locales in Resources */,
 				27FD394521E7FF8D00443796 /* bundle-schema.json in Resources */,
+				27787C7B2282176E003513BD /* wordlist in Resources */,
 				27FD394921E80DE900443796 /* sample_bundle.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

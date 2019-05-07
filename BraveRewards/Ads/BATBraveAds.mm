@@ -113,6 +113,13 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
   adsClient->ads->GenerateAdReportingNotificationShownEvent(info);
 }
 
+#pragma mark - Confirmations
+
+- (void)setConfirmationsIsReady:(BOOL)isReady
+{
+  adsClient->ads->SetConfirmationsIsReady(isReady);
+}
+
 #pragma mark - Observers
 
 - (void)applicationDidBecomeActive

@@ -114,6 +114,9 @@ NS_SWIFT_NAME(BraveLedger)
                      promotionType:(NSString *)promotionType
                         completion:(void (^)(NSString *image, NSString *hint))completion;
 
+- (void)solveGrantCaptchWithPromotionId:(NSString *)promotionId
+                               solution:(NSString *)solution;
+
 #pragma mark - Auto Contribute
 
 @property (readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;

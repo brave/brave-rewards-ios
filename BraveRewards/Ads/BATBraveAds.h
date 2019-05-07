@@ -42,6 +42,11 @@ NS_SWIFT_NAME(BraveAds)
 /// to the Client for processing
 - (void)serveSampleAd;
 
+#pragma mark - Confirmations
+
+// Should be called to inform Ads if Confirmations is ready
+- (void)setConfirmationsIsReady:(BOOL)isReady;
+
 #pragma mark - Reporting
 
 /// Report that a page has loaded in the current browser tab, and the HTML is available for analysis

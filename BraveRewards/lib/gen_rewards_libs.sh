@@ -163,6 +163,9 @@ fi
 rsync -a --delete brave/vendor/bat-native-ledger/include/ "$ledger_drop_point/include/"
 rsync -a --delete brave/vendor/bat-native-ads/include/ "$ads_drop_point/include/"
 
+# Copy niceware wordlist over
+rsync -a --delete brave/vendor/bat-native-ledger/niceware "$ledger_drop_point"
+
 cd brave
 brave_core_build_hash=`git rev-parse HEAD`
 
