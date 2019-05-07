@@ -105,6 +105,11 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Grants
 
+@property (readonly) NSArray<BATGrant *> *pendingGrants;
+
+- (void)fetchAvailableGrantsForLanguage:(NSString *)language
+                              paymentId:(NSString *)paymentId;
+
 - (void)grantCaptchaForPromotionId:(NSString *)promoID
                      promotionType:(NSString *)promotionType
                         completion:(void (^)(NSString *image, NSString *hint))completion;

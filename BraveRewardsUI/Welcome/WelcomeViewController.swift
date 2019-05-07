@@ -60,8 +60,6 @@ class WelcomeViewController: UIViewController {
         sender.isCreatingWallet = false
         return
       }
-      self.state.ledger.isEnabled = true
-      self.state.ledger.isAutoContributeEnabled = true
       self.state.ledger.fetchWalletDetails({ [weak self] _ in
         guard let self = self else { return }
         defer { sender.isCreatingWallet = false }

@@ -44,6 +44,8 @@ NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
 @property (nonatomic, copy, nullable) void (^walletRecoveredBlock)(const ledger::Result result, const double balance, const std::vector<ledger::Grant> &grants);
 @property (nonatomic) BATCommonOperations *commonOps;
 
+@property (nonatomic) NSMutableArray<BATGrant *> *mPendingGrants;
+
 @end
 
 @implementation BATBraveLedger
@@ -116,6 +118,8 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
       error = [NSError errorWithDomain:BATBraveLedgerErrorDomain code:result userInfo:userInfo];
     }
     if (completion) {
+      strongSelf.enabled = YES;
+      strongSelf.autoContributeEnabled = YES;
       strongSelf.walletInitializedBlock = nil;
       dispatch_async(dispatch_get_main_queue(), ^{
         completion(error);
@@ -333,6 +337,22 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 #pragma mark - Grants
 
+- (NSArray<BATGrant *> *)pendingGrants
+{
+  return [self.mPendingGrants copy];
+}
+
+- (void)fetchAvailableGrantsForLanguage:(NSString *)language paymentId:(NSString *)paymentId
+{
+  [self.mPendingGrants removeAllObjects];
+  // FetchGrants callbacks:
+  //  - OnWalletProperties (CORRUPTED_WALLET)
+  //  - OnGrant (GRANT_NOT_FOUND, LEDGER_ERROR, LEDGER_OK)
+  // Calls `OnGrant` for each grant found (...)
+  ledger->FetchGrants(std::string(language.UTF8String),
+                      std::string(paymentId.UTF8String));
+}
+
 - (void)grantCaptchaForPromotionId:(NSString *)promoID promotionType:(NSString *)promotionType completion:(void (^)(NSString * _Nonnull, NSString * _Nonnull))completion
 {
   auto method = class_getInstanceMethod(self.class, @selector(onGrantCaptcha:hint:));
@@ -344,6 +364,16 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledger->GetGrantCaptcha(std::string(promoID.UTF8String),
                                         std::string(promotionType.UTF8String));
 }
+
+- (void)onGrant:(ledger::Result)result grant:(const ledger::Grant &)grant
+{
+  if (result == ledger::LEDGER_OK) {
+    [self.mPendingGrants addObject:[[BATGrant alloc] initWithGrant:grant]];
+  }
+}
+
+- (void)onGrantFinish:(ledger::Result)result grant:(const ledger::Grant &)grant { }
+- (void)onGrantCaptcha:(const std::string &)image hint:(const std::string &)hint { }
 
 #pragma mark - Auto Contribute
 
@@ -535,11 +565,6 @@ BATLedgerBridge(BOOL,
   }
 }
 
-- (void)onGrantCaptcha:(const std::string &)image hint:(const std::string &)hint
-{
-  
-}
-
 - (void)loadLedgerState:(ledger::LedgerCallbackHandler *)handler
 {
   const auto contents = [self.commonOps loadContentsFromFileWithName:"ledger_state.json"];
@@ -656,6 +681,9 @@ BATLedgerBridge(BOOL,
   const auto key = [NSString stringWithUTF8String:name.c_str()];
   self.state[key] = nil;
   callback(ledger::LEDGER_OK);
+  dispatch_async(self.stateWriteThread, ^{
+    [self.state writeToFile:self.randomStatePath atomically:YES];
+  });
 }
 
 - (void)saveState:(const std::string &)name value:(const std::string &)value callback:(ledger::OnSaveCallback)callback
@@ -684,8 +712,6 @@ BATLedgerBridge(BOOL,
 - (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
 - (void)loadPublisherInfo:(const std::string &)publisher_key callback:(ledger::PublisherInfoCallback)callback { }
 - (void)onExcludedSitesChanged:(const std::string &)publisher_id exclude:(ledger::PUBLISHER_EXCLUDE)exclude { }
-- (void)onGrant:(ledger::Result)result grant:(const ledger::Grant &)grant { }
-- (void)onGrantFinish:(ledger::Result)result grant:(const ledger::Grant &)grant { }
 - (void)onPanelPublisherInfo:(ledger::Result)result arg1:(std::unique_ptr<ledger::PublisherInfo>)arg1 windowId:(uint64_t)windowId { }
 - (void)onReconcileComplete:(ledger::Result)result viewingId:(const std::string &)viewing_id category:(ledger::REWARDS_CATEGORY)category probi:(const std::string &)probi { }
 - (void)onRecoverWallet:(ledger::Result)result balance:(double)balance grants:(const std::vector<ledger::Grant> &)grants { }
