@@ -20,6 +20,9 @@
 		270483632221AC260051239C /* RewardsSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483622221AC260051239C /* RewardsSummaryView.swift */; };
 		270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483642221AD760051239C /* RewardsSummaryButton.swift */; };
 		270483672221ADF40051239C /* RewardsSummaryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270483662221ADF40051239C /* RewardsSummaryRowView.swift */; };
+		27091827228226380092B1F4 /* DataController.h in Headers */ = {isa = PBXBuildFile; fileRef = 27091825228226380092B1F4 /* DataController.h */; };
+		27091828228226380092B1F4 /* DataController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27091826228226380092B1F4 /* DataController.mm */; };
+		2709182C2282265C0092B1F4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2709182B2282265C0092B1F4 /* CoreData.framework */; };
 		271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */; };
 		271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C46226944A500E933B0 /* VectorTransformTests.mm */; };
 		271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C4B226944A500E933B0 /* TestFoo.mm */; };
@@ -232,6 +235,9 @@
 		270483622221AC260051239C /* RewardsSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryView.swift; sourceTree = "<group>"; };
 		270483642221AD760051239C /* RewardsSummaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryButton.swift; sourceTree = "<group>"; };
 		270483662221ADF40051239C /* RewardsSummaryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryRowView.swift; sourceTree = "<group>"; };
+		27091825228226380092B1F4 /* DataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
+		27091826228226380092B1F4 /* DataController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DataController.mm; sourceTree = "<group>"; };
+		2709182B2282265C0092B1F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsSelectionViewController.swift; sourceTree = "<group>"; };
 		271E1C46226944A500E933B0 /* VectorTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VectorTransformTests.mm; sourceTree = "<group>"; };
 		271E1C4A226944A500E933B0 /* TestFoo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFoo.h; sourceTree = "<group>"; };
@@ -410,6 +416,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2709182C2282265C0092B1F4 /* CoreData.framework in Frameworks */,
 				2730DF79222DCB6E0031845C /* libchallenge_bypass_ristretto.a in Frameworks */,
 				275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */,
 				27FD395621E9317400443796 /* Network.framework in Frameworks */,
@@ -801,6 +808,8 @@
 			isa = PBXGroup;
 			children = (
 				27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */,
+				27091825228226380092B1F4 /* DataController.h */,
+				27091826228226380092B1F4 /* DataController.mm */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -919,6 +928,7 @@
 		A1FDEB7720D2B2E200F92CAF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2709182B2282265C0092B1F4 /* CoreData.framework */,
 				2734046C2220B259008CABC9 /* pop.framework */,
 				2734046B2220B259008CABC9 /* SnapKit.framework */,
 				27FD395521E9317400443796 /* Network.framework */,
@@ -948,6 +958,7 @@
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27EDB845223D607F008406EB /* Records.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
+				27091827228226380092B1F4 /* DataController.h in Headers */,
 				27EDB844223D607F008406EB /* Records+Private.h in Headers */,
 				27EDB846223D607F008406EB /* Enums.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
@@ -1307,6 +1318,7 @@
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
+				27091828228226380092B1F4 /* DataController.mm in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
