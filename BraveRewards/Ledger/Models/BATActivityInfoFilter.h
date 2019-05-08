@@ -9,9 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(ActivityInfoFilter.OrderPair)
 @interface BATActivityInfoFilterOrderPair : NSObject
-// TODO: Ask what these are
-@property (nonatomic) NSString *first;
-@property (nonatomic) bool second;
+@property (nonatomic) NSString *propertyName;
+@property (nonatomic, getter=isAscending) bool ascending;
 @end
 
 NS_SWIFT_NAME(ActivityInfoFilter)

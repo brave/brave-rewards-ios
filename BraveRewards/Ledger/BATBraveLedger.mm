@@ -6,6 +6,7 @@
 #import "bat/ledger/ledger.h"
 
 #import "Records+Private.h"
+#import "BATPublisherInfo+Private.h"
 #import "BATActivityInfoFilter+Private.h"
 
 #import "BATBraveLedger.h"
@@ -18,6 +19,9 @@
 #import "CppTransformations.h"
 
 #import <objc/runtime.h>
+
+#import "PublisherInfo.h"
+#import "ActivityInfo.h"
 
 #define BATLedgerReadonlyBridge(__type, __objc_getter, __cpp_getter) \
 - (__type)__objc_getter { return ledger->__cpp_getter(); }
@@ -341,23 +345,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)tipPublisherDirectly:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency
 {
-  ledger::PublisherInfo info;
-  info.id = std::string(publisher.id.UTF8String);
-  info.duration = publisher.duration;
-  info.score = publisher.score;
-  info.visits = publisher.visits;
-  info.percent = publisher.percent;
-  info.weight = publisher.weight;
-  info.excluded = (ledger::PUBLISHER_EXCLUDE)publisher.excluded;
-  info.category = (ledger::REWARDS_CATEGORY)publisher.category;
-  info.reconcile_stamp = publisher.reconcileStamp;
-  info.verified = publisher.verified;
-  info.name = std::string(publisher.name.UTF8String);
-  info.url = std::string(publisher.url.UTF8String);
-  info.provider = std::string(publisher.provider.UTF8String);
-  info.favicon_url = std::string(publisher.faviconUrl.UTF8String);
-  
-  ledger->DoDirectDonation(info, amount, std::string(currency.UTF8String));
+  ledger->DoDirectDonation(publisher.cppObj, amount, std::string(currency.UTF8String));
 }
 
 #pragma mark -
@@ -823,10 +811,52 @@ BATLedgerBridge(BOOL,
 
 // TODO: Implement the rest of these methods
 
-- (void)getActivityInfoList:(uint32_t)start limit:(uint32_t)limit filter:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoListCallback)callback { }
-- (void)getExcludedPublishersNumberDB:(ledger::GetExcludedPublishersNumberDBCallback)callback { }
-- (void)getOneTimeTips:(ledger::PublisherInfoListCallback)callback { }
-- (void)getRecurringTips:(ledger::PublisherInfoListCallback)callback { }
+- (void)handlePublisherListing:(NSArray<BATPublisherInfo *> *)publishers start:(uint32_t)start limit:(uint32_t)limit callback:(ledger::PublisherInfoListCallback)callback
+{
+  uint32_t next_record = 0;
+  if (publishers.count == limit) {
+    next_record = start + limit + 1;
+  }
+  
+  const auto vectorPublishers = VectorFromNSArray(publishers, ^ledger::PublisherInfo(BATPublisherInfo *info){
+    return info.cppObj;
+  });
+  callback(std::cref(vectorPublishers), next_record);
+}
+
+- (void)getActivityInfoList:(uint32_t)start limit:(uint32_t)limit filter:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoListCallback)callback
+{
+  const auto filter_ = [[BATActivityInfoFilter alloc] initWithActivityInfoFilter:filter];
+  const auto publishers = [PublisherInfo publishersWithActivityFromOffset:start limit:limit filter:filter_];
+  
+  [self handlePublisherListing:publishers start:start limit:limit callback:callback];
+}
+
+- (void)getExcludedPublishersNumberDB:(ledger::GetExcludedPublishersNumberDBCallback)callback
+{
+  const auto predicate = [NSPredicate predicateWithFormat:@"excluded = %d", BATPublisherExcludeExcluded];
+  const auto count = [PublisherInfo countWithPredicate:predicate];
+  callback((UInt32)count);
+}
+
+- (void)getOneTimeTips:(ledger::PublisherInfoListCallback)callback
+{
+  const auto now = [NSDate date];
+  const auto publishers = [PublisherInfo oneTimeTipsForMonth:(BATActivityMonth)BATGetPublisherMonth(now)
+                                                        year:BATGetPublisherYear(now)];
+
+  [self handlePublisherListing:publishers start:0 limit:0 callback:callback];
+}
+
+- (void)getRecurringTips:(ledger::PublisherInfoListCallback)callback
+{
+  const auto now = [NSDate date];
+  const auto publishers = [PublisherInfo recurringTipsForMonth:(BATActivityMonth)BATGetPublisherMonth(now)
+                                                          year:BATGetPublisherYear(now)];
+  
+  [self handlePublisherListing:publishers start:0 limit:0 callback:callback];
+}
+
 - (void)loadActivityInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
 - (void)loadMediaPublisherInfo:(const std::string &)media_key callback:(ledger::PublisherInfoCallback)callback { }
 - (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
