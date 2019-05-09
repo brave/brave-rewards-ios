@@ -15,7 +15,7 @@ public:
   ~NativeLedgerClient();
 
 private:
-  id<NativeLedgerClientBridge> __weak bridge_;
+  __unsafe_unretained id<NativeLedgerClientBridge> bridge_;
 
   void ConfirmationsTransactionHistoryDidChange() override;
   void FetchFavIcon(const std::string & url, const std::string & favicon_key, ledger::FetchIconCallback callback) override;

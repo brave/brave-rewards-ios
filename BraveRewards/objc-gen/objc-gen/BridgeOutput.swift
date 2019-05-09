@@ -37,7 +37,7 @@ final class NativeClientHeaderOutput: TemplateOutput {
       ~\(nativeClassName)();
     
     private:
-      id<\(protocolName)> __weak bridge_;
+      __unsafe_unretained id<\(protocolName)> bridge_;
     
     \(methods.map { "  \($0.generatedPublicDecleration)" }.joined(separator: "\n"))
     };
@@ -82,6 +82,7 @@ final class NativeClientSourceOutput: TemplateOutput {
       }
       """
     }.joined(separator: "\n"))
+    
     """
   }
 }
