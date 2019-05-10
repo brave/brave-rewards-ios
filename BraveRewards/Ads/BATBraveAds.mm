@@ -6,7 +6,7 @@
 #import "BATAdsNotification.h"
 
 #import "NativeAdsClient.h"
-#import "NSArray+Vector.h"
+#import "CppTransformations.h"
 
 #import <Network/Network.h>
 #import <UIKit/UIKit.h>
