@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A5AAED12285E81400F0EBC7 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2734046B2220B259008CABC9 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0A5AAEE02286015000F0EBC7 /* RewardsSummaryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AAEDF2286015000F0EBC7 /* RewardsSummaryProtocol.swift */; };
+		0A9060222285E0BE00F58252 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060212285E0BE00F58252 /* DateExtensions.swift */; };
+		0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060232285E19E00F58252 /* DateExtensionsTests.swift */; };
 		2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834A2220E9380051239C /* UIImageExtensions.swift */; };
 		2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834C2220EC1D0051239C /* BundleExtensions.swift */; };
 		2704834F2220EFA50051239C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2704834E2220EC720051239C /* Images.xcassets */; };
@@ -211,6 +215,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0A5AAECE2285E80B00F0EBC7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0A5AAED12285E81400F0EBC7 /* SnapKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		27516FD52213966A00E04FE1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,6 +240,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A5AAEDF2286015000F0EBC7 /* RewardsSummaryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryProtocol.swift; sourceTree = "<group>"; };
+		0A9060212285E0BE00F58252 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		0A9060232285E19E00F58252 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
 		2704834A2220E9380051239C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		2704834C2220EC1D0051239C /* BundleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
 		2704834E2220EC720051239C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -446,6 +463,7 @@
 				27F4C1D622551D6B00CFCD67 /* UIStackViewExtensions.swift */,
 				27F4C1DC2256A67700CFCD67 /* UITableViewExtensions.swift */,
 				278B55D722677AB300BB7B89 /* BraveLedgerExtensions.swift */,
+				0A9060212285E0BE00F58252 /* DateExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -474,6 +492,7 @@
 				2704835F2221AAD70051239C /* WalletViewController.swift */,
 				278A6B3F225BFE5400175678 /* WalletView.swift */,
 				273404752220BD60008CABC9 /* WalletHeaderView.swift */,
+				0A5AAEDF2286015000F0EBC7 /* RewardsSummaryProtocol.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -883,6 +902,7 @@
 			isa = PBXGroup;
 			children = (
 				27FD38E221E6B69700443796 /* AdsTests.swift */,
+				0A9060232285E19E00F58252 /* DateExtensionsTests.swift */,
 				271E1C46226944A500E933B0 /* VectorTransformTests.mm */,
 				2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */,
 				271E1C4A226944A500E933B0 /* TestFoo.h */,
@@ -1039,6 +1059,7 @@
 				27FD38DC21E6B69700443796 /* Sources */,
 				27FD38DD21E6B69700443796 /* Frameworks */,
 				27FD38DE21E6B69700443796 /* Resources */,
+				0A5AAECE2285E80B00F0EBC7 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1211,6 +1232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27A47073224150A300596431 /* WalletSummaryView.swift in Sources */,
+				0A9060222285E0BE00F58252 /* DateExtensions.swift in Sources */,
 				278B55D822677AB300BB7B89 /* BraveLedgerExtensions.swift in Sources */,
 				274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */,
 				278B55D422667F6F00BB7B89 /* AutoContributeSettingsViewController.swift in Sources */,
@@ -1234,6 +1256,7 @@
 				27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */,
 				278A6B30225BE18200175678 /* RewardsUIDelegate.swift in Sources */,
 				27F4C1DB2256A40100CFCD67 /* TipsTableCell.swift in Sources */,
+				0A5AAEE02286015000F0EBC7 /* RewardsSummaryProtocol.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				274CDD3A225F9E7D00FA7364 /* AutoContributeCell.swift in Sources */,
 				279A2079224C157700192214 /* WalletDetailsView.swift in Sources */,
@@ -1317,6 +1340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */,
 				27FD38E321E6B69700443796 /* AdsTests.swift in Sources */,
 				271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */,
 				2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */,
