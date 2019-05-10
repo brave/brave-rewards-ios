@@ -10,7 +10,7 @@ protocol WalletContentView: AnyObject {
   var displaysRewardsSummaryButton: Bool { get }
 }
 
-class WalletViewController: UIViewController {
+class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   let state: RewardsState
   
@@ -71,9 +71,7 @@ class WalletViewController: UIViewController {
     let rewardsSummaryView = walletView.rewardsSummaryView
     
     rewardsSummaryView.rewardsSummaryButton.addTarget(self, action: #selector(tappedRewardsSummaryButton), for: .touchUpInside)
-    // FIXME: Set this disclaimer based on contributions going to unverified publishers
-    let disclaimerText = String(format: BATLocalizedString("BraveRewardsContributingToUnverifiedSites", "You've designated %d BAT for creators who haven't yet signed up to recieve contributions. Your browser will keep trying to contribute until they verify, or until 90 days have passed."), 52)
-    rewardsSummaryView.disclaimerView = DisclaimerView(text: disclaimerText)
+    rewardsSummaryView.disclaimerView = disclaimerView
     
     walletView.headerView.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     walletView.headerView.settingsButton.addTarget(self, action: #selector(tappedSettings), for: .touchUpInside)
@@ -85,15 +83,8 @@ class WalletViewController: UIViewController {
       dollarValue: state.ledger.usdBalanceString
     )
     
-    // FIXME: Remove temp values
-    rewardsSummaryView.monthYearLabel.text = "MARCH 2019"
-    rewardsSummaryView.rows = [
-      RowView(title: "Total Grants Claimed Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),
-      RowView(title: "Earnings from Ads", batValue: "10.0", usdDollarValue: "5.25"),
-      RowView(title: "Auto-Contribute", batValue: "-10.0", usdDollarValue: "-5.25"),
-      RowView(title: "One-Time Tips", batValue: "-2.0", usdDollarValue: "-1.05"),
-      RowView(title: "Monthly Tips", batValue: "-19.0", usdDollarValue: "-9.97"),
-    ]
+    rewardsSummaryView.monthYearLabel.text = summaryPeriod
+    rewardsSummaryView.rows = summaryRows
     
     reloadUIState()
     view.layoutIfNeeded()
