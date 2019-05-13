@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0A5AAED12285E81400F0EBC7 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2734046B2220B259008CABC9 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0A5AAEE02286015000F0EBC7 /* RewardsSummaryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5AAEDF2286015000F0EBC7 /* RewardsSummaryProtocol.swift */; };
+		0A62AB30228ABB7F00D99614 /* BATValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A62AB2F228ABB7F00D99614 /* BATValue.swift */; };
+		0A62AB34228ABEC000D99614 /* BATValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A62AB33228ABEC000D99614 /* BATValueTests.swift */; };
 		0A9060222285E0BE00F58252 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060212285E0BE00F58252 /* DateExtensions.swift */; };
 		0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060232285E19E00F58252 /* DateExtensionsTests.swift */; };
 		2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834A2220E9380051239C /* UIImageExtensions.swift */; };
@@ -241,6 +243,8 @@
 
 /* Begin PBXFileReference section */
 		0A5AAEDF2286015000F0EBC7 /* RewardsSummaryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsSummaryProtocol.swift; sourceTree = "<group>"; };
+		0A62AB2F228ABB7F00D99614 /* BATValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BATValue.swift; sourceTree = "<group>"; };
+		0A62AB33228ABEC000D99614 /* BATValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BATValueTests.swift; sourceTree = "<group>"; };
 		0A9060212285E0BE00F58252 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		0A9060232285E19E00F58252 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
 		2704834A2220E9380051239C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
@@ -597,6 +601,7 @@
 				2704834E2220EC720051239C /* Images.xcassets */,
 				2734045B2220B004008CABC9 /* BraveRewardsUI.h */,
 				2734045C2220B004008CABC9 /* Info.plist */,
+				0A62AB2F228ABB7F00D99614 /* BATValue.swift */,
 				278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */,
 				278A6B31225BE21000175678 /* RewardsDataSource.swift */,
 				278A6B2F225BE18200175678 /* RewardsUIDelegate.swift */,
@@ -902,6 +907,7 @@
 			isa = PBXGroup;
 			children = (
 				27FD38E221E6B69700443796 /* AdsTests.swift */,
+				0A62AB33228ABEC000D99614 /* BATValueTests.swift */,
 				0A9060232285E19E00F58252 /* DateExtensionsTests.swift */,
 				271E1C46226944A500E933B0 /* VectorTransformTests.mm */,
 				2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */,
@@ -1243,6 +1249,7 @@
 				274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */,
 				270483532220F2C70051239C /* Colors.swift in Sources */,
 				278A6B32225BE21000175678 /* RewardsDataSource.swift in Sources */,
+				0A62AB30228ABB7F00D99614 /* BATValue.swift in Sources */,
 				2730DF892231A65A0031845C /* BraveRewardsToggleView.swift in Sources */,
 				2704835C22219E480051239C /* CreateWalletView.swift in Sources */,
 				27F4C1E42256B2B500CFCD67 /* TipsSummaryTableCell.swift in Sources */,
@@ -1343,6 +1350,7 @@
 				0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */,
 				27FD38E321E6B69700443796 /* AdsTests.swift in Sources */,
 				271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */,
+				0A62AB34228ABEC000D99614 /* BATValueTests.swift in Sources */,
 				2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */,
 				271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */,
 			);
