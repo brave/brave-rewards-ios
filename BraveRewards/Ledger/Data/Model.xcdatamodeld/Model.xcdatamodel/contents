@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18E226" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
-    <entity name="ActivityInfo" representedClassName="ActivityInfo" syncable="YES" codeGenerationType="category">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14490.99" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ActivityInfo" representedClassName="ActivityInfo" syncable="YES" codeGenerationType="class">
         <attribute name="duration" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="percent" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="publisherID" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,7 +39,7 @@
             <fetchIndexElement property="publisherID" type="Binary" order="ascending"/>
         </fetchIndex>
     </entity>
-    <entity name="PublisherInfo" representedClassName="PublisherInfo" syncable="YES" codeGenerationType="category">
+    <entity name="PublisherInfo" representedClassName="PublisherInfo" syncable="YES" codeGenerationType="class">
         <attribute name="excluded" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="faviconURL" attributeType="URI" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -59,10 +59,10 @@
     </entity>
     <elements>
         <element name="ActivityInfo" positionX="-54" positionY="45" width="128" height="165"/>
-        <element name="PublisherInfo" positionX="-63" positionY="-18" width="128" height="150"/>
         <element name="ContributionInfo" positionX="-63" positionY="99" width="128" height="150"/>
         <element name="MediaPublisherInfo" positionX="-54" positionY="108" width="128" height="75"/>
         <element name="PendingContribution" positionX="-45" positionY="117" width="128" height="120"/>
+        <element name="PublisherInfo" positionX="-63" positionY="-18" width="128" height="150"/>
         <element name="RecurringDonation" positionX="-36" positionY="126" width="128" height="105"/>
     </elements>
 </model>

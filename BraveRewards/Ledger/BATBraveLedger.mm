@@ -20,8 +20,7 @@
 
 #import <objc/runtime.h>
 
-#import "PublisherInfo.h"
-#import "ActivityInfo.h"
+#import "BATLedgerDatabase.h"
 
 #define BATLedgerReadonlyBridge(__type, __objc_getter, __cpp_getter) \
 - (__type)__objc_getter { return ledger->__cpp_getter(); }
@@ -827,22 +826,21 @@ BATLedgerBridge(BOOL,
 - (void)getActivityInfoList:(uint32_t)start limit:(uint32_t)limit filter:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoListCallback)callback
 {
   const auto filter_ = [[BATActivityInfoFilter alloc] initWithActivityInfoFilter:filter];
-  const auto publishers = [PublisherInfo publishersWithActivityFromOffset:start limit:limit filter:filter_];
+  const auto publishers = [BATLedgerDatabase publishersWithActivityFromOffset:start limit:limit filter:filter_];
   
   [self handlePublisherListing:publishers start:start limit:limit callback:callback];
 }
 
 - (void)getExcludedPublishersNumberDB:(ledger::GetExcludedPublishersNumberDBCallback)callback
 {
-  const auto predicate = [NSPredicate predicateWithFormat:@"excluded = %d", BATPublisherExcludeExcluded];
-  const auto count = [PublisherInfo countWithPredicate:predicate];
+  const auto count = [BATLedgerDatabase excludedPublishersCount];
   callback((UInt32)count);
 }
 
 - (void)getOneTimeTips:(ledger::PublisherInfoListCallback)callback
 {
   const auto now = [NSDate date];
-  const auto publishers = [PublisherInfo oneTimeTipsForMonth:(BATActivityMonth)BATGetPublisherMonth(now)
+  const auto publishers = [BATLedgerDatabase oneTimeTipsPublishersForMonth: (BATActivityMonth)BATGetPublisherMonth(now)
                                                         year:BATGetPublisherYear(now)];
 
   [self handlePublisherListing:publishers start:0 limit:0 callback:callback];
@@ -851,14 +849,48 @@ BATLedgerBridge(BOOL,
 - (void)getRecurringTips:(ledger::PublisherInfoListCallback)callback
 {
   const auto now = [NSDate date];
-  const auto publishers = [PublisherInfo recurringTipsForMonth:(BATActivityMonth)BATGetPublisherMonth(now)
+  const auto publishers = [BATLedgerDatabase recurringTipsForMonth:(BATActivityMonth)BATGetPublisherMonth(now)
                                                           year:BATGetPublisherYear(now)];
   
   [self handlePublisherListing:publishers start:0 limit:0 callback:callback];
 }
 
-- (void)loadActivityInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
-- (void)loadMediaPublisherInfo:(const std::string &)media_key callback:(ledger::PublisherInfoCallback)callback { }
+- (void)loadActivityInfo:(ledger::ActivityInfoFilter)filter
+                callback:(ledger::PublisherInfoCallback)callback
+{
+  const auto filter_ = [[BATActivityInfoFilter alloc] initWithActivityInfoFilter:filter];
+  // set limit to 2 to make sure there is only 1 valid result for the filter
+  const auto publishers = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:2 filter:filter_];
+  
+  [self handlePublisherListing:publishers start:0 limit:2 callback:^(const ledger::PublisherInfoList& list, uint32_t) {
+    // activity info not found
+    if (list.size() == 0) {
+      // we need to try to get at least publisher info in this case
+      // this way we preserve publisher info
+      const auto publisherID = [NSString stringWithUTF8String:filter.id.c_str()];
+      const auto info = [BATLedgerDatabase publisherInfoWithPublisherID:publisherID];
+      if (info) {
+        callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(info.cppObj));
+      } else {
+        // This part diverges from brave-core. brave-core actually goes into an infinite loop here?
+        // Hope im missing something on their side where they don't even call this method unless
+        // there's a publisher with that ID in the ActivityInfo and PublisherInfo table...
+        callback(ledger::Result::NOT_FOUND, nullptr);
+      }
+    } else if (list.size() > 1) {
+      callback(ledger::Result::TOO_MANY_RESULTS, std::unique_ptr<ledger::PublisherInfo>());
+    } else {
+      callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(list[0]));
+    }
+  }];
+}
+
+- (void)loadMediaPublisherInfo:(const std::string &)media_key
+                      callback:(ledger::PublisherInfoCallback)callback
+{
+  
+}
+
 - (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
 - (void)loadPublisherInfo:(const std::string &)publisher_key callback:(ledger::PublisherInfoCallback)callback { }
 
