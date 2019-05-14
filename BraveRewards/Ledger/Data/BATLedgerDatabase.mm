@@ -172,7 +172,7 @@
   }];
 }
 
-+ (void)restoreExcludedPublishers
++ (BOOL)restoreExcludedPublishers
 {
   const auto context = DataController.viewContext;
   
@@ -185,13 +185,15 @@
   NSBatchUpdateResult *updateResult = [DataController.newBackgroundContext executeRequest:request error:&error];
   if (error) {
     NSLog(@"%s: %@", __PRETTY_FUNCTION__, error);
-    return;
+    return NO;
   }
   
   NSArray<NSManagedObjectID *> *updatedObjects = updateResult.result;
   auto changes = @{ NSUpdatedObjectsKey : updatedObjects };
   [NSManagedObjectContext mergeChangesFromRemoteContextSave:changes intoContexts:@[ context ]];
   [context save:nil];
+  
+  return YES;
 }
 
 + (NSUInteger)excludedPublishersCount
@@ -386,7 +388,7 @@
   return publishers;
 }
 
-+ (void)deleteWithPublisherID:(NSString *)publisherID reconcileStamp:(uint64_t)reconcileStamp
++ (void)deleteActivityInfoWithPublisherID:(NSString *)publisherID reconcileStamp:(uint64_t)reconcileStamp
 {
   const auto context = DataController.viewContext;
   const auto request = ActivityInfo.fetchRequest;
@@ -512,10 +514,14 @@
   }];
 }
 
-+ (void)removeRecurringTipWithPublisherID:(NSString *)publisherID
++ (BOOL)removeRecurringTipWithPublisherID:(NSString *)publisherID
 {
   const auto rd = [self getRecurringDonationWithPublisherID:publisherID];
+  if (!rd) {
+    return NO;
+  }
   [DataController.viewContext deleteObject:rd];
+  return YES;
 }
 
 #pragma mark - Pending Contributions

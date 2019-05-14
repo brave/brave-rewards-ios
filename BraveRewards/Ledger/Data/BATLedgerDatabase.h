@@ -9,6 +9,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// An interface into the ledger database
+///
+/// This class mirrors brave-core's `publisher_info_database.h/cc` file. This file will actually
+/// likely be removed at a future date when database managment happens in the ledger library
 @interface BATLedgerDatabase : NSObject
 
 #pragma mark - Publisher Info
@@ -23,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)insertOrUpdatePublisherInfo:(BATPublisherInfo *)info;
 
 /// Restores all of the publishers to default excluded state
-+ (void)restoreExcludedPublishers;
++ (BOOL)restoreExcludedPublishers;
 
 /// Get the number of publishers the user has excluded from Auto-Contribute
 + (NSUInteger)excludedPublishersCount;
@@ -81,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
                                         dateAdded:(uint32_t)dateAdded;
 
 /// Remove a recurring tip linked to a given publisher ID
-+ (void)removeRecurringTipWithPublisherID:(NSString *)publisherID;
++ (BOOL)removeRecurringTipWithPublisherID:(NSString *)publisherID;
 
 #pragma mark - Pending Contributions
 

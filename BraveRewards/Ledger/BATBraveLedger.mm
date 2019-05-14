@@ -888,20 +888,46 @@ BATLedgerBridge(BOOL,
 - (void)loadMediaPublisherInfo:(const std::string &)media_key
                       callback:(ledger::PublisherInfoCallback)callback
 {
-  
+  const auto mediaKey = [NSString stringWithUTF8String:media_key.c_str()];
+  const auto publisher = [BATLedgerDatabase mediaPublisherInfoWithMediaKey:mediaKey];
+  if (publisher) {
+    callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
+  } else {
+    callback(ledger::Result::LEDGER_ERROR, nullptr);
+  }
 }
 
-- (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback { }
-- (void)loadPublisherInfo:(const std::string &)publisher_key callback:(ledger::PublisherInfoCallback)callback { }
+- (void)loadPanelPublisherInfo:(ledger::ActivityInfoFilter)filter callback:(ledger::PublisherInfoCallback)callback
+{
+  const auto filter_ = [[BATActivityInfoFilter alloc] initWithActivityInfoFilter:filter];
+  const auto publisher = [BATLedgerDatabase panelPublisherWithFilter:filter_];
+  if (publisher) {
+    callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
+  } else {
+    callback(ledger::Result::LEDGER_ERROR, nullptr);
+  }
+}
+
+- (void)loadPublisherInfo:(const std::string &)publisher_key callback:(ledger::PublisherInfoCallback)callback
+{
+  const auto publisherID = [NSString stringWithUTF8String:publisher_key.c_str()];
+  const auto publisher = [BATLedgerDatabase publisherInfoWithPublisherID:publisherID];
+  if (publisher) {
+    callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
+  } else {
+    callback(ledger::Result::LEDGER_ERROR, nullptr);
+  }
+}
 
 - (void)onExcludedSitesChanged:(const std::string &)publisher_id exclude:(ledger::PUBLISHER_EXCLUDE)exclude
 {
   bool excluded = exclude == ledger::PUBLISHER_EXCLUDE::EXCLUDED;
   
   if (excluded) {
-    ledger->GetReconcileStamp();
-    // TODO: Remove activity info from database for this publisher
-    // DeleteActivityInfo(publisher_id);
+    const auto stamp = ledger->GetReconcileStamp();
+    const auto publisherID = [NSString stringWithUTF8String:publisher_id.c_str()];
+    [BATLedgerDatabase deleteActivityInfoWithPublisherID:publisherID
+                                          reconcileStamp:stamp];
   }
   
   // TODO:
@@ -926,13 +952,73 @@ BATLedgerBridge(BOOL,
 //  }
 }
 
-- (void)onRemoveRecurring:(const std::string &)publisher_key callback:(ledger::RecurringRemoveCallback)callback { }
-- (void)onRestorePublishers:(ledger::OnRestoreCallback)callback { }
-- (void)saveActivityInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback { }
-- (void)saveContributionInfo:(const std::string &)probi month:(const int)month year:(const int)year date:(const uint32_t)date publisherKey:(const std::string &)publisher_key category:(const ledger::REWARDS_CATEGORY)category { }
-- (void)saveMediaPublisherInfo:(const std::string &)media_key publisherId:(const std::string &)publisher_id { }
-- (void)saveNormalizedPublisherList:(const ledger::PublisherInfoListStruct &)normalized_list { }
-- (void)savePendingContribution:(const ledger::PendingContributionList &)list { }
-- (void)savePublisherInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback { }
+- (void)onRemoveRecurring:(const std::string &)publisher_key callback:(ledger::RecurringRemoveCallback)callback
+{
+  const auto publisherID = [NSString stringWithUTF8String:publisher_key.c_str()];
+  const auto success = [BATLedgerDatabase removeRecurringTipWithPublisherID:publisherID];
+  callback(success ? ledger::Result::LEDGER_OK : ledger::Result::LEDGER_ERROR);
+}
+
+- (void)onRestorePublishers:(ledger::OnRestoreCallback)callback
+{
+  const auto success = [BATLedgerDatabase restoreExcludedPublishers];
+  callback(success ? ledger::Result::LEDGER_OK : ledger::Result::LEDGER_ERROR);
+}
+
+- (void)saveActivityInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback
+{
+  const auto info = publisher_info.get();
+  if (info != nullptr) {
+    const auto publisher = [[BATPublisherInfo alloc] initWithPublisherInfo:*info];
+    [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:publisher];
+    callback(ledger::Result::LEDGER_OK, std::move(publisher_info));
+  } else {
+    callback(ledger::Result::LEDGER_ERROR, nullptr);
+  }
+}
+
+- (void)saveContributionInfo:(const std::string &)probi month:(const int)month year:(const int)year date:(const uint32_t)date publisherKey:(const std::string &)publisher_key category:(const ledger::REWARDS_CATEGORY)category
+{
+  [BATLedgerDatabase insertContributionInfo:[NSString stringWithUTF8String:probi.c_str()]
+                                      month:month
+                                       year:year
+                                       date:date
+                               publisherKey:[NSString stringWithUTF8String:publisher_key.c_str()]
+                                   category:(BATRewardsCategory)category];
+}
+
+- (void)saveMediaPublisherInfo:(const std::string &)media_key publisherId:(const std::string &)publisher_id
+{
+  [BATLedgerDatabase insertOrUpdateMediaPublisherInfoWithMediaKey:[NSString stringWithUTF8String:media_key.c_str()]
+                                                      publisherID:[NSString stringWithUTF8String:publisher_id.c_str()]];
+}
+
+- (void)saveNormalizedPublisherList:(const ledger::PublisherInfoListStruct &)normalized_list
+{
+  const auto listStruct = [[BATPublisherInfoListStruct alloc] initWithPublisherInfoListStruct:normalized_list];
+  [BATLedgerDatabase insertOrUpdateActivitiesInfoFromPublishers:listStruct.list];
+  
+  // TODO: brave-core notifies observers about updated list
+}
+
+- (void)savePendingContribution:(const ledger::PendingContributionList &)list
+{
+  const auto list_ = [[BATPendingContributionList alloc] initWithPendingContributionList:list];
+  [BATLedgerDatabase insertPendingContributions:list_];
+  
+  // TODO: brave-core notifies observers about added pending contributions
+}
+
+- (void)savePublisherInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback
+{
+  const auto info = publisher_info.get();
+  if (info != nullptr) {
+    const auto publisher = [[BATPublisherInfo alloc] initWithPublisherInfo:*info];
+    [BATLedgerDatabase insertOrUpdatePublisherInfo:publisher];
+    callback(ledger::Result::LEDGER_OK, std::move(publisher_info));
+  } else {
+    callback(ledger::Result::LEDGER_ERROR, nullptr);
+  }
+}
 
 @end
