@@ -68,12 +68,14 @@ import UIKit
       }
     }
     
-    convenience init(title: String, batValue: String, usdDollarValue: String) {
+    convenience init(title: String, cryptoValueColor: UIColor = .black,
+                     batValue: String, usdDollarValue: String) {
       self.init(frame: .zero)
       titleLabel.text = title
       cryptoCurrencyLabel.text = "BAT"
       cryptoValueLabel.text = batValue
-      dollarValueLabel.text = "\(usdDollarValue) USD"
+      cryptoValueLabel.textColor = cryptoValueColor
+      dollarValueLabel.text = usdDollarValue
     }
     
     @available(*, unavailable)

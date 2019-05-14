@@ -20,4 +20,11 @@ extension Date {
     let calendar = Calendar(identifier: .gregorian)
     return calendar.component(.year, from: self)
   }
+  
+  /// Returns number of current month using Gregorian calendar format.
+  /// Months numbering starts from 1(January)
+  var currentMonthNumber: Int {
+    let calendar = Calendar(identifier: .gregorian)
+    return calendar.component(.month, from: self)
+  }
 }

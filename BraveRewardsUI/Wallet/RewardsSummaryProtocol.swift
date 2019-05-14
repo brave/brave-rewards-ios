@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import Foundation
+import BraveRewards
 
 /// Shared resources for showing summary of all BAT rewards.
 protocol RewardsSummaryProtocol {
@@ -25,14 +26,53 @@ extension RewardsSummaryProtocol {
   }
   
   var summaryRows: [RowView] {
-    // FIXME: Remove temp values
-    return [
-      RowView(title: "Total Grants Claimed Total Grants Claimed", batValue: "10.0", usdDollarValue: "5.25"),
-      RowView(title: "Earnings from Ads", batValue: "10.0", usdDollarValue: "5.25"),
-      RowView(title: "Auto-Contribute", batValue: "-10.0", usdDollarValue: "-5.25"),
-      RowView(title: "One-Time Tips", batValue: "-2.0", usdDollarValue: "-1.05"),
-      RowView(title: "Monthly Tips", batValue: "-19.0", usdDollarValue: "-9.97"),
-    ]
+    let now = Date()
+    guard let activityMonth = ActivityMonth(rawValue: now.currentMonthNumber) else {
+      return []
+    }
+    
+    let ledger = state.ledger
+    let balance = ledger.balanceReport(for: activityMonth, year: Int32(now.currentYear))
+    
+    // In case ledger doesn't provide parseable String balance, we have to use some kind of fallback.
+    // Using 0.0 for fallback there may scare users that their tokens are gone, while this is only
+    // a display bug.
+    let fallback = "-"
+    
+    // Brave TODO: String localization(#19)
+    
+    let grantsValue = BATValue(balance.grants)
+    let grantsBAT = grantsValue?.displayString ?? fallback
+    let grantsUSD = ledger.dollarStringForBATAmount(grantsBAT)
+    let grantsRow = RowView(title: "Total Grants Claimed", cryptoValueColor: BraveUX.adsTintColor,
+                            batValue: grantsBAT, usdDollarValue: grantsUSD)
+    
+    let adsEarningsValue = BATValue(balance.earningFromAds)
+    let adsEarningsBAT = adsEarningsValue?.displayString ?? fallback
+    let adsEarningsUSD = ledger.dollarStringForBATAmount(adsEarningsBAT)
+    let adsEarningsRow = RowView(title: "Earnings from Ads", cryptoValueColor: BraveUX.adsTintColor,
+                                 batValue: adsEarningsBAT, usdDollarValue: adsEarningsUSD)
+    
+    let autoContributeValue = BATValue(balance.autoContribute)
+    let autoContributeBAT = autoContributeValue?.displayString ?? fallback
+    let autoContributeUSD = ledger.dollarStringForBATAmount(autoContributeBAT)
+    let autoContributeRow = RowView(title: "Auto-Contribute",
+                                    cryptoValueColor: BraveUX.autoContributeTintColor,
+                                    batValue: autoContributeBAT, usdDollarValue: autoContributeUSD)
+    
+    let oneTimeTipsValue = BATValue(balance.oneTimeDonation)
+    let oneTimeTipsBAT = oneTimeTipsValue?.displayString ?? fallback
+    let oneTimeTipsUSD = ledger.dollarStringForBATAmount(oneTimeTipsBAT)
+    let oneTimeTipsRow = RowView(title: "One-Time Tips", cryptoValueColor: BraveUX.tipsTintColor,
+                                 batValue: oneTimeTipsBAT, usdDollarValue: oneTimeTipsUSD)
+    
+    let monthlyTipsValue = BATValue(balance.recurringDonation)
+    let monthlyTipsBAT = monthlyTipsValue?.displayString ?? fallback
+    let monthlyTipsUSD = ledger.dollarStringForBATAmount(monthlyTipsBAT)
+    let monthlyTipsRow = RowView(title: "Monthly Tips", cryptoValueColor: BraveUX.tipsTintColor,
+                                 batValue: monthlyTipsBAT, usdDollarValue: monthlyTipsUSD)
+    
+    return [grantsRow, adsEarningsRow, autoContributeRow, oneTimeTipsRow, monthlyTipsRow]
   }
   
   var disclaimerView: DisclaimerView? {

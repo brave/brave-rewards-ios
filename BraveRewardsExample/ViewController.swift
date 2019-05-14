@@ -36,6 +36,19 @@ class UIMockLedger: BraveLedger {
       completion?(nil)
     }
   }
+  
+  override func balanceReport(for month: ActivityMonth, year: Int32) -> BalanceReportInfo {
+    // Returns the same values for all months at the moment.
+    // Could expand this to play with different values based on month or year.
+    let info = BalanceReportInfo()
+    info.earningFromAds = "12.5"
+    info.autoContribute = "10.0"
+    info.grants = "22.0"
+    info.oneTimeDonation = "0"
+    info.recurringDonation = "-20"
+    
+    return info
+  }
 }
 
 

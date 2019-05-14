@@ -7,9 +7,8 @@ import BraveRewards
 
 extension BraveLedger {
   /// Get the current BAT wallet balance for display
-  var balanceString: String {
-    return String(format: "%.1f", balance)
-  }
+  var balanceString: String { return BATValue(balance).displayString }
+  
   /// Get the current USD wallet balance for display
   var usdBalanceString: String {
     return dollarStringForBATAmount(balance) ?? ""
@@ -29,6 +28,14 @@ extension BraveLedger {
     let valueString = currencyFormatter.string(from: NSNumber(value: amount * conversionRate)) ?? "0.00"
     return "\(valueString) \(currencyCode)"
   }
+  
+  /// Takes BAT amount as String, and returns a String converted to selected currency.
+  /// Returns '0.00' if the method failed or could not cast `amountString` as `Double`
+  func dollarStringForBATAmount(_ amountString: String, currencyCode: String = "USD") -> String {
+    guard let stringToDouble = Double(amountString) else { return "0.00" }
+    return dollarStringForBATAmount(stringToDouble, currencyCode: currencyCode) ?? "0.00"
+  }
+
   
   /// Options around minimum visits for publisher relavancy
   enum MinimumVisitsOptions: UInt32, CaseIterable, DisplayableOption {
