@@ -138,6 +138,8 @@
 		27EDB845223D607F008406EB /* Records.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB841223D607F008406EB /* Records.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27EDB846223D607F008406EB /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB842223D607F008406EB /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */; };
+		27F19558228B4656004E92ED /* LedgerDatabaseTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27F19557228B4656004E92ED /* LedgerDatabaseTests.mm */; };
+		27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2709182B2282265C0092B1F4 /* CoreData.framework */; };
 		27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */; };
 		27F3E59221FB97CB009A54D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59121FB97CB009A54D5 /* AppDelegate.swift */; };
 		27F3E59421FB97CB009A54D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59321FB97CB009A54D5 /* ViewController.swift */; };
@@ -198,6 +200,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 27885E552263D64300A47647;
 			remoteInfo = Clang;
+		};
+		27F19555228B3D43004E92ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1FDE6C820D2AA7400F92CAF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27F3E58E21FB97CB009A54D5;
+			remoteInfo = BraveRewardsExample;
 		};
 		27F3E5A121FB97EA009A54D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -372,6 +381,7 @@
 		27EDB841223D607F008406EB /* Records.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Records.h; sourceTree = "<group>"; };
 		27EDB842223D607F008406EB /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 		27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletButton.swift; sourceTree = "<group>"; };
+		27F19557228B4656004E92ED /* LedgerDatabaseTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LedgerDatabaseTests.mm; sourceTree = "<group>"; };
 		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
 		27F3E58F21FB97CB009A54D5 /* BraveRewardsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraveRewardsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F3E59121FB97CB009A54D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -435,6 +445,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */,
 				27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -906,6 +917,7 @@
 			children = (
 				27FD38E221E6B69700443796 /* AdsTests.swift */,
 				0A9060232285E19E00F58252 /* DateExtensionsTests.swift */,
+				27F19557228B4656004E92ED /* LedgerDatabaseTests.mm */,
 				271E1C46226944A500E933B0 /* VectorTransformTests.mm */,
 				2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */,
 				271E1C4A226944A500E933B0 /* TestFoo.h */,
@@ -1069,6 +1081,7 @@
 			);
 			dependencies = (
 				27FD38E721E6B69700443796 /* PBXTargetDependency */,
+				27F19556228B3D43004E92ED /* PBXTargetDependency */,
 			);
 			name = BraveRewardsTests;
 			productName = BraveRewardsTests;
@@ -1114,6 +1127,7 @@
 					};
 					27FD38DF21E6B69700443796 = {
 						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 27F3E58E21FB97CB009A54D5;
 					};
 					A1FDE6D020D2AA7400F92CAF = {
 						CreatedOnToolsVersion = 9.4;
@@ -1346,6 +1360,7 @@
 			files = (
 				0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */,
 				27FD38E321E6B69700443796 /* AdsTests.swift in Sources */,
+				27F19558228B4656004E92ED /* LedgerDatabaseTests.mm in Sources */,
 				271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */,
 				2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */,
 				271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */,
@@ -1384,6 +1399,11 @@
 			isa = PBXTargetDependency;
 			target = A1FDE6D020D2AA7400F92CAF /* BraveRewards */;
 			targetProxy = 27543EC5225C0D9C003E9EDF /* PBXContainerItemProxy */;
+		};
+		27F19556228B3D43004E92ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27F3E58E21FB97CB009A54D5 /* BraveRewardsExample */;
+			targetProxy = 27F19555228B3D43004E92ED /* PBXContainerItemProxy */;
 		};
 		27F3E5A221FB97EA009A54D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1560,6 +1580,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BraveRewardsExample.app/BraveRewardsExample";
 			};
 			name = Debug;
 		};
@@ -1581,6 +1602,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BraveRewardsExample.app/BraveRewardsExample";
 			};
 			name = Release;
 		};

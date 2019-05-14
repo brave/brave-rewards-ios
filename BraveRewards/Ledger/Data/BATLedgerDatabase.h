@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Publisher Info
 
 /// Get bare bones publisher info based on a publisher ID
-+ (BATPublisherInfo *)publisherInfoWithPublisherID:(NSString *)publisherID;
++ (nullable BATPublisherInfo *)publisherInfoWithPublisherID:(NSString *)publisherID;
 
 /// ??
 + (BATPublisherInfo *)panelPublisherWithFilter:(BATActivityInfoFilter *)filter;

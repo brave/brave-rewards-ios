@@ -9,7 +9,7 @@
 
 @implementation BATLedgerDatabase
 
-+ (PublisherInfo *)getOrCreatePublisherInfoWithID:(NSString *)publisherID
++ (nullable PublisherInfo *)getPublisherInfoWithID:(NSString *)publisherID
 {
   const auto context = DataController.viewContext;
   const auto fetchRequest = PublisherInfo.fetchRequest;
@@ -17,29 +17,14 @@
                                     inManagedObjectContext:context];
   fetchRequest.predicate = [NSPredicate predicateWithFormat:@"publisherID == %@", publisherID];
   
-  const auto frc = [[NSFetchedResultsController<PublisherInfo *> alloc] initWithFetchRequest:fetchRequest
-                                                                        managedObjectContext:context
-                                                                          sectionNameKeyPath:nil
-                                                                                   cacheName:nil];
-  
   NSError *error;
-  if (![frc performFetch:&error]) {
-    NSLog(@"%@", error);
-  }
+  const auto fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
   
-  if (frc.fetchedObjects.firstObject != nil) {
+  if (fetchedObjects.firstObject != nil) {
     // One exists, return it
-    return frc.fetchedObjects.firstObject;
+    return fetchedObjects.firstObject;
   }
-  
-  // Create one
-  PublisherInfo *__block pi;
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
-    pi = [[PublisherInfo alloc] initWithEntity:PublisherInfo.entity
-                insertIntoManagedObjectContext:context];
-    pi.publisherID = publisherID;
-  }];
-  return pi;
+  return nil;
 }
 
 + (nullable ActivityInfo *)getActivityInfoWithPublisherID:(NSString *)publisherID
@@ -121,7 +106,10 @@
 
 + (BATPublisherInfo *)publisherInfoWithPublisherID:(NSString *)publisherID
 {
-  auto databaseInfo = [self getOrCreatePublisherInfoWithID:publisherID];
+  auto databaseInfo = [self getPublisherInfoWithID:publisherID];
+  if (!databaseInfo) {
+    return nil;
+  }
   auto info = [[BATPublisherInfo alloc] init];
   info.id = databaseInfo.publisherID;
   info.name = databaseInfo.name;
@@ -159,13 +147,13 @@
     pi.faviconURL = [NSURL URLWithString:info.faviconUrl];
   };
   
-  const auto pi = [self getOrCreatePublisherInfoWithID:info.id];
+  const auto pi = [self getPublisherInfoWithID:info.id];
   if (pi) {
     updateInfo(pi);
     return;
   }
   
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     auto pi = [[PublisherInfo alloc] initWithEntity:PublisherInfo.entity
                      insertIntoManagedObjectContext:context];
     updateInfo(pi);
@@ -175,22 +163,23 @@
 + (BOOL)restoreExcludedPublishers
 {
   const auto context = DataController.viewContext;
-  
-  NSBatchUpdateRequest *request = [[NSBatchUpdateRequest alloc] initWithEntity:PublisherInfo.entity];
-  request.resultType = NSUpdatedObjectIDsResultType;
-  request.predicate = [NSPredicate predicateWithFormat:@"excluded == %d", BATPublisherExcludeExcluded];
-  request.propertiesToUpdate = @{ @"excluded": @(BATPublisherExcludeDefault) };
+  const auto fetchRequest = PublisherInfo.fetchRequest;
+  fetchRequest.entity = [NSEntityDescription entityForName:NSStringFromClass(PublisherInfo.class)
+                                    inManagedObjectContext:context];
+  fetchRequest.predicate =  [NSPredicate predicateWithFormat:@"excluded == %d", BATPublisherExcludeExcluded];
   
   NSError *error;
-  NSBatchUpdateResult *updateResult = [DataController.newBackgroundContext executeRequest:request error:&error];
+  const auto fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+  
   if (error) {
     NSLog(@"%s: %@", __PRETTY_FUNCTION__, error);
     return NO;
   }
   
-  NSArray<NSManagedObjectID *> *updatedObjects = updateResult.result;
-  auto changes = @{ NSUpdatedObjectsKey : updatedObjects };
-  [NSManagedObjectContext mergeChangesFromRemoteContextSave:changes intoContexts:@[ context ]];
+  for (PublisherInfo *info in fetchedObjects) {
+    info.excluded = BATPublisherExcludeDefault;
+  }
+  
   [context save:nil];
   
   return YES;
@@ -216,7 +205,7 @@
 
 + (void)insertContributionInfo:(NSString *)probi month:(const int)month year:(const int)year date:(const uint32_t)date publisherKey:(NSString *)publisherKey category:(BATRewardsCategory)category
 {
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     auto ci = [[ContributionInfo alloc] initWithEntity:ContributionInfo.entity
                         insertIntoManagedObjectContext:context];
     ci.probi = probi;
@@ -225,7 +214,7 @@
     ci.date = date;
     ci.publisherID = publisherKey;
     ci.category = category;
-    ci.publisher = [self getOrCreatePublisherInfoWithID:publisherKey];
+    ci.publisher = [self getPublisherInfoWithID:publisherKey];
   }];
 }
 
@@ -275,7 +264,7 @@
   [self insertOrUpdatePublisherInfo:info];
   
   void (^updateInfo)(ActivityInfo *) = ^(ActivityInfo *ai) {
-    ai.publisher = [self getOrCreatePublisherInfoWithID:info.id];
+    ai.publisher = [self getPublisherInfoWithID:info.id];
     ai.publisherID = info.id;
     ai.duration = info.duration;
     ai.score = info.score;
@@ -291,7 +280,7 @@
     return;
   }
   
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     auto ai = [[ActivityInfo alloc] initWithEntity:ActivityInfo.entity
                     insertIntoManagedObjectContext:context];
     updateInfo(ai);
@@ -442,7 +431,7 @@
     return;
   }
   
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     auto mi = [[MediaPublisherInfo alloc] initWithEntity:MediaPublisherInfo.entity
                           insertIntoManagedObjectContext:context];
     updateInfo(mi);
@@ -498,7 +487,7 @@
     rd.publisherID = publisherID;
     rd.amount = amount;
     rd.addedDate = dateAdded;
-    rd.publisher = [self getOrCreatePublisherInfoWithID:publisherID];
+    rd.publisher = [self getPublisherInfoWithID:publisherID];
   };
   
   const auto rd = [self getRecurringDonationWithPublisherID:publisherID];
@@ -507,7 +496,7 @@
     return;
   }
   
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     auto rd = [[RecurringDonation alloc] initWithEntity:RecurringDonation.entity
                          insertIntoManagedObjectContext:context];
     updateInfo(rd);
@@ -529,7 +518,7 @@
 + (void)insertPendingContributions:(BATPendingContributionList *)contributions
 {
   const auto now = [[NSDate date] timeIntervalSince1970];
-  [DataController.shared performOnContext:DataController.newBackgroundContext task:^(NSManagedObjectContext * _Nonnull context) {
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     for (BATPendingContribution *contribution in contributions.list) {
       auto pc = [[PendingContribution alloc] initWithEntity:PendingContribution.entity
                              insertIntoManagedObjectContext:context];
@@ -548,6 +537,7 @@
   const auto fetchRequest = PendingContribution.fetchRequest;
   fetchRequest.entity = [NSEntityDescription entityForName:NSStringFromClass(PendingContribution.class)
                                     inManagedObjectContext:context];
+  fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"publisherID" ascending:YES]];
   
   const auto frc = [[NSFetchedResultsController<PendingContribution *> alloc] initWithFetchRequest:fetchRequest
                                                                              managedObjectContext:context
