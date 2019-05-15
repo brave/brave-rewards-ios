@@ -9,7 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DataController : NSObject
 
-@property (class, readonly) DataController *shared;
+@property (class) DataController *shared;
+
+- (void)addPersistentStoreForContainer:(NSPersistentContainer *)container;
 
 @property (readonly) BOOL storeExists;
 

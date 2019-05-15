@@ -29,6 +29,9 @@
 		27091827228226380092B1F4 /* DataController.h in Headers */ = {isa = PBXBuildFile; fileRef = 27091825228226380092B1F4 /* DataController.h */; };
 		27091828228226380092B1F4 /* DataController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27091826228226380092B1F4 /* DataController.mm */; };
 		2709182C2282265C0092B1F4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2709182B2282265C0092B1F4 /* CoreData.framework */; };
+		270918312283370F0092B1F4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270918302283370F0092B1F4 /* Security.framework */; };
+		27091840228364C60092B1F4 /* BATPublisherInfo+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2709183E228364C60092B1F4 /* BATPublisherInfo+Private.h */; };
+		27091841228364C60092B1F4 /* BATPublisherInfo+Private.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2709183F228364C60092B1F4 /* BATPublisherInfo+Private.mm */; };
 		271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */; };
 		271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C46226944A500E933B0 /* VectorTransformTests.mm */; };
 		271E1C4D226944A500E933B0 /* TestFoo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 271E1C4B226944A500E933B0 /* TestFoo.mm */; };
@@ -59,6 +62,8 @@
 		273404742220BA73008CABC9 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404732220BA73008CABC9 /* GradientView.swift */; };
 		273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404752220BD60008CABC9 /* WalletHeaderView.swift */; };
 		273404792220BDC5008CABC9 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404782220BDC5008CABC9 /* Then.swift */; };
+		27471B83228A1C3800AA60A5 /* BATLedgerDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 27471B81228A1C3800AA60A5 /* BATLedgerDatabase.h */; };
+		27471B84228A1C3800AA60A5 /* BATLedgerDatabase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27471B82228A1C3800AA60A5 /* BATLedgerDatabase.mm */; };
 		274CDD2C225D446800FA7364 /* AutoContributeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */; };
 		274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */; };
 		274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD35225E6DC800FA7364 /* GrantsItemView.swift */; };
@@ -125,10 +130,6 @@
 		27A4707822417E6200596431 /* SettingsViewDetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */; };
 		27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */; };
 		27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707C2242EA6C00596431 /* GrabberView.swift */; };
-		27AC58E52282369B0014B480 /* BATPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 27AC58E32282369B0014B480 /* BATPublisher.h */; };
-		27AC58E62282369B0014B480 /* BATPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AC58E42282369B0014B480 /* BATPublisher.m */; };
-		27AC58EB228238590014B480 /* BATActivityInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 27AC58E9228238590014B480 /* BATActivityInfo.h */; };
-		27AC58EC228238590014B480 /* BATActivityInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AC58EA228238590014B480 /* BATActivityInfo.m */; };
 		27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AFF5432229798F009320F5 /* TippingConfirmationView.swift */; };
 		27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */; };
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
@@ -139,6 +140,8 @@
 		27EDB845223D607F008406EB /* Records.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB841223D607F008406EB /* Records.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27EDB846223D607F008406EB /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB842223D607F008406EB /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */; };
+		27F19558228B4656004E92ED /* LedgerDatabaseTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27F19557228B4656004E92ED /* LedgerDatabaseTests.mm */; };
+		27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2709182B2282265C0092B1F4 /* CoreData.framework */; };
 		27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */; };
 		27F3E59221FB97CB009A54D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59121FB97CB009A54D5 /* AppDelegate.swift */; };
 		27F3E59421FB97CB009A54D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3E59321FB97CB009A54D5 /* ViewController.swift */; };
@@ -199,6 +202,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 27885E552263D64300A47647;
 			remoteInfo = Clang;
+		};
+		27F19555228B3D43004E92ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1FDE6C820D2AA7400F92CAF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 27F3E58E21FB97CB009A54D5;
+			remoteInfo = BraveRewardsExample;
 		};
 		27F3E5A121FB97EA009A54D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -263,6 +273,9 @@
 		27091825228226380092B1F4 /* DataController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataController.h; sourceTree = "<group>"; };
 		27091826228226380092B1F4 /* DataController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DataController.mm; sourceTree = "<group>"; };
 		2709182B2282265C0092B1F4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		270918302283370F0092B1F4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		2709183E228364C60092B1F4 /* BATPublisherInfo+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATPublisherInfo+Private.h"; sourceTree = "<group>"; };
+		2709183F228364C60092B1F4 /* BATPublisherInfo+Private.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "BATPublisherInfo+Private.mm"; sourceTree = "<group>"; };
 		271E1C312268E67200E933B0 /* OptionsSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsSelectionViewController.swift; sourceTree = "<group>"; };
 		271E1C46226944A500E933B0 /* VectorTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VectorTransformTests.mm; sourceTree = "<group>"; };
 		271E1C4A226944A500E933B0 /* TestFoo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFoo.h; sourceTree = "<group>"; };
@@ -293,6 +306,8 @@
 		273404732220BA73008CABC9 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		273404752220BD60008CABC9 /* WalletHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletHeaderView.swift; sourceTree = "<group>"; };
 		273404782220BDC5008CABC9 /* Then.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Then.swift; sourceTree = "<group>"; };
+		27471B81228A1C3800AA60A5 /* BATLedgerDatabase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATLedgerDatabase.h; sourceTree = "<group>"; };
+		27471B82228A1C3800AA60A5 /* BATLedgerDatabase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATLedgerDatabase.mm; sourceTree = "<group>"; };
 		274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoContributeDetailsViewController.swift; sourceTree = "<group>"; };
 		274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsListViewController.swift; sourceTree = "<group>"; };
 		274CDD35225E6DC800FA7364 /* GrantsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsItemView.swift; sourceTree = "<group>"; };
@@ -360,10 +375,6 @@
 		27A4707722417E6200596431 /* SettingsViewDetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDetailsButton.swift; sourceTree = "<group>"; };
 		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
 		27A4707C2242EA6C00596431 /* GrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabberView.swift; sourceTree = "<group>"; };
-		27AC58E32282369B0014B480 /* BATPublisher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATPublisher.h; sourceTree = "<group>"; };
-		27AC58E42282369B0014B480 /* BATPublisher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATPublisher.m; sourceTree = "<group>"; };
-		27AC58E9228238590014B480 /* BATActivityInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfo.h; sourceTree = "<group>"; };
-		27AC58EA228238590014B480 /* BATActivityInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATActivityInfo.m; sourceTree = "<group>"; };
 		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
 		27B6C88821F65F7B00F256EA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+Extensions.h"; sourceTree = "<group>"; };
@@ -374,6 +385,7 @@
 		27EDB841223D607F008406EB /* Records.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Records.h; sourceTree = "<group>"; };
 		27EDB842223D607F008406EB /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 		27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletButton.swift; sourceTree = "<group>"; };
+		27F19557228B4656004E92ED /* LedgerDatabaseTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LedgerDatabaseTests.mm; sourceTree = "<group>"; };
 		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
 		27F3E58F21FB97CB009A54D5 /* BraveRewardsExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BraveRewardsExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F3E59121FB97CB009A54D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -437,6 +449,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */,
 				27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +458,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				270918312283370F0092B1F4 /* Security.framework in Frameworks */,
 				2709182C2282265C0092B1F4 /* CoreData.framework in Frameworks */,
 				2730DF79222DCB6E0031845C /* libchallenge_bypass_ristretto.a in Frameworks */,
 				275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */,
@@ -758,6 +772,8 @@
 				27695588226E4802008E5DED /* BATActivityInfoFilter+Private.h */,
 				27695584226E47F5008E5DED /* BATActivityInfoFilter.h */,
 				27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */,
+				2709183E228364C60092B1F4 /* BATPublisherInfo+Private.h */,
+				2709183F228364C60092B1F4 /* BATPublisherInfo+Private.mm */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -842,10 +858,8 @@
 				27B6C88721F65F7B00F256EA /* Model.xcdatamodeld */,
 				27091825228226380092B1F4 /* DataController.h */,
 				27091826228226380092B1F4 /* DataController.mm */,
-				27AC58E32282369B0014B480 /* BATPublisher.h */,
-				27AC58E42282369B0014B480 /* BATPublisher.m */,
-				27AC58E9228238590014B480 /* BATActivityInfo.h */,
-				27AC58EA228238590014B480 /* BATActivityInfo.m */,
+				27471B81228A1C3800AA60A5 /* BATLedgerDatabase.h */,
+				27471B82228A1C3800AA60A5 /* BATLedgerDatabase.mm */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -909,6 +923,7 @@
 				27FD38E221E6B69700443796 /* AdsTests.swift */,
 				0A62AB33228ABEC000D99614 /* BATValueTests.swift */,
 				0A9060232285E19E00F58252 /* DateExtensionsTests.swift */,
+				27F19557228B4656004E92ED /* LedgerDatabaseTests.mm */,
 				271E1C46226944A500E933B0 /* VectorTransformTests.mm */,
 				2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */,
 				271E1C4A226944A500E933B0 /* TestFoo.h */,
@@ -968,6 +983,7 @@
 		A1FDEB7720D2B2E200F92CAF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				270918302283370F0092B1F4 /* Security.framework */,
 				2709182B2282265C0092B1F4 /* CoreData.framework */,
 				2734046C2220B259008CABC9 /* pop.framework */,
 				2734046B2220B259008CABC9 /* SnapKit.framework */,
@@ -995,15 +1011,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				27885E9A226586C800A47647 /* LedgerLogStream.h in Headers */,
-				27AC58EB228238590014B480 /* BATActivityInfo.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27EDB845223D607F008406EB /* Records.h in Headers */,
+				27471B83228A1C3800AA60A5 /* BATLedgerDatabase.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
 				27091827228226380092B1F4 /* DataController.h in Headers */,
 				27EDB844223D607F008406EB /* Records+Private.h in Headers */,
 				27EDB846223D607F008406EB /* Enums.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
+				27091840228364C60092B1F4 /* BATPublisherInfo+Private.h in Headers */,
 				27885E892265087000A47647 /* CppTransformations.h in Headers */,
 				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 				27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */,
@@ -1011,7 +1028,6 @@
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
 				27885E962265798A00A47647 /* NativeLedgerClient.h in Headers */,
 				27885E982265798A00A47647 /* NativeLedgerClientBridge.h in Headers */,
-				27AC58E52282369B0014B480 /* BATPublisher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1071,6 +1087,7 @@
 			);
 			dependencies = (
 				27FD38E721E6B69700443796 /* PBXTargetDependency */,
+				27F19556228B3D43004E92ED /* PBXTargetDependency */,
 			);
 			name = BraveRewardsTests;
 			productName = BraveRewardsTests;
@@ -1349,6 +1366,7 @@
 			files = (
 				0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */,
 				27FD38E321E6B69700443796 /* AdsTests.swift in Sources */,
+				27F19558228B4656004E92ED /* LedgerDatabaseTests.mm in Sources */,
 				271E1C4C226944A500E933B0 /* VectorTransformTests.mm in Sources */,
 				0A62AB34228ABEC000D99614 /* BATValueTests.swift in Sources */,
 				2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */,
@@ -1361,12 +1379,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */,
-				27AC58EC228238590014B480 /* BATActivityInfo.m in Sources */,
 				27EDB843223D607F008406EB /* Records.mm in Sources */,
-				27AC58E62282369B0014B480 /* BATPublisher.m in Sources */,
 				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
+				27471B84228A1C3800AA60A5 /* BATLedgerDatabase.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
+				27091841228364C60092B1F4 /* BATPublisherInfo+Private.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
 				27091828228226380092B1F4 /* DataController.mm in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
@@ -1388,6 +1406,11 @@
 			isa = PBXTargetDependency;
 			target = A1FDE6D020D2AA7400F92CAF /* BraveRewards */;
 			targetProxy = 27543EC5225C0D9C003E9EDF /* PBXContainerItemProxy */;
+		};
+		27F19556228B3D43004E92ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 27F3E58E21FB97CB009A54D5 /* BraveRewardsExample */;
+			targetProxy = 27F19555228B3D43004E92ED /* PBXContainerItemProxy */;
 		};
 		27F3E5A221FB97EA009A54D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

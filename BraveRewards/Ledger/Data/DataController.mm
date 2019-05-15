@@ -12,24 +12,29 @@
 
 @implementation DataController
 
+static DataController *_dataController = nil;
+
 + (DataController *)shared
 {
-  static DataController *_dataController = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
+  if (!_dataController) {
     _dataController = [[DataController alloc] init];
-  });
+  }
   return _dataController;
+}
+
++ (void)setShared:(DataController *)shared
+{
+  _dataController = shared;
 }
 
 - (NSURL *)storeURL
 {
-  const auto urls = [NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+  const auto urls = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
   const auto documentURL = urls.lastObject;
   if (!documentURL) {
     return nil;
   }
-  return [documentURL URLByAppendingPathComponent:@"BraveRewards.sqlite"];
+  return [NSURL fileURLWithPath:[documentURL stringByAppendingPathComponent:@"BraveRewards.sqlite"]];
 }
 
 - (instancetype)init
@@ -46,16 +51,21 @@
     NSAssert(model != nil, @"Error initializing managed object model from: %@", modelURL);
     self.container = [[NSPersistentContainer alloc] initWithName:@"Model"
                                               managedObjectModel:model];
-    // This makes the database file encrypted until device is unlocked.
-    const auto storeDescription = [[NSPersistentStoreDescription alloc] initWithURL:self.storeURL];
-    [storeDescription setOption:NSFileProtectionComplete forKey:NSPersistentStoreFileProtectionKey];
-    self.container.persistentStoreDescriptions = @[storeDescription];
+    [self addPersistentStoreForContainer:self.container];
     [self.container loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription * _Nonnull, NSError * _Nullable error) {
       NSAssert(error == nil, @"Load persistent store error: %@", error);
     }];
     self.container.viewContext.automaticallyMergesChangesFromParent = YES;
   }
   return self;
+}
+
+- (void)addPersistentStoreForContainer:(NSPersistentContainer *)container
+{
+  // This makes the database file encrypted until device is unlocked.
+  const auto storeDescription = [[NSPersistentStoreDescription alloc] initWithURL:self.storeURL];
+  [storeDescription setOption:NSFileProtectionComplete forKey:NSPersistentStoreFileProtectionKey];
+  self.container.persistentStoreDescriptions = @[storeDescription];
 }
 
 - (BOOL)storeExists

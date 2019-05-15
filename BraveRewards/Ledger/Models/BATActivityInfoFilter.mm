@@ -11,15 +11,15 @@
 - (instancetype)initWithStringBoolPair:(std::pair<std::string, bool>)obj
 {
   if ((self = [super init])) {
-    self.first = [NSString stringWithUTF8String:obj.first.c_str()];
-    self.second = obj.second;
+    self.propertyName = [NSString stringWithUTF8String:obj.first.c_str()];
+    self.ascending = obj.second;
   }
   return self;
 }
 
 - (std::pair<std::string, bool>)cppObj
 {
-  return std::pair<std::string, bool>(std::string(self.first.UTF8String), self.second);
+  return std::pair<std::string, bool>(std::string(self.propertyName.UTF8String), self.ascending);
 }
 
 @end
