@@ -118,7 +118,7 @@
     const auto fetchRequest = PublisherInfo.fetchRequest;
     fetchRequest.entity = [NSEntityDescription entityForName:NSStringFromClass(PublisherInfo.class)
                                       inManagedObjectContext:context];
-    fetchRequest.predicate =  [NSPredicate predicateWithFormat:@"excluded == %d", BATPublisherExcludeExcluded];
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"excluded == %d", BATPublisherExcludeExcluded];
     
     NSError *error;
     const auto fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
@@ -316,26 +316,22 @@
 
 + (void)deleteActivityInfoWithPublisherID:(NSString *)publisherID reconcileStamp:(uint64_t)reconcileStamp
 {
-  const auto context = DataController.viewContext;
-  const auto request = ActivityInfo.fetchRequest;
-  request.entity = [NSEntityDescription entityForName:NSStringFromClass(ActivityInfo.class)
-                               inManagedObjectContext:context];
-  request.predicate = [NSPredicate predicateWithFormat:@"publisherID == %@ AND reconcileStamp == %ld", publisherID, reconcileStamp];
-  
-  NSBatchDeleteRequest *deleteRequest = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
-  deleteRequest.resultType = NSBatchDeleteResultTypeObjectIDs;
-  
-  NSError *error;
-  NSBatchDeleteResult *deleteResult = [DataController.newBackgroundContext executeRequest:request error:&error];
-  if (error) {
-    NSLog(@"%s: %@", __PRETTY_FUNCTION__, error);
-    return;
-  }
-  
-  NSArray<NSManagedObjectID *> *updatedObjects = deleteResult.result;
-  auto changes = @{ NSUpdatedObjectsKey : updatedObjects };
-  [NSManagedObjectContext mergeChangesFromRemoteContextSave:changes intoContexts:@[ context ]];
-  [context save:nil];
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
+    const auto request = ActivityInfo.fetchRequest;
+    request.entity = [NSEntityDescription entityForName:NSStringFromClass(ActivityInfo.class)
+                                 inManagedObjectContext:context];
+    request.predicate = [NSPredicate predicateWithFormat:@"publisherID == %@ AND reconcileStamp == %ld", publisherID, reconcileStamp];
+    
+    NSError *error;
+    const auto fetchedObjects = [context executeFetchRequest:request error:&error];
+    if (error) {
+      NSLog(@"%@", error);
+    }
+    
+    for (ActivityInfo *info in fetchedObjects) {
+      [context deleteObject:info];
+    }
+  }];
 }
 
 #pragma mark - Media Publisher Info
