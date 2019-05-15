@@ -254,6 +254,14 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
   return nil;
 }
 
+- (NSDictionary<NSString *, NSString *> *)addresses
+{
+  if (ledger->IsWalletCreated()) {
+    return NSDictionaryFromMap(ledger->GetAddresses());
+  }
+  return nil;
+}
+
 BATLedgerReadonlyBridge(double, balance, GetBalance);
 
 BATLedgerReadonlyBridge(double, defaultContributionAmount, GetDefaultContributionAmount);
@@ -276,6 +284,20 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   });
 }
 
+- (void)listActivityInfoFromStart:(unsigned int)start
+                            limit:(unsigned int)limit
+                           filter:(BATActivityInfoFilter *)filter
+                       completion:(void (^)(NSArray<BATPublisherInfo *> *))completion
+{
+  const auto cppFilter = filter ? filter.cppObj : ledger::ActivityInfoFilter();
+  ledger->GetActivityInfoList(start, limit, cppFilter, ^(const ledger::PublisherInfoList& list, uint32_t nextRecord) {
+    const auto publishers = NSArrayFromVector(list, ^BATPublisherInfo *(const ledger::PublisherInfo& info){
+      return [[BATPublisherInfo alloc] initWithPublisherInfo:info];
+    });
+    completion(publishers);
+  });
+}
+
 - (void)activityInfoWithFilter:(nullable BATActivityInfoFilter *)filter completion:(void (^)(BATPublisherInfo * _Nullable info))completion
 {
   const auto cppFilter = filter ? filter.cppObj : ledger::ActivityInfoFilter();
@@ -289,6 +311,16 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
       completion(nil);
     }
   });
+}
+
+- (void)publisherActivityFromURL:(NSURL *)URL
+                      faviconURL:(NSURL *)faviconURL
+                        windowID:(uint64_t)windowID
+                   publisherBlob:(NSString *)publisherBlob
+{
+  auto visitData = [self visitDataForURL:URL tabId:0];
+  visitData.favicon_url = std::string(faviconURL.absoluteString.UTF8String);
+  ledger->GetPublisherActivityFromUrl(windowID, visitData, std::string(publisherBlob.UTF8String));
 }
 
 - (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable))completion
@@ -332,6 +364,16 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 #pragma mark - Tips
 
+- (void)listRecurringTips:(void (^)(NSArray<BATPublisherInfo *> *))completion
+{
+  ledger->GetRecurringTips(^(const ledger::PublisherInfoList& list, uint32_t){
+    const auto publishers = NSArrayFromVector(list, ^BATPublisherInfo *(const ledger::PublisherInfo& info){
+      return [[BATPublisherInfo alloc] initWithPublisherInfo:info];
+    });
+    completion(publishers);
+  });
+}
+
 - (void)addRecurringTipToPublisherWithId:(NSString *)publisherId amount:(double)amount
 {
   ledger->AddRecurringPayment(std::string(publisherId.UTF8String), amount);
@@ -340,6 +382,16 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 - (void)removeRecurringTipForPublisherWithId:(NSString *)publisherId
 {
   ledger->RemoveRecurringTip(std::string(publisherId.UTF8String));
+}
+
+- (void)listOneTimeTips:(void (^)(NSArray<BATPublisherInfo *> *))completion
+{
+  ledger->GetOneTimeTips(^(const ledger::PublisherInfoList& list, uint32_t){
+    const auto publishers = NSArrayFromVector(list, ^BATPublisherInfo *(const ledger::PublisherInfo& info){
+      return [[BATPublisherInfo alloc] initWithPublisherInfo:info];
+    });
+    completion(publishers);
+  });
 }
 
 - (void)tipPublisherDirectly:(BATPublisherInfo *)publisher amount:(int)amount currency:(NSString *)currency

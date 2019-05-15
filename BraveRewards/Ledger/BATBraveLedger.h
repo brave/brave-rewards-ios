@@ -59,6 +59,7 @@ NS_SWIFT_NAME(BraveLedger)
 @property (readonly, nullable) NSString *BTCAddress;
 @property (readonly, nullable) NSString *ETHAddress;
 @property (readonly, nullable) NSString *LTCAddress;
+@property (readonly, nullable) NSDictionary<NSString *, NSString *> *addresses;
 
 @property (readonly) double balance;
 
@@ -71,8 +72,19 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)publisherInfoForId:(NSString *)publisherId
                 completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
 
+- (void)listActivityInfoFromStart:(unsigned int)start
+                            limit:(unsigned int)limit
+                           filter:(BATActivityInfoFilter *)filter
+                       completion:(void (^)(NSArray<BATPublisherInfo *> *))completion;
+
 - (void)activityInfoWithFilter:(nullable BATActivityInfoFilter *)filter
                     completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
+
+// Unavailable until we figure out what it actually does and how to use it
+- (void)publisherActivityFromURL:(NSURL *)URL
+                      faviconURL:(NSURL *)faviconURL
+                        windowID:(uint64_t)windowID
+                   publisherBlob:(NSString *)publisherBlob NS_UNAVAILABLE;
 
 - (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey
                            completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
@@ -93,10 +105,14 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Tips
 
+- (void)listRecurringTips:(void (^)(NSArray<BATPublisherInfo *> *))completion;
+
 - (void)addRecurringTipToPublisherWithId:(NSString *)publisherId
                                   amount:(double)amount NS_SWIFT_NAME(addRecurringTip(publisherId:amount:));
 
 - (void)removeRecurringTipForPublisherWithId:(NSString *)publisherId NS_SWIFT_NAME(removeRecurringTip(publisherId:));
+
+- (void)listOneTimeTips:(void (^)(NSArray<BATPublisherInfo *> *))completion;
 
 - (void)tipPublisherDirectly:(BATPublisherInfo *)publisher
                       amount:(int)amount
