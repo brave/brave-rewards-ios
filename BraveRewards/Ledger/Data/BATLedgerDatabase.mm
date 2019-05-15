@@ -11,7 +11,7 @@
 
 + (nullable __kindof NSManagedObject *)firstOfClass:(Class)clazz
                                     withPublisherID:(NSString *)publisherID
-                                additionalPredicate:(nullable NSPredicate *)customPredicate
+                                additionalPredicate:(nullable NSPredicate *)additionalPredicate
                                             context:(NSManagedObjectContext *)context
 {
   const auto fetchRequest = [clazz fetchRequest];
@@ -22,8 +22,8 @@
   const auto predicates = [[NSMutableArray<NSPredicate *> alloc] init];
   [predicates addObject:[NSPredicate predicateWithFormat:@"publisherID == %@", publisherID]];
   
-  if (customPredicate) {
-    [predicates addObject:customPredicate];
+  if (additionalPredicate) {
+    [predicates addObject:additionalPredicate];
   }
   
   fetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
