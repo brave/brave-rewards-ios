@@ -9,13 +9,24 @@
 
 @implementation BATLedgerDatabase
 
-+ (nullable __kindof NSManagedObject *)firstOfClass:(Class)clazz withPublisherID:(NSString *)publisherID context:(NSManagedObjectContext *)context
++ (nullable __kindof NSManagedObject *)firstOfClass:(Class)clazz
+                                    withPublisherID:(NSString *)publisherID
+                                additionalPredicate:(nullable NSPredicate *)customPredicate
+                                            context:(NSManagedObjectContext *)context
 {
   const auto fetchRequest = [clazz fetchRequest];
   fetchRequest.entity = [NSEntityDescription entityForName:NSStringFromClass(clazz)
                                     inManagedObjectContext:context];
   fetchRequest.fetchLimit = 1;
-  fetchRequest.predicate = [NSPredicate predicateWithFormat:@"publisherID == %@", publisherID];
+  
+  const auto predicates = [[NSMutableArray<NSPredicate *> alloc] init];
+  [predicates addObject:[NSPredicate predicateWithFormat:@"publisherID == %@", publisherID]];
+  
+  if (customPredicate) {
+    [predicates addObject:customPredicate];
+  }
+  
+  fetchRequest.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:predicates];
   
   NSError *error;
   const auto fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
@@ -28,17 +39,30 @@
 
 + (nullable PublisherInfo *)getPublisherInfoWithID:(NSString *)publisherID context:(NSManagedObjectContext *)context
 {
-  return [self firstOfClass:PublisherInfo.class withPublisherID:publisherID context:context];
+  return [self firstOfClass:PublisherInfo.class withPublisherID:publisherID
+            additionalPredicate:nil context:context];
 }
 
-+ (nullable ActivityInfo *)getActivityInfoWithPublisherID:(NSString *)publisherID context:(NSManagedObjectContext *)context
++ (nullable ActivityInfo *)getActivityInfoWithPublisherID:(NSString *)publisherID
+                                                  context:(NSManagedObjectContext *)context
 {
-  return [self firstOfClass:ActivityInfo.class withPublisherID:publisherID context:context];
+  return [self firstOfClass:ActivityInfo.class withPublisherID:publisherID
+            additionalPredicate:nil context:context];
+}
+
++ (nullable ActivityInfo *)getActivityInfoWithPublisherID:(NSString *)publisherID
+                                           reconcileStamp:(unsigned long long)reconcileStamp
+                                                  context:(NSManagedObjectContext *)context
+{
+  const auto reconcilePredicate = [NSPredicate predicateWithFormat:@"reconcileStamp == %ld", reconcileStamp];
+  return [self firstOfClass:ActivityInfo.class withPublisherID:publisherID
+            additionalPredicate:reconcilePredicate context:context];
 }
 
 + (nullable RecurringDonation *)getRecurringDonationWithPublisherID:(NSString *)publisherID context:(NSManagedObjectContext *)context
 {
-  return [self firstOfClass:RecurringDonation.class withPublisherID:publisherID context:context];
+  return [self firstOfClass:RecurringDonation.class withPublisherID:publisherID
+            additionalPredicate:nil context:context];
 }
 
 + (nullable MediaPublisherInfo *)getMediaPublisherInfoWithMediaKey:(NSString *)mediaKey context:(NSManagedObjectContext *)context
@@ -80,7 +104,9 @@
 + (BATPublisherInfo *)panelPublisherWithFilter:(BATActivityInfoFilter *)filter
 {
   const auto info = [self publisherInfoWithPublisherID:filter.id];
-  const auto activity = [self getActivityInfoWithPublisherID:filter.id context:DataController.viewContext];
+  const auto activity = [self getActivityInfoWithPublisherID:filter.id
+                                              reconcileStamp:filter.reconcileStamp
+                                                     context:DataController.viewContext];
   if (activity) {
     info.percent = activity.percent;
   }
