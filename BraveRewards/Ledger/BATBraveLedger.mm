@@ -352,6 +352,11 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledger->RestorePublishers();
 }
 
+- (NSUInteger)numberOfExcludedPublishers
+{
+  return [BATLedgerDatabase excludedPublishersCount];
+}
+
 - (void)publisherBannerForId:(NSString *)publisherId completion:(void (^)(BATPublisherBanner * _Nullable banner))completion
 {
   ledger->GetPublisherBanner(std::string(publisherId.UTF8String), ^(std::unique_ptr<ledger::PublisherBanner> banner) {

@@ -100,6 +100,8 @@ NS_SWIFT_NAME(BraveLedger)
 /// Restore all sites which had been previously excluded
 - (void)restoreAllExcludedPublishers;
 
+@property (readonly) NSUInteger numberOfExcludedPublishers;
+
 - (void)publisherBannerForId:(NSString *)publisherId
                   completion:(void (^)(BATPublisherBanner * _Nullable banner))completion;
 
