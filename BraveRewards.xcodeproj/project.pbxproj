@@ -1127,7 +1127,6 @@
 					};
 					27FD38DF21E6B69700443796 = {
 						CreatedOnToolsVersion = 10.1;
-						TestTargetID = 27F3E58E21FB97CB009A54D5;
 					};
 					A1FDE6D020D2AA7400F92CAF = {
 						CreatedOnToolsVersion = 9.4;
@@ -1580,7 +1579,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BraveRewardsExample.app/BraveRewardsExample";
 			};
 			name = Debug;
 		};
@@ -1602,7 +1600,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BraveRewardsExample.app/BraveRewardsExample";
 			};
 			name = Release;
 		};
