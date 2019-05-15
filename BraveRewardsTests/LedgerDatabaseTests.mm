@@ -89,7 +89,9 @@
   
   info.duration = 10;
   
-  [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
+  [self backgroundSaveAndWaitForExpectation:^{
+    [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
+  }];
   
   queriedInfo = [BATLedgerDatabase publisherInfoWithPublisherID:publisherID];
   XCTAssertNotNil(queriedInfo);
