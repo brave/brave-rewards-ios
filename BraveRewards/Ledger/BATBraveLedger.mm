@@ -961,8 +961,8 @@ BATLedgerBridge(BOOL,
 
 - (void)onRestorePublishers:(ledger::OnRestoreCallback)callback
 {
-  const auto success = [BATLedgerDatabase restoreExcludedPublishers];
-  callback(success ? ledger::Result::LEDGER_OK : ledger::Result::LEDGER_ERROR);
+  [BATLedgerDatabase restoreExcludedPublishers];
+  callback(ledger::Result::LEDGER_OK);
 }
 
 - (void)saveActivityInfo:(std::unique_ptr<ledger::PublisherInfo>)publisher_info callback:(ledger::PublisherInfoCallback)callback

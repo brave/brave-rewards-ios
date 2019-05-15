@@ -19,14 +19,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// Get bare bones publisher info based on a publisher ID
 + (nullable BATPublisherInfo *)publisherInfoWithPublisherID:(NSString *)publisherID;
 
-/// ??
+/// Get the publisher that will be displayed on the main brave rewards panel
 + (BATPublisherInfo *)panelPublisherWithFilter:(BATActivityInfoFilter *)filter;
 
 /// Insert or update publisher info in the database given a BATPublisherInfo object
 + (void)insertOrUpdatePublisherInfo:(BATPublisherInfo *)info;
 
 /// Restores all of the publishers to default excluded state
-+ (BOOL)restoreExcludedPublishers;
++ (void)restoreExcludedPublishers;
 
 /// Get the number of publishers the user has excluded from Auto-Contribute
 + (NSUInteger)excludedPublishersCount;
