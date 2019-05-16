@@ -612,6 +612,7 @@
 		2734045A2220B004008CABC9 /* BraveRewardsUI */ = {
 			isa = PBXGroup;
 			children = (
+				59512893228CF33B002D3791 /* Localized Strings */,
 				2704834E2220EC720051239C /* Images.xcassets */,
 				2734045B2220B004008CABC9 /* BraveRewardsUI.h */,
 				2734045C2220B004008CABC9 /* Info.plist */,
@@ -953,6 +954,13 @@
 				27FD394621E8004400443796 /* locales */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		59512893228CF33B002D3791 /* Localized Strings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Localized Strings";
 			sourceTree = "<group>";
 		};
 		A1FDE6C720D2AA7400F92CAF = {

@@ -4,8 +4,6 @@
 
 import Foundation
 
-private class _BundleClass {}
-
-func BATLocalizedString(_ key: String, _ defaultValue: String, _ comment: String = "") -> String {
-  return NSLocalizedString(key, bundle: Bundle(for: _BundleClass.self), value: defaultValue, comment: comment)
+extension Bundle {
+  public static let RewardsUI: Bundle = Bundle(identifier: "com.brave.ios.rewards-ui")!
 }
