@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    title = BATLocalizedString("BraveRewardsSettingsTitle", "Settings")
+    title = Strings.BraveRewardsSettingsTitle
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDone))
     

@@ -63,7 +63,7 @@ class DisclaimerView: UIView {
     )
     
     let learnMoreText = NSAttributedString(
-      string: BATLocalizedString("BraveRewardsDisclaimerLearnMore", "Learn More"),
+      string: Strings.BraveRewardsDisclaimerLearnMore,
       attributes: [
         .font: UIFont.systemFont(ofSize: 12.0),
         .foregroundColor: UX.linkColor,

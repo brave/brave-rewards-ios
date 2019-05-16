@@ -56,7 +56,7 @@ extension GrantClaimedViewController {
     let okButton = ActionButton(type: .system).then {
       $0.backgroundColor = BraveUX.braveOrange
       $0.layer.borderWidth = 0
-      $0.setTitle(BATLocalizedString("OK", "OK"), for: .normal)
+      $0.setTitle(Strings.OK, for: .normal)
     }
     
     override init(frame: CGRect) {
@@ -79,14 +79,14 @@ extension GrantClaimedViewController {
       let titleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.textColor = BraveUX.braveOrange
-        $0.text = BATLocalizedString("BraveRewardsGrantsClaimedTitle", "It's your lucky day!")
+        $0.text = Strings.BraveRewardsGrantsClaimedTitle
         $0.font = .systemFont(ofSize: 20.0)
         $0.textAlignment = .center
       }
       let subtitleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.textColor = SettingsUX.subtitleTextColor
-        $0.text = BATLocalizedString("BraveRewardsGrantsClaimedSubtitle", "Your token grant is on its way.")
+        $0.text = Strings.BraveRewardsGrantsClaimedSubtitle
         $0.font = .systemFont(ofSize: 12.0)
         $0.textAlignment = .center
       }
@@ -157,12 +157,12 @@ extension GrantClaimedViewController {
         $0.spacing = 4.0
       }
       let amountTitleLabel = UILabel().then {
-        $0.text = BATLocalizedString("BraveRewardsGrantsClaimedAmountTitle", "Free Token Grant")
+        $0.text = Strings.BraveRewardsGrantsClaimedAmountTitle
         $0.textColor = SettingsUX.subtitleTextColor
         $0.font = .systemFont(ofSize: 13.0)
       }
       let expirdationDateTitleLabel = UILabel().then {
-        $0.text = BATLocalizedString("BraveRewardsGrantsClaimedExpirationDateTitle", "Grant Expiration Date")
+        $0.text = Strings.BraveRewardsGrantsClaimedExpirationDateTitle
         $0.textColor = SettingsUX.subtitleTextColor
         $0.font = .systemFont(ofSize: 13.0)
       }

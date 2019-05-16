@@ -73,7 +73,7 @@ extension RewardsDisabledView {
       $0.font = .systemFont(ofSize: 28.0)
       $0.textColor = UX.titleColor
       $0.textAlignment = .center
-      $0.text = BATLocalizedString("BraveRewardsDisabledTitle", "Welcome back!")
+      $0.text = Strings.BraveRewardsDisabledTitle
     }
     
     let subtitleLabel = UILabel().then {
@@ -81,7 +81,7 @@ extension RewardsDisabledView {
       $0.textColor = UX.subtitleColor
       $0.textAlignment = .center
       $0.numberOfLines = 0
-      $0.text = BATLocalizedString("BraveRewardsDisabledSubtitle", "Get rewarded for browsing.")
+      $0.text = Strings.BraveRewardsDisabledSubtitle
     }
     
     let bodyLabel = UILabel().then {
@@ -89,11 +89,11 @@ extension RewardsDisabledView {
       $0.textColor = UX.bodyColor
       $0.textAlignment = .center
       $0.numberOfLines = 0
-      $0.text = BATLocalizedString("BraveRewardsDisabledBody", "Earn by viewing privacy-respecting ads, and pay it forward to support content creators you love.")
+      $0.text = Strings.BraveRewardsDisabledBody
     }
     
     let enableRewardsButton = ActionButton(type: .system).then {
-      $0.setTitle(BATLocalizedString("BraveRewardsDisabledEnableButton", "Enable Brave Rewards".uppercased()), for: .normal)
+      $0.setTitle(Strings.BraveRewardsDisabledEnableButton.uppercased(), for: .normal)
       $0.setImage(UIImage(frameworkResourceNamed: "continue-button-arrow").alwaysOriginal, for: .normal)
       $0.titleLabel?.font = .systemFont(ofSize: 12.0, weight: .semibold)
       $0.tintColor = UX.rewardsButtonTintColor

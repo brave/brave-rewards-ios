@@ -80,25 +80,25 @@ private class DisabledRewardsLabelsView: UIView {
   let labels = [
     UILabel().then {
       $0.textColor = SettingsUX.headerTextColor
-      $0.text = BATLocalizedString("BraveRewardsSettingsDisabledTitle1", "Why Brave Rewards?")
+      $0.text = Strings.BraveRewardsSettingsDisabledTitle1
       $0.numberOfLines = 0
       $0.font = .systemFont(ofSize: 15.0)
     },
     UILabel().then {
       $0.textColor = SettingsUX.bodyTextColor
-      $0.text = BATLocalizedString("BraveRewardsSettingsDisabledBody1", "With your old browser, you paid to browse the web by viewing ads with your valuable attention. You spent your valuable time downloading invasive ad technology that transmitted your valuable private data to advertisers — without your consent.")
+      $0.text = Strings.BraveRewardsSettingsDisabledBody1
       $0.numberOfLines = 0
       $0.font = .systemFont(ofSize: 13.0)
     },
     UILabel().then {
       $0.textColor = SettingsUX.headerTextColor
-      $0.text = BATLocalizedString("BraveRewardsSettingsDisabledTitle2", "Today, Brave welcomes you to the new internet.")
+      $0.text = Strings.BraveRewardsSettingsDisabledTitle2
       $0.numberOfLines = 0
       $0.font = .systemFont(ofSize: 15.0)
     },
     UILabel().then {
       $0.textColor = SettingsUX.bodyTextColor
-      $0.text = BATLocalizedString("BraveRewardsSettingsDisabledBody2", "One where your time is valued, your personal data is kept private, and you actually get paid for your attention.")
+      $0.text = Strings.BraveRewardsSettingsDisabledBody2
       $0.numberOfLines = 0
       $0.font = .systemFont(ofSize: 13.0)
     },

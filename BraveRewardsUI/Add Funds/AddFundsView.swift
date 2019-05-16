@@ -36,14 +36,14 @@ extension AddFundsViewController {
       let titleLabel = UILabel().then {
         $0.textColor = SettingsUX.headerTextColor
         $0.font = .systemFont(ofSize: 22.0, weight: .medium)
-        $0.text = BATLocalizedString("BraveRewardsAddFundsTitle", "Send cryptocurrency from your external account to your Brave Rewards wallet.")
+        $0.text = Strings.BraveRewardsAddFundsTitle
         $0.numberOfLines = 0
       }
       
       let bodyLabel = UILabel().then {
         $0.textColor = SettingsUX.bodyTextColor
         $0.font = .systemFont(ofSize: 14.0)
-        $0.text = BATLocalizedString("BraveRewardsAddFundsBody", "Be sure to use the address below that matches the type of crypto you own. It will be converted automatically to BAT by Uphold and appear as an increased balance in your Brave Rewards wallet. Please allow up to one hour for your wallet balance to update.")
+        $0.text = Strings.BraveRewardsAddFundsBody
         $0.numberOfLines = 0
       }
       
@@ -55,7 +55,7 @@ extension AddFundsViewController {
         $0.backgroundColor = .clear
         $0.textDragInteraction?.isEnabled = false
         $0.textContainerInset = .zero
-        let string = BATLocalizedString("BraveRewardsAddFundsDisclaimer", "Reminder: The Brave Wallet is unidirectional and BAT flows to publisher sites. For more information about Brave Rewards, please visit the FAQ.")
+        let string = Strings.BraveRewardsAddFundsDisclaimer
         let attributedString = NSMutableAttributedString(string: string, attributes: [
           .paragraphStyle: NSMutableParagraphStyle().then { $0.alignment = .center },
           .font: UIFont.systemFont(ofSize: 12.0),

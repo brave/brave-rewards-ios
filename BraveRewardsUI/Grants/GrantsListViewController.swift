@@ -31,7 +31,7 @@ class GrantsListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    title = BATLocalizedString("BraveRewardsGrants", "Grants")
+    title = Strings.BraveRewardsGrants
     
     if let grants = ledger.walletInfo?.grants, !grants.isEmpty {
       grants.forEach {

@@ -64,7 +64,7 @@ extension WalletDetailsViewController.View {
       
       let imageView = UIImageView(image: UIImage(frameworkResourceNamed: "icn-blankslate-statement"))
       let titleLabel = UILabel().then {
-        $0.text = BATLocalizedString("BraveRewardsEmptyWalletTitle", "Sorry, no tokens yet.")
+        $0.text = Strings.BraveRewardsEmptyWalletTitle
         $0.textColor = SettingsUX.bodyTextColor
         $0.font = .systemFont(ofSize: 22.0)
         $0.textAlignment = .center
@@ -82,12 +82,12 @@ extension WalletDetailsViewController.View {
           addArrangedSubview(UILabel().then {
             $0.font = .systemFont(ofSize: 15.0, weight: .medium)
             $0.textColor = SettingsUX.subtitleTextColor
-            $0.text = BATLocalizedString("BraveRewardsEmptyWalletBulletHeader", "3 ways to fill your wallet:")
+            $0.text = Strings.BraveRewardsEmptyWalletBulletHeader
           })
           addArrangedSubview(UILabel().then {
             $0.font = .systemFont(ofSize: 15.0)
             $0.textColor = SettingsUX.bodyTextColor
-            $0.text = BATLocalizedString("BraveRewardsEmptyWalletBulletPoints", "• You can add funds.\n• You can earn tokens from viewing ads.\n• Occasionally, you'll be offered free token grants from Brave. Be sure to keep an eye out for the alert!")
+            $0.text = Strings.BraveRewardsEmptyWalletBulletPoints
             $0.numberOfLines = 0
           })
         }
@@ -139,7 +139,7 @@ extension WalletDetailsViewController.View {
         $0.textAlignment = .center
         $0.numberOfLines = 0
         $0.attributedText = {
-          let s = NSMutableAttributedString(string: BATLocalizedString("BraveRewardsPoweredByUphold", "Your Brave wallet is managed by Uphold"))
+          let s = NSMutableAttributedString(string: Strings.BraveRewardsPoweredByUphold)
           if let upholdRange = s.string.range(of: "Uphold") {
             s.addAttribute(
               .font,

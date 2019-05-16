@@ -58,13 +58,13 @@ class SettingsAutoContributeSectionView: SettingsSectionView {
   }
   
   private let titleLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsAutoContributeTitle", "Auto-Contribute")
+    $0.text = Strings.BraveRewardsSettingsAutoContributeTitle
     $0.textColor = BraveUX.autoContributeTintColor
     $0.font = SettingsUX.titleFont
   }
   
   private let bodyLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsAutoContributeBody", "An automatic way to support publishers and content creators. Set a monthly payment and browse normally. The sites you visit receive your contributions automatically, based on your attention as measured by Brave.")
+    $0.text = Strings.BraveRewardsSettingsAutoContributeBody
     $0.textColor = SettingsUX.bodyTextColor
     $0.numberOfLines = 0
     $0.font = SettingsUX.bodyFont

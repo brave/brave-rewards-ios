@@ -79,7 +79,7 @@ extension RewardsSummaryProtocol {
     // FIXME: Set this disclaimer based on contributions going to unverified publishers
     // if !state.ledger.isAutoContributeEnabled { return nil }
     
-    let text = String(format: BATLocalizedString("BraveRewardsContributingToUnverifiedSites", "You've designated %d BAT for creators who haven't yet signed up to recieve contributions. Your browser will keep trying to contribute until they verify, or until 90 days have passed."), 52)
+    let text = String(format: Strings.BraveRewardsContributingToUnverifiedSites, 52)
     
     return DisclaimerView(text: text)
   }

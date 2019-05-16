@@ -42,7 +42,7 @@ class BraveRewardsToggleView: UIView {
   
   private let titleLabel = UILabel().then {
     $0.textColor = Colors.grey100
-    $0.text = BATLocalizedString("BraveRewards", "Brave Rewards™")
+    $0.text = Strings.BraveRewards
   }
   
   

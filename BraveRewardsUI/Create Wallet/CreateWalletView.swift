@@ -7,10 +7,10 @@ import UIKit
 extension CreateWalletViewController {
   class View: UIView {
     
-    let createWalletButton = CreateWalletButton(titleText: BATLocalizedString("RewardsOptInJoinTitle", "Join Rewards").uppercased())
+    let createWalletButton = CreateWalletButton(titleText: Strings.RewardsOptInJoinTitle.uppercased())
     
     let learnMoreButton = UIButton(type: .system).then {
-      $0.setTitle(BATLocalizedString("RewardsOptInLearnMore", "Learn More").uppercased(), for: .normal)
+      $0.setTitle(Strings.RewardsOptInLearnMore.uppercased(), for: .normal)
       $0.tintColor = UX.learnMoreTextColor
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)
     }
@@ -32,7 +32,7 @@ extension CreateWalletViewController {
       $0.textColor = UX.prefixTextColor
       $0.font = .systemFont(ofSize: 16.0)
       $0.textAlignment = .center
-      $0.text = BATLocalizedString("RewardsOptInPrefix", "Get ready to experience the next Internet.")
+      $0.text = Strings.RewardsOptInPrefix
       $0.numberOfLines = 0
     }
     
@@ -43,7 +43,7 @@ extension CreateWalletViewController {
       $0.font = .systemFont(ofSize: 28.0, weight: .medium)
       $0.textAlignment = .center
       $0.attributedText = {
-        let title = NSMutableAttributedString(string: BATLocalizedString("BraveRewards", "Brave Rewards™"))
+        let title = NSMutableAttributedString(string: Strings.BraveRewards)
         if let trademarkRange = title.string.range(of: "™") {
           title.addAttributes(
             [
@@ -61,7 +61,7 @@ extension CreateWalletViewController {
       $0.textColor = UX.bodyTextColor
       $0.font = .systemFont(ofSize: 16.0)
       $0.textAlignment = .center
-      $0.text = BATLocalizedString("RewardsOptInDescription", "Get paid for viewing ads and pay it forward to support your favorite content creators.")
+      $0.text = Strings.RewardsOptInDescription
       $0.numberOfLines = 0
     }
     
