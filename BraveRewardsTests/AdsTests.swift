@@ -18,6 +18,10 @@ class BraveRewardsTests: XCTestCase {
     
     // Purge the persistant storage directory
     try? FileManager.default.removeItem(atPath: stateStoragePath)
+    
+    BraveAds.isTesting = true
+    BraveAds.isDebug = true
+    BraveAds.isProduction = false
   }
   
   func testDisabledByDefault() {

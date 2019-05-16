@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class) DataController *shared;
 
+@property (readonly) NSURL *storeURL;
+
 - (void)addPersistentStoreForContainer:(NSPersistentContainer *)container;
 
 @property (readonly) BOOL storeExists;

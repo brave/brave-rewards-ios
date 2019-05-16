@@ -718,8 +718,7 @@ BATLedgerBridge(BOOL,
 
 - (void)setConfirmationsIsReady:(const bool)is_ready
 {
-  // TODO: Need to get a reference to a BATBraveAds object here
-  // [self.ads setConfirmationsIsReady:is_ready];
+   [self.ads setConfirmationsIsReady:is_ready];
 }
 
 - (void)confirmationsTransactionHistoryDidChange

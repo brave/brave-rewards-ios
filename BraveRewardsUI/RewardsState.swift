@@ -9,6 +9,8 @@ import BraveRewards
 struct RewardsState {
   /// The controlling ledger
   var ledger: BraveLedger
+  /// The controlling ads
+  var ads: BraveAds
   /// The url currently viewing
   var url: URL
   /// The favicon URL for `url`

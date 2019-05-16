@@ -6,7 +6,7 @@
 #import "Records.h"
 #import "BATActivityInfoFilter.h"
 
-@class BATBraveLedger;
+@class BATBraveAds;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +15,8 @@ extern NSString * const BATBraveLedgerErrorDomain NS_SWIFT_NAME(BraveLedgerError
 
 NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject
+
+@property (nonatomic, weak) BATBraveAds *ads;
 
 /// Create a brave ledger that will read and write its state to the given path
 - (instancetype)initWithStateStoragePath:(NSString *)path;

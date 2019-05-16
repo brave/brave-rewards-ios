@@ -88,9 +88,12 @@
 		27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598844222452A100B2E47A /* PublisherAttentionView.swift */; };
 		27598847222453D900B2E47A /* PublisherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598846222453D900B2E47A /* PublisherView.swift */; };
 		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
+		27623A6A228DBAA300DFA8F5 /* BATBraveRewards.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A68228DBAA300DFA8F5 /* BATBraveRewards.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		27623A6B228DBAA300DFA8F5 /* BATBraveRewards.m in Sources */ = {isa = PBXBuildFile; fileRef = 27623A69228DBAA300DFA8F5 /* BATBraveRewards.m */; };
 		27623A74228DC6A900DFA8F5 /* NativeAdsClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */; };
 		27623A75228DC6A900DFA8F5 /* NativeAdsClientBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */; };
 		27623A76228DC6A900DFA8F5 /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */; };
+		27623A84228DE46600DFA8F5 /* BraveRewardsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273404592220B004008CABC9 /* BraveRewardsUI.framework */; };
 		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
 		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
@@ -189,6 +192,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = A1FDE6D020D2AA7400F92CAF;
 			remoteInfo = BraveRewards;
+		};
+		27623A87228DE46C00DFA8F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1FDE6C820D2AA7400F92CAF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 273404582220B004008CABC9;
+			remoteInfo = BraveRewardsUI;
 		};
 		27885E4E2263D61C00A47647 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -332,6 +342,8 @@
 		27598844222452A100B2E47A /* PublisherAttentionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherAttentionView.swift; sourceTree = "<group>"; };
 		27598846222453D900B2E47A /* PublisherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherView.swift; sourceTree = "<group>"; };
 		2759884922247F4F00B2E47A /* SendTipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTipButton.swift; sourceTree = "<group>"; };
+		27623A68228DBAA300DFA8F5 /* BATBraveRewards.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATBraveRewards.h; sourceTree = "<group>"; };
+		27623A69228DBAA300DFA8F5 /* BATBraveRewards.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATBraveRewards.m; sourceTree = "<group>"; };
 		27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
 		27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClientBridge.h; sourceTree = "<group>"; };
 		27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
@@ -452,6 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */,
+				27623A84228DE46600DFA8F5 /* BraveRewardsUI.framework in Frameworks */,
 				27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,6 +713,8 @@
 				272D13E421F61CEA00768D30 /* Shared */,
 				275779B621E6B15D005A0EAF /* Ads */,
 				275779CB21E6B15D005A0EAF /* Ledger */,
+				27623A68228DBAA300DFA8F5 /* BATBraveRewards.h */,
+				27623A69228DBAA300DFA8F5 /* BATBraveRewards.m */,
 				275779CE21E6B15D005A0EAF /* BraveRewards.h */,
 				275779CF21E6B15D005A0EAF /* Info.plist */,
 			);
@@ -1031,6 +1046,7 @@
 				27EDB846223D607F008406EB /* Enums.h in Headers */,
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
+				27623A6A228DBAA300DFA8F5 /* BATBraveRewards.h in Headers */,
 				27091840228364C60092B1F4 /* BATPublisherInfo+Private.h in Headers */,
 				27623A75228DC6A900DFA8F5 /* NativeAdsClientBridge.h in Headers */,
 				27885E892265087000A47647 /* CppTransformations.h in Headers */,
@@ -1098,6 +1114,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				27623A88228DE46C00DFA8F5 /* PBXTargetDependency */,
 				27FD38E721E6B69700443796 /* PBXTargetDependency */,
 				27F19556228B3D43004E92ED /* PBXTargetDependency */,
 			);
@@ -1394,6 +1411,7 @@
 				27EDB843223D607F008406EB /* Records.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27471B84228A1C3800AA60A5 /* BATLedgerDatabase.mm in Sources */,
+				27623A6B228DBAA300DFA8F5 /* BATBraveRewards.m in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
 				27091841228364C60092B1F4 /* BATPublisherInfo+Private.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
@@ -1418,6 +1436,11 @@
 			isa = PBXTargetDependency;
 			target = A1FDE6D020D2AA7400F92CAF /* BraveRewards */;
 			targetProxy = 27543EC5225C0D9C003E9EDF /* PBXContainerItemProxy */;
+		};
+		27623A88228DE46C00DFA8F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 273404582220B004008CABC9 /* BraveRewardsUI */;
+			targetProxy = 27623A87228DE46C00DFA8F5 /* PBXContainerItemProxy */;
 		};
 		27F19556228B3D43004E92ED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

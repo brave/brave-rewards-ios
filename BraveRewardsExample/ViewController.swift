@@ -30,7 +30,8 @@ class UIMockLedger: BraveLedger {
     set { return defaults.set(newValue, forKey: "BATUIAutoContributeEnabled") }
   }
   override func createWallet(_ completion: ((Error?) -> Void)? = nil) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+      self.isEnabled = true
       self.isWalletCreated = true
       self.isAutoContributeEnabled = true
       completion?(nil)
@@ -73,21 +74,20 @@ class ViewController: UIViewController {
   @IBOutlet var braveRewardsPanelButton: UIButton!
   @IBOutlet var useMockLedgerSwitch: UISwitch!
   
-  var ledger: BraveLedger
+  var rewards: BraveRewards!
   
-  required init?(coder aDecoder: NSCoder) {
-    BraveLedger.isDebug = true
-    BraveLedger.isProduction = false
-    
-    ledger = BraveLedger(stateStoragePath: stateStoragePath)
-    
-    super.init(coder: aDecoder)
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
+  }
+  
+  func setupRewards() {
+    if (useMockLedgerSwitch.isOn) {
+      rewards = BraveRewards(configuration: .default, ledgerClass: UIMockLedger.self, adsClass: nil)
+    } else {
+      rewards = BraveRewards(configuration: .default)
+    }
   }
 
   @IBAction func tappedBraveRewards() {
@@ -97,10 +97,9 @@ class ViewController: UIViewController {
     }
     
 //    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
-    let ledger = self.ledger
     let url = URL(string: "https://github.com")!
     let braveRewardsPanel = RewardsPanelController(
-      ledger: ledger,
+      rewards,
       url: url,
       faviconURL: URL(string: "https://github.com/apple-touch-icon.png")!,
       delegate: self,
@@ -111,13 +110,13 @@ class ViewController: UIViewController {
     popover.present(from: braveRewardsPanelButton, on: self)
   }
   
-  @IBAction func tappedSettings() {
-  }
-  
   @IBAction func tappedResetMockLedger() {
     UIMockLedger.reset()
-    try? FileManager.default.removeItem(atPath: stateStoragePath)
-    ledger = BraveLedger(stateStoragePath: stateStoragePath)
+    rewards.reset()
+  }
+  
+  @IBAction func useMockLedgerValueChanged() {
+    setupRewards()
   }
 }
 

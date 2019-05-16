@@ -5,7 +5,6 @@
 #import "DataController.h"
 
 @interface DataController ()
-@property (readonly) NSURL *storeURL;
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSPersistentContainer *container;
 @end
