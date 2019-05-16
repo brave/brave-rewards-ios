@@ -76,7 +76,7 @@ fi
 
 echo "Pushing string changes to Transifex..."
 http_status_code=$(curl --silent --write-out %{http_code} --list-only --output transifex.log --user ${USERNAME}:${PASSWORD} -F file=@en-US.xliff -X PUT \
-https://www.transifex.com/api/2/project/brave-rewards-ios/resource/bravexliff/content/)
+https://www.transifex.com/api/2/project/brave-rewards-ios/resource/rewardsxliff/content/)
 
 if [ $http_status_code == 401 ] ; then
   report_error 3 "ERROR: Unauthorized access, please see output.log"

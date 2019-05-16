@@ -51,7 +51,7 @@ for language_code in ${language_codes[@]} ; do
   echo "Downloading translations for language code \""$language_code"\""
 
   http_status_code=$(curl --silent --write-out %{http_code} --output translation.xliff --user ${USERNAME}:${PASSWORD} -X GET \
-  https://www.transifex.com/api/2/project/brave-rewards-ios/resource/bravexliff/translation/${language_code}/?file)
+  https://www.transifex.com/api/2/project/brave-rewards-ios/resource/rewardsxliff/translation/${language_code}/?file)
 
   if [ $http_status_code == 401 ] ; then
     report_error 3 "ERROR: Unauthorized access"
