@@ -41,6 +41,9 @@
 - (void)dealloc
 {
   [self.runningTasks makeObjectsPerformSelector:@selector(cancel)];
+  for (NSNumber *timerID in self.timers) {
+    [self.timers[timerID] invalidate];
+  }
 }
 
 - (const std::string)generateUUID
@@ -50,6 +53,11 @@
 
 - (uint32_t)createTimerWithOffset:(uint64_t)offset timerFired:(void (^)(uint32_t))timerFired
 {
+  if (offset == 0) {
+    // Invalid
+    return 0;
+  }
+  
   self.currentTimerID++;
   const auto timerID = self.currentTimerID;
   
@@ -64,7 +72,7 @@
 
 - (void)removeTimerWithID:(uint32_t)timerID
 {
-  const auto key = [NSNumber numberWithUnsignedInteger:timerID];
+  const auto key = [NSNumber numberWithUnsignedInt:timerID];
   const auto timer = self.timers[key];
   [timer invalidate];
   [self.timers removeObjectForKey:key];
