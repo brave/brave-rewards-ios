@@ -52,11 +52,15 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
 @property (nonatomic) BATWalletInfo *walletInfo;
 @property (nonatomic) dispatch_queue_t stateWriteThread;
 @property (nonatomic) NSMutableDictionary<NSString *, NSString *> *state;
-@property (nonatomic, copy, nullable) void (^walletInitializedBlock)(const ledger::Result result);
-@property (nonatomic, copy, nullable) void (^walletRecoveredBlock)(const ledger::Result result, const double balance, const std::vector<ledger::Grant> &grants);
 @property (nonatomic) BATCommonOperations *commonOps;
 
 @property (nonatomic) NSMutableArray<BATGrant *> *mPendingGrants;
+
+/// Temporary blocks
+
+@property (nonatomic, copy, nullable) void (^walletInitializedBlock)(const ledger::Result result);
+@property (nonatomic, copy, nullable) void (^walletRecoveredBlock)(const ledger::Result result, const double balance, const std::vector<ledger::Grant> &grants);
+@property (nonatomic, copy, nullable) void (^grantCaptchaBlock)(const std::string& image, const std::string& hint);
 
 @end
 
@@ -262,6 +266,13 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
   return nil;
 }
 
+- (void)addressesForPaymentId:(void (^)(NSDictionary<NSString *,NSString *> * _Nonnull))completion
+{
+  ledger->GetAddressesForPaymentId(^(std::map<std::string, std::string> addresses){
+    completion(NSDictionaryFromMap(addresses));
+  });
+}
+
 BATLedgerReadonlyBridge(double, balance, GetBalance);
 
 BATLedgerReadonlyBridge(double, defaultContributionAmount, GetDefaultContributionAmount);
@@ -441,19 +452,21 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)grantCaptchaForPromotionId:(NSString *)promoID promotionType:(NSString *)promotionType completion:(void (^)(NSString * _Nonnull, NSString * _Nonnull))completion
 {
-  auto method = class_getInstanceMethod(self.class, @selector(onGrantCaptcha:hint:));
-  auto block = ^(std::string& image, std::string& hint) {
+  const auto __weak weakSelf = self;
+  self.grantCaptchaBlock = ^(const std::string &image, const std::string &hint) {
+    weakSelf.grantCaptchaBlock = nil;
     completion([NSString stringWithUTF8String:image.c_str()],
                [NSString stringWithUTF8String:hint.c_str()]);
   };
-  method_setImplementation(method, imp_implementationWithBlock(block));
   ledger->GetGrantCaptcha(std::string(promoID.UTF8String),
                           std::string(promotionType.UTF8String));
 }
 
 - (void)onGrantCaptcha:(const std::string &)image hint:(const std::string &)hint
 {
-  // TODO: notify observers
+  if (self.grantCaptchaBlock) {
+    self.grantCaptchaBlock(image, hint);
+  }
 }
 
 - (void)getGrantCaptcha:(const std::string &)promotion_id promotionType:(const std::string &)promotion_type
