@@ -27,7 +27,7 @@ class TippingConfirmationView: UIView {
   }
   
   let confirmationLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsTippingConfirmation", "Thank you")
+    $0.text = Strings.BraveRewardsTippingConfirmation
     $0.textColor = UX.confirmationTextColor
     $0.font = .systemFont(ofSize: 25.0, weight: .bold)
     $0.textAlignment = .center

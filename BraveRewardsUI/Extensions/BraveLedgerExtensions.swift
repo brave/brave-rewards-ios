@@ -45,9 +45,9 @@ extension BraveLedger {
     
     var displayString: String {
       switch self {
-      case .one: return BATLocalizedString("BraveRewardsMinimumVisitsChoices0", "1 visit")
-      case .five: return BATLocalizedString("BraveRewardsMinimumVisitsChoices1", "5 visits")
-      case .ten: return BATLocalizedString("BraveRewardsMinimumVisitsChoices2", "10 visits")
+      case .one: return Strings.BraveRewardsMinimumVisitsChoices0
+      case .five: return Strings.BraveRewardsMinimumVisitsChoices1
+      case .ten: return Strings.BraveRewardsMinimumVisitsChoices2
       }
     }
   }
@@ -60,9 +60,9 @@ extension BraveLedger {
     
     var displayString: String {
       switch self {
-      case .fiveSeconds: return BATLocalizedString("BraveRewardsMinimumLengthChoices0", "5 seconds")
-      case .eightSeconds: return BATLocalizedString("BraveRewardsMinimumLengthChoices1", "8 seconds")
-      case .oneMinute: return BATLocalizedString("BraveRewardsMinimumLengthChoices2", "1 minute")
+      case .fiveSeconds: return Strings.BraveRewardsMinimumLengthChoices0
+      case .eightSeconds: return Strings.BraveRewardsMinimumLengthChoices1
+      case .oneMinute: return Strings.BraveRewardsMinimumLengthChoices2
       }
     }
   }

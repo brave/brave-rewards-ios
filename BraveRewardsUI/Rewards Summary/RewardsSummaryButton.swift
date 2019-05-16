@@ -13,7 +13,7 @@ import UIKit
     }
     
     let titleLabel = UILabel().then {
-      $0.text = BATLocalizedString("BraveRewardsSummaryTitle", "Rewards Summary").uppercased()
+      $0.text = Strings.BraveRewardsSummaryTitle.uppercased()
       $0.textColor = UX.titleTextColor
       $0.font = .systemFont(ofSize: 14.0, weight: .bold)
     }

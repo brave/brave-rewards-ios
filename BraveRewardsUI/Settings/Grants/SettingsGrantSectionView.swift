@@ -11,7 +11,7 @@ class SettingsGrantSectionView: SettingsSectionView {
     $0.backgroundColor = BraveUX.braveOrange
     $0.tintColor = .white
     $0.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .bold)
-    $0.setTitle(BATLocalizedString("BraveRewardsSettingsGrantClaimButtonTitle", "Claim").uppercased(), for: .normal)
+    $0.setTitle(Strings.BraveRewardsSettingsGrantClaimButtonTitle.uppercased(), for: .normal)
     $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -51,7 +51,7 @@ class SettingsGrantSectionView: SettingsSectionView {
   }
   
   private let textLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsGrantText", "A free token grant is available.")
+    $0.text = Strings.BraveRewardsSettingsGrantText
     $0.textColor = SettingsUX.bodyTextColor
     $0.font = SettingsUX.bodyFont
     $0.numberOfLines = 0

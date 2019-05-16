@@ -8,7 +8,7 @@ extension WelcomeViewController {
   
   private class HeaderView: UIView {
     
-    let createWalletButton = CreateWalletButton(titleText: BATLocalizedString("BraveRewardsLearnMoreCreateWallet1", "Yes, I'm In!").uppercased()).then {
+    let createWalletButton = CreateWalletButton(titleText: Strings.BraveRewardsLearnMoreCreateWallet1.uppercased()).then {
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
@@ -35,7 +35,7 @@ extension WelcomeViewController {
           $0.font = .systemFont(ofSize: 28.0, weight: .medium)
           $0.textAlignment = .center
           $0.attributedText = {
-            let title = NSMutableAttributedString(string: BATLocalizedString("BraveRewards", "Brave Rewards™"))
+            let title = NSMutableAttributedString(string: Strings.BraveRewards)
             if let trademarkRange = title.string.range(of: "™") {
               title.addAttributes(
                 [
@@ -53,7 +53,7 @@ extension WelcomeViewController {
           $0.font = .systemFont(ofSize: 22.0)
           $0.textAlignment = .center
           $0.numberOfLines = 0
-          $0.text = BATLocalizedString("BraveRewardsLearnMoreSubtitle", "Get Rewarded for Browsing!")
+          $0.text = Strings.BraveRewardsLearnMoreSubtitle
         }),
         .customSpace(15.0),
         .view(UILabel().then {
@@ -61,13 +61,13 @@ extension WelcomeViewController {
           $0.font = .systemFont(ofSize: 16.0)
           $0.textAlignment = .center
           $0.numberOfLines = 0
-          $0.text = BATLocalizedString("BraveRewardsLearnMoreBody", "Earn tokens for viewing privacy-respecting ads, and pay it forward by supporting content creators you love!")
+          $0.text = Strings.BraveRewardsLearnMoreBody
         }),
         .customSpace(25.0),
         .view(createWalletButton),
         .customSpace(25.0),
         .view(UILabel().then {
-          $0.text = BATLocalizedString("BraveRewardsLearnMoreHowItWorks", "How it works…")
+          $0.text = Strings.BraveRewardsLearnMoreHowItWorks
           $0.textColor = UIColor(white: 1.0, alpha: 0.5)
           $0.textAlignment = .center
           $0.font = .systemFont(ofSize: 16.0)
@@ -166,7 +166,7 @@ extension WelcomeViewController {
   
   class View: UIView {
     
-    let createWalletButton = CreateWalletButton(titleText: BATLocalizedString("BraveRewardsLearnMoreCreateWallet2", "Yes I'm Ready!").uppercased()).then {
+    let createWalletButton = CreateWalletButton(titleText: Strings.BraveRewardsLearnMoreCreateWallet2.uppercased()).then {
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
       $0.backgroundColor = BraveUX.braveOrange
@@ -210,14 +210,14 @@ extension WelcomeViewController {
       
       contentStackView.addStackViewItems(
         .view(UILabel().then {
-          $0.text = BATLocalizedString("BraveRewardsLearnMoreWhyTitle", "Why Brave Rewards?")
+          $0.text = Strings.BraveRewardsLearnMoreWhyTitle
           $0.font = .systemFont(ofSize: 24.0)
           $0.textColor = .black
           $0.numberOfLines = 0
         }),
         .customSpace(10.0),
         .view(UILabel().then {
-          $0.text = BATLocalizedString("BraveRewardsLearnMoreWhyBody", "With conventional browsers, you pay to browse the web by viewing ads with your valuable attention, spending your valuable time downloading invasive ad technology, that transmits your valuable private data to advertisers — without your consent.\n\nWell, you've come to the right place. Brave welcomes you to the new internet. One where your time is valued, your personal data is kept private, and you actually get paid for your attention.")
+          $0.text = Strings.BraveRewardsLearnMoreWhyBody
           $0.font = .systemFont(ofSize: 16.0)
           $0.textColor = Colors.grey200
           $0.numberOfLines = 0
@@ -225,22 +225,22 @@ extension WelcomeViewController {
         .customSpace(20.0),
         .view(FeatureBlockView(
           icon: UIImage(frameworkResourceNamed: "turn-on-rewards"),
-          title: BATLocalizedString("BraveRewardsLearnMoreTurnOnRewardsTitle", "Turn on Rewards"),
-          body: BATLocalizedString("BraveRewardsLearnMoreTurnOnRewardsBody", "This enables both Brave Ads and Auto-Contribute. You can always opt out each any time.")
+          title: Strings.BraveRewardsLearnMoreTurnOnRewardsTitle,
+          body: Strings.BraveRewardsLearnMoreTurnOnRewardsBody
         )),
         .view(FeatureBlockView(
           icon: UIImage(frameworkResourceNamed: "ads-graphic"),
-          title: BATLocalizedString("BraveRewardsLearnMoreBraveAdsTitle", "Brave Ads"),
-          body: BATLocalizedString("BraveRewardsLearnMoreBraveAdsBody", "No action required. Just collect tokens. Your data is safe with our Shields.")
+          title: Strings.BraveRewardsLearnMoreBraveAdsTitle,
+          body: Strings.BraveRewardsLearnMoreBraveAdsBody
         )),
         .view(FeatureBlockView(
           icon: UIImage(frameworkResourceNamed: "send-tips"),
-          title: BATLocalizedString("BraveRewardsLearnMoreTipsTitle", "Auto-Contribute"),
-          body: BATLocalizedString("BraveRewardsLearnMoreTipsBody", "Set budget and browse normally. Your favorite sites get paid automatically.")
+          title: Strings.BraveRewardsLearnMoreTipsTitle,
+          body: Strings.BraveRewardsLearnMoreTipsBody
         )),
         .customSpace(40.0),
         .view(UILabel().then {
-          $0.text = BATLocalizedString("BraveRewardsLearnMoreReady", "Ready to get started?")
+          $0.text = Strings.BraveRewardsLearnMoreReady
           $0.font = .systemFont(ofSize: 20.0)
           $0.textAlignment = .center
           $0.textColor = Colors.blurple400

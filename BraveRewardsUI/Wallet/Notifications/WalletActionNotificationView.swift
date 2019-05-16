@@ -12,23 +12,23 @@ struct WalletActionNotification {
     
     static let adsRewards = Category(
       icon: UIImage(frameworkResourceNamed: "icn-ads"),
-      title: BATLocalizedString("BraveRewardsNotificationAdsTitle", "Brave Ads"),
-      action: BATLocalizedString("CLAIM", "CLAIM").uppercased()
+      title: Strings.BraveRewardsNotificationAdsTitle,
+      action: Strings.CLAIM.uppercased()
     )
     static let autoContribute = Category(
       icon: UIImage(frameworkResourceNamed: "icn-contribute"),
-      title: BATLocalizedString("BraveRewardsNotificationAutoContributeTitle", "Auto-Contribute"),
-      action: BATLocalizedString("OK", "OK").uppercased()
+      title: Strings.BraveRewardsNotificationAutoContributeTitle,
+      action: Strings.OK.uppercased()
     )
     static let tokenGrant = Category(
       icon: UIImage(frameworkResourceNamed: "icn-grant"),
-      title: BATLocalizedString("BraveRewardsNotificationTokenGrantTitle", "Token Grant"),
-      action: BATLocalizedString("CLAIM", "CLAIM").uppercased()
+      title: Strings.BraveRewardsNotificationTokenGrantTitle,
+      action: Strings.CLAIM.uppercased()
     )
     static let recurringTip = Category(
       icon: UIImage(frameworkResourceNamed: "icn-contribute"),
-      title: BATLocalizedString("BraveRewardsNotificationRecurringTipTitle", "Recurring Tips"),
-      action: BATLocalizedString("OK", "OK").uppercased()
+      title: Strings.BraveRewardsNotificationRecurringTipTitle,
+      action: Strings.OK.uppercased()
     )
   }
   

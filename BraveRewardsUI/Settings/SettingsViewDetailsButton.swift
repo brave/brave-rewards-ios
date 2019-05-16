@@ -10,7 +10,7 @@ class SettingsViewDetailsButton: Button {
     super.init(frame: frame)
     
     tintColor = Colors.purple300
-    setTitle(BATLocalizedString("BraveRewardsSettingsViewDetails", "View Details"), for: .normal)
+    setTitle(Strings.BraveRewardsSettingsViewDetails, for: .normal)
     setTitleColor(Colors.purple300, for: .normal)
     setImage(UIImage(frameworkResourceNamed: "right-arrow").alwaysTemplate, for: .normal)
     titleLabel?.font = .systemFont(ofSize: 14.0, weight: .medium)

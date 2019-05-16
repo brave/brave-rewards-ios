@@ -59,7 +59,7 @@ class AutoContributeDetailViewController: UIViewController {
     contentView.tableView.delegate = self
     contentView.tableView.dataSource = self
     
-    title = BATLocalizedString("BraveRewardsAutoContribute", "Auto-Contribute")
+    title = Strings.BraveRewardsAutoContribute
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
     
@@ -85,7 +85,7 @@ class AutoContributeDetailViewController: UIViewController {
   }
   
   private func totalSitesAttributedString(from total: Int) -> NSAttributedString {
-    let format = String(format: BATLocalizedString("BraveRewardsTotalSites", "Total %ld"), total)
+    let format = String(format: Strings.BraveRewardsTotalSites, total)
     let s = NSMutableAttributedString(string: format)
     guard let range = format.range(of: String(total)) else { return s }
     s.addAttribute(.font, value: UIFont.systemFont(ofSize: 14.0, weight: .semibold), range: NSRange(range, in: format))
@@ -95,11 +95,11 @@ class AutoContributeDetailViewController: UIViewController {
   private let headerView = TableHeaderRowView(
     columns: [
       TableHeaderRowView.Column(
-        title: BATLocalizedString("BraveRewardsSite", "Site").uppercased(),
+        title: Strings.BraveRewardsSite.uppercased(),
         width: .percentage(0.7)
       ),
       TableHeaderRowView.Column(
-        title: BATLocalizedString("BraveRewardsAttention", "Attention").uppercased(),
+        title: Strings.BraveRewardsAttention.uppercased(),
         width: .percentage(0.3),
         align: .right
       ),
@@ -184,17 +184,17 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
           }
           self.navigationController?.popViewController(animated: true)
       }
-      controller.title = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+      controller.title = Strings.BraveRewardsAutoContributeMonthlyPayment
       navigationController?.pushViewController(controller, animated: true)
     case SummaryRows.excludedSites.rawValue:
       // FIXME: Use actual number
       let numberOfExcludedSites = 5
       let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-      alert.addAction(UIAlertAction(title: String(format: BATLocalizedString("BraveRewardsAutoContributeRestoreExcludedSites", "Restore %ld excluded sites"), numberOfExcludedSites), style: .default, handler: { _ in
+      alert.addAction(UIAlertAction(title: String(format: Strings.BraveRewardsAutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
         self.ledger.restoreAllExcludedPublishers()
         self.reloadData()
       }))
-      alert.addAction(UIAlertAction(title: BATLocalizedString("Cancel", "Cancel"), style: .cancel, handler: nil))
+      alert.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
       present(alert, animated: true)
     default:
       break
@@ -241,7 +241,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
   }
   
   func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-    return BATLocalizedString("BraveRewardsExclude", "Exclude")
+    return Strings.BraveRewardsExclude
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -266,35 +266,35 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       cell.accessoryLabel?.font = SettingsUX.bodyFont
       switch row {
       case .settings:
-        cell.label.text = BATLocalizedString("BraveRewardsSettings", "Settings")
+        cell.label.text = Strings.BraveRewardsSettings
         cell.imageView?.image = UIImage(frameworkResourceNamed: "settings").alwaysTemplate
         cell.imageView?.tintColor = BraveUX.autoContributeTintColor
         cell.accessoryType = .disclosureIndicator
       case .monthlyPayment:
-        cell.label.text = BATLocalizedString("BraveRewardsAutoContributeMonthlyPayment", "Monthly payment")
+        cell.label.text = Strings.BraveRewardsAutoContributeMonthlyPayment
         cell.accessoryType = .disclosureIndicator
         if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
           cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
         }
       case .nextContribution:
-        cell.label.text = BATLocalizedString("BraveRewardsAutoContributeNextDate", "Next contribution date")
+        cell.label.text = Strings.BraveRewardsAutoContributeNextDate
         cell.accessoryView = nextContributionDateView
         cell.selectionStyle = .none
       case .supportedSites:
-        cell.label.text = BATLocalizedString("BraveRewardsAutoContributeSupportedSites", "Supported sites")
+        cell.label.text = Strings.BraveRewardsAutoContributeSupportedSites
         cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
         cell.selectionStyle = .none
       case .excludedSites:
         // FIXME: Use actual number
         let numberOfExcludedSites = 5
-        cell.label.text = String(format: BATLocalizedString("BraveRewardsAutoContributeRestoreExcludedSites", "Restore %ld excluded sites"), numberOfExcludedSites)
+        cell.label.text = String(format: Strings.BraveRewardsAutoContributeRestoreExcludedSites, numberOfExcludedSites)
         cell.label.textColor = Colors.blurple400
       }
       return cell
     case .contributions:
       if upcomingContributions.isEmpty {
         let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
-        cell.label.text = BATLocalizedString("BraveRewardsEmptyAutoContribution", "Sites will appear as you browse")
+        cell.label.text = Strings.BraveRewardsEmptyAutoContribution
         return cell
       }
       let contribution = upcomingContributions[indexPath.row]

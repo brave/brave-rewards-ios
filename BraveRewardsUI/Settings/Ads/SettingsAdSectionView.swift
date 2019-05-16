@@ -29,13 +29,13 @@ class SettingsAdSectionView: SettingsSectionView {
   }
   
   private let titleLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsAdsTitle", "Ads")
+    $0.text = Strings.BraveRewardsSettingsAdsTitle
     $0.textColor = BraveUX.adsTintColor
     $0.font = SettingsUX.titleFont
   }
 
   private let bodyLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsAdsBody", "Earn tokens by viewing ads in Brave. Ads presented are based on your interests, as inferred from your browsing behavior. No personal data or browsing history ever leaves your browser.")
+    $0.text = Strings.BraveRewardsSettingsAdsBody
     $0.textColor = SettingsUX.bodyTextColor
     $0.numberOfLines = 0
     $0.font = SettingsUX.bodyFont
@@ -82,7 +82,7 @@ extension SettingsAdSectionView {
       $0.font = .systemFont(ofSize: 17.0, weight: .medium)
       $0.numberOfLines = 0
       $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-      $0.text = BATLocalizedString("BraveRewardsSettingsAdsComingSoonText", "Coming soon.")
+      $0.text = Strings.BraveRewardsSettingsAdsComingSoonText
     }
   }
 }

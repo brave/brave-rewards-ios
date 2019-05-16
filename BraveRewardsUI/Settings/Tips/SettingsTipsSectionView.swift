@@ -46,13 +46,13 @@ class SettingsTipsSectionView: SettingsSectionView {
   }
   
   private let titleLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsTipsTitle", "Tips")
+    $0.text = Strings.BraveRewardsSettingsTipsTitle
     $0.textColor = BraveUX.tipsTintColor
     $0.font = SettingsUX.titleFont
   }
   
   private let bodyLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsSettingsTipsBody", "Tip content creators directly as you browse. You can also set up recurring monthly tips so you can support sites continuously.")
+    $0.text = Strings.BraveRewardsSettingsTipsBody
     $0.textColor = SettingsUX.bodyTextColor
     $0.numberOfLines = 0
     $0.font = SettingsUX.bodyFont

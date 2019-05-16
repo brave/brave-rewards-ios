@@ -96,7 +96,7 @@ class TippingSelectionView: UIView {
   private let titleLabel = UILabel().then {
     $0.textColor = .white
     $0.font = .systemFont(ofSize: 18.0, weight: .bold)
-    $0.text = BATLocalizedString("BraveRewardsTippingAmountTitle", "Tip amount")
+    $0.text = Strings.BraveRewardsTippingAmountTitle
   }
   
   private let walletBalanceView = WalletBalanceView()
@@ -107,7 +107,7 @@ class TippingSelectionView: UIView {
   }
   
   private let monthlyToggleButton = Button(type: .system).then {
-    $0.setTitle(BATLocalizedString("BraveRewardsTippingMakeMonthly", "Make this monthly"), for: .normal)
+    $0.setTitle(Strings.BraveRewardsTippingMakeMonthly, for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "checkbox"), for: .normal)
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
     $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
@@ -200,7 +200,7 @@ extension TippingSelectionView {
     let titleLabel = UILabel().then {
       $0.textColor = Colors.blurple700
       $0.font = .systemFont(ofSize: 12.0)
-      $0.text = BATLocalizedString("BraveRewardsTippingWalletBalanceTitle", "wallet balance")
+      $0.text = Strings.BraveRewardsTippingWalletBalanceTitle
     }
     let valueLabel = UILabel().then {
       $0.textColor = .white

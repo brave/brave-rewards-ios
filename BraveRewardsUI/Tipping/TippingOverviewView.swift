@@ -48,20 +48,20 @@ class TippingOverviewView: UIView {
     $0.spacing = 10.0
   }
   
-  let disclaimerView = DisclaimerView(text: BATLocalizedString("BraveRewardsTippingUnverifiedDisclaimer", "NOTE: This creator has not yet signed up to receive contributions from Brave users. Your browser will keep trying to contribute until they verify, or until 90 days have passed.")).then {
+  let disclaimerView = DisclaimerView(text: Strings.BraveRewardsTippingUnverifiedDisclaimer).then {
     $0.isHidden = true
     $0.backgroundColor = .white
   }
   
   let titleLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsTippingOverviewTitle", "Thanks for stopping by!")
+    $0.text = Strings.BraveRewardsTippingOverviewTitle
     $0.textColor = UX.titleColor
     $0.font = .systemFont(ofSize: 23.0, weight: .semibold)
     $0.numberOfLines = 0
   }
   
   let bodyLabel = UILabel().then {
-    $0.text = BATLocalizedString("BraveRewardsTippingOverviewBody", "You can support this site by sending a tip. It’s a way of thanking them for making great content. Verified content creators get paid for their tips during the first week of each calendar month.\n\nIf you like, you can schedule monthly tips to support this site on a continuous basis.")
+    $0.text = Strings.BraveRewardsTippingOverviewBody 
     $0.textColor = UX.bodyColor
     $0.font = .systemFont(ofSize: 17.0)
     $0.numberOfLines = 0

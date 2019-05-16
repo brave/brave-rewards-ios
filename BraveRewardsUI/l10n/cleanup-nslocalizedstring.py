@@ -39,6 +39,7 @@ for path, directories, files in os.walk("."):
 
     if file.endswith(".swift"):
       quoted_string_pattern = r' *\"([^\"\\]*(?:(?:\\\.|\"\"|\\\")[^\"\\]*)*)\" *'
+      # This is not matching in some cases, ignoring for now.
       pattern = 'BATLocalizedString\(' + quoted_string_pattern + ', ' + quoted_string_pattern + '\)'
       directory = parent_directory(path)
       if directory in frameworks:
@@ -58,19 +59,18 @@ for path, directories, files in os.walk("."):
         with open(os.path.join(path, file), 'w') as source:
           source.write(content)
 
-open('./myfile.txt', 'a+')
 with open("./Localized Strings/Strings.swift", 'a+') as source:
     
     ##     if the file is created first time add the license and declare Strings struct
     source.write('public extension Strings {\n')
     for key, value in keyDict.iteritems():
-      source.write('    static let ' +  key + ' = NSLocalizedString("' + key + '", bundle: Bundle.RewardsUI, value: "' + value + '", comment: "")\n')
+      source.write('  static let ' +  key + ' = NSLocalizedString("' + key + '", bundle: Bundle.RewardsUI, value: "' + value + '", comment: "")\n')
     source.write('}\n\n')
 
 # This adds the duplicate Keys in the Strings file for manual removal.
     source.write('public extension Strings {\n')
     for key, value in duplicate.iteritems():
-        source.write('    static let ' +  key + ' = NSLocalizedString("' + key + '", bundle: Bundle.RewardsUI, value: "' + value + '", comment: "")\n')
+        source.write('  static let ' +  key + ' = NSLocalizedString("' + key + '", bundle: Bundle.RewardsUI, value: "' + value + '", comment: "")\n')
     source.write('}')
 
 

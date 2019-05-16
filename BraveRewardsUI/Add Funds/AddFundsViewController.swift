@@ -30,7 +30,7 @@ class AddFundsViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    title = BATLocalizedString("BraveRewardsAddFundsTitle", "Add Funds")
+    title = Strings.BraveRewardsAddFundsVCTitle
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDone))
     

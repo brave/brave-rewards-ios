@@ -35,17 +35,17 @@ class TipsDetailViewController: UIViewController {
     tipsView.tableView.delegate = self
     tipsView.tableView.dataSource = self
 
-    title = BATLocalizedString("BraveRewardsTips", "Tips")
+    title = Strings.BraveRewardsTips
   }
   
   private let headerView = TableHeaderRowView(
     columns: [
       TableHeaderRowView.Column(
-        title: BATLocalizedString("BraveRewardsSite", "Site").uppercased(),
+        title: Strings.BraveRewardsSite.uppercased(),
         width: .percentage(0.7)
       ),
       TableHeaderRowView.Column(
-        title: BATLocalizedString("BraveRewardsTokens", "Tokens").uppercased(),
+        title: Strings.BraveRewardsTokens.uppercased(),
         width: .percentage(0.3),
         align: .right
       ),
@@ -121,7 +121,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       return cell
     case .tips:
 //      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
-//      cell.label.text = BATLocalizedString("BraveRewardsEmptyTipsText", "Have you tipped your favourite content creator today?")
+//      cell.label.text = Strings.BraveRewardsEmptyTipsText
 //      return cell
       let cell = tableView.dequeueReusableCell(for: indexPath) as TipsTableCell
       cell.siteNameLabel.text = "theguardian.com"
@@ -145,7 +145,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-    return BATLocalizedString("BraveRewardsRemove", "Remove")
+    return Strings.BraveRewardsRemove
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

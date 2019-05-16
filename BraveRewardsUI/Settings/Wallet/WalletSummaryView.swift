@@ -22,7 +22,7 @@ class SettingsWalletSectionView: SettingsSectionView {
   
   private(set) lazy var addFundsButton = Button(type: .system).then {
     $0.setTitleColor(.white, for: .normal)
-    $0.setTitle(BATLocalizedString("BraveRewardsAddFunds", "Add Funds"), for: .normal)
+    $0.setTitle(Strings.BraveRewardsAddFunds, for: .normal)
     $0.setImage(UIImage(frameworkResourceNamed: "wallet-icon").alwaysOriginal, for: .normal)
     $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8.0)
     $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -8.0)
@@ -49,7 +49,7 @@ class SettingsWalletSectionView: SettingsSectionView {
   private let titleLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 14.0, weight: .medium)
     $0.textColor = UIColor(white: 1.0, alpha: 0.65)
-    $0.text = BATLocalizedString("BraveRewardsWalletHeaderTitle", "Your Wallet")
+    $0.text = Strings.BraveRewardsWalletHeaderTitle
   }
   
   private let altcurrencyContainerView = UIStackView().then {

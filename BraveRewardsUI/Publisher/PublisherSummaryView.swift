@@ -28,7 +28,7 @@ class PublisherSummaryView: UIView {
   let tipButton = ActionButton(type: .system).then {
     $0.tintColor = Colors.blurple400
     $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
-    $0.setTitle(BATLocalizedString("BraveRewardsPublisherSendTip", "Send a tip").uppercased(), for: .normal)
+    $0.setTitle(Strings.BraveRewardsPublisherSendTip.uppercased(), for: .normal)
   }
   
   @available(*, unavailable)
