@@ -27,12 +27,12 @@ cleanup()
     rm transifex.log
   fi
 
-  if [ -e ../Client/en.xcloc ]; then
-    rm -R ../Client/en.xcloc
+  if [ -e ../BraveRewards/en-US.xcloc ]; then
+    rm -R ../BraveRewards/en-US.xcloc
   fi
 
-  if [ -e en.xliff ] ; then
-    rm en.xliff
+  if [ -e en-US.xliff ] ; then
+    rm en-US.xliff
   fi
 }
 
@@ -57,26 +57,26 @@ if [ $? != 0 ] ; then
   report_error 4 "ERROR: Failed to export strings from Xcode project, please see output.log"
 fi
 
-mv -f ../Client/en.xcloc/Localized\ Contents/en.xliff . >>output.log 2>&1
+mv -f ../BraveRewards/en-US.xcloc/Localized\ Contents/en-US.xliff . >>output.log 2>&1
 
 if [ $? != 0 ] ; then
   report_error 4 "ERROR: Failed to export strings from Xcode project, please see output.log"
 fi
 
 echo "Cleaning up strings..."
-./xliff-cleanup.py en.xliff
+./xliff-cleanup.py en-US.xliff
 if [ $? != 0 ] ; then
   report_error 5 "ERROR: Failed to cleanup strings, please see output.log"
 fi
 
-sed -i '' 's/Shared\/Supporting Files/brave/' en.xliff >>output.log 2>&1
+sed -i '' 's/Shared\/Supporting Files/brave/' en-US.xliff >>output.log 2>&1
 if [ $? != 0 ] ; then
   report_error 5 "ERROR: Failed to cleanup strings, please see output.log"
 fi
 
 echo "Pushing string changes to Transifex..."
-http_status_code=$(curl --silent --write-out %{http_code} --list-only --output transifex.log --user ${USERNAME}:${PASSWORD} -F file=@en.xliff -X PUT \
-https://www.transifex.com/api/2/project/brave-ios/resource/bravexliff/content/)
+http_status_code=$(curl --silent --write-out %{http_code} --list-only --output transifex.log --user ${USERNAME}:${PASSWORD} -F file=@en-US.xliff -X PUT \
+https://www.transifex.com/api/2/project/brave-rewards-ios/resource/bravexliff/content/)
 
 if [ $http_status_code == 401 ] ; then
   report_error 3 "ERROR: Unauthorized access, please see output.log"

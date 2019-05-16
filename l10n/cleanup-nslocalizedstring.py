@@ -29,12 +29,18 @@ def should_skip_file(file):
     return True
   return False
 
+def should_skip_path(path):
+  directory = parent_directory(path)
+  if directory in frameworks:
+    return True
+  return False
+
 keyDict = {}
 duplicate = {}
 
 for path, directories, files in os.walk("."):
   for file in files:
-    if should_skip_file(file):
+    if should_skip_file(file) || should_skip_path(path):
       continue
 
     if file.endswith(".swift"):
