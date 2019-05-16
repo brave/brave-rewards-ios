@@ -1153,7 +1153,7 @@
 			};
 			buildConfigurationList = A1FDE6CB20D2AA7400F92CAF /* Build configuration list for PBXProject "BraveRewards" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = en_US;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
