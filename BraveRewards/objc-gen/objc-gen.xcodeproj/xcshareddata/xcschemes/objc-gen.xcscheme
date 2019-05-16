@@ -82,6 +82,11 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
+            key = "BATAdsPath"
+            value = "$(PROJECT_DIR)/../Ads"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "BATLedgerPath"
             value = "$(PROJECT_DIR)/../Ledger"
             isEnabled = "YES">

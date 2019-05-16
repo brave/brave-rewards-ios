@@ -117,7 +117,8 @@ func generate(from files: [String], includePaths: [String], outputDirectory: Str
 }
 
 guard let libraryPath = ProcessInfo.processInfo.environment["BATLibraryPath"],
-      let ledgerPath = ProcessInfo.processInfo.environment["BATLedgerPath"] else {
+      let ledgerPath = ProcessInfo.processInfo.environment["BATLedgerPath"],
+      let adsPath = ProcessInfo.processInfo.environment["BATAdsPath"] else {
   fatalError("Missing `BATLibraryPath` & `BATLedgerPath` from environment variables")
 }
 
@@ -136,4 +137,17 @@ do {
   
   generate(from: filePaths, includePaths: [includePath], outputDirectory: outputPath)
   createBridge(from: "\(headersPath)/ledger_client.h", className: "LedgerClient", includePaths: [includePath], outputDirectory: outputPath)
+}
+
+// Generate ads bridge
+do {
+  let includePath = libraryPath.appending("/bat-native-ads/include")
+  let headersPath = includePath.appending("/bat/ads")
+//  let filePaths = try! FileManager.default.contentsOfDirectory(atPath: headersPath)
+//    .filter { $0.hasSuffix(".h") }
+//    .map { return "\(headersPath)/\($0)" }
+  let outputPath = adsPath.appending("/Generated")
+  
+//  generate(from: filePaths, includePaths: [includePath], outputDirectory: outputPath)
+  createBridge(from: "\(headersPath)/ads_client.h", className: "AdsClient", includePaths: [includePath], outputDirectory: outputPath)
 }

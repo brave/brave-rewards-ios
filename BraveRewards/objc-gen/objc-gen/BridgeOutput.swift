@@ -6,11 +6,13 @@ import Foundation
 import Clang
 
 final class NativeClientHeaderOutput: TemplateOutput {
+  let namespace: String
   let className: String
   let methods: [Method]
   let includeHeader: String
   
-  init(className: String, includeHeader: String, methods: [Method]) {
+  init(namespace: String, className: String, includeHeader: String, methods: [Method]) {
+    self.namespace = namespace
     self.className = className
     self.includeHeader = includeHeader
     self.methods = methods
@@ -31,7 +33,7 @@ final class NativeClientHeaderOutput: TemplateOutput {
     
     @protocol \(protocolName);
     
-    class \(nativeClassName) : public ledger::\(className) {
+    class \(nativeClassName) : public \(namespace)::\(className) {
     public:
       \(nativeClassName)(id<\(protocolName)> bridge);
       ~\(nativeClassName)();

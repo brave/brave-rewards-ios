@@ -143,6 +143,7 @@ func createBridge(from clientFile: String, className: String, includePaths: [Str
   }
   
   var methods: Set<Method> = []
+  var namespace: String = ""
   
   func _traverse(nodes: [Cursor]) {
     for node in nodes where !node.children.isEmpty && node.isFromMainFile {
@@ -150,6 +151,7 @@ func createBridge(from clientFile: String, className: String, includePaths: [Str
       case CXCursor_Namespace:
         _traverse(nodes: node.children)
       case CXCursor_ClassDecl where node.name == className:
+        namespace = Cursor(clang_getCursorLexicalParent(node.cursor)).name
         methods.formUnion(
           node.children
             .filter { $0.kind == CXCursor_CXXMethod && $0.isPureVirtualCXXMethod }
@@ -173,7 +175,7 @@ func createBridge(from clientFile: String, className: String, includePaths: [Str
   
   let sortedMethods = methods.sorted()
   let outputedFiles: [TemplateOutput] = [
-    NativeClientHeaderOutput(className: className, includeHeader: updatedPath, methods: sortedMethods),
+    NativeClientHeaderOutput(namespace: namespace, className: className, includeHeader: updatedPath, methods: sortedMethods),
     NativeClientSourceOutput(className: className, methods: sortedMethods),
     NativeClientBridgeProtocolOutput(className: className, includeHeader: updatedPath, methods: sortedMethods)
   ]

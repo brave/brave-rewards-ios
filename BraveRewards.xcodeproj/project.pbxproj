@@ -78,9 +78,7 @@
 		275779A821E547C6005A0EAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779A721E547C6005A0EAF /* Foundation.framework */; };
 		275779AE21E6984D005A0EAF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779AD21E6984D005A0EAF /* SystemConfiguration.framework */; };
 		275779D121E6B15D005A0EAF /* libbat-native-ads.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275779B921E6B15D005A0EAF /* libbat-native-ads.a */; };
-		275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C721E6B15D005A0EAF /* NativeAdsClient.mm */; };
 		275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779C821E6B15D005A0EAF /* BATBraveAds.mm */; };
-		275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779C921E6B15D005A0EAF /* NativeAdsClient.h */; };
 		275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CA21E6B15D005A0EAF /* BATBraveAds.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */ = {isa = PBXBuildFile; fileRef = 275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */; };
 		275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */ = {isa = PBXBuildFile; fileRef = 275779CD21E6B15D005A0EAF /* BATBraveLedger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,6 +88,9 @@
 		27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598844222452A100B2E47A /* PublisherAttentionView.swift */; };
 		27598847222453D900B2E47A /* PublisherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27598846222453D900B2E47A /* PublisherView.swift */; };
 		2759884A22247F4F00B2E47A /* SendTipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2759884922247F4F00B2E47A /* SendTipButton.swift */; };
+		27623A74228DC6A900DFA8F5 /* NativeAdsClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */; };
+		27623A75228DC6A900DFA8F5 /* NativeAdsClientBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */; };
+		27623A76228DC6A900DFA8F5 /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */; };
 		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
 		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
@@ -286,7 +287,6 @@
 		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
 		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
 		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
-		272D13E321F2919400768D30 /* BATBraveAds+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BATBraveAds+Private.h"; sourceTree = "<group>"; };
 		272D13E521F61E5500768D30 /* BATCommonOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATCommonOperations.h; sourceTree = "<group>"; };
 		272D13E621F61E5500768D30 /* BATCommonOperations.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATCommonOperations.mm; sourceTree = "<group>"; };
 		2730DF78222DCB6E0031845C /* libchallenge_bypass_ristretto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libchallenge_bypass_ristretto.a; sourceTree = "<group>"; };
@@ -320,9 +320,7 @@
 		275779A721E547C6005A0EAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		275779AD21E6984D005A0EAF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		275779B921E6B15D005A0EAF /* libbat-native-ads.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libbat-native-ads.a"; sourceTree = "<group>"; };
-		275779C721E6B15D005A0EAF /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
 		275779C821E6B15D005A0EAF /* BATBraveAds.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveAds.mm; sourceTree = "<group>"; };
-		275779C921E6B15D005A0EAF /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
 		275779CA21E6B15D005A0EAF /* BATBraveAds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BATBraveAds.h; sourceTree = "<group>"; };
 		275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BATBraveLedger.mm; sourceTree = "<group>"; };
 		275779CD21E6B15D005A0EAF /* BATBraveLedger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BATBraveLedger.h; sourceTree = "<group>"; };
@@ -334,6 +332,10 @@
 		27598844222452A100B2E47A /* PublisherAttentionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherAttentionView.swift; sourceTree = "<group>"; };
 		27598846222453D900B2E47A /* PublisherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherView.swift; sourceTree = "<group>"; };
 		2759884922247F4F00B2E47A /* SendTipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTipButton.swift; sourceTree = "<group>"; };
+		27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
+		27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClientBridge.h; sourceTree = "<group>"; };
+		27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
+		27623A77228DD36B00DFA8F5 /* AdsLogStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdsLogStream.h; sourceTree = "<group>"; };
 		2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DictionaryTransformTests.mm; sourceTree = "<group>"; };
 		27695584226E47F5008E5DED /* BATActivityInfoFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfoFilter.h; sourceTree = "<group>"; };
 		27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATActivityInfoFilter.mm; sourceTree = "<group>"; };
@@ -707,14 +709,13 @@
 		275779B621E6B15D005A0EAF /* Ads */ = {
 			isa = PBXGroup;
 			children = (
+				27623A70228DC6A900DFA8F5 /* Generated */,
 				27FD393721E7FF7500443796 /* resources */,
-				272D13E321F2919400768D30 /* BATBraveAds+Private.h */,
 				275779CA21E6B15D005A0EAF /* BATBraveAds.h */,
 				275779C821E6B15D005A0EAF /* BATBraveAds.mm */,
 				27FD394A21E9208000443796 /* BATAdsNotification.h */,
 				27FD394B21E9208000443796 /* BATAdsNotification.mm */,
-				275779C921E6B15D005A0EAF /* NativeAdsClient.h */,
-				275779C721E6B15D005A0EAF /* NativeAdsClient.mm */,
+				27623A77228DD36B00DFA8F5 /* AdsLogStream.h */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -764,6 +765,16 @@
 				27AFF5432229798F009320F5 /* TippingConfirmationView.swift */,
 			);
 			path = Tipping;
+			sourceTree = "<group>";
+		};
+		27623A70228DC6A900DFA8F5 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */,
+				27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */,
+				27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */,
+			);
+			path = Generated;
 			sourceTree = "<group>";
 		};
 		27695583226E47D8008E5DED /* Models */ = {
@@ -1021,11 +1032,12 @@
 				275779E121E6B15D005A0EAF /* BATBraveLedger.h in Headers */,
 				275779DF21E6B15D005A0EAF /* BATBraveAds.h in Headers */,
 				27091840228364C60092B1F4 /* BATPublisherInfo+Private.h in Headers */,
+				27623A75228DC6A900DFA8F5 /* NativeAdsClientBridge.h in Headers */,
 				27885E892265087000A47647 /* CppTransformations.h in Headers */,
-				275779DE21E6B15D005A0EAF /* NativeAdsClient.h in Headers */,
 				27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */,
 				272D13E721F61E5500768D30 /* BATCommonOperations.h in Headers */,
 				27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */,
+				27623A76228DC6A900DFA8F5 /* NativeAdsClient.h in Headers */,
 				27885E962265798A00A47647 /* NativeLedgerClient.h in Headers */,
 				27885E982265798A00A47647 /* NativeLedgerClientBridge.h in Headers */,
 			);
@@ -1380,7 +1392,6 @@
 			files = (
 				27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */,
 				27EDB843223D607F008406EB /* Records.mm in Sources */,
-				275779DC21E6B15D005A0EAF /* NativeAdsClient.mm in Sources */,
 				275779DD21E6B15D005A0EAF /* BATBraveAds.mm in Sources */,
 				27471B84228A1C3800AA60A5 /* BATLedgerDatabase.mm in Sources */,
 				27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */,
@@ -1388,6 +1399,7 @@
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
 				27091828228226380092B1F4 /* DataController.mm in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
+				27623A74228DC6A900DFA8F5 /* NativeAdsClient.mm in Sources */,
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
 				27885E972265798A00A47647 /* NativeLedgerClient.mm in Sources */,

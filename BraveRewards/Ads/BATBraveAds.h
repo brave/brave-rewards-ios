@@ -23,6 +23,19 @@ NS_SWIFT_NAME(BraveAds)
 
 @property (nonatomic, weak, nullable) id<BATBraveAdsDelegate> delegate;
 
+#pragma mark - Global
+
++ (BOOL)isSupportedRegion:(NSString *)region;
+
+/// Whether or not to use staging servers. Defaults to false
+@property (class, getter=isDebug) BOOL debug;
+/// Whether or not to use production servers. Defaults to true
+@property (class, getter=isProduction) BOOL production;
+/// Marks if this is being ran in a test environment. Defaults to false
+@property (class, getter=isTesting) BOOL testing;
+
+#pragma mark - Configuration
+
 /// Whether or not Brave Ads is enabled
 @property (nonatomic, assign, getter=isEnabled) BOOL enabled;
 
@@ -67,9 +80,8 @@ NS_SWIFT_NAME(BraveAds)
 #pragma mark -
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithAppVersion:(NSString *)version;
-/// Create an instance of brave native ads and set its enabled state right away
-- (instancetype)initWithAppVersion:(NSString *)version enabled:(BOOL)enabled NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStateStoragePath:(NSString *)path;
+- (instancetype)initWithStateStoragePath:(NSString *)path enabled:(BOOL)enabled NS_DESIGNATED_INITIALIZER;
 
 @end
 

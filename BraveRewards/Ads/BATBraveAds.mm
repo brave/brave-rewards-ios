@@ -5,39 +5,51 @@
 #import "BATBraveAds.h"
 #import "BATAdsNotification.h"
 
+#import "bat/ads/ads.h"
+
 #import "NativeAdsClient.h"
+#import "NativeAdsClientBridge.h"
 #import "CppTransformations.h"
+#import "BATCommonOperations.h"
+#import "AdsLogStream.h"
 
 #import <Network/Network.h>
 #import <UIKit/UIKit.h>
 
-// Create a getter/setter that syncs with a given property in the NativeAdsClient C++ object
-#define BATNativeBasicPropertyBridge(__type, __objc_getter, __objc_setter, cpp_name) \
-  - (__type)__objc_getter { return adsClient->cpp_name; } \
-  - (void)__objc_setter:(__type)newValue { adsClient->cpp_name = newValue; }
+#define BATClassAdsBridge(__type, __objc_getter, __objc_setter, __cpp_var) \
+  + (__type)__objc_getter { return ads::__cpp_var; } \
+  + (void)__objc_setter:(__type)newValue { ads::__cpp_var = newValue; }
 
 @interface BATAdsNotification ()
 - (instancetype)initWithNotificationInfo:(const ads::NotificationInfo&)info;
 @end
 
-@interface BATBraveAds () {
-  ads::NativeAdsClient *adsClient;
+@interface BATBraveAds () <NativeAdsClientBridge> {
+  NativeAdsClient *adsClient;
+  ads::Ads *ads;
+  std::unique_ptr<ads::BundleState> bundleState;
+  
   nw_path_monitor_t networkMonitor;
   dispatch_queue_t monitorQueue;
 }
+@property (nonatomic) BATCommonOperations *commonOps;
+@property (nonatomic) BOOL networkConnectivityAvailable;
 @end
 
 @implementation BATBraveAds
 
-- (instancetype)initWithAppVersion:(NSString *)version
+- (instancetype)initWithStateStoragePath:(NSString *)path
 {
-  return [self initWithAppVersion:version enabled:NO];
+  return [self initWithStateStoragePath:path enabled:NO];
 }
 
-- (instancetype)initWithAppVersion:(NSString *)version enabled:(BOOL)enabled
+- (instancetype)initWithStateStoragePath:(NSString *)path enabled:(BOOL)enabled
 {
   if ((self = [super init])) {
-    adsClient = new ads::NativeAdsClient(self, std::string(version.UTF8String));
+    self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:path];
+    
+    adsClient = new NativeAdsClient(self);
+    ads = ads::Ads::CreateInstance(adsClient);
     
     [self setupNetworkMonitoring];
     
@@ -55,22 +67,28 @@
 {
   [NSNotificationCenter.defaultCenter removeObserver:self];
   if (networkMonitor) { nw_path_monitor_cancel(networkMonitor); }
+  delete ads;
   delete adsClient;
 }
 
-- (BOOL)isEnabled
+#pragma mark - Global
+
++ (BOOL)isSupportedRegion:(NSString *)region
 {
-  return adsClient->isEnabled;
+  return ads::Ads::IsSupportedRegion(std::string(region.UTF8String));
 }
+
+BATClassAdsBridge(BOOL, isDebug, setDebug, _is_debug);
+BATClassAdsBridge(BOOL, isTesting, setTesting, _is_testing);
+BATClassAdsBridge(BOOL, isProduction, setProduction, _is_production);
+
+#pragma mark -
 
 - (void)setEnabled:(BOOL)enabled
 {
-  adsClient->isEnabled = enabled;
-  adsClient->Initialize();
+  _enabled = enabled;
+  ads->Initialize();
 }
-
-BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerHour, setNumberOfAllowableAdsPerHour, adsPerHour);
-BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfAllowableAdsPerDay, adsPerDay);
 
 - (void)setupNetworkMonitoring
 {
@@ -82,54 +100,44 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
   nw_path_monitor_set_update_handler(networkMonitor, ^(nw_path_t  _Nonnull path) {
     const auto strongSelf = weakSelf;
     if (!strongSelf) { return; }
-    strongSelf->adsClient->isNetworkConnectivityAvailable = (nw_path_get_status(path) == nw_path_status_satisfied ||
-                                                             nw_path_get_status(path) == nw_path_status_satisfiable);
+    strongSelf.networkConnectivityAvailable = (nw_path_get_status(path) == nw_path_status_satisfied ||
+                                               nw_path_get_status(path) == nw_path_status_satisfiable);
   });
   nw_path_monitor_start(networkMonitor);
 }
 
 - (NSArray<NSString *> *)supportedLocales
 {
-  return NSArrayFromVector(adsClient->GetLocales());
+  return NSArrayFromVector([self getLocales]);
 }
 
 - (void)removeAllHistory
 {
-  adsClient->ads->RemoveAllHistory();
+  ads->RemoveAllHistory();
 }
 
 - (void)serveSampleAd
 {
-  adsClient->ads->ServeSampleAd();
-}
-
-#pragma mark -
-
-- (void)showNotification:(const ads::NotificationInfo&)info
-{
-  const auto notification = [[BATAdsNotification alloc] initWithNotificationInfo:info];
-  [self.delegate braveAds:self showNotification:notification];
-  
-  adsClient->ads->GenerateAdReportingNotificationShownEvent(info);
+  ads->ServeSampleAd();
 }
 
 #pragma mark - Confirmations
 
 - (void)setConfirmationsIsReady:(BOOL)isReady
 {
-  adsClient->ads->SetConfirmationsIsReady(isReady);
+  ads->SetConfirmationsIsReady(isReady);
 }
 
 #pragma mark - Observers
 
 - (void)applicationDidBecomeActive
 {
-  adsClient->ads->OnForeground();
+  ads->OnForeground();
 }
 
 - (void)applicationDidBackground
 {
-  adsClient->ads->OnBackground();
+  ads->OnBackground();
 }
 
 #pragma mark - Reporting
@@ -137,28 +145,258 @@ BATNativeBasicPropertyBridge(NSInteger, numberOfAllowableAdsPerDay, setNumberOfA
 - (void)reportLoadedPageWithURL:(NSURL *)url html:(NSString *)html
 {
   const auto urlString = std::string(url.absoluteString.UTF8String);
-  adsClient->ads->ClassifyPage(urlString, std::string(html.UTF8String));
+  ads->ClassifyPage(urlString, std::string(html.UTF8String));
 }
 
 - (void)reportMediaStartedWithTabId:(NSInteger)tabId
 {
-  adsClient->ads->OnMediaPlaying((int32_t)tabId);
+  ads->OnMediaPlaying((int32_t)tabId);
 }
 
 - (void)reportMediaStoppedWithTabId:(NSInteger)tabId
 {
-  adsClient->ads->OnMediaStopped((int32_t)tabId);
+  ads->OnMediaStopped((int32_t)tabId);
 }
 
 - (void)reportTabUpdated:(NSInteger)tabId url:(NSURL *)url isSelected:(BOOL)isSelected isPrivate:(BOOL)isPrivate
 {
   const auto urlString = std::string(url.absoluteString.UTF8String);
-  adsClient->ads->TabUpdated((int32_t)tabId, urlString, isSelected, isPrivate);
+  ads->TabUpdated((int32_t)tabId, urlString, isSelected, isPrivate);
 }
 
 - (void)reportTabClosedWithTabId:(NSInteger)tabId
 {
-  adsClient->ads->TabClosed((int32_t)tabId);
+  ads->TabClosed((int32_t)tabId);
+}
+
+#pragma mark - Ads Bridge
+
+- (void)showNotification:(std::unique_ptr<ads::NotificationInfo>)info
+{
+  if (info.get() != nullptr) {
+    const auto notification = [[BATAdsNotification alloc] initWithNotificationInfo:*info.get()];
+    [self.delegate braveAds:self showNotification:notification];
+    
+    ads->GenerateAdReportingNotificationShownEvent(*info.get());
+  }
+}
+
+- (void)confirmAd:(std::unique_ptr<ads::NotificationInfo>)info
+{
+  // TODO: Add Implementation
+}
+
+- (void)getAds:(const std::string &)category callback:(ads::OnGetAdsCallback)callback
+{
+  auto categories = bundleState->categories.find(category);
+  if (categories == bundleState->categories.end()) {
+    callback(ads::Result::FAILED, category, {});
+    return;
+  }
+  
+  callback(ads::Result::SUCCESS, category, categories->second);
+}
+
+- (void)setCatalogIssuers:(std::unique_ptr<ads::IssuersInfo>)info
+{
+  // TODO: Add implementation
+}
+
+#pragma mark - Configuration
+
+- (uint64_t)getAdsPerDay
+{
+  return self.numberOfAllowableAdsPerDay;
+}
+
+- (uint64_t)getAdsPerHour
+{
+  return self.numberOfAllowableAdsPerHour;
+}
+
+- (void)getClientInfo:(ads::ClientInfo *)info
+{
+  info->platform = ads::ClientInfoPlatformType::IOS;
+}
+
+- (const std::vector<std::string>)getLocales
+{
+  std::vector<std::string> locales = { "en", "fr", "de" };
+  return locales;
+}
+
+- (const std::string)getAdsLocale
+{
+  return std::string([NSLocale currentLocale].localeIdentifier.UTF8String);
+}
+
+- (bool)isAdsEnabled
+{
+  return self.enabled;
+}
+
+- (bool)isForeground
+{
+  return UIApplication.sharedApplication.applicationState == UIApplicationStateActive;
+}
+
+- (bool)isNetworkConnectionAvailable
+{
+  return self.networkConnectivityAvailable;
+}
+
+- (bool)isNotificationsAvailable
+{
+  // TODO: Base this on whether or not the user has notifications enabled
+  return YES;
+}
+
+- (void)setIdleThreshold:(const int)threshold
+{
+  // Not needed on mobile
+}
+
+#pragma mark - Timers
+
+- (uint32_t)setTimer:(const uint64_t)time_offset
+{
+  auto __weak weakSelf = self;
+  return [self.commonOps createTimerWithOffset:time_offset timerFired:^(uint32_t timer_id) {
+    auto strongSelf = weakSelf;
+    // If this object dies, common will get nil'd out
+    if (strongSelf) {
+      strongSelf->ads->OnTimer(timer_id);
+    }
+  }];
+}
+
+- (void)killTimer:(uint32_t)timer_id
+{
+  [self.commonOps removeTimerWithID:timer_id];
+}
+
+#pragma mark - Network
+
+- (void)URLRequest:(const std::string &)url headers:(const std::vector<std::string> &)headers content:(const std::string &)content contentType:(const std::string &)content_type method:(const ads::URLRequestMethod)method callback:(ads::URLRequestCallback)callback {
+  std::map<ads::URLRequestMethod, std::string> methodMap {
+    {ads::URLRequestMethod::GET, "GET"},
+    {ads::URLRequestMethod::POST, "POST"},
+    {ads::URLRequestMethod::PUT, "PUT"}
+  };
+  return [self.commonOps loadURLRequest:url headers:headers content:content content_type:content_type method:methodMap[method] callback:^(int statusCode, const std::string &response, const std::map<std::string, std::string> &headers) {
+    callback(statusCode, response, headers);
+  }];
+}
+
+#pragma mark - File IO
+
+- (void)load:(const std::string &)name callback:(ads::OnLoadCallback)callback
+{
+  const auto contents = [self.commonOps loadContentsFromFileWithName:name];
+  if (contents.empty()) {
+    callback(ads::Result::FAILED, "");
+  } else {
+    callback(ads::Result::SUCCESS, contents);
+  }
+}
+
+- (const std::string)loadJsonSchema:(const std::string &)name
+{
+  const auto bundle = [NSBundle bundleForClass:[BATBraveAds class]];
+  const auto path = [bundle pathForResource:[NSString stringWithUTF8String:name.c_str()] ofType:nil];
+  if (!path || path.length == 0) {
+    return "";
+  }
+  NSError *error = nil;
+  const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+  if (!contents || error) {
+    return "";
+  }
+  return std::string(contents.UTF8String);
+}
+
+- (void)loadSampleBundle:(ads::OnLoadSampleBundleCallback)callback
+{
+  const auto bundle = [NSBundle bundleForClass:[BATBraveAds class]];
+  const auto path = [bundle pathForResource:@"sample_bundle" ofType:@"json"];
+  if (!path || path.length == 0) {
+    callback(ads::Result::FAILED, "");
+    return;
+  }
+  NSError *error = nil;
+  const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+  if (!contents || error) {
+    callback(ads::Result::FAILED, "");
+    return;
+  }
+  callback(ads::Result::SUCCESS, std::string(contents.UTF8String));
+}
+
+- (void)loadUserModelForLocale:(const std::string &)locale callback:(ads::OnLoadCallback)callback
+{
+  const auto bundle = [NSBundle bundleForClass:[BATBraveAds class]];
+  const auto localeKey = [[[NSString stringWithUTF8String:locale.c_str()] substringToIndex:2] lowercaseString];
+  const auto path = [[bundle pathForResource:@"locales" ofType:nil]
+                     stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/user_model.json", localeKey]];
+  if (!path || path.length == 0) {
+    callback(ads::Result::FAILED, "");
+    return;
+  }
+  
+  NSError *error = nil;
+  const auto contents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+  if (!contents || error) {
+    callback(ads::Result::FAILED, "");
+    return;
+  }
+  callback(ads::Result::SUCCESS, std::string(contents.UTF8String));
+}
+
+- (void)reset:(const std::string &)name callback:(ads::OnResetCallback)callback
+{
+  if ([self.commonOps removeFileWithName:name]) {
+    callback(ads::Result::SUCCESS);
+  } else {
+    callback(ads::Result::FAILED);
+  }
+}
+
+- (void)save:(const std::string &)name value:(const std::string &)value callback:(ads::OnSaveCallback)callback
+{
+  if ([self.commonOps saveContents:value name:name]) {
+    callback(ads::Result::SUCCESS);
+  } else {
+    callback(ads::Result::FAILED);
+  }
+}
+
+- (void)saveBundleState:(std::unique_ptr<ads::BundleState>)state callback:(ads::OnSaveCallback)callback
+{
+  bundleState.reset(state.release());
+  if ([self.commonOps saveContents:state->ToJson() name:"bundle.json"]) {
+    callback(ads::Result::SUCCESS);
+  } else {
+    callback(ads::Result::FAILED);
+  }
+}
+
+#pragma mark - Logging
+
+- (void)eventLog:(const std::string &)json
+{
+  // TODO: Add Implementation
+}
+
+- (std::unique_ptr<ads::LogStream>)log:(const char *)file line:(const int)line logLevel:(const ads::LogLevel)log_level
+{
+  return std::make_unique<LogStreamImpl>(file, line, log_level);
+}
+
+#pragma mark - Misc
+
+- (const std::string)generateUUID
+{
+  return [self.commonOps generateUUID];
 }
 
 @end
