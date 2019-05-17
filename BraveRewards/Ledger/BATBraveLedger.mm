@@ -136,6 +136,7 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
     if (completion) {
       strongSelf.enabled = YES;
       strongSelf.autoContributeEnabled = YES;
+      strongSelf.ads.enabled = YES;
       strongSelf.walletInitializedBlock = nil;
       dispatch_async(dispatch_get_main_queue(), ^{
         completion(error);
