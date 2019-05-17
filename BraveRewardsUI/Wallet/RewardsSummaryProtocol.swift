@@ -34,6 +34,21 @@ extension RewardsSummaryProtocol {
     let ledger = state.ledger
     let balance = ledger.balanceReport(for: activityMonth, year: Int32(now.currentYear))
     
+    let activityQualifiers = [
+      balance.grants,
+      balance.earningFromAds,
+      balance.autoContribute,
+      balance.oneTimeDonation,
+      balance.recurringDonation
+    ]
+    
+    // Convert to double to avoid any issues with changing what the "0" string is (i.e. if it were
+    // to change to "0.00")
+    if activityQualifiers.first(where: { BATValue($0)?.doubleValue != 0 }) == nil {
+      // No activity
+      return []
+    }
+    
     // In case ledger doesn't provide parseable String balance, we have to use some kind of fallback.
     // Using 0.0 for fallback there may scare users that their tokens are gone, while this is only
     // a display bug.

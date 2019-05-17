@@ -26,6 +26,7 @@ class RewardsSummaryView: UIView {
   let stackView = UIStackView().then {
     $0.axis = .vertical
   }
+  let emptySummaryView = EmptyWalletSummaryView()
   
   var rows: [RowView] = [] {
     willSet {
@@ -34,17 +35,21 @@ class RewardsSummaryView: UIView {
       }
     }
     didSet {
-      rows.forEach {
-        stackView.addArrangedSubview($0)
-        if $0 !== rows.last {
-          stackView.addArrangedSubview(SeparatorView())
+      if rows.isEmpty {
+        stackView.addArrangedSubview(emptySummaryView)
+      } else {
+        rows.forEach {
+          stackView.addArrangedSubview($0)
+          if $0 !== rows.last {
+            stackView.addArrangedSubview(SeparatorView())
+          }
         }
-      }
-      if let disclaimerView = disclaimerView {
-        if let finalRow = rows.last {
-          stackView.setCustomSpacing(10.0, after: finalRow)
+        if let disclaimerView = disclaimerView {
+          if let finalRow = rows.last {
+            stackView.setCustomSpacing(10.0, after: finalRow)
+          }
+          stackView.addArrangedSubview(disclaimerView)
         }
-        stackView.addArrangedSubview(disclaimerView)
       }
     }
   }
