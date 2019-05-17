@@ -74,9 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Recurring Tips
 
-/// Get a list of publishers you have supported with recurring tips given some month and year
-+ (NSArray<BATPublisherInfo *> *)recurringTipsForMonth:(BATActivityMonth)month
-                                                  year:(int)year;
+/// Get a list of publishers you have supported with recurring tips
++ (NSArray<BATPublisherInfo *> *)recurringTips;
 
 /// Insert a recurring tip linked to a given publisher ID for some amount
 + (void)insertOrUpdateRecurringTipWithPublisherID:(NSString *)publisherID

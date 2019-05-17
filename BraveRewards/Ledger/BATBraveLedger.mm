@@ -917,9 +917,7 @@ BATLedgerBridge(BOOL,
 
 - (void)getRecurringTips:(ledger::PublisherInfoListCallback)callback
 {
-  const auto now = [NSDate date];
-  const auto publishers = [BATLedgerDatabase recurringTipsForMonth:(BATActivityMonth)BATGetPublisherMonth(now)
-                                                          year:BATGetPublisherYear(now)];
+  const auto publishers = [BATLedgerDatabase recurringTips];
   
   [self handlePublisherListing:publishers start:0 limit:0 callback:callback];
 }

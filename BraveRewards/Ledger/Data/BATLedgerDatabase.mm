@@ -389,14 +389,12 @@
 
 #pragma mark - Recurring Tips
 
-+ (NSArray<BATPublisherInfo *> *)recurringTipsForMonth:(BATActivityMonth)month year:(int)year
++ (NSArray<BATPublisherInfo *> *)recurringTips
 {
   const auto context = DataController.viewContext;
   const auto fetchRequest = RecurringDonation.fetchRequest;
   fetchRequest.entity = [NSEntityDescription entityForName:NSStringFromClass(RecurringDonation.class)
                                     inManagedObjectContext:context];
-  fetchRequest.predicate = [NSPredicate predicateWithFormat:@"month = %d AND year = %d AND category = %d",
-                            month, year, BATRewardsCategoryOneTimeTip];
   
   NSError *error;
   const auto fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
