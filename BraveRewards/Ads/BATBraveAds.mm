@@ -11,7 +11,7 @@
 #import "NativeAdsClientBridge.h"
 #import "CppTransformations.h"
 #import "BATCommonOperations.h"
-#import "AdsLogStream.h"
+#import "RewardsLogStream.h"
 
 #import <Network/Network.h>
 #import <UIKit/UIKit.h>
@@ -389,7 +389,7 @@ BATClassAdsBridge(BOOL, isProduction, setProduction, _is_production);
 
 - (std::unique_ptr<ads::LogStream>)log:(const char *)file line:(const int)line logLevel:(const ads::LogLevel)log_level
 {
-  return std::make_unique<LogStreamImpl>(file, line, log_level);
+  return std::make_unique<RewardsLogStream>(file, line, log_level);
 }
 
 #pragma mark - Misc

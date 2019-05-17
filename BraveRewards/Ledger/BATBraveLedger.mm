@@ -15,7 +15,7 @@
 
 #import "NativeLedgerClient.h"
 #import "NativeLedgerClientBridge.h"
-#import "LedgerLogStream.h"
+#import "RewardsLogStream.h"
 #import "CppTransformations.h"
 
 #import <objc/runtime.h>
@@ -868,12 +868,12 @@ BATLedgerBridge(BOOL,
 
 - (std::unique_ptr<ledger::LogStream>)verboseLog:(const char *)file line:(int)line vlogLevel:(int)vlog_level
 {
-  return std::make_unique<LogStreamImpl>(file, line, vlog_level);
+  return std::make_unique<RewardsLogStream>(file, line, vlog_level);
 }
 
 - (std::unique_ptr<ledger::LogStream>)log:(const char *)file line:(int)line logLevel:(const ledger::LogLevel)log_level
 {
-  return std::make_unique<LogStreamImpl>(file, line, log_level);
+  return std::make_unique<RewardsLogStream>(file, line, log_level);
 }
 
 #pragma mark - Publisher Database

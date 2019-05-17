@@ -94,6 +94,7 @@
 		27623A75228DC6A900DFA8F5 /* NativeAdsClientBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */; };
 		27623A76228DC6A900DFA8F5 /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */; };
 		27623A84228DE46600DFA8F5 /* BraveRewardsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273404592220B004008CABC9 /* BraveRewardsUI.framework */; };
+		27623A94228F48C000DFA8F5 /* RewardsLogStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */; };
 		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
 		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
@@ -109,7 +110,7 @@
 		27885E962265798A00A47647 /* NativeLedgerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E932265798A00A47647 /* NativeLedgerClient.h */; };
 		27885E972265798A00A47647 /* NativeLedgerClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27885E942265798A00A47647 /* NativeLedgerClient.mm */; };
 		27885E982265798A00A47647 /* NativeLedgerClientBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E952265798A00A47647 /* NativeLedgerClientBridge.h */; };
-		27885E9A226586C800A47647 /* LedgerLogStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E99226586C600A47647 /* LedgerLogStream.h */; };
+		27885E9A226586C800A47647 /* RewardsLogStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E99226586C600A47647 /* RewardsLogStream.h */; };
 		278A6B2B225BDFCD00175678 /* RewardsPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */; };
 		278A6B2E225BE01000175678 /* PopoverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2D225BE01000175678 /* PopoverNavigationController.swift */; };
 		278A6B30225BE18200175678 /* RewardsUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278A6B2F225BE18200175678 /* RewardsUIDelegate.swift */; };
@@ -348,7 +349,7 @@
 		27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
 		27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClientBridge.h; sourceTree = "<group>"; };
 		27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
-		27623A77228DD36B00DFA8F5 /* AdsLogStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdsLogStream.h; sourceTree = "<group>"; };
+		27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RewardsLogStream.mm; sourceTree = "<group>"; };
 		2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DictionaryTransformTests.mm; sourceTree = "<group>"; };
 		27695584226E47F5008E5DED /* BATActivityInfoFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfoFilter.h; sourceTree = "<group>"; };
 		27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATActivityInfoFilter.mm; sourceTree = "<group>"; };
@@ -366,7 +367,7 @@
 		27885E932265798A00A47647 /* NativeLedgerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeLedgerClient.h; sourceTree = "<group>"; };
 		27885E942265798A00A47647 /* NativeLedgerClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeLedgerClient.mm; sourceTree = "<group>"; };
 		27885E952265798A00A47647 /* NativeLedgerClientBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeLedgerClientBridge.h; sourceTree = "<group>"; };
-		27885E99226586C600A47647 /* LedgerLogStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LedgerLogStream.h; sourceTree = "<group>"; };
+		27885E99226586C600A47647 /* RewardsLogStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardsLogStream.h; sourceTree = "<group>"; };
 		278A6B2A225BDFCD00175678 /* RewardsPanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsPanelController.swift; sourceTree = "<group>"; };
 		278A6B2D225BE01000175678 /* PopoverNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverNavigationController.swift; sourceTree = "<group>"; };
 		278A6B2F225BE18200175678 /* RewardsUIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsUIDelegate.swift; sourceTree = "<group>"; };
@@ -572,6 +573,8 @@
 		272D13E421F61CEA00768D30 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				27885E99226586C600A47647 /* RewardsLogStream.h */,
+				27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */,
 				27885E882265087000A47647 /* CppTransformations.h */,
 				272D13E521F61E5500768D30 /* BATCommonOperations.h */,
 				272D13E621F61E5500768D30 /* BATCommonOperations.mm */,
@@ -733,7 +736,6 @@
 				275779C821E6B15D005A0EAF /* BATBraveAds.mm */,
 				27FD394A21E9208000443796 /* BATAdsNotification.h */,
 				27FD394B21E9208000443796 /* BATAdsNotification.mm */,
-				27623A77228DD36B00DFA8F5 /* AdsLogStream.h */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -753,7 +755,6 @@
 				27695583226E47D8008E5DED /* Models */,
 				27EDB83E223D606E008406EB /* Generated */,
 				27B6C88A21F660D700F256EA /* Data */,
-				27885E99226586C600A47647 /* LedgerLogStream.h */,
 				275779CD21E6B15D005A0EAF /* BATBraveLedger.h */,
 				275779CC21E6B15D005A0EAF /* BATBraveLedger.mm */,
 			);
@@ -1047,7 +1048,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27885E9A226586C800A47647 /* LedgerLogStream.h in Headers */,
+				27885E9A226586C800A47647 /* RewardsLogStream.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
 				27EDB845223D607F008406EB /* Records.h in Headers */,
 				27471B83228A1C3800AA60A5 /* BATLedgerDatabase.h in Headers */,
@@ -1430,6 +1431,7 @@
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
 				27091828228226380092B1F4 /* DataController.mm in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
+				27623A94228F48C000DFA8F5 /* RewardsLogStream.mm in Sources */,
 				27623A74228DC6A900DFA8F5 /* NativeAdsClient.mm in Sources */,
 				27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */,
 				275779E021E6B15D005A0EAF /* BATBraveLedger.mm in Sources */,
