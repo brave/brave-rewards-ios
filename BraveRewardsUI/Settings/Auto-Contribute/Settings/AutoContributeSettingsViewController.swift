@@ -114,7 +114,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
           }
           self.navigationController?.popViewController(animated: true)
       }
-      controller.title = Strings.BraveRewardsAutoContributeMonthlyPayment
+      controller.title = Strings.AutoContributeMonthlyPayment
       navigationController?.pushViewController(controller, animated: true)
     case .minimumLength:
       let choices = BraveLedger.MinimumVisitDurationOptions.allCases.map { $0.rawValue }
@@ -128,7 +128,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
           }
           self.navigationController?.popViewController(animated: true)
       }
-      controller.title = Strings.BraveRewardsAutoContributeMinimumLength
+      controller.title = Strings.AutoContributeMinimumLength
       navigationController?.pushViewController(controller, animated: true)
     case .minimumVisits:
       let choices = BraveLedger.MinimumVisitsOptions.allCases.map { $0.rawValue }
@@ -142,7 +142,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
           }
           self.navigationController?.popViewController(animated: true)
       }
-      controller.title = Strings.BraveRewardsAutoContributeMinimumVisits
+      controller.title = Strings.AutoContributeMinimumVisits
       navigationController?.pushViewController(controller, animated: true)
     default:
       break
@@ -165,22 +165,22 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
     cell.accessoryType = row.accessoryType
     switch row {
     case .monthlyPayment:
-      cell.label.text = Strings.BraveRewardsAutoContributeMonthlyPayment
+      cell.label.text = Strings.AutoContributeMonthlyPayment
       if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
         cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
       }
     case .minimumLength:
-      cell.label.text = Strings.BraveRewardsAutoContributeMinimumLengthMessage
+      cell.label.text = Strings.AutoContributeMinimumLengthMessage
       cell.accessoryLabel?.text = BraveLedger.MinimumVisitDurationOptions(rawValue: ledger.minimumVisitDuration)?.displayString
     case .minimumVisits:
-      cell.label.text = Strings.BraveRewardsAutoContributeMinimumVisitsMessage
+      cell.label.text = Strings.AutoContributeMinimumVisitsMessage
       cell.accessoryLabel?.text = BraveLedger.MinimumVisitsOptions(rawValue: ledger.minimumNumberOfVisits)?.displayString
     case .allowUnverifiedContributions:
-      cell.label.text = Strings.BraveRewardsAutoContributeToUnverifiedSites
+      cell.label.text = Strings.AutoContributeToUnverifiedSites
       cell.accessoryView = contentView.allowUnverifiedContributionsSwitch
       cell.selectionStyle = .none
     case .allowVideoContributions:
-      cell.label.text = Strings.BraveRewardsAutoContributeToVideos
+      cell.label.text = Strings.AutoContributeToVideos
       cell.accessoryView = contentView.allowVideoContributionsSwitch
       cell.selectionStyle = .none
     }

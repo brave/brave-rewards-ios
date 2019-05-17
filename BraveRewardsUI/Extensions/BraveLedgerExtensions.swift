@@ -45,9 +45,9 @@ extension BraveLedger {
     
     var displayString: String {
       switch self {
-      case .one: return Strings.BraveRewardsMinimumVisitsChoices0
-      case .five: return Strings.BraveRewardsMinimumVisitsChoices1
-      case .ten: return Strings.BraveRewardsMinimumVisitsChoices2
+      case .one: return Strings.MinimumVisitsChoices0
+      case .five: return Strings.MinimumVisitsChoices1
+      case .ten: return Strings.MinimumVisitsChoices2
       }
     }
   }
@@ -60,9 +60,9 @@ extension BraveLedger {
     
     var displayString: String {
       switch self {
-      case .fiveSeconds: return Strings.BraveRewardsMinimumLengthChoices0
-      case .eightSeconds: return Strings.BraveRewardsMinimumLengthChoices1
-      case .oneMinute: return Strings.BraveRewardsMinimumLengthChoices2
+      case .fiveSeconds: return Strings.MinimumLengthChoices0
+      case .eightSeconds: return Strings.MinimumLengthChoices1
+      case .oneMinute: return Strings.MinimumLengthChoices2
       }
     }
   }

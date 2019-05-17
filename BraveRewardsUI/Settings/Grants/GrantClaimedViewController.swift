@@ -79,14 +79,14 @@ extension GrantClaimedViewController {
       let titleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.textColor = BraveUX.braveOrange
-        $0.text = Strings.BraveRewardsGrantsClaimedTitle
+        $0.text = Strings.GrantsClaimedTitle
         $0.font = .systemFont(ofSize: 20.0)
         $0.textAlignment = .center
       }
       let subtitleLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.textColor = SettingsUX.subtitleTextColor
-        $0.text = Strings.BraveRewardsGrantsClaimedSubtitle
+        $0.text = Strings.GrantsClaimedSubtitle
         $0.font = .systemFont(ofSize: 12.0)
         $0.textAlignment = .center
       }
@@ -157,12 +157,12 @@ extension GrantClaimedViewController {
         $0.spacing = 4.0
       }
       let amountTitleLabel = UILabel().then {
-        $0.text = Strings.BraveRewardsGrantsClaimedAmountTitle
+        $0.text = Strings.GrantsClaimedAmountTitle
         $0.textColor = SettingsUX.subtitleTextColor
         $0.font = .systemFont(ofSize: 13.0)
       }
       let expirdationDateTitleLabel = UILabel().then {
-        $0.text = Strings.BraveRewardsGrantsClaimedExpirationDateTitle
+        $0.text = Strings.GrantsClaimedExpirationDateTitle
         $0.textColor = SettingsUX.subtitleTextColor
         $0.font = .systemFont(ofSize: 13.0)
       }

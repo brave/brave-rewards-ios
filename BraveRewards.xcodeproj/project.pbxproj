@@ -1185,6 +1185,7 @@
 			developmentRegion = en_US;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				en_US,
 				en,
 				Base,
 			);

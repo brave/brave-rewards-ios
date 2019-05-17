@@ -37,7 +37,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     super.viewDidLoad()
     
     // Not actually visible, but good for accessibility
-    title = Strings.BraveRewardsTippingTitle
+    title = Strings.TippingTitle
     
     tippingView.overviewView.dismissButton.addTarget(self, action: #selector(tappedDismissButton), for: .touchUpInside)
     tippingView.optionSelectionView.sendTipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)

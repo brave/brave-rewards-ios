@@ -35,17 +35,17 @@ class TipsDetailViewController: UIViewController {
     tipsView.tableView.delegate = self
     tipsView.tableView.dataSource = self
 
-    title = Strings.BraveRewardsTips
+    title = Strings.Tips
   }
   
   private let headerView = TableHeaderRowView(
     columns: [
       TableHeaderRowView.Column(
-        title: Strings.BraveRewardsSite.uppercased(),
+        title: Strings.Site.uppercased(),
         width: .percentage(0.7)
       ),
       TableHeaderRowView.Column(
-        title: Strings.BraveRewardsTokens.uppercased(),
+        title: Strings.Tokens.uppercased(),
         width: .percentage(0.3),
         align: .right
       ),
@@ -121,7 +121,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       return cell
     case .tips:
 //      let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
-//      cell.label.text = Strings.BraveRewardsEmptyTipsText
+//      cell.label.text = Strings.EmptyTipsText
 //      return cell
       let cell = tableView.dequeueReusableCell(for: indexPath) as TipsTableCell
       cell.siteNameLabel.text = "theguardian.com"
@@ -145,7 +145,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-    return Strings.BraveRewardsRemove
+    return Strings.Remove
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

@@ -64,7 +64,7 @@ extension WalletDetailsViewController.View {
       
       let imageView = UIImageView(image: UIImage(frameworkResourceNamed: "icn-blankslate-statement"))
       let titleLabel = UILabel().then {
-        $0.text = Strings.BraveRewardsEmptyWalletTitle
+        $0.text = Strings.EmptyWalletTitle
         $0.textColor = SettingsUX.bodyTextColor
         $0.font = .systemFont(ofSize: 22.0)
         $0.textAlignment = .center
@@ -82,12 +82,12 @@ extension WalletDetailsViewController.View {
           addArrangedSubview(UILabel().then {
             $0.font = .systemFont(ofSize: 15.0, weight: .medium)
             $0.textColor = SettingsUX.subtitleTextColor
-            $0.text = Strings.BraveRewardsEmptyWalletBulletHeader
+            $0.text = Strings.EmptyWalletBulletHeader
           })
           addArrangedSubview(UILabel().then {
             $0.font = .systemFont(ofSize: 15.0)
             $0.textColor = SettingsUX.bodyTextColor
-            $0.text = Strings.BraveRewardsEmptyWalletBulletPoints
+            $0.text = Strings.EmptyWalletBulletPoints
             $0.numberOfLines = 0
           })
         }
@@ -139,7 +139,7 @@ extension WalletDetailsViewController.View {
         $0.textAlignment = .center
         $0.numberOfLines = 0
         $0.attributedText = {
-          let s = NSMutableAttributedString(string: Strings.BraveRewardsPoweredByUphold)
+          let s = NSMutableAttributedString(string: Strings.PoweredByUphold)
           if let upholdRange = s.string.range(of: "Uphold") {
             s.addAttribute(
               .font,

@@ -59,7 +59,7 @@ class AutoContributeDetailViewController: UIViewController {
     contentView.tableView.delegate = self
     contentView.tableView.dataSource = self
     
-    title = Strings.BraveRewardsAutoContribute
+    title = Strings.AutoContribute
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
     
@@ -85,7 +85,7 @@ class AutoContributeDetailViewController: UIViewController {
   }
   
   private func totalSitesAttributedString(from total: Int) -> NSAttributedString {
-    let format = String(format: Strings.BraveRewardsTotalSites, total)
+    let format = String(format: Strings.TotalSites, total)
     let s = NSMutableAttributedString(string: format)
     guard let range = format.range(of: String(total)) else { return s }
     s.addAttribute(.font, value: UIFont.systemFont(ofSize: 14.0, weight: .semibold), range: NSRange(range, in: format))
@@ -95,11 +95,11 @@ class AutoContributeDetailViewController: UIViewController {
   private let headerView = TableHeaderRowView(
     columns: [
       TableHeaderRowView.Column(
-        title: Strings.BraveRewardsSite.uppercased(),
+        title: Strings.Site.uppercased(),
         width: .percentage(0.7)
       ),
       TableHeaderRowView.Column(
-        title: Strings.BraveRewardsAttention.uppercased(),
+        title: Strings.Attention.uppercased(),
         width: .percentage(0.3),
         align: .right
       ),
@@ -184,13 +184,13 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
           }
           self.navigationController?.popViewController(animated: true)
       }
-      controller.title = Strings.BraveRewardsAutoContributeMonthlyPayment
+      controller.title = Strings.AutoContributeMonthlyPayment
       navigationController?.pushViewController(controller, animated: true)
     case SummaryRows.excludedSites.rawValue:
       // FIXME: Use actual number
       let numberOfExcludedSites = 5
       let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-      alert.addAction(UIAlertAction(title: String(format: Strings.BraveRewardsAutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
+      alert.addAction(UIAlertAction(title: String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
         self.ledger.restoreAllExcludedPublishers()
         self.reloadData()
       }))
@@ -241,7 +241,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
   }
   
   func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-    return Strings.BraveRewardsExclude
+    return Strings.Exclude
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -266,35 +266,35 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       cell.accessoryLabel?.font = SettingsUX.bodyFont
       switch row {
       case .settings:
-        cell.label.text = Strings.BraveRewardsSettings
+        cell.label.text = Strings.Settings
         cell.imageView?.image = UIImage(frameworkResourceNamed: "settings").alwaysTemplate
         cell.imageView?.tintColor = BraveUX.autoContributeTintColor
         cell.accessoryType = .disclosureIndicator
       case .monthlyPayment:
-        cell.label.text = Strings.BraveRewardsAutoContributeMonthlyPayment
+        cell.label.text = Strings.AutoContributeMonthlyPayment
         cell.accessoryType = .disclosureIndicator
         if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
           cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
         }
       case .nextContribution:
-        cell.label.text = Strings.BraveRewardsAutoContributeNextDate
+        cell.label.text = Strings.AutoContributeNextDate
         cell.accessoryView = nextContributionDateView
         cell.selectionStyle = .none
       case .supportedSites:
-        cell.label.text = Strings.BraveRewardsAutoContributeSupportedSites
+        cell.label.text = Strings.AutoContributeSupportedSites
         cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
         cell.selectionStyle = .none
       case .excludedSites:
         // FIXME: Use actual number
         let numberOfExcludedSites = 5
-        cell.label.text = String(format: Strings.BraveRewardsAutoContributeRestoreExcludedSites, numberOfExcludedSites)
+        cell.label.text = String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites)
         cell.label.textColor = Colors.blurple400
       }
       return cell
     case .contributions:
       if upcomingContributions.isEmpty {
         let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
-        cell.label.text = Strings.BraveRewardsEmptyAutoContribution
+        cell.label.text = Strings.EmptyAutoContribution
         return cell
       }
       let contribution = upcomingContributions[indexPath.row]

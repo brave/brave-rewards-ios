@@ -30,7 +30,7 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    title = Strings.BraveRewardsWalletDetailsTitle
+    title = Strings.WalletDetailsTitle
     
     detailsView.walletSection.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     

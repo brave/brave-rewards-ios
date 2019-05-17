@@ -13,11 +13,11 @@ class PublisherView: UIStackView {
   func setVerified(_ status: Bool) {
     if status {
       verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-verify")
-      verifiedLabel.text = Strings.BraveRewardsVerified
+      verifiedLabel.text = Strings.Verified
       unverifiedDisclaimerView.isHidden = true
     } else {
       verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-unverified")
-      verifiedLabel.text = Strings.BraveRewardsNotYetVerified
+      verifiedLabel.text = Strings.NotYetVerified
       unverifiedDisclaimerView.isHidden = false
     }
   }
@@ -83,7 +83,7 @@ class PublisherView: UIStackView {
     $0.adjustsFontSizeToFitWidth = true
   }
   // Only shown when unverified
-  private let unverifiedDisclaimerView = DisclaimerView(text: Strings.BraveRewardsUnverifiedPublisherDisclaimer)
+  private let unverifiedDisclaimerView = DisclaimerView(text: Strings.UnverifiedPublisherDisclaimer)
   
   @available(*, unavailable)
   required init(coder: NSCoder) {

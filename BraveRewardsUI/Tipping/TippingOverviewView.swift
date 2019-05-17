@@ -48,20 +48,20 @@ class TippingOverviewView: UIView {
     $0.spacing = 10.0
   }
   
-  let disclaimerView = DisclaimerView(text: Strings.BraveRewardsTippingUnverifiedDisclaimer).then {
+  let disclaimerView = DisclaimerView(text: Strings.TippingUnverifiedDisclaimer).then {
     $0.isHidden = true
     $0.backgroundColor = .white
   }
   
   let titleLabel = UILabel().then {
-    $0.text = Strings.BraveRewardsTippingOverviewTitle
+    $0.text = Strings.TippingOverviewTitle
     $0.textColor = UX.titleColor
     $0.font = .systemFont(ofSize: 23.0, weight: .semibold)
     $0.numberOfLines = 0
   }
   
   let bodyLabel = UILabel().then {
-    $0.text = Strings.BraveRewardsTippingOverviewBody 
+    $0.text = Strings.TippingOverviewBody 
     $0.textColor = UX.bodyColor
     $0.font = .systemFont(ofSize: 17.0)
     $0.numberOfLines = 0

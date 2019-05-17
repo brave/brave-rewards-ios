@@ -26,7 +26,7 @@ class TipsSummaryTableCell: UITableViewCell, TableViewReusable {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
     let totalTipsThisMonthLabel = UILabel().then {
-      $0.text = Strings.BraveRewardsTipsTotalThisMonth
+      $0.text = Strings.TipsTotalThisMonth
       $0.textColor = Colors.neutral200
       $0.font = .systemFont(ofSize: 14.0, weight: .medium)
       $0.numberOfLines = 0

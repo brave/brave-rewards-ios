@@ -18,7 +18,7 @@ class SendTipButton: UIControl {
   private let textLabel = UILabel().then {
     $0.textColor = .white
     $0.font = .systemFont(ofSize: 13.0, weight: .semibold)
-    $0.text = Strings.BraveRewardsTippingSendTip
+    $0.text = Strings.TippingSendTip
   }
   
   @available(*, unavailable)

@@ -8,7 +8,7 @@ extension WelcomeViewController {
   
   private class HeaderView: UIView {
     
-    let createWalletButton = CreateWalletButton(titleText: Strings.BraveRewardsLearnMoreCreateWallet1.uppercased()).then {
+    let createWalletButton = CreateWalletButton(titleText: Strings.LearnMoreCreateWallet1.uppercased()).then {
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
@@ -53,7 +53,7 @@ extension WelcomeViewController {
           $0.font = .systemFont(ofSize: 22.0)
           $0.textAlignment = .center
           $0.numberOfLines = 0
-          $0.text = Strings.BraveRewardsLearnMoreSubtitle
+          $0.text = Strings.LearnMoreSubtitle
         }),
         .customSpace(15.0),
         .view(UILabel().then {
@@ -61,13 +61,13 @@ extension WelcomeViewController {
           $0.font = .systemFont(ofSize: 16.0)
           $0.textAlignment = .center
           $0.numberOfLines = 0
-          $0.text = Strings.BraveRewardsLearnMoreBody
+          $0.text = Strings.LearnMoreBody
         }),
         .customSpace(25.0),
         .view(createWalletButton),
         .customSpace(25.0),
         .view(UILabel().then {
-          $0.text = Strings.BraveRewardsLearnMoreHowItWorks
+          $0.text = Strings.LearnMoreHowItWorks
           $0.textColor = UIColor(white: 1.0, alpha: 0.5)
           $0.textAlignment = .center
           $0.font = .systemFont(ofSize: 16.0)
@@ -166,7 +166,7 @@ extension WelcomeViewController {
   
   class View: UIView {
     
-    let createWalletButton = CreateWalletButton(titleText: Strings.BraveRewardsLearnMoreCreateWallet2.uppercased()).then {
+    let createWalletButton = CreateWalletButton(titleText: Strings.LearnMoreCreateWallet2.uppercased()).then {
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
       $0.backgroundColor = BraveUX.braveOrange
@@ -210,14 +210,14 @@ extension WelcomeViewController {
       
       contentStackView.addStackViewItems(
         .view(UILabel().then {
-          $0.text = Strings.BraveRewardsLearnMoreWhyTitle
+          $0.text = Strings.LearnMoreWhyTitle
           $0.font = .systemFont(ofSize: 24.0)
           $0.textColor = .black
           $0.numberOfLines = 0
         }),
         .customSpace(10.0),
         .view(UILabel().then {
-          $0.text = Strings.BraveRewardsLearnMoreWhyBody
+          $0.text = Strings.LearnMoreWhyBody
           $0.font = .systemFont(ofSize: 16.0)
           $0.textColor = Colors.grey200
           $0.numberOfLines = 0
@@ -225,22 +225,22 @@ extension WelcomeViewController {
         .customSpace(20.0),
         .view(FeatureBlockView(
           icon: UIImage(frameworkResourceNamed: "turn-on-rewards"),
-          title: Strings.BraveRewardsLearnMoreTurnOnRewardsTitle,
-          body: Strings.BraveRewardsLearnMoreTurnOnRewardsBody
+          title: Strings.LearnMoreTurnOnRewardsTitle,
+          body: Strings.LearnMoreTurnOnRewardsBody
         )),
         .view(FeatureBlockView(
           icon: UIImage(frameworkResourceNamed: "ads-graphic"),
-          title: Strings.BraveRewardsLearnMoreBraveAdsTitle,
-          body: Strings.BraveRewardsLearnMoreBraveAdsBody
+          title: Strings.LearnMoreBraveAdsTitle,
+          body: Strings.LearnMoreBraveAdsBody
         )),
         .view(FeatureBlockView(
           icon: UIImage(frameworkResourceNamed: "send-tips"),
-          title: Strings.BraveRewardsLearnMoreTipsTitle,
-          body: Strings.BraveRewardsLearnMoreTipsBody
+          title: Strings.LearnMoreTipsTitle,
+          body: Strings.LearnMoreTipsBody
         )),
         .customSpace(40.0),
         .view(UILabel().then {
-          $0.text = Strings.BraveRewardsLearnMoreReady
+          $0.text = Strings.LearnMoreReady
           $0.font = .systemFont(ofSize: 20.0)
           $0.textAlignment = .center
           $0.textColor = Colors.blurple400

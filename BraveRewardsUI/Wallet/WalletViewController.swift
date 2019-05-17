@@ -58,7 +58,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
 //    walletView.notificationView = notification
     
     // Not actually visible from this controller
-    title = Strings.BraveRewardsPanelTitle
+    title = Strings.PanelTitle
     
     if let grants = state.ledger.walletInfo?.grants, !grants.isEmpty {
       walletView.headerView.grantsButton.isHidden = false

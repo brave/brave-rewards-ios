@@ -8,7 +8,7 @@ class PublisherAttentionView: UIView {
   
   let titleLabel = UILabel().then {
     $0.textColor = Colors.grey000
-    $0.text = Strings.BraveRewardsAttention
+    $0.text = Strings.Attention
     $0.font = .systemFont(ofSize: 14.0)
   }
   /// Either "X%" or "–"

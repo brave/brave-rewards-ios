@@ -12,22 +12,22 @@ struct WalletActionNotification {
     
     static let adsRewards = Category(
       icon: UIImage(frameworkResourceNamed: "icn-ads"),
-      title: Strings.BraveRewardsNotificationAdsTitle,
+      title: Strings.NotificationAdsTitle,
       action: Strings.CLAIM.uppercased()
     )
     static let autoContribute = Category(
       icon: UIImage(frameworkResourceNamed: "icn-contribute"),
-      title: Strings.BraveRewardsNotificationAutoContributeTitle,
+      title: Strings.NotificationAutoContributeTitle,
       action: Strings.OK.uppercased()
     )
     static let tokenGrant = Category(
       icon: UIImage(frameworkResourceNamed: "icn-grant"),
-      title: Strings.BraveRewardsNotificationTokenGrantTitle,
+      title: Strings.NotificationTokenGrantTitle,
       action: Strings.CLAIM.uppercased()
     )
     static let recurringTip = Category(
       icon: UIImage(frameworkResourceNamed: "icn-contribute"),
-      title: Strings.BraveRewardsNotificationRecurringTipTitle,
+      title: Strings.NotificationRecurringTipTitle,
       action: Strings.OK.uppercased()
     )
   }

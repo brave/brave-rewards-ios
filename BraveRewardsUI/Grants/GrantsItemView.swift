@@ -32,7 +32,7 @@ class GrantsItemView: SettingsSectionView {
       $0.font = .systemFont(ofSize: 14.0)
       $0.numberOfLines = 0
       $0.text = String(
-        format: Strings.BraveRewardsGrantListExpiresOn,
+        format: Strings.GrantListExpiresOn,
         dateFormatter.string(from: date)
       )
     }

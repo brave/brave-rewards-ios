@@ -36,14 +36,14 @@ extension AddFundsViewController {
       let titleLabel = UILabel().then {
         $0.textColor = SettingsUX.headerTextColor
         $0.font = .systemFont(ofSize: 22.0, weight: .medium)
-        $0.text = Strings.BraveRewardsAddFundsTitle
+        $0.text = Strings.AddFundsTitle
         $0.numberOfLines = 0
       }
       
       let bodyLabel = UILabel().then {
         $0.textColor = SettingsUX.bodyTextColor
         $0.font = .systemFont(ofSize: 14.0)
-        $0.text = Strings.BraveRewardsAddFundsBody
+        $0.text = Strings.AddFundsBody
         $0.numberOfLines = 0
       }
       
@@ -55,7 +55,7 @@ extension AddFundsViewController {
         $0.backgroundColor = .clear
         $0.textDragInteraction?.isEnabled = false
         $0.textContainerInset = .zero
-        let string = Strings.BraveRewardsAddFundsDisclaimer
+        let string = Strings.AddFundsDisclaimer
         let attributedString = NSMutableAttributedString(string: string, attributes: [
           .paragraphStyle: NSMutableParagraphStyle().then { $0.alignment = .center },
           .font: UIFont.systemFont(ofSize: 12.0),

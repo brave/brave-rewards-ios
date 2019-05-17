@@ -79,7 +79,7 @@ extension RewardsSummaryProtocol {
     // FIXME: Set this disclaimer based on contributions going to unverified publishers
     // if !state.ledger.isAutoContributeEnabled { return nil }
     
-    let text = String(format: Strings.BraveRewardsContributingToUnverifiedSites, 52)
+    let text = String(format: Strings.ContributingToUnverifiedSites, 52)
     
     return DisclaimerView(text: text)
   }
