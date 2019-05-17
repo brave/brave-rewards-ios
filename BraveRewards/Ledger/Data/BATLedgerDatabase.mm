@@ -291,7 +291,7 @@
   }
   
   if (filter.minDuration > 0) {
-    [predicates addObject:[NSPredicate predicateWithFormat:@"duration >= %ld", filter.reconcileStamp]];
+    [predicates addObject:[NSPredicate predicateWithFormat:@"duration >= %ld", filter.minDuration]];
   }
   
   if (filter.excluded != BATExcludeFilterFilterAll) {
