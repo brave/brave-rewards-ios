@@ -296,9 +296,9 @@
   
   if (filter.excluded != BATExcludeFilterFilterAll) {
     if (filter.excluded != BATExcludeFilterFilterAllExceptExcluded) {
-      [predicates addObject:[NSPredicate predicateWithFormat:@"excluded == %d", filter.excluded]];
+      [predicates addObject:[NSPredicate predicateWithFormat:@"publisher.excluded == %d", filter.excluded]];
     } else {
-      [predicates addObject:[NSPredicate predicateWithFormat:@"excluded != %d", BATExcludeFilterFilterExcluded]];
+      [predicates addObject:[NSPredicate predicateWithFormat:@"publisher.excluded != %d", BATExcludeFilterFilterExcluded]];
     }
   }
   
