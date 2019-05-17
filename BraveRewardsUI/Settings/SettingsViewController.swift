@@ -40,6 +40,7 @@ class SettingsViewController: UIViewController {
       $0.rewardsToggleSection.toggleSwitch.addTarget(self, action: #selector(rewardsSwitchValueChanged), for: .valueChanged)
       $0.grantSection.claimGrantButton.addTarget(self, action: #selector(tappedClaimGrant), for: .touchUpInside)
       $0.walletSection.viewDetailsButton.addTarget(self, action: #selector(tappedWalletViewDetails), for: .touchUpInside)
+      $0.adsSection.viewDetailsButton.addTarget(self, action: #selector(tappedAdsViewDetails), for: .touchUpInside)
       $0.tipsSection.viewDetailsButton.addTarget(self, action: #selector(tappedTipsViewDetails), for: .touchUpInside)
       $0.autoContributeSection.viewDetailsButton.addTarget(self, action: #selector(tappedAutoContributeViewDetails), for: .touchUpInside)
       $0.autoContributeSection.toggleSwitch.addTarget(self, action: #selector(autoContributeToggleValueChanged), for: .valueChanged)
@@ -92,6 +93,10 @@ class SettingsViewController: UIViewController {
       self?.present(container, animated: true)
       self?.settingsView.grantSection.claimGrantButton.isLoading = false
     }
+  }
+  
+  @objc private func tappedAdsViewDetails() {
+    
   }
   
   @objc private func tappedWalletViewDetails() {
