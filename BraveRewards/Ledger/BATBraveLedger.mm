@@ -868,7 +868,7 @@ BATLedgerBridge(BOOL,
 
 - (std::unique_ptr<ledger::LogStream>)verboseLog:(const char *)file line:(int)line vlogLevel:(int)vlog_level
 {
-  return std::make_unique<RewardsLogStream>(file, line, vlog_level);
+  return std::make_unique<RewardsLogStream>(file, line, (ledger::LogLevel)vlog_level);
 }
 
 - (std::unique_ptr<ledger::LogStream>)log:(const char *)file line:(int)line logLevel:(const ledger::LogLevel)log_level

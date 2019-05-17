@@ -20,20 +20,6 @@ RewardsLogStream::RewardsLogStream(const char* file,
 
 RewardsLogStream::RewardsLogStream(const char* file,
                                    const int line,
-                                   const int vlog_level) {
-  
-  std::map<int, std::string> map {
-    {ledger::LOG_ERROR, "ERROR"},
-    {ledger::LOG_WARNING, "WARNING"},
-    {ledger::LOG_INFO, "INFO"},
-    {ledger::LOG_DEBUG, "DEBUG"},
-    {ledger::LOG_RESPONSE, "RESPONSE"}
-  };
-  constructLogMessageWithPrefix(map[vlog_level], file, line);
-}
-
-RewardsLogStream::RewardsLogStream(const char* file,
-                                   const int line,
                                    const ads::LogLevel log_level) {
   std::map<ads::LogLevel, std::string> map {
     {ads::LOG_ERROR, "ERROR"},

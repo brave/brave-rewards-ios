@@ -13,7 +13,6 @@
 class RewardsLogStream : public ledger::LogStream, public ads::LogStream {
 public:
   RewardsLogStream(const char* file, const int line, const ledger::LogLevel log_level);
-  RewardsLogStream(const char* file, const int line, const int vlog_level);
   RewardsLogStream(const char* file, const int line, const ads::LogLevel log_level);
   
   std::ostream& stream() override;
