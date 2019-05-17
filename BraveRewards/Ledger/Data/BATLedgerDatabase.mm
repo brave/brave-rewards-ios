@@ -438,13 +438,18 @@
 
 + (BOOL)removeRecurringTipWithPublisherID:(NSString *)publisherID
 {
-  const auto context = [DataController newBackgroundContext];
-  const auto rd = [self getRecurringDonationWithPublisherID:publisherID context:context];
-  if (!rd) {
+  // Early guard to check if object exists.
+  // The check happens on main thread, while the deletion is done in background.
+  const auto donationExists = [self getRecurringDonationWithPublisherID:publisherID
+                                                                context:DataController.viewContext];
+  if (!donationExists) {
     return NO;
   }
-  [DataController.shared performOnContext:context task:^(NSManagedObjectContext * _Nonnull context) {
-    [context deleteObject:rd];
+  
+  [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
+    const auto donation = [self getRecurringDonationWithPublisherID:publisherID context:context];
+    
+    [context deleteObject:donation];
     // Probably want to adjust `performOnContext` to call this in a scenario where we pass an
     // existing context
     if (context.hasChanges) {
