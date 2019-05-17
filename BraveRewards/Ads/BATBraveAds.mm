@@ -372,8 +372,12 @@ BATClassAdsBridge(BOOL, isProduction, setProduction, _is_production);
 
 - (void)saveBundleState:(std::unique_ptr<ads::BundleState>)state callback:(ads::OnSaveCallback)callback
 {
+  if (state.get() == nullptr) {
+    callback(ads::Result::FAILED);
+    return;
+  }
   bundleState.reset(state.release());
-  if ([self.commonOps saveContents:state->ToJson() name:"bundle.json"]) {
+  if ([self.commonOps saveContents:bundleState->ToJson() name:"bundle.json"]) {
     callback(ads::Result::SUCCESS);
   } else {
     callback(ads::Result::FAILED);
