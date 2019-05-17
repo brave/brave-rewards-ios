@@ -28,11 +28,11 @@ NS_SWIFT_NAME(BraveAds)
 + (BOOL)isSupportedRegion:(NSString *)region;
 
 /// Whether or not to use staging servers. Defaults to false
-@property (class, getter=isDebug) BOOL debug;
+@property (nonatomic, class, getter=isDebug) BOOL debug;
 /// Whether or not to use production servers. Defaults to true
-@property (class, getter=isProduction) BOOL production;
+@property (nonatomic, class, getter=isProduction) BOOL production;
 /// Marks if this is being ran in a test environment. Defaults to false
-@property (class, getter=isTesting) BOOL testing;
+@property (nonatomic, class, getter=isTesting) BOOL testing;
 
 #pragma mark - Configuration
 

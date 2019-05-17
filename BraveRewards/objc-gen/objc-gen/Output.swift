@@ -36,6 +36,7 @@ final class EnumHeaderOutput: TemplateOutput {
     #import <Foundation/Foundation.h>
     
     \(enums.map { $0.generated }.joined(separator: "\n\n"))
+    
     """
   }
 }

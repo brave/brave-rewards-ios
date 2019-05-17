@@ -705,10 +705,8 @@ BATLedgerReadonlyBridge(double, contributionAmount, GetContributionAmount);
 
 - (void)setContributionAmount:(double)contributionAmount
 {
-  if (self.contributionAmount != contributionAmount) {
-    ledger->SetUserChangedContribution();
-    ledger->SetContributionAmount(contributionAmount);
-  }
+  ledger->SetUserChangedContribution();
+  ledger->SetContributionAmount(contributionAmount);
 }
 
 BATLedgerBridge(BOOL,

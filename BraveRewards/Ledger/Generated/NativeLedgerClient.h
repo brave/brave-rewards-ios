@@ -12,7 +12,7 @@
 class NativeLedgerClient : public ledger::LedgerClient {
 public:
   NativeLedgerClient(id<NativeLedgerClientBridge> bridge);
-  ~NativeLedgerClient();
+  ~NativeLedgerClient() override;
 
 private:
   __unsafe_unretained id<NativeLedgerClientBridge> bridge_;

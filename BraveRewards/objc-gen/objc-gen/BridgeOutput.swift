@@ -36,7 +36,7 @@ final class NativeClientHeaderOutput: TemplateOutput {
     class \(nativeClassName) : public \(namespace)::\(className) {
     public:
       \(nativeClassName)(id<\(protocolName)> bridge);
-      ~\(nativeClassName)();
+      ~\(nativeClassName)() override;
     
     private:
       __unsafe_unretained id<\(protocolName)> bridge_;

@@ -26,20 +26,20 @@ NS_SWIFT_NAME(BraveLedger)
 #pragma mark - Global
 
 /// Whether or not to use staging servers. Defaults to false
-@property (class, getter=isDebug) BOOL debug;
+@property (nonatomic, class, getter=isDebug) BOOL debug;
 /// Whether or not to use production servers. Defaults to true
-@property (class, getter=isProduction) BOOL production;
+@property (nonatomic, class, getter=isProduction) BOOL production;
 /// Marks if this is being ran in a test environment. Defaults to false
-@property (class, getter=isTesting) BOOL testing;
+@property (nonatomic, class, getter=isTesting) BOOL testing;
 /// Number of minutes between reconciles override. Defaults to 0 (no override)
-@property (class) int reconcileTime;
+@property (nonatomic, class) int reconcileTime;
 /// Whether or not to use short contribution retries. Defaults to false
-@property (class) BOOL useShortRetries;
+@property (nonatomic, class) BOOL useShortRetries;
 
 #pragma mark - Wallet
 
 /// Whether or not the wallet has been created
-@property (readonly, getter=isWalletCreated) BOOL walletCreated;
+@property (nonatomic, readonly, getter=isWalletCreated) BOOL walletCreated;
 
 /// Creates a cryptocurrency wallet
 - (void)createWallet:(nullable void (^)(NSError * _Nullable error))completion;
@@ -48,29 +48,29 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)fetchWalletDetails:(nullable void (^)(BATWalletInfo *))completion;
 
 /// The users wallet info if one has been created
-@property (readonly, nullable) BATWalletInfo *walletInfo;
+@property (nonatomic, readonly, nullable) BATWalletInfo *walletInfo;
 
 /// The wallet's passphrase. nil if the wallet has not been created yet
-@property (readonly, nullable) NSString *walletPassphrase;
+@property (nonatomic, readonly, nullable) NSString *walletPassphrase;
 
 /// Recover the users wallet using their passphrase
 - (void)recoverWalletUsingPassphrase:(NSString *)passphrase completion:(nullable void (^)(NSError *_Nullable))completion;
 
 /// The wallet's addresses. nil if the wallet has not been created yet
-@property (readonly, nullable) NSString *BATAddress;
-@property (readonly, nullable) NSString *BTCAddress;
-@property (readonly, nullable) NSString *ETHAddress;
-@property (readonly, nullable) NSString *LTCAddress;
-@property (readonly, nullable) NSDictionary<NSString *, NSString *> *addresses;
+@property (nonatomic, readonly, nullable) NSString *BATAddress;
+@property (nonatomic, readonly, nullable) NSString *BTCAddress;
+@property (nonatomic, readonly, nullable) NSString *ETHAddress;
+@property (nonatomic, readonly, nullable) NSString *LTCAddress;
+@property (nonatomic, readonly, nullable) NSDictionary<NSString *, NSString *> *addresses;
 
 /// ?? Unavailable until we understand whats its for
 - (void)addressesForPaymentId:(void (^)(NSDictionary<NSString *, NSString *> *))completion NS_UNAVAILABLE;
 
-@property (readonly) double balance;
+@property (nonatomic, readonly) double balance;
 
-@property (readonly) double defaultContributionAmount;
+@property (nonatomic, readonly) double defaultContributionAmount;
 
-@property (readonly) BOOL hasSufficientBalanceToReconcile;
+@property (nonatomic, readonly) BOOL hasSufficientBalanceToReconcile;
 
 #pragma mark - Publishers
 
@@ -96,7 +96,7 @@ NS_SWIFT_NAME(BraveLedger)
 
 - (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey;
 
-@property (readonly) NSArray<BATContributionInfo *> *recurringContributions;
+@property (nonatomic, readonly) NSArray<BATContributionInfo *> *recurringContributions;
 
 /// Update a publishers exclusion state
 - (void)updatePublisherExclusionState:(NSString *)publisherId state:(BATPublisherExclude)state
@@ -105,7 +105,7 @@ NS_SWIFT_NAME(BraveLedger)
 /// Restore all sites which had been previously excluded
 - (void)restoreAllExcludedPublishers;
 
-@property (readonly) NSUInteger numberOfExcludedPublishers;
+@property (nonatomic, readonly) NSUInteger numberOfExcludedPublishers;
 
 - (void)publisherBannerForId:(NSString *)publisherId
                   completion:(void (^)(BATPublisherBanner * _Nullable banner))completion;
@@ -128,7 +128,7 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Grants
 
-@property (readonly) NSArray<BATGrant *> *pendingGrants;
+@property (nonatomic, readonly) NSArray<BATGrant *> *pendingGrants;
 
 - (void)fetchAvailableGrantsForLanguage:(NSString *)language
                               paymentId:(NSString *)paymentId;
@@ -142,12 +142,12 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Auto Contribute
 
-@property (readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;
+@property (nonatomic, readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;
 
 - (BATBalanceReportInfo *)balanceReportForMonth:(BATActivityMonth)month
                                                     year:(int)year;
 
-@property (readonly) BATAutoContributeProps *autoContributeProps;
+@property (nonatomic, readonly) BATAutoContributeProps *autoContributeProps;
 
 #pragma mark - Misc
 
@@ -158,11 +158,11 @@ NS_SWIFT_NAME(BraveLedger)
 /// Get an encoded URL that can be placed in another URL
 - (NSString *)encodedURI:(NSString *)uri;
 
-@property (readonly) BATRewardsInternalsInfo *rewardsInternalInfo;
+@property (nonatomic, readonly) BATRewardsInternalsInfo *rewardsInternalInfo;
 
 #pragma mark - Reporting
 
-@property (nonatomic, assign) UInt32 selectedTabId;
+@property (nonatomic) UInt32 selectedTabId;
 
 /// Report that a page has loaded in the current browser tab, and the HTML is available for analysis
 - (void)reportLoadedPageWithURL:(NSURL *)url tabId:(UInt32)tabId NS_SWIFT_NAME(reportLoadedPage(url:tabId:));

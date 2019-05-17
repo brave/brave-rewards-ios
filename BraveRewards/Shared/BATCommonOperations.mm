@@ -113,10 +113,10 @@
     // For some reason I couldn't just do `std::map<std::string, std::string> responseHeaders;` due to std::map's
     // non-const key insertion
     auto responseHeaders = new std::map<std::string, std::string>();
-    [response.allHeaderFields enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+    [response.allHeaderFields enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
       if (![key isKindOfClass:NSString.class] || ![obj isKindOfClass:NSString.class]) { return; }
-      std::string stringKey(((NSString *)key).UTF8String);
-      std::string stringValue(((NSString *)obj).UTF8String);
+      std::string stringKey(key.UTF8String);
+      std::string stringValue(obj.UTF8String);
       responseHeaders->insert(std::make_pair(stringKey, stringValue));
     }];
     callback((int)response.statusCode, json, *responseHeaders);

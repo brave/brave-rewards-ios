@@ -12,7 +12,7 @@
 class NativeAdsClient : public ads::AdsClient {
 public:
   NativeAdsClient(id<NativeAdsClientBridge> bridge);
-  ~NativeAdsClient();
+  ~NativeAdsClient() override;
 
 private:
   __unsafe_unretained id<NativeAdsClientBridge> bridge_;

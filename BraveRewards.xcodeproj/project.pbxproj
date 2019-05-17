@@ -140,7 +140,7 @@
 		27B6C8C621F7B5AF00F256EA /* NSURL+Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 27B6C8C421F7B5AF00F256EA /* NSURL+Extensions.h */; };
 		27B6C8C721F7B5AF00F256EA /* NSURL+Extensions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27B6C8C521F7B5AF00F256EA /* NSURL+Extensions.mm */; };
 		27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DED66022260E7700E0F0E3 /* TippingView.swift */; };
-		27EDB843223D607F008406EB /* Records.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27EDB83F223D607F008406EB /* Records.mm */; };
+		27EDB843223D607F008406EB /* Records.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27EDB83F223D607F008406EB /* Records.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
 		27EDB844223D607F008406EB /* Records+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB840223D607F008406EB /* Records+Private.h */; };
 		27EDB845223D607F008406EB /* Records.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB841223D607F008406EB /* Records.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27EDB846223D607F008406EB /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 27EDB842223D607F008406EB /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1810,6 +1810,22 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"-Weverything",
+					"-Wno-c++98-compat-pedantic",
+					"-Wno-c++98-compat",
+					"-Wno-auto-import",
+					"-Wno-objc-missing-property-synthesis",
+					"-Wno-gnu-auto-type",
+					"-Wno-gnu-conditional-omitted-operand",
+					"-Wno-direct-ivar-access",
+					"-Wno-padded",
+					"-Wno-weak-vtables",
+					"-Wno-old-style-cast",
+					"-Wno-global-constructors",
+					"-Wno-cstring-format-directive",
+					"-Wno-nullable-to-nonnull-conversion",
+				);
 			};
 			name = Debug;
 		};
@@ -1843,6 +1859,22 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"-Weverything",
+					"-Wno-c++98-compat-pedantic",
+					"-Wno-c++98-compat",
+					"-Wno-auto-import",
+					"-Wno-objc-missing-property-synthesis",
+					"-Wno-gnu-auto-type",
+					"-Wno-gnu-conditional-omitted-operand",
+					"-Wno-direct-ivar-access",
+					"-Wno-padded",
+					"-Wno-weak-vtables",
+					"-Wno-old-style-cast",
+					"-Wno-global-constructors",
+					"-Wno-cstring-format-directive",
+					"-Wno-nullable-to-nonnull-conversion",
+				);
 			};
 			name = Release;
 		};

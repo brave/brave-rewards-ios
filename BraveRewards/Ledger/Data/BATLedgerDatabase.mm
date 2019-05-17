@@ -489,7 +489,10 @@
     NSLog(@"%@", error);
   }
   
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
   return [[fetchedObjects valueForKeyPath:@"@sum.amount"] doubleValue];
+#pragma clang diagnostic pop
 }
 
 @end

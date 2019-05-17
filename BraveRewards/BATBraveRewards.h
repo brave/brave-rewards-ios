@@ -28,16 +28,16 @@ NS_SWIFT_NAME(BraveRewardsConfiguration)
 /// The default configuration. Channel is debug, no changes to ledger configuration
 ///
 /// State is stored in Application Support
-@property (class, readonly) BATBraveRewardsConfiguration *defaultConfiguration NS_SWIFT_NAME(default);
+@property (nonatomic, class, readonly) BATBraveRewardsConfiguration *defaultConfiguration NS_SWIFT_NAME(default);
 /// The production configuration. Channel is production, no changes to ledger configuration
 ///
 /// State is stored in Application Support
-@property (class, readonly) BATBraveRewardsConfiguration *productionConfiguration NS_SWIFT_NAME(production);
+@property (nonatomic, class, readonly) BATBraveRewardsConfiguration *productionConfiguration NS_SWIFT_NAME(production);
 /// The testing configuration. Channel is debug & testing. Short retries are enabled, number of
 /// seconds between reconciles is set to 30 seconds instead of 30 days.
 ///
 /// State is saved to a directory created in /tmp
-@property (class, readonly) BATBraveRewardsConfiguration *testingConfiguration NS_SWIFT_NAME(testing);
+@property (nonatomic, class, readonly) BATBraveRewardsConfiguration *testingConfiguration NS_SWIFT_NAME(testing);
 
 @end
 
@@ -46,8 +46,8 @@ NS_SWIFT_NAME(BraveRewardsConfiguration)
 NS_SWIFT_NAME(BraveRewards)
 @interface BATBraveRewards : NSObject
 
-@property (readonly) BATBraveAds *ads;
-@property (readonly) BATBraveLedger *ledger;
+@property (nonatomic, readonly) BATBraveAds *ads;
+@property (nonatomic, readonly) BATBraveLedger *ledger;
 
 /// Resets the ads & ledger (by purging its data). This should likely never be used in production.
 - (void)reset;

@@ -90,6 +90,9 @@
   return self;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
+
 - (void)setupLedgerAndAds
 {
   NSString *adsStorage = [self.configuration.stateStoragePath stringByAppendingPathComponent:@"ads"];
@@ -98,6 +101,8 @@
   self.ledger = [[self.ledgerClass alloc] initWithStateStoragePath:ledgerStorage];
   self.ledger.ads = self.ads;
 }
+
+#pragma clang diagnostic push
 
 @end
 

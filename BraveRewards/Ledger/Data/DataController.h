@@ -9,13 +9,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DataController : NSObject
 
-@property (class) DataController *shared;
+@property (nonatomic, class) DataController *shared;
 
-@property (readonly) NSURL *storeURL;
+@property (nonatomic, readonly) NSURL *storeURL;
 
 - (void)addPersistentStoreForContainer:(NSPersistentContainer *)container;
 
-@property (readonly) BOOL storeExists;
+@property (nonatomic, readonly) BOOL storeExists;
 
 /// Context object also allows us access to all persistent container data if needed.
 + (NSManagedObjectContext *)viewContext;
