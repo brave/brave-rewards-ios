@@ -502,7 +502,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   // brave-core notifies that ongrantfinished was called here
 }
 
-#pragma mark - Auto Contribute
+#pragma mark - History
 
 - (NSDictionary<NSString *, BATBalanceReportInfo *> *)balanceReports
 {
@@ -525,6 +525,8 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledger->GetAutoContributeProps(&props);
   return [[BATAutoContributeProps alloc] initWithAutoContributeProps:props];
 }
+
+#pragma mark - Reconcile
 
 - (void)onReconcileComplete:(ledger::Result)result viewingId:(const std::string &)viewing_id category:(ledger::REWARDS_CATEGORY)category probi:(const std::string &)probi
 {
@@ -714,6 +716,29 @@ BATLedgerBridge(BOOL,
                 GetAutoContribute, SetAutoContribute);
 
 #pragma mark - Ads & Confirmations
+
+- (void)adsDetailsForCurrentCycle:(void (^)(NSInteger adsReceived, double estimatedEarnings))completion;
+{
+  ledger->GetTransactionHistoryForThisCycle(^(std::unique_ptr<ledger::TransactionsInfo> list) {
+    if (list == nullptr || list->transactions.empty()) {
+      completion(0, 0.0);
+    } else {
+      int adsReceived = 0;
+      double estimatedEarnings = 0.0;
+      
+      for (const auto& transaction : list->transactions) {
+        if (transaction.estimated_redemption_value == 0.0) {
+          continue;
+        }
+        
+        adsReceived++;
+        estimatedEarnings += transaction.estimated_redemption_value;
+      }
+      
+      completion((NSInteger)adsReceived, estimatedEarnings);
+    }
+  });
+}
 
 - (void)setConfirmationsIsReady:(const bool)is_ready
 {

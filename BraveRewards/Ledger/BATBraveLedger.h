@@ -140,12 +140,12 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)solveGrantCaptchWithPromotionId:(NSString *)promotionId
                                solution:(NSString *)solution;
 
-#pragma mark - Auto Contribute
+#pragma mark - History
 
 @property (nonatomic, readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;
 
 - (BATBalanceReportInfo *)balanceReportForMonth:(BATActivityMonth)month
-                                                    year:(int)year;
+                                           year:(int)year;
 
 @property (nonatomic, readonly) BATAutoContributeProps *autoContributeProps;
 
@@ -203,6 +203,11 @@ NS_SWIFT_NAME(BraveLedger)
 @property (nonatomic, assign) double contributionAmount;
 /// Whether or not the user will automatically contribute
 @property (nonatomic, assign, getter=isAutoContributeEnabled) BOOL autoContributeEnabled;
+
+#pragma mark - Ads & Confirmations
+
+/// Get the number of ads received and the estimated earnings of viewing said ads for this cycle
+- (void)adsDetailsForCurrentCycle:(void (^)(NSInteger adsReceived, double estimatedEarnings))completion NS_SWIFT_NAME(adsDetailsForCurrentCycle(_:));
 
 @end
 
