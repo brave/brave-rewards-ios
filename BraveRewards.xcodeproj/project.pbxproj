@@ -95,6 +95,7 @@
 		27623A76228DC6A900DFA8F5 /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */; };
 		27623A84228DE46600DFA8F5 /* BraveRewardsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273404592220B004008CABC9 /* BraveRewardsUI.framework */; };
 		27623A94228F48C000DFA8F5 /* RewardsLogStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */; };
+		27623A8B228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */; };
 		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
 		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
@@ -352,6 +353,7 @@
 		27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClientBridge.h; sourceTree = "<group>"; };
 		27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
 		27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RewardsLogStream.mm; sourceTree = "<group>"; };
+		27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyWalletSummaryView.swift; sourceTree = "<group>"; };
 		2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DictionaryTransformTests.mm; sourceTree = "<group>"; };
 		27695584226E47F5008E5DED /* BATActivityInfoFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfoFilter.h; sourceTree = "<group>"; };
 		27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATActivityInfoFilter.mm; sourceTree = "<group>"; };
@@ -533,6 +535,7 @@
 				278A6B3F225BFE5400175678 /* WalletView.swift */,
 				273404752220BD60008CABC9 /* WalletHeaderView.swift */,
 				0A5AAEDF2286015000F0EBC7 /* RewardsSummaryProtocol.swift */,
+				27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -1378,6 +1381,7 @@
 				271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */,
 				2730DF942236CA110031845C /* SettingsGrantSectionView.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
+				27623A8B228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift in Sources */,
 				272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */,
 				270483602221AAD70051239C /* WalletViewController.swift in Sources */,
 				278A6B3E225BFC2100175678 /* RewardsUX.swift in Sources */,
