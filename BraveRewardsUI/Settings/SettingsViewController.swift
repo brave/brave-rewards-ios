@@ -41,6 +41,7 @@ class SettingsViewController: UIViewController {
       $0.grantSection.claimGrantButton.addTarget(self, action: #selector(tappedClaimGrant), for: .touchUpInside)
       $0.walletSection.viewDetailsButton.addTarget(self, action: #selector(tappedWalletViewDetails), for: .touchUpInside)
       $0.adsSection.viewDetailsButton.addTarget(self, action: #selector(tappedAdsViewDetails), for: .touchUpInside)
+      $0.adsSection.toggleSwitch.addTarget(self, action: #selector(adsToggleValueChanged), for: .valueChanged)
       $0.tipsSection.viewDetailsButton.addTarget(self, action: #selector(tappedTipsViewDetails), for: .touchUpInside)
       $0.autoContributeSection.viewDetailsButton.addTarget(self, action: #selector(tappedAutoContributeViewDetails), for: .touchUpInside)
       $0.autoContributeSection.toggleSwitch.addTarget(self, action: #selector(autoContributeToggleValueChanged), for: .valueChanged)
@@ -68,6 +69,11 @@ class SettingsViewController: UIViewController {
     let ledger = state.ledger
     settingsView.do {
       $0.rewardsToggleSection.setRewardsEnabled(ledger.isEnabled, animated: animated)
+      $0.adsSection.setSectionEnabled(
+        ledger.isEnabled && state.ads.isEnabled,
+        hidesToggle: !ledger.isEnabled,
+        animated: animated
+      )
       $0.autoContributeSection.setSectionEnabled(
         ledger.isEnabled && ledger.isAutoContributeEnabled,
         hidesToggle: !ledger.isEnabled,
@@ -119,6 +125,11 @@ class SettingsViewController: UIViewController {
   
   @objc private func rewardsSwitchValueChanged() {
     state.ledger.isEnabled = settingsView.rewardsToggleSection.toggleSwitch.isOn
+    updateVisualStateOfSections(animated: true)
+  }
+  
+  @objc private func adsToggleValueChanged() {
+    state.ads.isEnabled = settingsView.adsSection.toggleSwitch.isOn
     updateVisualStateOfSections(animated: true)
   }
   
