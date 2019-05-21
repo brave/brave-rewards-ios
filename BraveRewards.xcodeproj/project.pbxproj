@@ -167,6 +167,8 @@
 		27F4C1DD2256A67700CFCD67 /* UITableViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C1DC2256A67700CFCD67 /* UITableViewExtensions.swift */; };
 		27F4C1E42256B2B500CFCD67 /* TipsSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C1E32256B2B500CFCD67 /* TipsSummaryTableCell.swift */; };
 		27F4C1E62257AA1A00CFCD67 /* CurrencyContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C1E52257AA1A00CFCD67 /* CurrencyContainerView.swift */; };
+		27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CACE2294715100935B45 /* AdsDetailsViewController.swift */; };
+		27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CAD02294773600935B45 /* LabelAccessoryView.swift */; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		27FD38E521E6B69700443796 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */; };
 		27FD393421E7D80100443796 /* libbat-native-ledger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD393321E7D80100443796 /* libbat-native-ledger.a */; };
@@ -424,6 +426,8 @@
 		27F4C1DC2256A67700CFCD67 /* UITableViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtensions.swift; sourceTree = "<group>"; };
 		27F4C1E32256B2B500CFCD67 /* TipsSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsSummaryTableCell.swift; sourceTree = "<group>"; };
 		27F4C1E52257AA1A00CFCD67 /* CurrencyContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyContainerView.swift; sourceTree = "<group>"; };
+		27F4CACE2294715100935B45 /* AdsDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsDetailsViewController.swift; sourceTree = "<group>"; };
+		27F4CAD02294773600935B45 /* LabelAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelAccessoryView.swift; sourceTree = "<group>"; };
 		27FD38E021E6B69700443796 /* BraveRewardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BraveRewardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27FD38E221E6B69700443796 /* AdsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTests.swift; sourceTree = "<group>"; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -615,6 +619,7 @@
 		2730DF8F2232C6E00031845C /* Ads */ = {
 			isa = PBXGroup;
 			children = (
+				27F4CACB2294713C00935B45 /* Details */,
 				2730DF902232FB030031845C /* SettingsAdSectionView.swift */,
 			);
 			path = Ads;
@@ -707,6 +712,7 @@
 				278B55D52266835A00BB7B89 /* TableViewCell.swift */,
 				274CDD3C225FE0F700FA7364 /* TableHeaderRowView.swift */,
 				274CDD3E225FE4E600FA7364 /* EmptyTableCell.swift */,
+				27F4CAD02294773600935B45 /* LabelAccessoryView.swift */,
 			);
 			path = Tables;
 			sourceTree = "<group>";
@@ -943,6 +949,14 @@
 				27F4C1D822569E2B00CFCD67 /* TipsDetailViewController.swift */,
 				27F4C1E32256B2B500CFCD67 /* TipsSummaryTableCell.swift */,
 				27F4C1DA2256A40100CFCD67 /* TipsTableCell.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		27F4CACB2294713C00935B45 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				27F4CACE2294715100935B45 /* AdsDetailsViewController.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -1357,6 +1371,7 @@
 				270483592220F99C0051239C /* BasicAnimationController.swift in Sources */,
 				278A6B3A225BF49B00175678 /* AddFundsViewController.swift in Sources */,
 				27871A21227B466D003477D4 /* WelcomeViewController.swift in Sources */,
+				27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */,
 				2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */,
 				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				278A6B48225C09AE00175678 /* TippingViewController.swift in Sources */,
@@ -1374,6 +1389,7 @@
 				2730DF8D2231C75B0031845C /* SettingsRewardsSectionView.swift in Sources */,
 				2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
+				27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */,
 				278A6B46225C08AE00175678 /* WalletDetailsViewController.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
 				2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */,

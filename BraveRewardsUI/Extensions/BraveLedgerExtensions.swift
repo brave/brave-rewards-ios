@@ -16,7 +16,7 @@ extension BraveLedger {
   
   /// Gets the dollar string for some BAT amount using rates from the users wallet with the
   /// currency code appended (i.e. "6.42 USD")
-  func dollarStringForBATAmount(_ amount: Double, currencyCode: String = "USD") -> String? {
+  func dollarStringForBATAmount(_ amount: Double, currencyCode: String = "USD", includeCurrencyCode: Bool = true) -> String? {
     guard let walletInfo = walletInfo,
           let conversionRate = walletInfo.rates[currencyCode]?.doubleValue else {
       return nil
@@ -26,14 +26,23 @@ extension BraveLedger {
     currencyFormatter.currencySymbol = ""
     currencyFormatter.numberStyle = .currency
     let valueString = currencyFormatter.string(from: NSNumber(value: amount * conversionRate)) ?? "0.00"
-    return "\(valueString) \(currencyCode)"
+    if (includeCurrencyCode) {
+      return "\(valueString) \(currencyCode)"
+    }
+    return "\(valueString)"
   }
   
   /// Takes BAT amount as String, and returns a String converted to selected currency.
   /// Returns '0.00' if the method failed or could not cast `amountString` as `Double`
-  func dollarStringForBATAmount(_ amountString: String, currencyCode: String = "USD") -> String {
-    guard let stringToDouble = Double(amountString) else { return "0.00" }
-    return dollarStringForBATAmount(stringToDouble, currencyCode: currencyCode) ?? "0.00"
+  func dollarStringForBATAmount(_ amountString: String, currencyCode: String = "USD", includeCurrencyCode: Bool = true) -> String {
+    let stringToDouble = Double(amountString) ?? 0.0
+    guard let string = dollarStringForBATAmount(stringToDouble, currencyCode: currencyCode, includeCurrencyCode: includeCurrencyCode) else {
+      if (includeCurrencyCode) {
+        return "0.00 USD"
+      }
+      return "0.00"
+    }
+    return string
   }
 
   

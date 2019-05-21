@@ -102,7 +102,9 @@ class SettingsViewController: UIViewController {
   }
   
   @objc private func tappedAdsViewDetails() {
-    
+    let controller = AdsDetailsViewController(state: state)
+    controller.preferredContentSize = preferredContentSize
+    navigationController?.pushViewController(controller, animated: true)
   }
   
   @objc private func tappedWalletViewDetails() {

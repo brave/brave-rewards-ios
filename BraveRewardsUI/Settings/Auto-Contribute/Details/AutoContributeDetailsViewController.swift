@@ -132,7 +132,7 @@ class AutoContributeDetailViewController: UIViewController {
     }
   }
   
-  private let nextContributionDateView =  NextContributionDateView()
+  private let nextContributionDateView =  LabelAccessoryView()
   
   // MARK: - Actions
   
@@ -337,26 +337,5 @@ extension AutoContributeDetailViewController {
     required init(coder: NSCoder) {
       fatalError()
     }
-  }
-}
-
-private class NextContributionDateView: UIView {
-  let label = UILabel().then {
-    $0.textColor = Colors.grey100
-    $0.font = .systemFont(ofSize: 14.0, weight: .medium)
-  }
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    
-    layer.cornerRadius = 6.0
-    backgroundColor = Colors.grey900
-    addSubview(label)
-    label.snp.makeConstraints {
-      $0.edges.equalTo(self).inset(UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
-    }
-  }
-  @available(*, unavailable)
-  required init(coder: NSCoder) {
-    fatalError()
   }
 }
