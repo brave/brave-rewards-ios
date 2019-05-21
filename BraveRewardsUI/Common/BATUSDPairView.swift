@@ -33,6 +33,21 @@ class BATUSDPairView: UIStackView {
     usdContainer.amountLabel.text = "0.00"
   }
   
+  convenience init(amountFontSize: CGFloat = 15.0,
+                   kindFontSize: CGFloat = 14.0,
+                   usdFontSize: CGFloat = 13.0) {
+    self.init(batAmountConfig: {
+      $0.font = .systemFont(ofSize: amountFontSize, weight: .medium)
+      $0.textColor = Colors.grey100
+    }, batKindConfig: {
+      $0.font = .systemFont(ofSize: kindFontSize)
+      $0.textColor = Colors.grey100
+    }, usdConfig: {
+      $0.font = .systemFont(ofSize: usdFontSize)
+      $0.textColor = Colors.grey200
+    })
+  }
+  
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()

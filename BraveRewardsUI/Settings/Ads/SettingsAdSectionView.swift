@@ -10,13 +10,43 @@ class SettingsAdSectionView: SettingsSectionView {
     static let comingSoonTextColor = UIColor(hex: 0xC9B5DE) // Has to match icon color (which has no close color)
   }
   
+  func setSectionEnabled(_ enabled: Bool, hidesToggle: Bool, animated: Bool = false) {
+    if animated {
+      if enabled {
+        viewDetailsButton.alpha = 0.0
+      }
+      UIView.animate(withDuration: 0.15) {
+        if self.viewDetailsButton.isHidden == enabled { // UIStackView bug, have to check first
+          self.viewDetailsButton.isHidden = !enabled
+        }
+        self.viewDetailsButton.alpha = enabled ? 1.0 : 0.0
+        self.toggleSwitch.alpha = hidesToggle ? 0.0 : 1.0
+      }
+    } else {
+      viewDetailsButton.isHidden = !enabled
+      self.toggleSwitch.alpha = hidesToggle ? 0.0 : 1.0
+    }
+  }
+  
+  
+  let viewDetailsButton = SettingsViewDetailsButton(type: .system)
+  
+  let toggleSwitch = UISwitch().then {
+    $0.onTintColor = BraveUX.switchOnColor
+    $0.setContentHuggingPriority(.required, for: .horizontal)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     
+    viewDetailsButton.hitTestSlop = UIEdgeInsets(top: -stackView.spacing, left: 0, bottom: -stackView.spacing, right: 0)
+    
     addSubview(stackView)
-    stackView.addArrangedSubview(titleLabel)
+    stackView.addArrangedSubview(toggleStackView)
     stackView.addArrangedSubview(bodyLabel)
-    stackView.addArrangedSubview(comingSoonView)
+    stackView.addArrangedSubview(viewDetailsButton)
+    toggleStackView.addArrangedSubview(titleLabel)
+    toggleStackView.addArrangedSubview(toggleSwitch)
     
     stackView.snp.makeConstraints {
       $0.edges.equalTo(self.layoutMarginsGuide)
@@ -25,6 +55,10 @@ class SettingsAdSectionView: SettingsSectionView {
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical
+    $0.spacing = 10.0
+  }
+  
+  private let toggleStackView = UIStackView().then {
     $0.spacing = 10.0
   }
   
@@ -39,50 +73,5 @@ class SettingsAdSectionView: SettingsSectionView {
     $0.textColor = SettingsUX.bodyTextColor
     $0.numberOfLines = 0
     $0.font = SettingsUX.bodyFont
-  }
-  
-  private let comingSoonView = ComingSoonView()
-}
-
-extension SettingsAdSectionView {
-  private class ComingSoonView: UIView {
-    
-    override init(frame: CGRect) {
-      super.init(frame: frame)
-      
-      addSubview(comingSoonStackView)
-      comingSoonStackView.addArrangedSubview(comingSoonImageView)
-      comingSoonStackView.addArrangedSubview(comingSoonLabel)
-      
-      comingSoonStackView.snp.makeConstraints {
-        $0.centerX.equalTo(self)
-        $0.leading.greaterThanOrEqualTo(self)
-        $0.trailing.lessThanOrEqualTo(self)
-        $0.top.bottom.equalTo(self).inset(10.0)
-      }
-    }
-    
-    @available(*, unavailable)
-    required init(coder: NSCoder) {
-      fatalError()
-    }
-    
-    private let comingSoonStackView = UIStackView().then {
-      $0.alignment = .center
-      $0.spacing = 20.0
-    }
-    
-    private let comingSoonImageView = UIImageView(image: UIImage(frameworkResourceNamed: "ads-graphic")).then {
-      $0.setContentHuggingPriority(UILayoutPriority(rawValue: 999.0), for: .horizontal)
-      $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-    }
-    
-    private let comingSoonLabel = UILabel().then {
-      $0.textColor = UX.comingSoonTextColor
-      $0.font = .systemFont(ofSize: 17.0, weight: .medium)
-      $0.numberOfLines = 0
-      $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-      $0.text = Strings.SettingsAdsComingSoonText
-    }
   }
 }

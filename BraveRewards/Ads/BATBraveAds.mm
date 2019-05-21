@@ -20,6 +20,9 @@
   + (__type)__objc_getter { return ads::__cpp_var; } \
   + (void)__objc_setter:(__type)newValue { ads::__cpp_var = newValue; }
 
+static const NSInteger kDefaultNumberOfAdsPerDay = 20;
+static const NSInteger kDefaultNumberOfAdsPerHour = 2;
+
 @interface BATAdsNotification ()
 - (instancetype)initWithNotificationInfo:(const ads::NotificationInfo&)info;
 @end
@@ -59,6 +62,9 @@
     
     // Last thing we do is enable/disable it (since it will call `Initialize()` on the ads client)
     self.enabled = enabled;
+    
+    self.numberOfAllowableAdsPerDay = kDefaultNumberOfAdsPerDay;
+    self.numberOfAllowableAdsPerHour = kDefaultNumberOfAdsPerHour;
   }
   return self;
 }
