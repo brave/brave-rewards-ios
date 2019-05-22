@@ -215,7 +215,7 @@
     [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
   }];
   
-  if(createActivityInfo){
+  if (createActivityInfo) {
     [self backgroundSaveAndWaitForExpectation:^{
       [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
     }];
@@ -245,7 +245,7 @@
     [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
   }];
   
-  if(createActivityInfo){
+  if (createActivityInfo) {
     [self backgroundSaveAndWaitForExpectation:^{
       [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
     }];
@@ -254,7 +254,7 @@
   return info;
 }
 
-- (void) testInsertOrUpdatePublisherInfoEmptyId
+- (void)testInsertOrUpdatePublisherInfoEmptyId
 {
   const auto info = [[BATPublisherInfo alloc] init];
   info.id = @"";
@@ -279,11 +279,26 @@
 
 - (void)testInsertContributionInfo
 {
+  const auto pubId = @"333";
+  
   XCTAssert([self countMustBeEqualTo:0 forEntityName:@"ContributionInfo"]);
   
-  [self makeOneTimeTip:@"333" month:10 year:2020];
+  [self makeOneTimeTip:pubId month:10 year:2020];
   
-  XCTAssert([self countMustBeEqualTo:1 forEntityName:@"ContributionInfo"]);
+  const auto filter = [[BATActivityInfoFilter alloc] init];
+  filter.id = pubId;
+  
+  const auto tips = [BATLedgerDatabase oneTimeTipsPublishersForMonth:BATActivityMonthOctober year:2020];
+  
+  NSMutableArray<BATPublisherInfo *> *publisherTips = [[NSMutableArray alloc] init];
+  for (BATPublisherInfo *tipInfo in tips) {
+    if (tipInfo.id == pubId) {
+      [publisherTips addObject:tipInfo];
+    }
+  }
+  
+  XCTAssertEqual(publisherTips.count, 1);
+  XCTAssertEqual(publisherTips.firstObject.weight, 1.5);
 }
 
 - (void)testOneTimeTipsPublishersForMonth
@@ -302,7 +317,7 @@
   
   // Tip with different category
   [self makeOneTimeTip:publisherId month:month year:year
-                 probi:@"200000000000000" category:BATRewardsCategoryAutoContribute];
+                 probi:@"20000000000000000" category:BATRewardsCategoryAutoContribute];
   
   const auto tips = [BATLedgerDatabase oneTimeTipsPublishersForMonth:month year:year];
   XCTAssert([self countMustBeEqualTo:4 forEntityName:@"ContributionInfo"]);
@@ -323,20 +338,18 @@
 
 - (void)makeOneTimeTip:(NSString *)publisherId month:(const int)month year:(const int)year
 {
-  const auto probi = @"10000000000000000";
+  const auto probi = @"1500000000000000000";
   const BATRewardsCategory category = BATRewardsCategoryOneTimeTip;
-  const auto now = [[NSDate date] timeIntervalSince1970];
   
-  [self backgroundSaveAndWaitForExpectation:^{
-    [BATLedgerDatabase insertContributionInfo:probi month:month year:year date:now
-                                 publisherKey:publisherId category:category];
-  }];
+  [self makeOneTimeTip:publisherId month:month year:year probi:probi category:category];
 }
 
 - (void)makeOneTimeTip:(NSString *)publisherId month:(const int)month year:(const int)year
                  probi:(NSString *)probi category:(BATRewardsCategory)category
 {
   const auto now = [[NSDate date] timeIntervalSince1970];
+  
+  [self createBATPublisherInfo:publisherId reconcileStamp:100 percent:30 createActivityInfo:YES];
   
   [self backgroundSaveAndWaitForExpectation:^{
     [BATLedgerDatabase insertContributionInfo:probi month:month year:year date:now
@@ -377,16 +390,28 @@
 
 - (void)testDeleteActivityInfoWithPublisherID
 {
-  [self createBATPublisherInfo:@"1" reconcileStamp:10 percent:11 createActivityInfo:YES];
-  [self createBATPublisherInfo:@"2" reconcileStamp:10
-                                               percent:22 createActivityInfo:YES];
+  const auto pubId = @"1";
+  
+  [self createBATPublisherInfo:pubId reconcileStamp:10 percent:11 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:10 percent:22 createActivityInfo:YES];
   
   XCTAssert([self countMustBeEqualTo:2 forEntityName:@"ActivityInfo"]);
   
   [self backgroundSaveAndWaitForExpectation:^{
-    [BATLedgerDatabase deleteActivityInfoWithPublisherID:@"1" reconcileStamp:10];
+    [BATLedgerDatabase deleteActivityInfoWithPublisherID:pubId reconcileStamp:10];
   }];
   XCTAssert([self countMustBeEqualTo:1 forEntityName:@"ActivityInfo"]);
+  
+  // Make sure correct activity got deleted and remaning one still exists.
+  const auto filter = [[BATActivityInfoFilter alloc] init];
+  filter.id = pubId;
+  
+  auto result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
+  XCTAssertEqual(result.count, 0);
+  
+  filter.id = @"2";
+  result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
+  XCTAssertEqual(result.count, 1);
 }
 
 #pragma mark - publishersWithActivityFromOffset
@@ -397,8 +422,8 @@
   const auto limit = 0;
   const auto filter = [[BATActivityInfoFilter alloc] init];
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:10 percent:10 createActivityInfo:true];
-  [self createBATPublisherInfo:@"2" reconcileStamp:10 percent:10 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:10 percent:10 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:10 percent:10 createActivityInfo:YES];
   
   const auto result = [BATLedgerDatabase publishersWithActivityFromOffset:offset limit:limit filter:filter];
   
@@ -409,35 +434,37 @@
 {
   const auto filter = [[BATActivityInfoFilter alloc] init];
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:10 percent:10 createActivityInfo:true];
-  [self createBATPublisherInfo:@"2" reconcileStamp:10 percent:10 createActivityInfo:true];
-  [self createBATPublisherInfo:@"3" reconcileStamp:10 percent:10 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:10 percent:10 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:10 percent:10 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"3" reconcileStamp:10 percent:10 createActivityInfo:YES];
+  // result without any filters is [3, 2, 1]
   
   const auto limit = 1;
   const auto resultWithLimit = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:limit filter:filter];
   
   XCTAssertEqual(resultWithLimit.count, 1);
+  XCTAssertEqual(resultWithLimit.firstObject.id, @"3");
   
   const auto offset = 2;
   const auto resultWithOffset = [BATLedgerDatabase publishersWithActivityFromOffset:offset limit:30 filter:filter];
   
   XCTAssertEqual(resultWithOffset.count, 1);
+  XCTAssertEqual(resultWithOffset.firstObject.id, @"1");
 }
 
 - (void)testPublishersWithFiltersSorting
 {
   const auto filter = [[BATActivityInfoFilter alloc] init];
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:30 percent:30 createActivityInfo:true];
-  [self createBATPublisherInfo:@"2" reconcileStamp:40 percent:40 createActivityInfo:true];
-  [self createBATPublisherInfo:@"3" reconcileStamp:10 percent:10 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:30 percent:30 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:40 percent:40 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"3" reconcileStamp:10 percent:10 createActivityInfo:YES];
   
   // Ascending order
   const auto percentAscending = [[BATActivityInfoFilterOrderPair alloc] init];
   percentAscending.propertyName = @"percent";
-  [percentAscending setAscending:YES];
-  
-  [filter setOrderBy:@[percentAscending]];
+  percentAscending.ascending = YES;
+  filter.orderBy = @[percentAscending];
   
   const auto ascendingResult = [BATLedgerDatabase publishersWithActivityFromOffset:0
                                                                              limit:0
@@ -450,9 +477,9 @@
   // Descending order
   const auto percentDescending = [[BATActivityInfoFilterOrderPair alloc] init];
   percentDescending.propertyName = @"percent";
-  [percentDescending setAscending:NO];
+  percentDescending.ascending = NO;
   
-  [filter setOrderBy:@[percentDescending]];
+  filter.orderBy = @[percentDescending];
   
   const auto descendingResult = [BATLedgerDatabase publishersWithActivityFromOffset:0
                                                                               limit:0
@@ -465,10 +492,10 @@
   // Two sort descriptors
   
   // Add two more publishers with same `percent` but different `reconcileStamp`
-  [self createBATPublisherInfo:@"4" reconcileStamp:40 percent:10 createActivityInfo:true];
-  [self createBATPublisherInfo:@"5" reconcileStamp:30 percent:10 createActivityInfo:true];
+  [self createBATPublisherInfo:@"4" reconcileStamp:40 percent:10 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"5" reconcileStamp:30 percent:10 createActivityInfo:YES];
   
-  [filter setOrderBy:@[percentAscending]];
+  filter.orderBy = @[percentAscending];
   const auto oneSortResult = [BATLedgerDatabase publishersWithActivityFromOffset:0
                                                                            limit:0
                                                                           filter:filter];
@@ -481,9 +508,9 @@
   
   const auto stampAscending = [[BATActivityInfoFilterOrderPair alloc] init];
   stampAscending.propertyName = @"reconcileStamp";
-  [stampAscending setAscending:YES];
+  stampAscending.ascending = YES;
   
-  [filter setOrderBy:@[percentAscending, stampAscending]];
+  filter.orderBy = @[percentAscending, stampAscending];
   
   const auto doubleSortResult = [BATLedgerDatabase publishersWithActivityFromOffset:0
                                                                               limit:0
@@ -498,9 +525,9 @@
 {
   const auto idForFilter = @"brave";
   
-  [self createBATPublisherInfo:idForFilter reconcileStamp:30 percent:30 createActivityInfo:true];
-  [self createBATPublisherInfo:@"2" reconcileStamp:30 percent:30 createActivityInfo:true];
-  [self createBATPublisherInfo:@"3" reconcileStamp:40 percent:40 createActivityInfo:true];
+  [self createBATPublisherInfo:idForFilter reconcileStamp:30 percent:30 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:30 percent:30 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"3" reconcileStamp:40 percent:40 createActivityInfo:YES];
   
   const auto filter = [[BATActivityInfoFilter alloc] init];
   filter.id = idForFilter;
@@ -520,9 +547,9 @@
 {
   const auto stamp = 30;
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:stamp percent:30 createActivityInfo:true];
-  [self createBATPublisherInfo:@"2" reconcileStamp:stamp percent:30 createActivityInfo:true];
-  [self createBATPublisherInfo:@"3" reconcileStamp:40 percent:40 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:stamp percent:30 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:stamp percent:30 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"3" reconcileStamp:40 percent:40 createActivityInfo:YES];
   
   const auto filter = [[BATActivityInfoFilter alloc] init];
   filter.reconcileStamp = stamp;
@@ -616,10 +643,10 @@
 {
   const auto percent = 30;
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:20 percent:percent createActivityInfo:true];
-  [self createBATPublisherInfo:@"2" reconcileStamp:30 percent:80 createActivityInfo:true];
-  [self createBATPublisherInfo:@"3" reconcileStamp:40 percent:0 createActivityInfo:true];
-  [self createBATPublisherInfo:@"4" reconcileStamp:40 percent:5 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:20 percent:percent createActivityInfo:YES];
+  [self createBATPublisherInfo:@"2" reconcileStamp:30 percent:80 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"3" reconcileStamp:40 percent:0 createActivityInfo:YES];
+  [self createBATPublisherInfo:@"4" reconcileStamp:40 percent:5 createActivityInfo:YES];
   
   const auto filter = [[BATActivityInfoFilter alloc] init];
   filter.percent = percent;
@@ -664,12 +691,12 @@
 
 - (void)testInsertOrUpdateMediaPublisherInfoWithMediaKey
 {
-  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:YES];
   
   XCTAssert([self countMustBeEqualTo:0 forEntityName:@"MediaPublisherInfo"]);
   
   [self waitForFailedSaveAttempt:^{
-  [BATLedgerDatabase insertOrUpdateMediaPublisherInfoWithMediaKey:@"" publisherID:@"1"];
+    [BATLedgerDatabase insertOrUpdateMediaPublisherInfoWithMediaKey:@"" publisherID:@"1"];
   }];
   XCTAssert([self countMustBeEqualTo:0 forEntityName:@"MediaPublisherInfo"]);
   
@@ -691,7 +718,7 @@
   const auto publisherId = @"1";
   const auto key = @"key";
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:YES];
   
   [self backgroundSaveAndWaitForExpectation:^{
     [BATLedgerDatabase insertOrUpdateMediaPublisherInfoWithMediaKey:key publisherID:publisherId];
@@ -712,7 +739,7 @@
   const auto amount = 20.0;
   const auto now = [[NSDate date] timeIntervalSince1970];
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:YES];
   
   XCTAssert([self countMustBeEqualTo:0 forEntityName:@"RecurringDonation"]);
   
@@ -731,17 +758,15 @@
   const auto publisherId = @"1";
   
   const auto dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+  dateFormatter.dateFormat = @"yyyy-MM-dd";
   
   const auto date = [[dateFormatter dateFromString:@"2019-10-07"] timeIntervalSince1970];
   const auto date2 = [[dateFormatter dateFromString:@"2020-11-17"] timeIntervalSince1970];
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:true];
+  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:YES];
   
   [self createRecurringTip:publisherId amount:15.0 date:date];
   [self createRecurringTip:@"2" amount:100.0 date:date2];
-  
-  XCTAssert([self countMustBeEqualTo:2 forEntityName:@"RecurringDonation"]);
   
   auto result = [BATLedgerDatabase recurringTips];
   XCTAssertEqual(result.count, 2);
@@ -832,11 +857,11 @@
 }
 
 /// Waits a second to verify that no save happened.
-// Useful when you want to test saves with wrong values, early returns etc.
+/// Useful when you want to test saves with wrong values, early returns etc.
 - (void)waitForFailedSaveAttempt:(void (^)())task
 {
   auto __block saveExpectation = [self expectationWithDescription:NSUUID.UUID.UUIDString];
-  [saveExpectation setInverted:YES];
+  saveExpectation.inverted = YES;
   
   self.contextSaveCompletion = ^{
     [saveExpectation fulfill];

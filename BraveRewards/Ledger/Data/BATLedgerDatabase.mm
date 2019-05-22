@@ -214,7 +214,7 @@
     info.name = ci.publisher.name;
     info.url = ci.publisher.url.absoluteString;
     info.faviconUrl = ci.publisher.faviconURL.absoluteString;
-    info.weight = [ci.probi doubleValue];
+    info.weight = ci.probi.doubleValue / pow(10, 18);
     info.reconcileStamp = ci.date;
     info.verified = ci.publisher.verified;
     info.provider = ci.publisher.provider;
@@ -448,17 +448,7 @@
   
   [DataController.shared performOnContext:nil task:^(NSManagedObjectContext * _Nonnull context) {
     const auto donation = [self getRecurringDonationWithPublisherID:publisherID context:context];
-    
     [context deleteObject:donation];
-    // Probably want to adjust `performOnContext` to call this in a scenario where we pass an
-    // existing context
-    if (context.hasChanges) {
-      assert(![NSThread isMainThread]);
-      NSError *error;
-      if (![context save:&error]) {
-        NSLog(@"performTask save error: %@", error);
-      }
-    }
   }];
   return YES;
 }
