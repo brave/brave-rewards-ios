@@ -298,7 +298,8 @@
   }
   
   XCTAssertEqual(publisherTips.count, 1);
-  XCTAssertEqual(publisherTips.firstObject.weight, 1.5);
+  // FIXME: Converting between double and probi can change soon. for now we convert it here in the test only.
+  XCTAssertEqual(publisherTips.firstObject.weight / pow(10, 18), 1.5);
 }
 
 - (void)testOneTimeTipsPublishersForMonth
@@ -411,7 +412,9 @@
   
   filter.id = @"2";
   result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
-  XCTAssertEqual(result.count, 1);
+  XCTAssertEqual(result.firstObject.reconcileStamp, 10);
+  XCTAssertEqual(result.firstObject.percent, 22);
+  XCTAssertEqual(result.firstObject.id, @"2");
 }
 
 #pragma mark - publishersWithActivityFromOffset
@@ -533,7 +536,7 @@
   filter.id = idForFilter;
   
   const auto result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
-  XCTAssertEqual(result.count, 1);
+  XCTAssertEqual(result.firstObject.id, idForFilter);
   
   const auto idDoesNotExist = @"not_exists";
   filter.id = idDoesNotExist;
@@ -556,6 +559,7 @@
   
   const auto result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
   XCTAssertEqual(result.count, 2);
+  XCTAssertNotEqual(result.firstObject.id, @"3");
   
   // non existent stamp
   filter.reconcileStamp = 333;
@@ -711,6 +715,8 @@
   }];
   
   XCTAssert([self countMustBeEqualTo:1 forEntityName:@"MediaPublisherInfo"]);
+  const auto newPub = [BATLedgerDatabase mediaPublisherInfoWithMediaKey:@"key"];
+  XCTAssertEqual(newPub.id, @"1");
 }
 
 - (void)testMediaPublisherInfoWithMediaKey
@@ -739,7 +745,7 @@
   const auto amount = 20.0;
   const auto now = [[NSDate date] timeIntervalSince1970];
   
-  [self createBATPublisherInfo:@"1" reconcileStamp:40 percent:0 createActivityInfo:YES];
+  [self createBATPublisherInfo:publisherId reconcileStamp:40 percent:0 createActivityInfo:YES];
   
   XCTAssert([self countMustBeEqualTo:0 forEntityName:@"RecurringDonation"]);
   
@@ -750,7 +756,10 @@
    
   [self createRecurringTip:publisherId amount:amount date:now];
   
-  XCTAssert([self countMustBeEqualTo:1 forEntityName:@"RecurringDonation"]);
+  const auto tips = BATLedgerDatabase.recurringTips;
+  XCTAssertEqual(tips.count, 1);
+  XCTAssertEqual(tips.firstObject.id, publisherId);
+  XCTAssertEqual(tips.firstObject.weight, amount);
 }
 
 - (void)testRecurringTipsForMonth
@@ -793,6 +802,9 @@
   }];
   
   XCTAssert([self countMustBeEqualTo:1 forEntityName:@"RecurringDonation"]);
+  const auto tipsLeft = BATLedgerDatabase.recurringTips;
+  XCTAssertEqual(tipsLeft.count, 1);
+  XCTAssertNotEqual(tipsLeft.firstObject.id, @"1");
 }
 
 - (void)createRecurringTip:(NSString *)publisherId amount:(double)amount date:(uint32_t)date

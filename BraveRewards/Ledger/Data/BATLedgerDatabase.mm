@@ -214,7 +214,7 @@
     info.name = ci.publisher.name;
     info.url = ci.publisher.url.absoluteString;
     info.faviconUrl = ci.publisher.faviconURL.absoluteString;
-    info.weight = ci.probi.doubleValue / pow(10, 18);
+    info.weight = [ci.probi doubleValue];
     info.reconcileStamp = ci.date;
     info.verified = ci.publisher.verified;
     info.provider = ci.publisher.provider;
