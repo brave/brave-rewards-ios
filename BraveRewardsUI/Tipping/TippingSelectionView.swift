@@ -56,6 +56,7 @@ class TippingSelectionView: UIView {
   var isMonthly: Bool = false {
     didSet {
       monthlyToggleButton.setImage(UIImage(frameworkResourceNamed: isMonthly ? "checkbox-checked" : "checkbox").alwaysOriginal, for: .normal)
+      sendTipButton.isMonthly = isMonthly
     }
   }
   

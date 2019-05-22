@@ -6,6 +6,13 @@ import UIKit
 
 class SendTipButton: UIControl {
   
+  /// Whether or not the tip is a monthly tip
+  var isMonthly: Bool = false {
+    didSet {
+      textLabel.text = (isMonthly ? Strings.TippingSendMonthlyTip : Strings.TippingSendTip).uppercased()
+    }
+  }
+  
   private let stackView = UIStackView().then {
     $0.spacing = 15.0
     $0.isUserInteractionEnabled = false
@@ -18,7 +25,7 @@ class SendTipButton: UIControl {
   private let textLabel = UILabel().then {
     $0.textColor = .white
     $0.font = .systemFont(ofSize: 13.0, weight: .semibold)
-    $0.text = Strings.TippingSendTip
+    $0.text = Strings.TippingSendTip.uppercased()
   }
   
   @available(*, unavailable)
