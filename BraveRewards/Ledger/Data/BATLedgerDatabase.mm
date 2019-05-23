@@ -44,13 +44,6 @@
 }
 
 + (nullable ActivityInfo *)getActivityInfoWithPublisherID:(NSString *)publisherID
-                                                  context:(NSManagedObjectContext *)context
-{
-  return [self firstOfClass:ActivityInfo.class withPublisherID:publisherID
-            additionalPredicate:nil context:context];
-}
-
-+ (nullable ActivityInfo *)getActivityInfoWithPublisherID:(NSString *)publisherID
                                            reconcileStamp:(unsigned long long)reconcileStamp
                                                   context:(NSManagedObjectContext *)context
 {
@@ -239,8 +232,12 @@
   [DataController.shared performOnContext:context task:^(NSManagedObjectContext * _Nonnull context) {
     [self insertOrUpdatePublisherInfo:info context:context];
     
-    const auto ai = [self getActivityInfoWithPublisherID:info.id context:context] ?: [[ActivityInfo alloc] initWithEntity:ActivityInfo.entity
-                                                                                           insertIntoManagedObjectContext:context];
+    const auto publisherFromInfo = [self getActivityInfoWithPublisherID:info.id
+                                                         reconcileStamp:info.reconcileStamp context:context];
+    
+    const auto ai = publisherFromInfo ?:
+      [[ActivityInfo alloc] initWithEntity:ActivityInfo.entity insertIntoManagedObjectContext:context];
+    
     ai.publisher = [self getPublisherInfoWithID:info.id context:context];
     ai.publisherID = info.id;
     ai.duration = info.duration;
