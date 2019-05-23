@@ -372,6 +372,42 @@
   XCTAssert([self countMustBeEqualTo:0 forEntityName:@"ActivityInfo"]);
 }
 
+- (void)testInsertOrUpdateActivityInfoFromPublisherTwoActivites
+{
+  const auto stamp = 200;
+  const auto info = [self createBATPublisherInfo:@"111" reconcileStamp:stamp percent:11 createActivityInfo:NO];
+  
+  [self backgroundSaveAndWaitForExpectation:^{
+    [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
+  }];
+  
+  const auto filter = [[BATActivityInfoFilter alloc] init];
+  filter.id = @"111";
+  
+  auto result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
+  XCTAssertEqual(result.count, 1);
+  
+  // Try to add new activity but with the same reconcile stamp.
+  info.reconcileStamp = stamp;
+  [self backgroundSaveAndWaitForExpectation:^{
+    [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
+  }];
+  
+  result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
+  XCTAssertEqual(result.count, 1);
+  
+  // New activity, new reconcile stamp.
+  info.reconcileStamp = 300;
+  [self backgroundSaveAndWaitForExpectation:^{
+    [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
+  }];
+  
+  result = [BATLedgerDatabase publishersWithActivityFromOffset:0 limit:0 filter:filter];
+  XCTAssertEqual(result.count, 2);
+  XCTAssertEqual(result.firstObject.reconcileStamp, 300);
+  XCTAssertEqual(result.lastObject.reconcileStamp, 200);
+}
+
 - (void)testInsertOrUpdateActivitiesInfoFromPublishers
 {
   const auto p1 = [self createBATPublisherInfo:@"111" reconcileStamp:111 percent:11 createActivityInfo:NO];
