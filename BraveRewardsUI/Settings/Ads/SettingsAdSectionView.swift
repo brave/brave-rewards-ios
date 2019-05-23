@@ -11,6 +11,10 @@ class SettingsAdSectionView: SettingsSectionView {
   }
   
   func setSectionEnabled(_ enabled: Bool, hidesToggle: Bool, animated: Bool = false) {
+    if !status.isSupported {
+      return
+    }
+    
     if animated {
       if enabled {
         viewDetailsButton.alpha = 0.0
@@ -28,6 +32,46 @@ class SettingsAdSectionView: SettingsSectionView {
     }
   }
   
+  enum SupportStatus {
+    case supported
+    case unsupportedRegion
+    case unsupportedDevice
+    
+    var isSupported: Bool {
+      return self == .supported
+    }
+    var reason: String? {
+      switch self {
+      case .supported:
+        return nil
+      case .unsupportedRegion:
+        return Strings.AdsUnsupportedRegion
+      case .unsupportedDevice:
+        return Strings.AdsUnsupportedDevice
+      }
+    }
+  }
+  
+  /// Update the visual appearance based on whether or not Ads are currently supported
+  var status: SupportStatus = .supported {
+    didSet {
+      let isSupported = status.isSupported
+      unsupportedView.reason = status.reason
+      unsupportedView.isHidden = isSupported
+      viewDetailsButton.isHidden = !isSupported
+      toggleSwitch.isHidden = !isSupported
+      
+      let alpha: CGFloat = isSupported ? 1.0 : 0.5
+      bodyLabel.alpha = alpha
+      titleLabel.alpha = alpha
+      
+      titleLabel.textColor = isSupported ? BraveUX.adsTintColor : Colors.grey200
+    }
+  }
+  
+  private let unsupportedView = AdsUnsupportedView().then {
+    $0.isHidden = true // Default is hidden
+  }
   
   let viewDetailsButton = SettingsViewDetailsButton(type: .system)
   
@@ -39,23 +83,34 @@ class SettingsAdSectionView: SettingsSectionView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    viewDetailsButton.hitTestSlop = UIEdgeInsets(top: -stackView.spacing, left: 0, bottom: -stackView.spacing, right: 0)
+    viewDetailsButton.hitTestSlop = UIEdgeInsets(top: -contentStackView.spacing, left: 0, bottom: -contentStackView.spacing, right: 0)
     
-    addSubview(stackView)
-    stackView.addArrangedSubview(toggleStackView)
-    stackView.addArrangedSubview(bodyLabel)
-    stackView.addArrangedSubview(viewDetailsButton)
+    contentStackView.layoutMargins = layoutMargins
+    unsupportedView.layoutMargins = layoutMargins
+    
+    clippedContentView.addSubview(stackView)
+    stackView.addArrangedSubview(contentStackView)
+    stackView.addArrangedSubview(unsupportedView)
+    contentStackView.addArrangedSubview(toggleStackView)
+    contentStackView.addArrangedSubview(bodyLabel)
+    contentStackView.addArrangedSubview(viewDetailsButton)
     toggleStackView.addArrangedSubview(titleLabel)
     toggleStackView.addArrangedSubview(toggleSwitch)
     
     stackView.snp.makeConstraints {
-      $0.edges.equalTo(self.layoutMarginsGuide)
+      $0.edges.equalTo(self)
     }
   }
   
   private let stackView = UIStackView().then {
     $0.axis = .vertical
     $0.spacing = 10.0
+  }
+  
+  private let contentStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 10.0
+    $0.isLayoutMarginsRelativeArrangement = true
   }
   
   private let toggleStackView = UIStackView().then {

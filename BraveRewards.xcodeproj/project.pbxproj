@@ -105,6 +105,7 @@
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
 		27787C7B2282176E003513BD /* wordlist in Resources */ = {isa = PBXBuildFile; fileRef = 27787C7A2282176E003513BD /* wordlist */; };
+		277E08D022973AAF00C96CCC /* AdsUnsupportedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E08CF22973AAF00C96CCC /* AdsUnsupportedView.swift */; };
 		27871A21227B466D003477D4 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A20227B466D003477D4 /* WelcomeViewController.swift */; };
 		27871A23227B4729003477D4 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A22227B4729003477D4 /* WelcomeView.swift */; };
 		27885E892265087000A47647 /* CppTransformations.h in Headers */ = {isa = PBXBuildFile; fileRef = 27885E882265087000A47647 /* CppTransformations.h */; };
@@ -364,6 +365,7 @@
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		27787C7A2282176E003513BD /* wordlist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wordlist; sourceTree = "<group>"; };
+		277E08CF22973AAF00C96CCC /* AdsUnsupportedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsUnsupportedView.swift; sourceTree = "<group>"; };
 		27871A20227B466D003477D4 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		27871A22227B4729003477D4 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		27885E4A2263D61C00A47647 /* objc-gen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "objc-gen.xcodeproj"; path = "objc-gen/objc-gen.xcodeproj"; sourceTree = "<group>"; };
@@ -624,6 +626,7 @@
 			children = (
 				27F4CACB2294713C00935B45 /* Details */,
 				2730DF902232FB030031845C /* SettingsAdSectionView.swift */,
+				277E08CF22973AAF00C96CCC /* AdsUnsupportedView.swift */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -1362,6 +1365,7 @@
 				27A4707822417E6200596431 /* SettingsViewDetailsButton.swift in Sources */,
 				27F4C1DD2256A67700CFCD67 /* UITableViewExtensions.swift in Sources */,
 				274CDD3F225FE4E600FA7364 /* EmptyTableCell.swift in Sources */,
+				277E08D022973AAF00C96CCC /* AdsUnsupportedView.swift in Sources */,
 				270483652221AD760051239C /* RewardsSummaryButton.swift in Sources */,
 				274CDD3D225FE0F700FA7364 /* TableHeaderRowView.swift in Sources */,
 				270483572220F6160051239C /* DisclaimerView.swift in Sources */,
