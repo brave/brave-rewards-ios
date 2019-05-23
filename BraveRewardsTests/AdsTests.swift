@@ -5,35 +5,48 @@
 import XCTest
 @testable import BraveRewards
 
-let stateStoragePath = NSSearchPathForDirectoriesInDomains(
-  .documentDirectory,
-  .userDomainMask,
-  true
-  ).first!.appending("/brave_ads");
+let stateStoragePath = NSTemporaryDirectory().appending("com.brave.rewards.ads");
 
 class BraveRewardsTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
     
-    // Purge the persistant storage directory
-    try? FileManager.default.removeItem(atPath: stateStoragePath)
-    
     BraveAds.isTesting = true
     BraveAds.isDebug = true
     BraveAds.isProduction = false
   }
   
-  func testDisabledByDefault() {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-    let ads = BraveAds(stateStoragePath: stateStoragePath)
-    XCTAssertFalse(ads.isEnabled, "Brave Ads should be disabled by default")
+  override func tearDown() {
+    super.tearDown()
+    
+    // Purge the persistant storage directory
+    try? FileManager.default.removeItem(atPath: stateStoragePath)
   }
   
-  func testEnabledAtCreation() {
-    let ads = BraveAds(stateStoragePath: stateStoragePath, enabled: true)
-    XCTAssertTrue(ads.isEnabled, "Brave Ads was enabled at creation")
+  func testEnabledByDefault() {
+    let ads = BraveAds(stateStoragePath: stateStoragePath)
+    XCTAssertTrue(ads.isEnabled, "Brave Ads should be enabled by default on iOS")
+  }
+  
+  func testPreferencePersistance() {
+    let expect = expectation(description: "File IO")
+    
+    let ads = BraveAds(stateStoragePath: stateStoragePath)
+    ads.isEnabled = false
+    ads.adsPerDay = 10
+    ads.adsPerHour = 6
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      let secondAds = BraveAds(stateStoragePath: stateStoragePath)
+      XCTAssertEqual(ads.isEnabled, secondAds.isEnabled)
+      XCTAssertEqual(ads.adsPerDay, secondAds.adsPerDay)
+      XCTAssertEqual(ads.adsPerHour, secondAds.adsPerHour)
+      
+      expect.fulfill()
+    }
+    
+    wait(for: [expect], timeout: 4.0)
   }
   
   func testSupportedLocales() {
@@ -50,7 +63,7 @@ class BraveRewardsTests: XCTestCase {
   func testServingSampleAd() {
     let expect = expectation(description: "Serving Sample Ad")
     
-    let ads = BraveAds(stateStoragePath: stateStoragePath, enabled: true)
+    let ads = BraveAds(stateStoragePath: stateStoragePath)
     
     let delegate = MockAdsDelegate()
     delegate.showNotification = { notification in

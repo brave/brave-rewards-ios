@@ -81,7 +81,6 @@ NS_SWIFT_NAME(BraveAds)
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithStateStoragePath:(NSString *)path;
-- (instancetype)initWithStateStoragePath:(NSString *)path enabled:(BOOL)enabled NS_DESIGNATED_INITIALIZER;
 
 @end
 

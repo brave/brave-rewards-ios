@@ -23,6 +23,10 @@
 static const NSInteger kDefaultNumberOfAdsPerDay = 20;
 static const NSInteger kDefaultNumberOfAdsPerHour = 2;
 
+static NSString * const kAdsEnabledPrefKey = @"BATAdsEnabled";
+static NSString * const kNumberOfAdsPerDayKey = @"BATNumberOfAdsPerDay";
+static NSString * const kNumberOfAdsPerHourKey = @"BATNumberOfAdsPerHour";
+
 @interface BATAdsNotification ()
 - (instancetype)initWithNotificationInfo:(const ads::NotificationInfo&)info;
 @end
@@ -37,34 +41,37 @@ static const NSInteger kDefaultNumberOfAdsPerHour = 2;
 }
 @property (nonatomic) BATCommonOperations *commonOps;
 @property (nonatomic) BOOL networkConnectivityAvailable;
+@property (nonatomic, copy) NSString *storagePath;
+@property (nonatomic) dispatch_queue_t prefsWriteThread;
+@property (nonatomic) NSMutableDictionary *prefs;
 @end
 
 @implementation BATBraveAds
 
 - (instancetype)initWithStateStoragePath:(NSString *)path
 {
-  return [self initWithStateStoragePath:path enabled:NO];
-}
-
-- (instancetype)initWithStateStoragePath:(NSString *)path enabled:(BOOL)enabled
-{
   if ((self = [super init])) {
+    self.storagePath = path;
     self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:path];
+    
+    self.prefsWriteThread = dispatch_queue_create("com.rewards.ads.prefs", DISPATCH_QUEUE_SERIAL);
+    self.prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:[self prefsPath]];
+    if (!self.prefs) {
+      self.prefs = [[NSMutableDictionary alloc] init];
+      self.numberOfAllowableAdsPerDay = kDefaultNumberOfAdsPerDay;
+      self.numberOfAllowableAdsPerHour = kDefaultNumberOfAdsPerHour;
+      self.enabled = YES;
+    }
+    
+    [self setupNetworkMonitoring];
     
     adsClient = new NativeAdsClient(self);
     ads = ads::Ads::CreateInstance(adsClient);
-    
-    [self setupNetworkMonitoring];
+    ads->Initialize();
     
     // Add notifications for standard app foreground/background
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    
-    // Last thing we do is enable/disable it (since it will call `Initialize()` on the ads client)
-    self.enabled = enabled;
-    
-    self.numberOfAllowableAdsPerDay = kDefaultNumberOfAdsPerDay;
-    self.numberOfAllowableAdsPerHour = kDefaultNumberOfAdsPerHour;
   }
   return self;
 }
@@ -75,6 +82,11 @@ static const NSInteger kDefaultNumberOfAdsPerHour = 2;
   if (networkMonitor) { nw_path_monitor_cancel(networkMonitor); }
   delete ads;
   delete adsClient;
+}
+
+- (NSString *)prefsPath
+{
+  return [self.storagePath stringByAppendingPathComponent:@"ads_pref.plist"];
 }
 
 #pragma mark - Global
@@ -88,13 +100,52 @@ BATClassAdsBridge(BOOL, isDebug, setDebug, _is_debug);
 BATClassAdsBridge(BOOL, isTesting, setTesting, _is_testing);
 BATClassAdsBridge(BOOL, isProduction, setProduction, _is_production);
 
-#pragma mark -
+#pragma mark - Configuration
+
+- (BOOL)isEnabled
+{
+  return [(NSNumber *)self.prefs[kAdsEnabledPrefKey] boolValue];
+}
 
 - (void)setEnabled:(BOOL)enabled
 {
-  _enabled = enabled;
-  ads->Initialize();
+  self.prefs[kAdsEnabledPrefKey] = @(enabled);
+  [self savePrefs];
+  if (ads != nil) {
+    ads->Initialize();
+  }
 }
+
+- (NSInteger)numberOfAllowableAdsPerDay
+{
+  return [(NSNumber *)self.prefs[kNumberOfAdsPerDayKey] integerValue];
+}
+
+- (void)setNumberOfAllowableAdsPerDay:(NSInteger)numberOfAllowableAdsPerDay
+{
+  self.prefs[kNumberOfAdsPerDayKey] = @(numberOfAllowableAdsPerDay);
+  [self savePrefs];
+}
+
+- (NSInteger)numberOfAllowableAdsPerHour
+{
+  return [(NSNumber *)self.prefs[kNumberOfAdsPerHourKey] integerValue];
+}
+
+- (void)setNumberOfAllowableAdsPerHour:(NSInteger)numberOfAllowableAdsPerHour
+{
+  self.prefs[kNumberOfAdsPerHourKey] = @(numberOfAllowableAdsPerHour);
+  [self savePrefs];
+}
+
+- (void)savePrefs
+{
+  dispatch_async(self.prefsWriteThread, ^{
+    [self.prefs writeToFile:[self prefsPath] atomically:YES];
+  });
+}
+
+#pragma mark -
 
 - (void)setupNetworkMonitoring
 {

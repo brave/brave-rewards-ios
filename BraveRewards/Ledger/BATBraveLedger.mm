@@ -98,7 +98,7 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
 
 - (NSString *)randomStatePath
 {
-  return [self.storagePath stringByAppendingString:@"random_state.plist"];
+  return [self.storagePath stringByAppendingPathComponent:@"random_state.plist"];
 }
 
 #pragma mark - Global
