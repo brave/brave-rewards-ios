@@ -50,6 +50,8 @@ class UIMockLedger: BraveLedger {
     
     return info
   }
+  
+  override var reservedAmount: Double { return 25.5 }
 }
 
 

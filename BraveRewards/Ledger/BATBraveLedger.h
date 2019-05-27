@@ -72,6 +72,9 @@ NS_SWIFT_NAME(BraveLedger)
 
 @property (nonatomic, readonly) BOOL hasSufficientBalanceToReconcile;
 
+/// Returns reserved amount of pending contributions to publishers.
+@property (nonatomic, readonly) double reservedAmount;
+
 #pragma mark - Publishers
 
 - (void)publisherInfoForId:(NSString *)publisherId

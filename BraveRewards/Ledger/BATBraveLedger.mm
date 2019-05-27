@@ -274,6 +274,10 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
   });
 }
 
+- (double)reservedAmount {
+  return [BATLedgerDatabase reservedAmountForPendingContributions];
+}
+
 BATLedgerReadonlyBridge(double, balance, GetBalance);
 
 BATLedgerReadonlyBridge(double, defaultContributionAmount, GetDefaultContributionAmount);
