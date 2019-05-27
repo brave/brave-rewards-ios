@@ -71,10 +71,11 @@ extension RewardsSummaryProtocol {
   }
   
   var disclaimerView: DisclaimerView? {
-    // FIXME: Set this disclaimer based on contributions going to unverified publishers
-    // if !state.ledger.isAutoContributeEnabled { return nil }
+    let reservedAmount = BATValue(state.ledger.reservedAmount)
+    // Don't show the view if there's no pending contributions.
+    if reservedAmount.doubleValue <= 0 { return nil }
     
-    let text = String(format: Strings.ContributingToUnverifiedSites, 52)
+    let text = String(format: Strings.ContributingToUnverifiedSites, reservedAmount.displayString)
     
     return DisclaimerView(text: text)
   }
