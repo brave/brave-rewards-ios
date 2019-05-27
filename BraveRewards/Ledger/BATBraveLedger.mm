@@ -34,6 +34,15 @@
 + (void)__objc_setter:(__type)newValue { ledger::__cpp_var = newValue; }
 
 NSString * const BATBraveLedgerErrorDomain = @"BATBraveLedgerErrorDomain";
+NSNotificationName const BATBraveLedgerNotificationAdded = @"BATBraveLedgerNotificationAdded";
+
+static NSString * const kNextAddFundsDateNotificationKey = @"BATNextAddFundsDateNotification";
+static NSString * const kBackupNotificationIntervalKey = @"BATBackupNotificationInterval";
+static NSString * const kBackupNotificationFrequencyKey = @"BATBackupNotificationFrequency";
+static NSString * const kUserHasFundedKey = @"BATRewardsUserHasFunded";
+static NSString * const kBackupSucceededKey = @"BATRewardsBackupSucceeded";
+
+static const auto kOneDay = 24 * 60 * 60;
 
 NS_INLINE ledger::ACTIVITY_MONTH BATGetPublisherMonth(NSDate *date) {
   const auto month = [[NSCalendar currentCalendar] component:NSCalendarUnitMonth fromDate:date];
@@ -50,11 +59,18 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
 }
 @property (nonatomic, copy) NSString *storagePath;
 @property (nonatomic) BATWalletInfo *walletInfo;
-@property (nonatomic) dispatch_queue_t stateWriteThread;
+@property (nonatomic) dispatch_queue_t fileWriteThread;
 @property (nonatomic) NSMutableDictionary<NSString *, NSString *> *state;
 @property (nonatomic) BATCommonOperations *commonOps;
+@property (nonatomic) NSMutableDictionary<NSString *, __kindof NSObject *> *prefs;
 
 @property (nonatomic) NSMutableArray<BATGrant *> *mPendingGrants;
+
+/// Notifications
+
+@property (nonatomic) NSMutableArray<BATRewardsNotification *> *mNotifications;
+@property (nonatomic) NSTimer *notificationStartupTimer;
+@property (nonatomic) NSDate *lastNotificationCheckDate;
 
 /// Temporary blocks
 
@@ -72,7 +88,20 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
     self.storagePath = path;
     self.commonOps = [[BATCommonOperations alloc] initWithStoragePath:path];
     self.state = [[NSMutableDictionary alloc] initWithContentsOfFile:self.randomStatePath] ?: [[NSMutableDictionary alloc] init];
-    self.stateWriteThread = dispatch_queue_create("com.rewards.state", DISPATCH_QUEUE_SERIAL);
+    self.fileWriteThread = dispatch_queue_create("com.rewards.file-write", DISPATCH_QUEUE_SERIAL);
+    self.mPendingGrants = [[NSMutableArray alloc] init];
+    
+    self.prefs = [[NSMutableDictionary alloc] initWithContentsOfFile:[self prefsPath]];
+    if (!self.prefs) {
+      self.prefs = [[NSMutableDictionary alloc] init];
+      // Setup defaults
+      self.prefs[kNextAddFundsDateNotificationKey] = @([[NSDate date] timeIntervalSince1970]);
+      self.prefs[kBackupNotificationFrequencyKey] = @(7 * kOneDay); // 7 days
+      self.prefs[kBackupNotificationIntervalKey] = @(7 * kOneDay); // 7 days
+      self.prefs[kBackupSucceededKey] = @(NO);
+      self.prefs[kUserHasFundedKey] = @(NO);
+      [self savePrefs];
+    }
     
     ledgerClient = new NativeLedgerClient(self);
     ledger = ledger::Ledger::CreateInstance(ledgerClient);
@@ -85,6 +114,8 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
     if (self.walletCreated) {
       [self fetchWalletDetails:nil];
     }
+    
+    [self readNotificationsFromDisk];
   }
   return self;
 }
@@ -92,6 +123,8 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
 - (void)dealloc
 {
   [NSNotificationCenter.defaultCenter removeObserver:self];
+  [self.notificationStartupTimer invalidate];
+  
   delete ledger;
   delete ledgerClient;
 }
@@ -99,6 +132,18 @@ NS_INLINE int BATGetPublisherYear(NSDate *date) {
 - (NSString *)randomStatePath
 {
   return [self.storagePath stringByAppendingPathComponent:@"random_state.plist"];
+}
+
+- (NSString *)prefsPath
+{
+  return [self.storagePath stringByAppendingPathComponent:@"ledger_pref.plist"];
+}
+
+- (void)savePrefs
+{
+  dispatch_async(self.fileWriteThread, ^{
+    [self.prefs writeToFile:[self prefsPath] atomically:YES];
+  });
 }
 
 #pragma mark - Global
@@ -137,6 +182,7 @@ BATLedgerReadonlyBridge(BOOL, isWalletCreated, IsWalletCreated)
       strongSelf.enabled = YES;
       strongSelf.autoContributeEnabled = YES;
       strongSelf.ads.enabled = YES;
+      [strongSelf startNotificationTimers];
       strongSelf.walletInitializedBlock = nil;
       dispatch_async(dispatch_get_main_queue(), ^{
         completion(error);
@@ -437,6 +483,18 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   return [self.mPendingGrants copy];
 }
 
+- (BOOL)isGrantUGP:(const ledger::Grant &)grant
+{
+  return grant.type == "ugp";
+}
+
+- (NSString *)notificationIDForGrant:(const ledger::Grant &)grant
+{
+  const auto prefix = [self isGrantUGP:grant] ? @"rewards_grant_" : @"rewards_grant_ads_";
+  const auto promotionId = [NSString stringWithUTF8String:grant.promotionId.c_str()];
+  return [NSString stringWithFormat:@"%@%@", prefix, promotionId];
+}
+
 - (void)fetchAvailableGrantsForLanguage:(NSString *)language paymentId:(NSString *)paymentId
 {
   [self.mPendingGrants removeAllObjects];
@@ -452,6 +510,14 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 {
   if (result == ledger::LEDGER_OK) {
     [self.mPendingGrants addObject:[[BATGrant alloc] initWithGrant:grant]];
+    
+    bool isUGP = [self isGrantUGP:grant];
+    auto notificationKind = isUGP ? BATRewardsNotificationKindGrant : BATRewardsNotificationKindGrantAds;
+    
+    [self addNotificationOfKind:notificationKind
+                       userInfo:nil
+                 notificationID:[self notificationIDForGrant:grant]
+                       onlyOnce:YES];
   }
 }
 
@@ -501,6 +567,9 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
                                  report_type,
                                  grant.probi);
   }
+  
+  [self clearNotificationWithID:[self notificationIDForGrant:grant]];
+  
   // TODO:
   // brave-core notifies that the balance report has been updated here.
   // brave-core notifies that ongrantfinished was called here
@@ -541,7 +610,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
     [self fetchWalletDetails:nil];
     
     if (category == ledger::REWARDS_CATEGORY::RECURRING_TIP) {
-      //      MaybeShowNotificationTipsPaid();
+      [self showTipsProcessedNotificationIfNeccessary];
     }
     
     ledger->OnReconcileCompleteSuccess(viewing_id,
@@ -550,6 +619,22 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
                                        BATGetPublisherMonth(now),
                                        BATGetPublisherYear(now),
                                        nowTimestamp);
+  }
+  
+  if ((result == ledger::Result::LEDGER_OK && category == ledger::REWARDS_CATEGORY::AUTO_CONTRIBUTE) ||
+      result == ledger::Result::LEDGER_ERROR ||
+      result == ledger::Result::NOT_ENOUGH_FUNDS ||
+      result == ledger::Result::TIP_ERROR) {
+    
+    const auto viewingId = [NSString stringWithUTF8String:viewing_id.c_str()];
+    const auto info = @{ @"viewingId": viewingId,
+                         @"result": @((BATResult)result),
+                         @"category": @((BATRewardsCategory)category),
+                         @"amount": [NSString stringWithUTF8String:probi.c_str()] };
+    
+    [self addNotificationOfKind:BATRewardsNotificationKindAutoContribute
+                       userInfo:info
+                 notificationID:[NSString stringWithFormat:@"contribution_%@", viewingId]];
   }
   
   // TODO:
@@ -620,6 +705,11 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 - (void)applicationDidBecomeActive
 {
   ledger->OnForeground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
+  
+  // Check if the last notification check was more than a day ago
+  if (fabs([self.lastNotificationCheckDate timeIntervalSinceNow]) > 60*60*24) {
+    [self checkForNotificationsAndFetchGrants];
+  }
 }
 
 - (void)applicationDidBackground
@@ -757,7 +847,199 @@ BATLedgerBridge(BOOL,
 
 #pragma mark - Notifications
 
-// TODO: Add notification logic here
+- (NSArray<BATRewardsNotification *> *)notifications
+{
+  return [self.mNotifications copy];
+}
+
+- (void)clearNotificationWithID:(NSString *)notificationID
+{
+  for (BATRewardsNotification *n in self.notifications) {
+    if ([n.id isEqualToString:notificationID]) {
+      [self clearNotification:n];
+      return;
+    }
+  }
+}
+
+- (void)clearNotification:(BATRewardsNotification *)notification
+{
+  [self.mNotifications removeObject:notification];
+}
+
+- (void)clearAllNotifications
+{
+  [self.mNotifications removeAllObjects];
+}
+
+- (void)startNotificationTimers
+{
+  if (!self.isEnabled) {
+    return;
+  }
+  
+  // Startup timer, begins after 30-second delay.
+  self.notificationStartupTimer =
+  [NSTimer scheduledTimerWithTimeInterval:30
+                                   target:self
+                                 selector:@selector(checkForNotificationsAndFetchGrants)
+                                 userInfo:nil
+                                  repeats:NO];
+}
+
+- (void)checkForNotificationsAndFetchGrants
+{
+  self.lastNotificationCheckDate = [NSDate date];
+  
+  [self showBackupNotificationIfNeccessary];
+  [self showAddFundsNotificationIfNeccessary];
+  [self fetchGrants:std::string() paymentId:std::string()];
+}
+
+- (void)showBackupNotificationIfNeccessary
+{
+  // This is currently not required as the user cannot manage their wallet on mobile... yet
+  /*
+  auto bootstamp = ledger->GetBootStamp();
+  auto userFunded = [self.prefs[kUserHasFundedKey] boolValue];
+  auto backupSucceeded = [self.prefs[kBackupSucceededKey] boolValue];
+  if (userFunded && !backupSucceeded) {
+    auto frequency = 10; [self.prefs[kBackupNotificationFrequencyKey] doubleValue];
+    auto interval = 10; [self.prefs[kBackupNotificationIntervalKey] doubleValue];
+    auto delta = [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSince1970:bootstamp]];
+    if (delta > interval) {
+      auto nextBackupNotificationInterval = frequency + interval;
+      self.prefs[kBackupNotificationIntervalKey] = @(nextBackupNotificationInterval);
+      [self savePrefs];
+      [self addNotificationOfKind:BATRewardsNotificationKindBackupWallet
+                        arguments:nil
+                   notificationID:@"rewards_notification_backup_wallet"];
+    }
+  }
+  */
+}
+
+- (void)showAddFundsNotificationIfNeccessary
+{
+  const auto stamp = ledger->GetReconcileStamp();
+  const auto now = [[NSDate date] timeIntervalSince1970];
+  
+  // Show add funds notification if reconciliation will occur in the
+  // next 3 days and balance is too low.
+  if (stamp - now > 3 * kOneDay) {
+    return;
+  }
+  // Make sure it hasnt already been shown
+  const auto upcomingAddFundsNotificationTime = [self.prefs[kNextAddFundsDateNotificationKey] doubleValue];
+  if (upcomingAddFundsNotificationTime != 0.0 &&
+      now < upcomingAddFundsNotificationTime) {
+    return;
+  }
+  // Make sure they don't have a sufficient balance
+  if (self.hasSufficientBalanceToReconcile) {
+    return;
+  }
+  
+  // Set next add funds notification in 3 days
+  const auto nextTime = [[NSDate date] timeIntervalSince1970] + (kOneDay * 3);
+  self.prefs[kNextAddFundsDateNotificationKey] = @(nextTime);
+  [self savePrefs];
+  
+  [self addNotificationOfKind:BATRewardsNotificationKindInsufficientFunds
+                     userInfo:nil
+               notificationID:@"rewards_notification_insufficient_funds"];
+}
+
+- (void)showTipsProcessedNotificationIfNeccessary
+{
+  if (!self.autoContributeEnabled) {
+    return;
+  }
+  [self addNotificationOfKind:BATRewardsNotificationKindTipsProcessed
+                     userInfo:nil
+               notificationID:@"rewards_notification_tips_processed"];
+}
+
+- (void)addNotificationOfKind:(BATRewardsNotificationKind)kind
+                     userInfo:(nullable NSDictionary *)userInfo
+               notificationID:(nullable NSString *)identifier
+{
+  [self addNotificationOfKind:kind userInfo:userInfo notificationID:identifier onlyOnce:NO];
+}
+
+- (void)addNotificationOfKind:(BATRewardsNotificationKind)kind
+                     userInfo:(nullable NSDictionary *)userInfo
+               notificationID:(nullable NSString *)identifier
+                     onlyOnce:(BOOL)onlyOnce
+{
+  NSParameterAssert(kind != BATRewardsNotificationKindInvalid);
+  NSString *notificationID = [identifier copy];
+  if (!identifier || identifier.length == 0) {
+    notificationID = [NSUUID UUID].UUIDString;
+  } else if (onlyOnce) {
+    const auto idx = [self.mNotifications indexOfObjectPassingTest:^BOOL(BATRewardsNotification * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+      return obj.displayed && [obj.id isEqualToString:identifier];
+    }];
+    if (idx != NSNotFound) {
+      return;
+    }
+  }
+  
+  const auto notification = [[BATRewardsNotification alloc] initWithID:notificationID
+                                                             dateAdded:[[NSDate date] timeIntervalSince1970]
+                                                                  kind:kind
+                                                              userInfo:userInfo];
+  if (onlyOnce) {
+    notification.displayed = YES;
+  }
+  
+  [self.mNotifications addObject:notification];
+  
+  // Post to observers
+  [NSNotificationCenter.defaultCenter postNotificationName:BATBraveLedgerNotificationAdded object:nil];
+  
+  [self writeNotificationsToDisk];
+}
+
+- (void)readNotificationsFromDisk
+{
+  const auto path = [self.storagePath stringByAppendingPathComponent:@"notifications"];
+  const auto data = [NSData dataWithContentsOfFile:path];
+  if (!data) {
+    // Nothing to read
+    self.mNotifications = [[NSMutableArray alloc] init];
+    return;
+  }
+  
+  NSError *error;
+  self.mNotifications = [NSKeyedUnarchiver unarchivedObjectOfClass:NSArray.self fromData:data error:&error];
+  if (!self.mNotifications) {
+    self.mNotifications = [[NSMutableArray alloc] init];
+    NSLog(@"Failed to unarchive notifications on disk: %@", error);
+  }
+}
+
+- (void)writeNotificationsToDisk
+{
+  if (self.notifications.count == 0) {
+    // Nothing to write
+    return;
+  }
+  
+  NSError *error;
+  const auto data = [NSKeyedArchiver archivedDataWithRootObject:self.notifications
+                                          requiringSecureCoding:YES
+                                                          error:&error];
+  if (!data) {
+    NSLog(@"Failed to write notifications to disk: %@", error);
+    return;
+  }
+  
+  const auto path = [self.storagePath stringByAppendingPathComponent:@"notifications"];
+  dispatch_async(self.fileWriteThread, ^{
+    [data writeToFile:path atomically:YES];
+  });
+}
 
 #pragma mark - State
 
@@ -767,8 +1049,9 @@ BATLedgerBridge(BOOL,
   if (contents.length() > 0) {
     handler->OnLedgerStateLoaded(ledger::LEDGER_OK, contents);
   } else {
-    handler->OnLedgerStateLoaded(ledger::LEDGER_ERROR, contents);
+    handler->OnLedgerStateLoaded(ledger::NO_LEDGER_STATE, contents);
   }
+  [self startNotificationTimers];
 }
 
 - (void)saveLedgerState:(const std::string &)ledger_state handler:(ledger::LedgerCallbackHandler *)handler
@@ -825,7 +1108,7 @@ BATLedgerBridge(BOOL,
   const auto key = [NSString stringWithUTF8String:name.c_str()];
   self.state[key] = nil;
   callback(ledger::LEDGER_OK);
-  dispatch_async(self.stateWriteThread, ^{
+  dispatch_async(self.fileWriteThread, ^{
     [self.state writeToFile:self.randomStatePath atomically:YES];
   });
 }
@@ -835,7 +1118,7 @@ BATLedgerBridge(BOOL,
   const auto key = [NSString stringWithUTF8String:name.c_str()];
   self.state[key] = [NSString stringWithUTF8String:value.c_str()];
   callback(ledger::LEDGER_OK);
-  dispatch_async(self.stateWriteThread, ^{
+  dispatch_async(self.fileWriteThread, ^{
     [self.state writeToFile:self.randomStatePath atomically:YES];
   });
 }

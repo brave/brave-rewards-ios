@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import "Records.h"
 #import "BATActivityInfoFilter.h"
+#import "BATRewardsNotification.h"
 
 @class BATBraveAds;
 
@@ -12,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The error domain for ledger related errors
 extern NSString * const BATBraveLedgerErrorDomain NS_SWIFT_NAME(BraveLedgerErrorDomain);
+
+extern NSNotificationName const BATBraveLedgerNotificationAdded;
 
 NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject
@@ -211,6 +214,17 @@ NS_SWIFT_NAME(BraveLedger)
 
 /// Get the number of ads received and the estimated earnings of viewing said ads for this cycle
 - (void)adsDetailsForCurrentCycle:(void (^)(NSInteger adsReceived, double estimatedEarnings))completion NS_SWIFT_NAME(adsDetailsForCurrentCycle(_:));
+
+#pragma mark - Notifications
+
+/// Gets a list of notifications awaiting user interaction
+@property (nonatomic, readonly) NSArray<BATRewardsNotification *> *notifications;
+
+/// Clear a given notification
+- (void)clearNotification:(BATRewardsNotification *)notification;
+
+/// Clear all the notifications
+- (void)clearAllNotifications;
 
 @end
 
