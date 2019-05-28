@@ -783,7 +783,7 @@ BATLedgerBridge(BOOL,
   if (contents.length() > 0) {
     handler->OnPublisherStateLoaded(ledger::LEDGER_OK, contents);
   } else {
-    handler->OnPublisherStateLoaded(ledger::LEDGER_ERROR, contents);
+    handler->OnPublisherStateLoaded(ledger::NO_PUBLISHER_STATE, contents);
   }
 }
 
@@ -799,7 +799,7 @@ BATLedgerBridge(BOOL,
   if (contents.length() > 0) {
     handler->OnPublisherListLoaded(ledger::LEDGER_OK, contents);
   } else {
-    handler->OnPublisherListLoaded(ledger::LEDGER_ERROR, contents);
+    handler->OnPublisherListLoaded(ledger::NO_PUBLISHER_LIST, contents);
   }
 }
 
@@ -1115,6 +1115,20 @@ BATLedgerBridge(BOOL,
   } else {
     callback(ledger::Result::LEDGER_ERROR, nullptr);
   }
+}
+
+#pragma mark - Test only
+
+// This is temporary until we integrate brave-rewards with brave-ios.
+- (void)insertTestPublishers
+{
+  const auto info = [[BATPublisherInfo alloc] init];
+  info.id = @"bumpsmack.com";
+  info.name = @"bumpsmack";
+  info.url = @"http://bumpsmack.com";
+  info.provider = @"provider";
+  info.faviconUrl = @"http://bumpsmack.com/fav";
+  [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
 }
 
 @end

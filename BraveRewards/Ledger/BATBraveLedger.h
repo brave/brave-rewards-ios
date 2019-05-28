@@ -212,6 +212,10 @@ NS_SWIFT_NAME(BraveLedger)
 /// Get the number of ads received and the estimated earnings of viewing said ads for this cycle
 - (void)adsDetailsForCurrentCycle:(void (^)(NSInteger adsReceived, double estimatedEarnings))completion NS_SWIFT_NAME(adsDetailsForCurrentCycle(_:));
 
+#pragma mark - Test only
+
+- (void)insertTestPublishers;
+
 @end
 
 NS_ASSUME_NONNULL_END

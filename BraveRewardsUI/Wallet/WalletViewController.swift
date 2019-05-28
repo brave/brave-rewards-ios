@@ -152,8 +152,17 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     if !isLocal {
       publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
       
+      guard let host = state.url.host else { return }
+      
+      state.ledger.publisherInfo(forId: host) { info in
+        guard let publisher = info else { return }
+        
+        DispatchQueue.main.async {
+          publisherView.setVerified(publisher.verified)
+        }
+      }
+      
       // FIXME: Remove fake data
-      publisherView.setVerified(true)
       attentionView.valueLabel.text = "19%"
       
       if let faviconURL = state.faviconURL {

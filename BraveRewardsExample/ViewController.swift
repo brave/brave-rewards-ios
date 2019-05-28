@@ -99,7 +99,7 @@ class ViewController: UIViewController {
     }
     
 //    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
-    let url = URL(string: "https://github.com")!
+    let url = URL(string: "https://bumpsmack.com")!
     let braveRewardsPanel = RewardsPanelController(
       rewards,
       url: url,
