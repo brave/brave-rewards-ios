@@ -323,6 +323,7 @@ BATClassAdsBridge(BOOL, isProduction, setProduction, _is_production);
     // If this object dies, common will get nil'd out
     if (strongSelf) {
       strongSelf->ads->OnTimer(timer_id);
+      [strongSelf.commonOps removeTimerWithID:timer_id];
     }
   }];
 }
