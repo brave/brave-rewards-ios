@@ -53,17 +53,12 @@
 
 - (uint32_t)createTimerWithOffset:(uint64_t)offset timerFired:(void (^)(uint32_t))timerFired
 {
-  if (offset == 0) {
-    // Invalid
-    return 0;
-  }
-  
   self.currentTimerID++;
   const auto timerID = self.currentTimerID;
   
   auto const __weak weakSelf = self;
   self.timers[[NSNumber numberWithUnsignedInt:timerID]] =
-  [NSTimer scheduledTimerWithTimeInterval:offset repeats:true block:^(NSTimer * _Nonnull timer) {
+  [NSTimer scheduledTimerWithTimeInterval:offset repeats:false block:^(NSTimer * _Nonnull timer) {
     if (!weakSelf) { return; }
     timerFired(timerID);
   }];

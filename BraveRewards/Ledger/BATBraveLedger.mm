@@ -845,6 +845,7 @@ BATLedgerBridge(BOOL,
     const auto strongSelf = weakSelf;
     if (!strongSelf.commonOps) { return; }
     strongSelf->ledger->OnTimer(firedTimerID);
+    [strongSelf.commonOps removeTimerWithID:firedTimerID];
   }];
   *timer_id = createdTimerID;
 }
