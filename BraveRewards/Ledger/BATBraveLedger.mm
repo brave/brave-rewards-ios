@@ -10,6 +10,7 @@
 #import "BATActivityInfoFilter+Private.h"
 
 #import "BATBraveLedger.h"
+#import "BATBraveAds.h"
 #import "BATCommonOperations.h"
 #import "NSURL+Extensions.h"
 
@@ -707,7 +708,7 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   ledger->OnForeground(self.selectedTabId, [[NSDate date] timeIntervalSince1970]);
   
   // Check if the last notification check was more than a day ago
-  if (fabs([self.lastNotificationCheckDate timeIntervalSinceNow]) > 60*60*24) {
+  if (fabs([self.lastNotificationCheckDate timeIntervalSinceNow]) > kOneDay) {
     [self checkForNotificationsAndFetchGrants];
   }
 }
