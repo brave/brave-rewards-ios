@@ -105,6 +105,8 @@
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */; };
 		27787C7B2282176E003513BD /* wordlist in Resources */ = {isa = PBXBuildFile; fileRef = 27787C7A2282176E003513BD /* wordlist */; };
+		277DCBD7229C70D30079EA48 /* BATRewardsNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 277DCBD5229C70D30079EA48 /* BATRewardsNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		277DCBD8229C70D30079EA48 /* BATRewardsNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 277DCBD6229C70D30079EA48 /* BATRewardsNotification.m */; };
 		277E08D022973AAF00C96CCC /* AdsUnsupportedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277E08CF22973AAF00C96CCC /* AdsUnsupportedView.swift */; };
 		27871A21227B466D003477D4 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A20227B466D003477D4 /* WelcomeViewController.swift */; };
 		27871A23227B4729003477D4 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27871A22227B4729003477D4 /* WelcomeView.swift */; };
@@ -365,6 +367,8 @@
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		27787C7A2282176E003513BD /* wordlist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wordlist; sourceTree = "<group>"; };
+		277DCBD5229C70D30079EA48 /* BATRewardsNotification.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATRewardsNotification.h; sourceTree = "<group>"; };
+		277DCBD6229C70D30079EA48 /* BATRewardsNotification.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BATRewardsNotification.m; sourceTree = "<group>"; };
 		277E08CF22973AAF00C96CCC /* AdsUnsupportedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsUnsupportedView.swift; sourceTree = "<group>"; };
 		27871A20227B466D003477D4 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		27871A22227B4729003477D4 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -816,6 +820,8 @@
 				27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */,
 				2709183E228364C60092B1F4 /* BATPublisherInfo+Private.h */,
 				2709183F228364C60092B1F4 /* BATPublisherInfo+Private.mm */,
+				277DCBD5229C70D30079EA48 /* BATRewardsNotification.h */,
+				277DCBD6229C70D30079EA48 /* BATRewardsNotification.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1070,6 +1076,7 @@
 			files = (
 				27885E9A226586C800A47647 /* RewardsLogStream.h in Headers */,
 				275779E221E6B15D005A0EAF /* BraveRewards.h in Headers */,
+				277DCBD7229C70D30079EA48 /* BATRewardsNotification.h in Headers */,
 				27EDB845223D607F008406EB /* Records.h in Headers */,
 				27471B83228A1C3800AA60A5 /* BATLedgerDatabase.h in Headers */,
 				27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */,
@@ -1454,6 +1461,7 @@
 				27091841228364C60092B1F4 /* BATPublisherInfo+Private.mm in Sources */,
 				272D13E821F61E5500768D30 /* BATCommonOperations.mm in Sources */,
 				27091828228226380092B1F4 /* DataController.mm in Sources */,
+				277DCBD8229C70D30079EA48 /* BATRewardsNotification.m in Sources */,
 				27B6C88921F65F7B00F256EA /* Model.xcdatamodeld in Sources */,
 				27623A94228F48C000DFA8F5 /* RewardsLogStream.mm in Sources */,
 				27623A74228DC6A900DFA8F5 /* NativeAdsClient.mm in Sources */,
