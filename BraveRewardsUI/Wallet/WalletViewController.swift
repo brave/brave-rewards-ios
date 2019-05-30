@@ -159,11 +159,11 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         
         DispatchQueue.main.async {
           publisherView.setVerified(publisher.verified)
+          
+          let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent
+          attentionView.valueLabel.text = "\(percent ?? 0)%"
         }
       }
-      
-      // FIXME: Remove fake data
-      attentionView.valueLabel.text = "19%"
       
       if let faviconURL = state.faviconURL {
         state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] image in

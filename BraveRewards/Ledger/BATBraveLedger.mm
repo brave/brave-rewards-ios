@@ -383,6 +383,16 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
   });
 }
 
+- (nullable BATPublisherInfo *)currentActivityInfoWithPublisherId:(NSString *)publisherId
+{
+  const auto stamp = ledger->GetReconcileStamp();
+  const auto filter = [[BATActivityInfoFilter alloc] init];
+  filter.id = publisherId;
+  filter.reconcileStamp = stamp;
+  
+  return [[BATLedgerDatabase publishersWithActivityFromOffset:0 limit:1 filter:filter] firstObject];
+}
+
 #pragma mark - Tips
 
 - (void)listRecurringTips:(void (^)(NSArray<BATPublisherInfo *> *))completion
@@ -1128,7 +1138,11 @@ BATLedgerBridge(BOOL,
   info.url = @"http://bumpsmack.com";
   info.provider = @"provider";
   info.faviconUrl = @"http://bumpsmack.com/fav";
+  info.percent = 18;
+  info.reconcileStamp = ledger->GetReconcileStamp();
   [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
+  
+  [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
 }
 
 @end

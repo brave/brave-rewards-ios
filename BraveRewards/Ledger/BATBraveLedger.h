@@ -99,6 +99,9 @@ NS_SWIFT_NAME(BraveLedger)
 
 - (void)updateMediaPublisherInfo:(NSString *)publisherId mediaKey:(NSString *)mediaKey;
 
+/// Returns activity info for current reconcile stamp.
+- (nullable BATPublisherInfo *)currentActivityInfoWithPublisherId:(NSString *)publisherId;
+
 @property (nonatomic, readonly) NSArray<BATContributionInfo *> *recurringContributions;
 
 /// Update a publishers exclusion state
