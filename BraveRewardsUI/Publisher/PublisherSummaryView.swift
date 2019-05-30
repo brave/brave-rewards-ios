@@ -6,6 +6,10 @@ import UIKit
 
 class PublisherSummaryView: UIView {
   
+  lazy var monthlyTipView = DetailActionableRow().then {
+    $0.textLabel.text = Strings.TipSiteMonthly
+  }
+  
   func setLocal(_ local: Bool) {
     if local {
       publisherView.publisherNameLabel.text = "Brave Browser";
@@ -58,6 +62,7 @@ class PublisherSummaryView: UIView {
     autoContributeStackView.addArrangedSubview(attentionView)
     autoContributeStackView.addArrangedSubview(SeparatorView())
     autoContributeStackView.addArrangedSubview(autoContributeRow)
+    autoContributeStackView.addArrangedSubview(monthlyTipView)
     autoContributeStackView.addArrangedSubview(SeparatorView())
     
     stackView.setCustomSpacing(20.0, after: stackView.arrangedSubviews.last!)

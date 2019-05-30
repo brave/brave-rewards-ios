@@ -94,8 +94,8 @@
 		27623A75228DC6A900DFA8F5 /* NativeAdsClientBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */; };
 		27623A76228DC6A900DFA8F5 /* NativeAdsClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */; };
 		27623A84228DE46600DFA8F5 /* BraveRewardsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273404592220B004008CABC9 /* BraveRewardsUI.framework */; };
-		27623A94228F48C000DFA8F5 /* RewardsLogStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */; };
 		27623A8B228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */; };
+		27623A94228F48C000DFA8F5 /* RewardsLogStream.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */; };
 		2769557E226E22BC008E5DED /* DictionaryTransformTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */; };
 		27695586226E47F5008E5DED /* BATActivityInfoFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 27695584226E47F5008E5DED /* BATActivityInfoFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27695587226E47F5008E5DED /* BATActivityInfoFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */; };
@@ -183,7 +183,9 @@
 		27FD394C21E9208000443796 /* BATAdsNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 27FD394A21E9208000443796 /* BATAdsNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		27FD394D21E9208000443796 /* BATAdsNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = 27FD394B21E9208000443796 /* BATAdsNotification.mm */; };
 		27FD395621E9317400443796 /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27FD395521E9317400443796 /* Network.framework */; };
+		5941A4EA22A4A19F00F82330 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
+		59CD1F8722A0354700330399 /* DetailActionableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CD1F8622A0354700330399 /* DetailActionableRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -355,8 +357,8 @@
 		27623A71228DC6A900DFA8F5 /* NativeAdsClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeAdsClient.mm; sourceTree = "<group>"; };
 		27623A72228DC6A900DFA8F5 /* NativeAdsClientBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClientBridge.h; sourceTree = "<group>"; };
 		27623A73228DC6A900DFA8F5 /* NativeAdsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeAdsClient.h; sourceTree = "<group>"; };
-		27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RewardsLogStream.mm; sourceTree = "<group>"; };
 		27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyWalletSummaryView.swift; sourceTree = "<group>"; };
+		27623A93228F48C000DFA8F5 /* RewardsLogStream.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RewardsLogStream.mm; sourceTree = "<group>"; };
 		2769557D226E22BC008E5DED /* DictionaryTransformTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DictionaryTransformTests.mm; sourceTree = "<group>"; };
 		27695584226E47F5008E5DED /* BATActivityInfoFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BATActivityInfoFilter.h; sourceTree = "<group>"; };
 		27695585226E47F5008E5DED /* BATActivityInfoFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATActivityInfoFilter.mm; sourceTree = "<group>"; };
@@ -448,7 +450,9 @@
 		27FD394B21E9208000443796 /* BATAdsNotification.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BATAdsNotification.mm; sourceTree = "<group>"; };
 		27FD395321E92F9C00443796 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		27FD395521E9317400443796 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
+		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		59CD1F8622A0354700330399 /* DetailActionableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailActionableRow.swift; sourceTree = "<group>"; };
 		A1FDE6D120D2AA7400F92CAF /* BraveRewards.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BraveRewards.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -512,6 +516,7 @@
 				27F4C1DC2256A67700CFCD67 /* UITableViewExtensions.swift */,
 				278B55D722677AB300BB7B89 /* BraveLedgerExtensions.swift */,
 				0A9060212285E0BE00F58252 /* DateExtensions.swift */,
+				5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -694,6 +699,7 @@
 				27F4C1E52257AA1A00CFCD67 /* CurrencyContainerView.swift */,
 				278A6B3B225BF91700175678 /* QRCode.swift */,
 				274CDD40225FE7CB00FA7364 /* BATUSDPairView.swift */,
+				59CD1F8622A0354700330399 /* DetailActionableRow.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1350,6 +1356,7 @@
 				27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */,
 				278A6B30225BE18200175678 /* RewardsUIDelegate.swift in Sources */,
 				27F4C1DB2256A40100CFCD67 /* TipsTableCell.swift in Sources */,
+				5941A4EA22A4A19F00F82330 /* ArrayExtensions.swift in Sources */,
 				0A5AAEE02286015000F0EBC7 /* RewardsSummaryProtocol.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				274CDD3A225F9E7D00FA7364 /* AutoContributeCell.swift in Sources */,
@@ -1412,6 +1419,7 @@
 				27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */,
 				273404792220BDC5008CABC9 /* Then.swift in Sources */,
 				2751E5C92242F3B300CB1B6B /* DismissButton.swift in Sources */,
+				59CD1F8722A0354700330399 /* DetailActionableRow.swift in Sources */,
 				27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */,
 				273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */,
 			);

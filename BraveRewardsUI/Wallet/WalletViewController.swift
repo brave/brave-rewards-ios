@@ -142,7 +142,9 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
-    
+    publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
+    // TODO: Update with actual value below
+    publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "5"
     let publisherView = publisherSummaryView.publisherView
     let attentionView = publisherSummaryView.attentionView
     
@@ -218,6 +220,25 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   @objc private func tappedSendTip() {
     let controller = TippingViewController(state: state, publisherId: "") // TODO: pass publisher Id
     state.delegate?.presentBraveRewardsController(controller)
+  }
+  
+  @objc private func tappedMonthlyTip() {
+    // TODO: Replace with actual values.
+    let options = [
+      BATValue(1),
+      BATValue(5),
+      BATValue(10)
+    ]
+    let optionsVC = OptionsSelectionViewController(options: options, selectedOptionIndex: 1, optionSelected: { [weak self] index in
+      // TODO: save selection and update UI
+      guard let self = self else {
+        return
+      }
+      self.navigationController?.popToViewController(self, animated: true)
+      self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = options[safe: index]?.displayString ?? options[0].displayString
+    })
+    
+    self.navigationController?.pushViewController(optionsVC, animated: true)
   }
   
   @objc private func tappedEnableBraveRewards() {
