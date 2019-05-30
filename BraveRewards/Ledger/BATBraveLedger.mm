@@ -292,10 +292,15 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
     if (result == ledger::LEDGER_OK) {
       const auto& publisherInfo = info.get();
       if (publisherInfo != nullptr) {
-        completion([[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo]);
+        const auto info = [[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          completion(info);
+        });
       }
     } else {
-      completion(nil);
+      dispatch_async(dispatch_get_main_queue(), ^{
+        completion(nil);
+      });
     }
   });
 }
@@ -331,12 +336,11 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)publisherActivityFromURL:(NSURL *)URL
                       faviconURL:(NSURL *)faviconURL
-                        windowID:(uint64_t)windowID
                    publisherBlob:(NSString *)publisherBlob
 {
   auto visitData = [self visitDataForURL:URL tabId:0];
   visitData.favicon_url = std::string(faviconURL.absoluteString.UTF8String);
-  ledger->GetPublisherActivityFromUrl(windowID, visitData, std::string(publisherBlob.UTF8String));
+  ledger->GetPublisherActivityFromUrl(1, visitData, std::string(publisherBlob.UTF8String));
 }
 
 - (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable))completion
@@ -1010,7 +1014,7 @@ BATLedgerBridge(BOOL,
   if (publisher) {
     callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
   } else {
-    callback(ledger::Result::LEDGER_ERROR, nullptr);
+    callback(ledger::Result::NOT_FOUND, nullptr);
   }
 }
 
@@ -1125,24 +1129,6 @@ BATLedgerBridge(BOOL,
   } else {
     callback(ledger::Result::LEDGER_ERROR, nullptr);
   }
-}
-
-#pragma mark - Test only
-
-// This is temporary until we integrate brave-rewards with brave-ios.
-- (void)insertTestPublishers
-{
-  const auto info = [[BATPublisherInfo alloc] init];
-  info.id = @"bumpsmack.com";
-  info.name = @"bumpsmack";
-  info.url = @"http://bumpsmack.com";
-  info.provider = @"provider";
-  info.faviconUrl = @"http://bumpsmack.com/fav";
-  info.percent = 18;
-  info.reconcileStamp = ledger->GetReconcileStamp();
-  [BATLedgerDatabase insertOrUpdatePublisherInfo:info];
-  
-  [BATLedgerDatabase insertOrUpdateActivityInfoFromPublisher:info];
 }
 
 @end

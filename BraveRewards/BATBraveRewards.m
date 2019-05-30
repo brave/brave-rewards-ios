@@ -100,7 +100,6 @@
   NSString *ledgerStorage = [self.configuration.stateStoragePath stringByAppendingPathComponent:@"ledger"];
   self.ledger = [[self.ledgerClass alloc] initWithStateStoragePath:ledgerStorage];
   self.ledger.ads = self.ads;
-  [[self ledger] insertTestPublishers];
 }
 
 #pragma clang diagnostic push

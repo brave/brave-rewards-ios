@@ -88,11 +88,9 @@ NS_SWIFT_NAME(BraveLedger)
 - (void)activityInfoWithFilter:(nullable BATActivityInfoFilter *)filter
                     completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
 
-// Unavailable until we figure out what it actually does and how to use it
 - (void)publisherActivityFromURL:(NSURL *)URL
                       faviconURL:(NSURL *)faviconURL
-                        windowID:(uint64_t)windowID
-                   publisherBlob:(NSString *)publisherBlob NS_UNAVAILABLE;
+                   publisherBlob:(NSString *)publisherBlob;
 
 - (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey
                            completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
@@ -214,10 +212,6 @@ NS_SWIFT_NAME(BraveLedger)
 
 /// Get the number of ads received and the estimated earnings of viewing said ads for this cycle
 - (void)adsDetailsForCurrentCycle:(void (^)(NSInteger adsReceived, double estimatedEarnings))completion NS_SWIFT_NAME(adsDetailsForCurrentCycle(_:));
-
-#pragma mark - Test only
-
-- (void)insertTestPublishers;
 
 @end
 
