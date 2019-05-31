@@ -136,4 +136,5 @@ public extension Strings {
   static let MonthlyTips = NSLocalizedString("BraveRewardsMonthlyTips", bundle: Bundle.RewardsUI, value: "Monthly Tips", comment: "")
   static let AdsUnsupportedRegion = NSLocalizedString("BraveRewardsAdsUnsupportedRegion", bundle: Bundle.RewardsUI, value: "Sorry! Ads are not yet available in your region.", comment: "")
   static let AdsUnsupportedDevice = NSLocalizedString("BraveRewardsAdsUnsupportedDvice", bundle: Bundle.RewardsUI, value: "Brave Rewards and Ads are not available on your device at this time.", comment: "")
+  static let AutoContributeSwitchLabel = NSLocalizedString("AutoContributeSwitchLabel", bundle: Bundle.RewardsUI, value: "Auto-Contribute", comment: "Label for auto-contribute toggle.")
 }

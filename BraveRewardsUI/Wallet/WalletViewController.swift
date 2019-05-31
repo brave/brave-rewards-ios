@@ -152,9 +152,16 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     if !isLocal {
       publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
       
-      // FIXME: Remove fake data
-      publisherView.setVerified(true)
-      attentionView.valueLabel.text = "19%"
+      guard let host = state.url.host else { return }
+      
+      state.ledger.publisherInfo(forId: host) { info in
+        guard let publisher = info else { return }
+        assert(Thread.isMainThread)
+        publisherView.setVerified(publisher.verified)
+        
+        let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent
+        attentionView.valueLabel.text = "\(percent ?? 0)%"
+      }
       
       if let faviconURL = state.faviconURL {
         state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] image in
@@ -171,6 +178,8 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   func reloadUIState() {
     if state.ledger.isEnabled {
       walletView.contentView = publisherSummaryView
+      
+      publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
     } else {
       if rewardsDisabledView.enableRewardsButton.allTargets.count == 0 {
         rewardsDisabledView.enableRewardsButton.addTarget(self, action: #selector(tappedEnableBraveRewards), for: .touchUpInside)

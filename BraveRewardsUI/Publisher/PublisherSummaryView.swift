@@ -23,8 +23,17 @@ class PublisherSummaryView: UIView {
     $0.spacing = 8.0
     $0.axis = .vertical
   }
+  
+  private let autoContributeStackView = UIStackView().then {
+    $0.spacing = 8.0
+    $0.axis = .vertical
+  }
+  
   let publisherView = PublisherView()
   let attentionView = PublisherAttentionView()
+  private let autoContributeRow = SwitchRow().then {
+    $0.textLabel.text = Strings.AutoContributeSwitchLabel
+  }
   let tipButton = ActionButton(type: .system).then {
     $0.tintColor = Colors.blurple400
     $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
@@ -44,12 +53,13 @@ class PublisherSummaryView: UIView {
     
     stackView.addArrangedSubview(publisherView)
     stackView.setCustomSpacing(20.0, after: publisherView)
-    stackView.addArrangedSubview(attentionView)
-    stackView.addArrangedSubview(SeparatorView())
-    stackView.addArrangedSubview(SwitchRow().then {
-      $0.textLabel.text = "Auto-Contribute"
-    })
-    stackView.addArrangedSubview(SeparatorView())
+    
+    stackView.addArrangedSubview(autoContributeStackView)
+    autoContributeStackView.addArrangedSubview(attentionView)
+    autoContributeStackView.addArrangedSubview(SeparatorView())
+    autoContributeStackView.addArrangedSubview(autoContributeRow)
+    autoContributeStackView.addArrangedSubview(SeparatorView())
+    
     stackView.setCustomSpacing(20.0, after: stackView.arrangedSubviews.last!)
     stackView.addArrangedSubview(tipButton)
     
@@ -67,6 +77,10 @@ class PublisherSummaryView: UIView {
     tipButton.snp.makeConstraints {
       $0.height.equalTo(40.0)
     }
+  }
+  
+  func updateViewVisibility(autoContributionEnabled: Bool) {
+    autoContributeStackView.isHidden = !autoContributionEnabled
   }
 }
 

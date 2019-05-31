@@ -339,10 +339,15 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
     if (result == ledger::LEDGER_OK) {
       const auto& publisherInfo = info.get();
       if (publisherInfo != nullptr) {
-        completion([[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo]);
+        const auto info = [[BATPublisherInfo alloc] initWithPublisherInfo:*publisherInfo];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          completion(info);
+        });
       }
     } else {
-      completion(nil);
+      dispatch_async(dispatch_get_main_queue(), ^{
+        completion(nil);
+      });
     }
   });
 }
@@ -378,12 +383,11 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
 
 - (void)publisherActivityFromURL:(NSURL *)URL
                       faviconURL:(NSURL *)faviconURL
-                        windowID:(uint64_t)windowID
                    publisherBlob:(NSString *)publisherBlob
 {
   auto visitData = [self visitDataForURL:URL tabId:0];
   visitData.favicon_url = std::string(faviconURL.absoluteString.UTF8String);
-  ledger->GetPublisherActivityFromUrl(windowID, visitData, std::string(publisherBlob.UTF8String));
+  ledger->GetPublisherActivityFromUrl(1, visitData, std::string(publisherBlob.UTF8String));
 }
 
 - (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey completion:(void (^)(BATPublisherInfo * _Nullable))completion
@@ -428,6 +432,16 @@ BATLedgerReadonlyBridge(BOOL, hasSufficientBalanceToReconcile, HasSufficientBala
       completion(bridgedBanner);
     });
   });
+}
+
+- (nullable BATPublisherInfo *)currentActivityInfoWithPublisherId:(NSString *)publisherId
+{
+  const auto stamp = ledger->GetReconcileStamp();
+  const auto filter = [[BATActivityInfoFilter alloc] init];
+  filter.id = publisherId;
+  filter.reconcileStamp = stamp;
+  
+  return [[BATLedgerDatabase publishersWithActivityFromOffset:0 limit:1 filter:filter] firstObject];
 }
 
 #pragma mark - Tips
@@ -1067,7 +1081,7 @@ BATLedgerBridge(BOOL,
   if (contents.length() > 0) {
     handler->OnPublisherStateLoaded(ledger::LEDGER_OK, contents);
   } else {
-    handler->OnPublisherStateLoaded(ledger::LEDGER_ERROR, contents);
+    handler->OnPublisherStateLoaded(ledger::NO_PUBLISHER_STATE, contents);
   }
 }
 
@@ -1083,7 +1097,7 @@ BATLedgerBridge(BOOL,
   if (contents.length() > 0) {
     handler->OnPublisherListLoaded(ledger::LEDGER_OK, contents);
   } else {
-    handler->OnPublisherListLoaded(ledger::LEDGER_ERROR, contents);
+    handler->OnPublisherListLoaded(ledger::NO_PUBLISHER_LIST, contents);
   }
 }
 
@@ -1284,7 +1298,7 @@ BATLedgerBridge(BOOL,
   if (publisher) {
     callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
   } else {
-    callback(ledger::Result::LEDGER_ERROR, nullptr);
+    callback(ledger::Result::NOT_FOUND, nullptr);
   }
 }
 
