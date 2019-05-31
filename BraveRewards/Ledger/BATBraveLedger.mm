@@ -1072,7 +1072,7 @@ BATLedgerBridge(BOOL,
 - (void)saveLedgerState:(const std::string &)ledger_state handler:(ledger::LedgerCallbackHandler *)handler
 {
   const auto result = [self.commonOps saveContents:ledger_state name:"ledger_state.json"];
-  handler->OnLedgerStateSaved(result ? ledger::LEDGER_OK : ledger::LEDGER_ERROR);
+  handler->OnLedgerStateSaved(result ? ledger::LEDGER_OK : ledger::NO_LEDGER_STATE);
 }
 
 - (void)loadPublisherState:(ledger::LedgerCallbackHandler *)handler
@@ -1123,6 +1123,7 @@ BATLedgerBridge(BOOL,
   const auto key = [NSString stringWithUTF8String:name.c_str()];
   self.state[key] = nil;
   callback(ledger::LEDGER_OK);
+  // In brave-core, failed callback returns `LEDGER_ERROR`
   dispatch_async(self.fileWriteThread, ^{
     [self.state writeToFile:self.randomStatePath atomically:YES];
   });
@@ -1133,6 +1134,7 @@ BATLedgerBridge(BOOL,
   const auto key = [NSString stringWithUTF8String:name.c_str()];
   self.state[key] = [NSString stringWithUTF8String:value.c_str()];
   callback(ledger::LEDGER_OK);
+  // In brave-core, failed callback returns `LEDGER_ERROR`
   dispatch_async(self.fileWriteThread, ^{
     [self.state writeToFile:self.randomStatePath atomically:YES];
   });
@@ -1287,7 +1289,7 @@ BATLedgerBridge(BOOL,
   if (publisher) {
     callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
   } else {
-    callback(ledger::Result::LEDGER_ERROR, nullptr);
+    callback(ledger::Result::NOT_FOUND, nullptr);
   }
 }
 
@@ -1309,7 +1311,7 @@ BATLedgerBridge(BOOL,
   if (publisher) {
     callback(ledger::Result::LEDGER_OK, std::make_unique<ledger::PublisherInfo>(publisher.cppObj));
   } else {
-    callback(ledger::Result::LEDGER_ERROR, nullptr);
+    callback(ledger::Result::NOT_FOUND, nullptr);
   }
 }
 
