@@ -68,4 +68,11 @@ class SendTipButton: UIControl {
       }, completion: nil)
     }
   }
+  
+  override var isEnabled: Bool {
+    didSet {
+      self.textLabel.alpha = self.isEnabled ? 1.0 : 0.3
+      self.imageView.alpha = self.isEnabled ? 1.0 : 0.3
+    }
+  }
 }
