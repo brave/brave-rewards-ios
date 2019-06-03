@@ -153,14 +153,17 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
       
       guard let host = state.url.host else { return }
+      attentionView.valueLabel.text = "0%"
       
       state.ledger.publisherInfo(forId: host) { info in
         guard let publisher = info else { return }
         assert(Thread.isMainThread)
         publisherView.setVerified(publisher.verified)
         
-        let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent
-        attentionView.valueLabel.text = "\(percent ?? 0)%"
+        if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
+          attentionView.valueLabel.text = "\(percent)%"
+        }
+        
       }
       
       if let faviconURL = state.faviconURL {
