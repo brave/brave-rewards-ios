@@ -42,9 +42,8 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     tippingView.overviewView.dismissButton.addTarget(self, action: #selector(tappedDismissButton), for: .touchUpInside)
     tippingView.optionSelectionView.sendTipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     tippingView.optionSelectionView.optionChanged = { [unowned self] option in
-      guard let intValue = Int(option.value) else { return }
-      // FIXME: Switch funds available UI based on real data
-      self.tippingView.optionSelectionView.setEnoughFundsAvailable(intValue < 10)
+      let hasEnoughBalanceForTip = option.value.doubleValue < self.state.ledger.balance
+      self.tippingView.optionSelectionView.setEnoughFundsAvailable(hasEnoughBalanceForTip)
     }
     tippingView.gesturalDismissExecuted = { [weak self] in
       self?.dismiss(animated: true)
@@ -60,9 +59,8 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     tippingView.optionSelectionView.setWalletBalance(state.ledger.balanceString, crypto: "BAT")
     // FIXME: Remove fake data
     tippingView.optionSelectionView.options = [1.0, 5.0, 10.0].map {
-      TippingOption.batAmount("\($0)", dollarValue: state.ledger.dollarStringForBATAmount($0) ?? "")
+      TippingOption.batAmount(BATValue($0), dollarValue: state.ledger.dollarStringForBATAmount($0) ?? "")
     }
-    tippingView.optionSelectionView.selectedOptionIndex = 1
   }
   
   // MARK: - Actions

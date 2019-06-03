@@ -5,14 +5,14 @@
 import UIKit
 
 class TippingOption: NSObject {
-  var value: String
+  var value: BATValue
   var crypto: String
   var cryptoImage: UIImage
   var dollarValue: String
   
   fileprivate var view: TippingOptionView?
   
-  init(value: String, crypto: String, cryptoImage: UIImage, dollarValue: String) {
+  init(value: BATValue, crypto: String, cryptoImage: UIImage, dollarValue: String) {
     self.value = value
     self.crypto = crypto
     self.cryptoImage = cryptoImage
@@ -21,7 +21,7 @@ class TippingOption: NSObject {
     super.init()
   }
   
-  class func batAmount(_ value: String, dollarValue: String) -> TippingOption {
+  class func batAmount(_ value: BATValue, dollarValue: String) -> TippingOption {
     return TippingOption(
       value: value,
       crypto: "BAT",
@@ -38,7 +38,11 @@ class TippingSelectionView: UIView {
     insufficientFundsButton.isHidden = enoughFunds
   }
   
-  let sendTipButton = SendTipButton()
+  lazy var sendTipButton: SendTipButton = {
+    let button = SendTipButton()
+    button.isEnabled = selectedOptionIndex != nil
+    return button
+  }()
   
   let insufficientFundsButton = InsufficientFundsButton().then {
     $0.isHidden = true
@@ -60,13 +64,16 @@ class TippingSelectionView: UIView {
     }
   }
   
-  var selectedOptionIndex: Int {
+  var selectedOptionIndex: Int? {
     get {
-      return options.firstIndex(where: { $0.view?.isSelected == true }) ?? -1
+      return options.firstIndex(where: { $0.view?.isSelected == true })
     }
     set {
-      if newValue < options.count {
-        options[newValue].view?.isSelected = true
+      guard let selectedOption = newValue else { return }
+      
+      if selectedOption < options.count {
+        options[selectedOption].view?.isSelected = true
+        sendTipButton.isEnabled = true
       }
     }
   }
@@ -82,7 +89,7 @@ class TippingSelectionView: UIView {
         let view = TippingOptionView()
         view.cryptoLabel.text = option.crypto
         view.cryptoLogoImageView.image = option.cryptoImage
-        view.valueLabel.text = option.value
+        view.valueLabel.text = option.value.displayString
         view.dollarLabel.text = option.dollarValue
         option.view = view
         
@@ -191,7 +198,11 @@ class TippingSelectionView: UIView {
     for option in options {
       option.view?.isSelected = option.view === optionView
     }
-    optionChanged?(options[selectedOptionIndex])
+    
+    if let index = selectedOptionIndex {
+      optionChanged?(options[index])
+      sendTipButton.isEnabled = true
+    }
   }
 }
 
