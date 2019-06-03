@@ -6,7 +6,7 @@ import Foundation
 
 /// Ledger uses different types to represent BAT values.
 /// This structure helps parsing and converting it.
-struct BATValue {
+struct BATValue: DisplayableOption {
   private let value: Double
   
   static let probiMultiplier = pow(10, 18) as NSDecimalNumber
