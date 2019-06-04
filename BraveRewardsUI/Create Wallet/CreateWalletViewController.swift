@@ -9,7 +9,7 @@ class CreateWalletViewController: UIViewController {
   let state: RewardsState
   
   var createWalletView: View {
-    return super.view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   init(state: RewardsState) {
@@ -80,5 +80,3 @@ class CreateWalletViewController: UIViewController {
     navigationController?.pushViewController(controller, animated: true)
   }
 }
-
-

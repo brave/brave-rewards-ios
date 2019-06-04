@@ -26,7 +26,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
   }
   
   var tippingView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   override func loadView() {
@@ -47,11 +47,11 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     }
     tippingView.gesturalDismissExecuted = { [weak self] in
       self?.dismiss(animated: true)
-    };
+    }
     tippingView.overviewView.disclaimerView.learnMoreTapped = { [weak self] in
       let url = URL(string: "https://brave.com/faq-rewards/#unclaimed-funds")!
       self?.state.delegate?.loadNewTabWithURL(url)
-    };
+    }
     
     // FIXME: Set this disclaimer hidden based on whether or not the publisher is verified
     tippingView.overviewView.disclaimerView.isHidden = true

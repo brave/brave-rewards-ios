@@ -20,7 +20,7 @@ class WelcomeViewController: UIViewController {
   }
   
   var welcomeView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   override func loadView() {

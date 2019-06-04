@@ -32,7 +32,7 @@ private let upcomingContributions = [
 class AutoContributeDetailViewController: UIViewController {
   
   private var contentView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   // Just copy pasted this in, needs design specific for auto-contribute

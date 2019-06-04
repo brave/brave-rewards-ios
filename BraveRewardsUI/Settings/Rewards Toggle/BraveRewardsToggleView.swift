@@ -45,7 +45,6 @@ class BraveRewardsToggleView: UIView {
     $0.text = Strings.BraveRewards
   }
   
-  
   // MARK: - Accessibility
   
   override func accessibilityActivate() -> Bool {

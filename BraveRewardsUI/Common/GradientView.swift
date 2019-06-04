@@ -13,7 +13,7 @@ extension UIColor {
 class GradientView: UIView {
   
   var gradientLayer: CAGradientLayer {
-    return layer as! CAGradientLayer
+    return layer as! CAGradientLayer // swiftlint:disable:this force_cast
   }
   
   override class var layerClass: AnyClass {

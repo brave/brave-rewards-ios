@@ -7,7 +7,7 @@ import Foundation
 /// Protocol defining a few things BraveRewards wants the client to do
 public protocol RewardsUIDelegate: AnyObject {
   /// Tells the client to present some controller onto its top view controller
-  func presentBraveRewardsController(_ controller: UIViewController) -> Void
+  func presentBraveRewardsController(_ controller: UIViewController)
   /// Tells the client to load a tab to a specific URL
-  func loadNewTabWithURL(_ url: URL) -> Void
+  func loadNewTabWithURL(_ url: URL)
 }

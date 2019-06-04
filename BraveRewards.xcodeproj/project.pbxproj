@@ -767,6 +767,7 @@
 			buildConfigurationList = 273404642220B004008CABC9 /* Build configuration list for PBXNativeTarget "BraveRewardsUI" */;
 			buildPhases = (
 				273404542220B004008CABC9 /* Headers */,
+				27371B7E22A710A400E13C00 /* Run SwiftLint */,
 				273404552220B004008CABC9 /* Sources */,
 				273404562220B004008CABC9 /* Frameworks */,
 				273404572220B004008CABC9 /* Resources */,
@@ -898,6 +899,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		27371B7E22A710A400E13C00 /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh \"$SRCROOT/scripts/swiftlint.sh\"\n";
+		};
 		27E1FF0E22A0190E00BF2949 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

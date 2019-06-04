@@ -21,10 +21,12 @@ extension UITableView {
   func registerHeaderFooter<T: UITableViewHeaderFooterView & TableViewReusable>(_ headerFooterClass: T.Type) {
     register(headerFooterClass, forHeaderFooterViewReuseIdentifier: headerFooterClass.identifier)
   }
+  // swiftlint:disable force_cast
   func dequeueReusableCell<T: UITableViewCell & TableViewReusable>(for indexPath: IndexPath) -> T {
     return dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as! T
   }
   func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView & TableViewReusable>() -> T {
     return dequeueReusableHeaderFooterView(withIdentifier: T.identifier) as! T
   }
+  // swiftlint:enable force_cast
 }

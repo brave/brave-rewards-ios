@@ -26,7 +26,7 @@ extension BraveLedger {
     currencyFormatter.currencySymbol = ""
     currencyFormatter.numberStyle = .currency
     let valueString = currencyFormatter.string(from: NSNumber(value: amount * conversionRate)) ?? "0.00"
-    if (includeCurrencyCode) {
+    if includeCurrencyCode {
       return "\(valueString) \(currencyCode)"
     }
     return "\(valueString)"
@@ -37,14 +37,13 @@ extension BraveLedger {
   func dollarStringForBATAmount(_ amountString: String, currencyCode: String = "USD", includeCurrencyCode: Bool = true) -> String {
     let stringToDouble = Double(amountString) ?? 0.0
     guard let string = dollarStringForBATAmount(stringToDouble, currencyCode: currencyCode, includeCurrencyCode: includeCurrencyCode) else {
-      if (includeCurrencyCode) {
+      if includeCurrencyCode {
         return "0.00 USD"
       }
       return "0.00"
     }
     return string
   }
-
   
   /// Options around minimum visits for publisher relavancy
   enum MinimumVisitsOptions: UInt32, CaseIterable, DisplayableOption {

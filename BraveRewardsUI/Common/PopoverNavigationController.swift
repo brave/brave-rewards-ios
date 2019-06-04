@@ -40,7 +40,7 @@ public class PopoverNavigationController: UINavigationController {
   
   public override var additionalSafeAreaInsets: UIEdgeInsets {
     get { return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0) }
-    set { }
+    set { } // swiftlint:disable:this unused_setter_value
   }
   
   public override func viewDidLoad() {

@@ -3,7 +3,7 @@
 set -xe
 
 current_dir="`pwd`/`dirname $0`"
-framework_drop_point="$current_dir"
+framework_drop_point="$current_dir/../lib"
 
 skip_update=0
 clean=0
@@ -87,12 +87,12 @@ brave_browser_build_hash=`git rev-parse HEAD`
 popd > /dev/null
 
 echo "Completed building BraveRewards from \`brave-core/$brave_core_build_hash\`"
-sed -i '' -e "s/brave-core\/[A-Za-z0-9]*/brave-core\/$brave_core_build_hash/g" ../README.md
-sed -i '' -e "s/brave-browser\/[A-Za-z0-9]*/brave-browser\/$brave_browser_build_hash/g" ../README.md
+sed -i '' -e "s/brave-core\/[A-Za-z0-9]*/brave-core\/$brave_core_build_hash/g" "$current_dir/../README.md"
+sed -i '' -e "s/brave-browser\/[A-Za-z0-9]*/brave-browser\/$brave_browser_build_hash/g" "$current_dir/../README.md"
 echo "  → Updated \`README.md\` to reflect updated library builds"
 
 # Check if any of the includes had changed.
-if `git diff --quiet "$current_dir/BraveRewards.framework/Headers/"`; then
+if `git diff --quiet "$framework_drop_point/BraveRewards.framework/Headers/"`; then
   echo "  → No updates to library includes were made"
 else
   echo "  → Changes found in library includes"

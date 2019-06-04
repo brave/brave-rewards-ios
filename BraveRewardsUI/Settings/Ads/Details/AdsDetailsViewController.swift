@@ -7,7 +7,7 @@ import UIKit
 class AdsDetailsViewController: UIViewController {
   
   var contentView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   let state: RewardsState

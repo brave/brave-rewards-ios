@@ -27,13 +27,12 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   // MARK: -
   
   var walletView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   override func loadView() {
     view = View(frame: UIScreen.main.bounds)
   }
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -238,6 +237,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         return
       }
       self.navigationController?.popToViewController(self, animated: true)
+      // swiftlint:ignore:next
       self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = options[safe: index]?.displayString ?? options[0].displayString
     })
     
@@ -253,13 +253,13 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     let contentView = walletView.contentView
     let rewardsSummaryView = walletView.rewardsSummaryView
     
-    let isExpanding = rewardsSummaryView.transform.ty == 0;
+    let isExpanding = rewardsSummaryView.transform.ty == 0
     rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image =
       UIImage(frameworkResourceNamed: isExpanding ? "slide-down" : "slide-up")
     
     // Animating the rewards summary with a bit of a bounce
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
-      if (isExpanding) {
+      if isExpanding {
         rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
           y: -self.walletView.summaryLayoutGuide.layoutFrame.height + rewardsSummaryView.rewardsSummaryButton.bounds.height
@@ -269,14 +269,14 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       }
     }, completion: nil)
     
-    if (isExpanding) {
+    if isExpanding {
       // Prepare animation
       rewardsSummaryView.monthYearLabel.isHidden = false
       rewardsSummaryView.monthYearLabel.alpha = 0.0
     }
     // But animate the rest without a bounce (since it doesnt make sense)
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
-      if (isExpanding) {
+      if isExpanding {
         contentView?.alpha = 0.0
         rewardsSummaryView.monthYearLabel.alpha = 1.0
         self.view.backgroundColor = Colors.blurple800

@@ -95,6 +95,7 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
   
   // MARK: - Unavailable
   
+  // swiftlint:disable unused_setter_value
   @available(*, unavailable)
   override var textLabel: UILabel? {
     get { return super.textLabel }
@@ -112,4 +113,5 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
     get { return super.imageView }
     set { }
   }
+  // swiftlint:enable unused_setter_value
 }
