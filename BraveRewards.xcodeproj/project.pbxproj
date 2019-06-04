@@ -67,6 +67,8 @@
 		273404792220BDC5008CABC9 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404782220BDC5008CABC9 /* Then.swift */; };
 		27371B8022A7111300E13C00 /* DetailActionableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27371B7F22A7111200E13C00 /* DetailActionableRow.swift */; };
 		27371B8122A7118500E13C00 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */; };
+		27371B8222A721EC00E13C00 /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
+		27371B8322A7252200E13C00 /* BraveRewards.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		274CDD2C225D446800FA7364 /* AutoContributeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */; };
 		274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */; };
 		274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD35225E6DC800FA7364 /* GrantsItemView.swift */; };
@@ -177,6 +179,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				27371B8322A7252200E13C00 /* BraveRewards.framework in CopyFiles */,
 				0A5AAED12285E81400F0EBC7 /* SnapKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */,
+				27371B8222A721EC00E13C00 /* BraveRewards.framework in Frameworks */,
 				27623A84228DE46600DFA8F5 /* BraveRewardsUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1276,7 +1280,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/BraveRewards/lib",
+					"$(PROJECT_DIR)/lib",
 				);
 				INFOPLIST_FILE = BraveRewardsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -1302,7 +1306,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/BraveRewards/lib",
+					"$(PROJECT_DIR)/lib",
 				);
 				INFOPLIST_FILE = BraveRewardsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
