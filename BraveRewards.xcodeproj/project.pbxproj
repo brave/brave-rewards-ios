@@ -65,6 +65,8 @@
 		273404742220BA73008CABC9 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404732220BA73008CABC9 /* GradientView.swift */; };
 		273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404752220BD60008CABC9 /* WalletHeaderView.swift */; };
 		273404792220BDC5008CABC9 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273404782220BDC5008CABC9 /* Then.swift */; };
+		27371B8022A7111300E13C00 /* DetailActionableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27371B7F22A7111200E13C00 /* DetailActionableRow.swift */; };
+		27371B8122A7118500E13C00 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */; };
 		274CDD2C225D446800FA7364 /* AutoContributeDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */; };
 		274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */; };
 		274CDD36225E6DC800FA7364 /* GrantsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274CDD35225E6DC800FA7364 /* GrantsItemView.swift */; };
@@ -142,7 +144,6 @@
 		27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CAD02294773600935B45 /* LabelAccessoryView.swift */; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
-		59CD1F8722A0354700330399 /* DetailActionableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CD1F8622A0354700330399 /* DetailActionableRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,6 +239,7 @@
 		273404732220BA73008CABC9 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		273404752220BD60008CABC9 /* WalletHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletHeaderView.swift; sourceTree = "<group>"; };
 		273404782220BDC5008CABC9 /* Then.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Then.swift; sourceTree = "<group>"; };
+		27371B7F22A7111200E13C00 /* DetailActionableRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailActionableRow.swift; sourceTree = "<group>"; };
 		274CDD2B225D446800FA7364 /* AutoContributeDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoContributeDetailsViewController.swift; sourceTree = "<group>"; };
 		274CDD33225E6C9400FA7364 /* GrantsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsListViewController.swift; sourceTree = "<group>"; };
 		274CDD35225E6DC800FA7364 /* GrantsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantsItemView.swift; sourceTree = "<group>"; };
@@ -525,7 +527,7 @@
 				27F4C1E52257AA1A00CFCD67 /* CurrencyContainerView.swift */,
 				278A6B3B225BF91700175678 /* QRCode.swift */,
 				274CDD40225FE7CB00FA7364 /* BATUSDPairView.swift */,
-				59CD1F8622A0354700330399 /* DetailActionableRow.swift */,
+				27371B7F22A7111200E13C00 /* DetailActionableRow.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -966,10 +968,10 @@
 				2730DF8B2231A72F0031845C /* SettingsSectionView.swift in Sources */,
 				59512897228CF3F8002D3791 /* Strings.swift in Sources */,
 				27F4C1D922569E2B00CFCD67 /* TipsDetailViewController.swift in Sources */,
+				27371B8022A7111300E13C00 /* DetailActionableRow.swift in Sources */,
 				27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */,
 				278A6B30225BE18200175678 /* RewardsUIDelegate.swift in Sources */,
 				27F4C1DB2256A40100CFCD67 /* TipsTableCell.swift in Sources */,
-				5941A4EA22A4A19F00F82330 /* ArrayExtensions.swift in Sources */,
 				0A5AAEE02286015000F0EBC7 /* RewardsSummaryProtocol.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				274CDD3A225F9E7D00FA7364 /* AutoContributeCell.swift in Sources */,
@@ -1023,6 +1025,7 @@
 				27F4C1E62257AA1A00CFCD67 /* CurrencyContainerView.swift in Sources */,
 				2730DF8D2231C75B0031845C /* SettingsRewardsSectionView.swift in Sources */,
 				2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */,
+				27371B8122A7118500E13C00 /* ArrayExtensions.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */,
 				278A6B46225C08AE00175678 /* WalletDetailsViewController.swift in Sources */,
@@ -1032,7 +1035,6 @@
 				27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */,
 				273404792220BDC5008CABC9 /* Then.swift in Sources */,
 				2751E5C92242F3B300CB1B6B /* DismissButton.swift in Sources */,
-				59CD1F8722A0354700330399 /* DetailActionableRow.swift in Sources */,
 				27F26841224AA6E600C9EE5C /* GrantClaimedViewController.swift in Sources */,
 				273404762220BD60008CABC9 /* WalletHeaderView.swift in Sources */,
 			);
