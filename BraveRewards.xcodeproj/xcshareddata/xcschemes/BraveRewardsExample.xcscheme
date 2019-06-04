@@ -28,6 +28,27 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "27FD38DF21E6B69700443796"
+               BuildableName = "BraveRewardsTests.xctest"
+               BlueprintName = "BraveRewardsTests"
+               ReferencedContainer = "container:BraveRewards.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "DictionaryTransformTests">
+               </Test>
+               <Test
+                  Identifier = "LedgerDatabaseTests">
+               </Test>
+               <Test
+                  Identifier = "VectorTransformTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

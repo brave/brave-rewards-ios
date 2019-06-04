@@ -1,9 +1,8 @@
 # brave-rewards-ios
 
-A framework for consuming Brave Rewards on [brave-ios](https://github.com/brave/brave-ios)
+A UI framework for consuming Brave Rewards on [brave-ios](https://github.com/brave/brave-ios). The core logic around BraveRewards resides in brave-core
 
-Latest ledger/ads implementations were built around libraries compiled from brave-core/069e0a6e40a80d41bff3fffa8dc406d87020ef58 (`libbat-native-ads.a`, `libbat-native-ledger.a`, and `libchallenge_bypass_ristretto.a`)
+The latest BraveRewards.framework was built on:
 
-These libraries are too large to include in the repo, therefore you must clone http://github.com/brave/brave-browser/ and run the script `gen_rewards_libs.sh` located in `BraveRewards/lib` pointing to that cloned and initialized repo.
-
-Warning: Due to https://github.com/brave/brave-browser/issues/3080, we must throw away all brave-browser/src patches that are applyed when you run `npm run init`/`npm sync -- --all` (`git reset --hard HEAD` on src directory). This means if you intend to build a desktop build with the same repo, you must re-apply the patches (either with another sync or apply-patches npm command)
+brave-browser/95c5dcf0cb760f3f75136107ec54b6b4a3f37cef
+brave-core/40601005b7b376b2c5dea5bbe5a999c06f1a9d97
