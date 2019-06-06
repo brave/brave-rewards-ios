@@ -8,7 +8,7 @@ import BraveRewards
 class TipsDetailViewController: UIViewController {
   
   private var tipsView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   private let ledger: BraveLedger

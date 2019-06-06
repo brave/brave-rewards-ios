@@ -16,7 +16,7 @@ class SettingsRewardsSectionView: SettingsSectionView {
       // Nothing to do
       return
     }
-    if (animated) {
+    if animated {
       if !enabled {
         self.disabledTextView.alpha = 0
       }

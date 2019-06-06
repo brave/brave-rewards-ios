@@ -82,7 +82,6 @@ extension WalletViewController {
     override init(frame: CGRect) {
       super.init(frame: frame)
       
-      
       backgroundColor = .white
       clipsToBounds = true
       
@@ -104,7 +103,6 @@ extension WalletViewController {
     required init(coder: NSCoder) {
       fatalError()
     }
-    
     
     // MARK: -
     

@@ -9,7 +9,7 @@ class EmptyTableCell: UITableViewCell, TableViewReusable {
   @available(*, unavailable, message: "Use `label` in this cell")
   override var textLabel: UILabel? {
     get { return super.textLabel }
-    set { }
+    set { } // swiftlint:disable:this unused_setter_value
   }
   
   let label = UILabel().then {

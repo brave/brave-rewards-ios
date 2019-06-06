@@ -47,6 +47,6 @@ final class CurrencyContainerView: UIStackView {
   
   override var accessibilityLabel: String? {
     get { return "\(amountLabel.text ?? "") \(kindLabel.text ?? "")" }
-    set { }
+    set { } // swiftlint:disable:this unused_setter_value
   }
 }

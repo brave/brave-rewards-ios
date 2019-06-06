@@ -24,7 +24,7 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   var detailsView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   override func viewDidLoad() {

@@ -119,6 +119,7 @@ class TableViewCell: UITableViewCell, TableViewReusable {
   
   // MARK: - Unavailable
   
+  // swiftlint:disable unused_setter_value
   @available(*, unavailable)
   override var textLabel: UILabel? {
     get { return nil }
@@ -130,6 +131,7 @@ class TableViewCell: UITableViewCell, TableViewReusable {
     get { return nil }
     set { }
   }
+  // swiftlint:enable unused_setter_value
 }
 
 /// Just a TableViewCell which uses the `value1` style by default

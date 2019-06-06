@@ -1,0 +1,18 @@
+language: swift
+osx_image: xcode10.2
+cache:
+  directories:
+    - Carthage
+
+install: true
+
+before_install:
+  - brew install carthage || true
+  - brew install swiftlint || true
+
+before_script:
+  - carthage bootstrap --platform ios --cache-builds --no-use-binaries
+
+xcode_project: BraveRewards.xcodeproj
+xcode_scheme: BraveRewardsExample
+xcode_destination: platform=iOS Simulator,OS=12.2,name=iPhone 8

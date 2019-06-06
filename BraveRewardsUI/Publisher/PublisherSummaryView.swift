@@ -12,9 +12,9 @@ class PublisherSummaryView: UIView {
   
   func setLocal(_ local: Bool) {
     if local {
-      publisherView.publisherNameLabel.text = "Brave Browser";
+      publisherView.publisherNameLabel.text = "Brave Browser"
       publisherView.faviconImageView.image = UIImage(frameworkResourceNamed: "local-icon")
-      attentionView.valueLabel.text = "–";
+      attentionView.valueLabel.text = "–"
     }
     publisherView.faviconImageView.contentMode = local ? .center : .scaleAspectFill
   }

@@ -8,7 +8,7 @@ import BraveRewards
 class AddFundsViewController: UIViewController {
   
   var addFundsView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   let state: RewardsState

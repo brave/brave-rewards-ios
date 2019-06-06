@@ -872,8 +872,7 @@
   two.viewingId = @"";
   
   
-  const auto list = [[BATPendingContributionList alloc] init];
-  list.list = @[one, two];
+  const auto list = @[one, two];
   
   [self backgroundSaveAndWaitForExpectation:^{
     [BATLedgerDatabase insertPendingContributions:list];

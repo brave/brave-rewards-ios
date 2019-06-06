@@ -27,7 +27,7 @@ class GrantClaimedViewController: UIViewController {
   }
   
   private var grantView: View {
-    return view as! View
+    return view as! View // swiftlint:disable:this force_cast
   }
   
   override func loadView() {
