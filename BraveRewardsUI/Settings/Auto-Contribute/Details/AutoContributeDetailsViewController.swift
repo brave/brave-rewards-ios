@@ -73,7 +73,6 @@ class AutoContributeDetailViewController: UIViewController {
   }
   
   func reloadData() {
-    // FIXME: Remove temp values
     let dateFormatter = DateFormatter().then {
       $0.dateStyle = .short
       $0.timeStyle = .none
@@ -124,7 +123,7 @@ class AutoContributeDetailViewController: UIViewController {
       }
     }
     
-    static func numberOrRows(_ isExcludingSites: Bool) -> Int {
+    static func numberOfRows(_ isExcludingSites: Bool) -> Int {
       var cases = Set<SummaryRows>(SummaryRows.allCases)
       if !isExcludingSites {
         cases.remove(.excludedSites)
@@ -188,8 +187,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       controller.title = Strings.AutoContributeMonthlyPayment
       navigationController?.pushViewController(controller, animated: true)
     case SummaryRows.excludedSites.rawValue:
-      // FIXME: Use actual number
-      let numberOfExcludedSites = 5
+      let numberOfExcludedSites = ledger.numberOfExcludedPublishers
       let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
       alert.addAction(UIAlertAction(title: String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
         self.ledger.restoreAllExcludedPublishers()
@@ -224,8 +222,8 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
-      let isExcludingSites = true // FIXME: Change based on if user actually has excluded publishers
-      return SummaryRows.numberOrRows(isExcludingSites)
+      let isExcludingSites = ledger.numberOfExcludedPublishers > 0
+      return SummaryRows.numberOfRows(isExcludingSites)
     case .contributions:
       return upcomingContributions.isEmpty ? 1 : upcomingContributions.count
     }
@@ -286,8 +284,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
         cell.selectionStyle = .none
       case .excludedSites:
-        // FIXME: Use actual number
-        let numberOfExcludedSites = 5
+        let numberOfExcludedSites = ledger.numberOfExcludedPublishers
         cell.label.text = String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites)
         cell.label.textColor = Colors.blurple400
       }
