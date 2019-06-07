@@ -78,7 +78,8 @@ class AutoContributeDetailViewController: UIViewController {
       $0.dateStyle = .short
       $0.timeStyle = .none
     }
-    nextContributionDateView.label.text = dateFormatter.string(from: Date().addingTimeInterval(60*60*24*12))
+    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(ledger.autoContributeProps.reconcileStamp))
+    nextContributionDateView.label.text = dateFormatter.string(from: reconcileDate)
     nextContributionDateView.bounds = CGRect(origin: .zero, size: nextContributionDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     
     contentView.tableView.reloadData()
