@@ -7,12 +7,14 @@ framework_drop_point="$current_dir/../lib"
 
 skip_update=0
 clean=0
+release_flag="Release"
 brave_browser_dir="${@: -1}"
 
 function usage() {
-  echo "Usage: ./build_in_core.sh [--skip-update] [--clean] {\$home/brave/brave-browser}"
+  echo "Usage: ./build_in_core.sh [--skip-update] [--clean] [--debug] {\$home/brave/brave-browser}"
   echo " --skip-update:   Does not pull down any brave-core/brave-browser changes"
   echo " --clean:         Cleans build directories before building"
+  echo " --debug:         Builds a debug instead of release framework. (Should not be pushed with the repo)"
   exit 1
 }
 
@@ -24,6 +26,10 @@ case $i in
     ;;
     --skip-update)
     skip_update=1
+    shift
+    ;;
+    --debug)
+    release_flag=""
     shift
     ;;
     --clean)
@@ -65,8 +71,8 @@ if [ "$clean" = 1 ]; then
   [[ -d out/device-release ]] && gn clean out/device-release
 fi
 
-npm run build -- Release --target_os=ios
-npm run build -- Release --target_os=ios --target_arch=arm64
+npm run build -- $release_flag --target_os=ios
+npm run build -- $release_flag --target_os=ios --target_arch=arm64
 
 # Copy the framework structure (from iphoneos build) to the universal folder
 cp -R "out/ios_Release_arm64/BraveRewards.framework" "$framework_drop_point/"
