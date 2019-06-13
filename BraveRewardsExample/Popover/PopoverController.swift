@@ -162,17 +162,18 @@ class PopoverController: UIViewController {
             containerView.layoutIfNeeded()
             if contentController.extendEdgeIntoArrow {
                 contentController.view.frame = containerView.contentView.bounds
-            } else {
-                var rect = containerView.contentView.bounds
-                switch containerView.arrowDirection {
-                case .up:
-                    rect.origin.y = PopoverUX.arrowSize.height
-                    rect.size.height -= PopoverUX.arrowSize.height
-                case .down:
-                    rect.size.height -= PopoverUX.arrowSize.height
-                }
-                contentController.view.frame = rect
+                break
             }
+            var rect = containerView.contentView.bounds
+            switch containerView.arrowDirection {
+            case .up:
+                rect.origin.y = PopoverUX.arrowSize.height
+                rect.size.height -= PopoverUX.arrowSize.height
+            case .down:
+                rect.size.height -= PopoverUX.arrowSize.height
+            }
+            contentController.view.frame = rect
+            
         case .autoLayout:
             // Layout handled through constraints
             break
@@ -188,7 +189,7 @@ class PopoverController: UIViewController {
     private let backgroundOverlayView = UIView()
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
-        if (self.isBeingPresented) {
+        if self.isBeingPresented {
             return
         }
         if case .preferredContentSize = contentSizeBehavior {
