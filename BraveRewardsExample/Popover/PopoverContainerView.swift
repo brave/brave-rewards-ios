@@ -107,15 +107,12 @@ extension PopoverController {
             CATransaction.setDisableActions(false)
             
             popoverMaskView.frame = bounds
-            switch arrowDirection {
-            case .up:
-                popoverMaskView.bodyView.frame = contentView.bounds.with {
+            
+            popoverMaskView.bodyView.frame = contentView.bounds.with {
+                $0.size.height -= PopoverUX.arrowSize.height
+                
+                if arrowDirection == .up {
                     $0.origin.y = PopoverUX.arrowSize.height
-                    $0.size.height -= PopoverUX.arrowSize.height
-                }
-            case .down:
-                popoverMaskView.bodyView.frame = contentView.bounds.with {
-                    $0.size.height -= PopoverUX.arrowSize.height
                 }
             }
             shadowView.frame = popoverMaskView.bodyView.frame

@@ -165,12 +165,9 @@ class PopoverController: UIViewController {
                 break
             }
             var rect = containerView.contentView.bounds
-            switch containerView.arrowDirection {
-            case .up:
+            rect.size.height -= PopoverUX.arrowSize.height
+            if containerView.arrowDirection == .up {
                 rect.origin.y = PopoverUX.arrowSize.height
-                rect.size.height -= PopoverUX.arrowSize.height
-            case .down:
-                rect.size.height -= PopoverUX.arrowSize.height
             }
             contentController.view.frame = rect
             
@@ -536,7 +533,5 @@ extension PopoverController: UINavigationControllerDelegate {
             size.height = min(size.height, UIScreen.main.bounds.height - containerView.frame.origin.y - view.safeAreaInsets.bottom - arrowDistance)
             navigationController.preferredContentSize = size
         }
-    }
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
     }
 }
