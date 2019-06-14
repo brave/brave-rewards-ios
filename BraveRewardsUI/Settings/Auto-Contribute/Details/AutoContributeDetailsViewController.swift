@@ -6,28 +6,7 @@ import UIKit
 
 import BraveRewards
 
-// FIXME: Remove this struct when real data is available
-private struct UpcomingContribution {
-  let imageURL: URL?
-  let isVerified: Bool
-  let site: String
-  let attention: CGFloat
-}
-
-private let upcomingContributions = [
-  UpcomingContribution(imageURL: nil, isVerified: true, site: "myetherwallet.com", attention: 0.3),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "theverge.com", attention: 0.2),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "amazon.com", attention: 0.1),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "reddit.com", attention: 0.1),
-  UpcomingContribution(imageURL: nil, isVerified: true, site: "myetherwallet.com", attention: 0.05),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "theverge.com", attention: 0.05),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "amazon.com", attention: 0.05),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "reddit.com", attention: 0.05),
-  UpcomingContribution(imageURL: nil, isVerified: true, site: "myetherwallet.com", attention: 0.025),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "theverge.com", attention: 0.025),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "amazon.com", attention: 0.025),
-  UpcomingContribution(imageURL: nil, isVerified: false, site: "reddit.com", attention: 0.025)
-]
+typealias PublisherLoadCallback = (succes: Bool, hasMoreData: Bool)
 
 class AutoContributeDetailViewController: UIViewController {
   
@@ -36,11 +15,13 @@ class AutoContributeDetailViewController: UIViewController {
   }
   
   // Just copy pasted this in, needs design specific for auto-contribute
+  private static let pageSize = 10
+  private var publishers: [PublisherInfo] = []
+  private var hasMoreContent = true
+  private let state: RewardsState
   
-  private let ledger: BraveLedger
-  
-  init(ledger: BraveLedger) {
-    self.ledger = ledger
+  init(state: RewardsState) {
+    self.state = state
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -63,12 +44,10 @@ class AutoContributeDetailViewController: UIViewController {
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
     
-    reloadData()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
     reloadData()
   }
   
@@ -77,11 +56,33 @@ class AutoContributeDetailViewController: UIViewController {
       $0.dateStyle = .short
       $0.timeStyle = .none
     }
-    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(ledger.autoContributeProps.reconcileStamp))
+    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
     nextContributionDateView.label.text = dateFormatter.string(from: reconcileDate)
     nextContributionDateView.bounds = CGRect(origin: .zero, size: nextContributionDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
+    loadPublishers(start: 0) {[weak self] publishersList in
+      guard let self = self else { return }
+      self.publishers = publishersList
+      self.hasMoreContent = publishersList.count == AutoContributeDetailViewController.pageSize
+      self.contentView.tableView.reloadData()
+    }
+  }
+  
+  private func loadPublishers(start: Int, limit: Int = AutoContributeDetailViewController.pageSize, completion: @escaping ([PublisherInfo]) -> Void) {
+    let sort = ActivityInfoFilter.OrderPair().then {
+      $0.propertyName = "percent"
+      $0.ascending = false
+    }
+    let filter = ActivityInfoFilter().then {
+      $0.id = ""
+      $0.excluded = .filterAllExceptExcluded
+      $0.percent = 1 //exclude 0% sites.
+      $0.orderBy = [sort]
+      $0.nonVerified = true
+    }
     
-    contentView.tableView.reloadData()
+    state.ledger.listActivityInfo(fromStart: UInt32(start), limit: UInt32(limit), filter: filter) { publishersList in
+      completion(publishersList)
+    }
   }
   
   private func totalSitesAttributedString(from total: Int) -> NSAttributedString {
@@ -156,45 +157,54 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     
-    guard let typedSection = Section(rawValue: indexPath.section), typedSection == .summary else { return }
-    switch indexPath.row {
-    case SummaryRows.settings.rawValue:
-      // Settings
-      let controller = AutoContributeSettingsViewController(ledger: ledger)
-      navigationController?.pushViewController(controller, animated: true)
-    case SummaryRows.monthlyPayment.rawValue:
-      // Monthly payment
-      guard let wallet = ledger.walletInfo else { break }
-      let monthlyPayment = ledger.contributionAmount
-      let choices = wallet.parametersChoices.map { $0.doubleValue }
-      let selectedIndex = choices.index(of: monthlyPayment) ?? 0
-      let stringChoices = choices.map { choice -> String in
-        var amount = "\(choice) \(wallet.altcurrency)"
-        if let dollarRate = ledger.dollarStringForBATAmount(choice) {
-          amount.append(" (\(dollarRate))")
-        }
-        return amount
-      }
-      let controller = OptionsSelectionViewController(
-        options: stringChoices,
-        selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
-          guard let self = self else { return }
-          if selectedIndex < choices.count {
-            self.ledger.contributionAmount = choices[selectedIndex]
+    switch indexPath.section {
+    case Section.summary.rawValue:
+      switch indexPath.row {
+      case SummaryRows.settings.rawValue:
+        // Settings
+        let controller = AutoContributeSettingsViewController(ledger: state.ledger)
+        navigationController?.pushViewController(controller, animated: true)
+      case SummaryRows.monthlyPayment.rawValue:
+        // Monthly payment
+        guard let wallet = state.ledger.walletInfo else { break }
+        let monthlyPayment = state.ledger.contributionAmount
+        let choices = wallet.parametersChoices.map { $0.doubleValue }
+        let selectedIndex = choices.index(of: monthlyPayment) ?? 0
+        let stringChoices = choices.map { choice -> String in
+          var amount = "\(choice) \(wallet.altcurrency)"
+          if let dollarRate = state.ledger.dollarStringForBATAmount(choice) {
+            amount.append(" (\(dollarRate))")
           }
-          self.navigationController?.popViewController(animated: true)
+          return amount
+        }
+        let controller = OptionsSelectionViewController(
+          options: stringChoices,
+          selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
+            guard let self = self else { return }
+            if selectedIndex < choices.count {
+              self.state.ledger.contributionAmount = choices[selectedIndex]
+            }
+            self.navigationController?.popViewController(animated: true)
+        }
+        controller.title = Strings.AutoContributeMonthlyPayment
+        navigationController?.pushViewController(controller, animated: true)
+      case SummaryRows.excludedSites.rawValue:
+        let numberOfExcludedSites = state.ledger.numberOfExcludedPublishers
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
+          self.state.ledger.restoreAllExcludedPublishers()
+          self.reloadData()
+        }))
+        alert.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
+        present(alert, animated: true)
+      default:
+        break
       }
-      controller.title = Strings.AutoContributeMonthlyPayment
-      navigationController?.pushViewController(controller, animated: true)
-    case SummaryRows.excludedSites.rawValue:
-      let numberOfExcludedSites = ledger.numberOfExcludedPublishers
-      let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-      alert.addAction(UIAlertAction(title: String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
-        self.ledger.restoreAllExcludedPublishers()
-        self.reloadData()
-      }))
-      alert.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
-      present(alert, animated: true)
+    case Section.contributions.rawValue:
+      if !publishers.isEmpty, let url = URL(string: publishers[indexPath.row].url) {
+        state.delegate?.loadNewTabWithURL(url)
+      }
+      
     default:
       break
     }
@@ -222,20 +232,20 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
-      let isExcludingSites = ledger.numberOfExcludedPublishers > 0
+      let isExcludingSites = state.ledger.numberOfExcludedPublishers > 0
       return SummaryRows.numberOfRows(isExcludingSites)
     case .contributions:
-      return upcomingContributions.isEmpty ? 1 : upcomingContributions.count
+      return publishers.isEmpty ? 1 : publishers.count
     }
   }
   
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    guard Section(rawValue: indexPath.section) == .contributions, !upcomingContributions.isEmpty else { return false }
+    guard Section(rawValue: indexPath.section) == .contributions, !publishers.isEmpty else { return false }
     return true
   }
   
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-    guard Section(rawValue: indexPath.section) == .contributions, !upcomingContributions.isEmpty else { return .none }
+    guard Section(rawValue: indexPath.section) == .contributions, !publishers.isEmpty else { return .none }
     return .delete
   }
   
@@ -245,7 +255,11 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     guard Section(rawValue: indexPath.section) == .contributions else { return }
-    
+    if let publisher = publishers[safe: indexPath.row] {
+      state.ledger.updatePublisherExclusionState(withId: publisher.id, state: .excluded)
+      publishers.remove(at: indexPath.row)
+      tableView.reloadSections([Section.summary.rawValue, Section.contributions.rawValue], with: .automatic)
+    }
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -272,8 +286,8 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       case .monthlyPayment:
         cell.label.text = Strings.AutoContributeMonthlyPayment
         cell.accessoryType = .disclosureIndicator
-        if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
-          cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
+        if let walletInfo = state.ledger.walletInfo, let dollarAmount = state.ledger.dollarStringForBATAmount(state.ledger.contributionAmount) {
+          cell.accessoryLabel?.text = "\(state.ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
         }
       case .nextContribution:
         cell.label.text = Strings.AutoContributeNextDate
@@ -281,28 +295,42 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         cell.selectionStyle = .none
       case .supportedSites:
         cell.label.text = Strings.AutoContributeSupportedSites
-        cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: upcomingContributions.count)
+        cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: publishers.count)
         cell.selectionStyle = .none
       case .excludedSites:
-        let numberOfExcludedSites = ledger.numberOfExcludedPublishers
+        let numberOfExcludedSites = state.ledger.numberOfExcludedPublishers
         cell.label.text = String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites)
         cell.label.textColor = Colors.blurple400
       }
       return cell
     case .contributions:
-      if upcomingContributions.isEmpty {
+      if publishers.isEmpty {
         let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
         cell.label.text = Strings.EmptyAutoContribution
         return cell
       }
-      let contribution = upcomingContributions[indexPath.row]
+      let publisher = publishers[indexPath.row]
       let cell = tableView.dequeueReusableCell(for: indexPath) as AutoContributeCell
       cell.selectionStyle = .none
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
-      cell.verifiedStatusImageView.isHidden = !contribution.isVerified
-      cell.siteNameLabel.text = contribution.site
-      cell.attentionAmount = contribution.attention
+      cell.verifiedStatusImageView.isHidden = !publisher.verified
+      let provider = "\(publisher.provider.isEmpty ? "" : "on \(publisher.provider)")"
+      cell.siteNameLabel.text = "\(publisher.name) \(provider)"
+      cell.attentionAmount = CGFloat(publisher.percent)
       return cell
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if indexPath.section == Section.contributions.rawValue,
+      hasMoreContent && indexPath.row == publishers.count - 2 {
+      
+      loadPublishers(start: publishers.count) {[weak self] publisherList in
+        guard let self = self else { return }
+        self.publishers.append(contentsOf: publisherList)
+        self.hasMoreContent = publisherList.count == AutoContributeDetailViewController.pageSize
+        self.contentView.tableView.reloadSections([Section.contributions.rawValue], with: .automatic)
+      }
     }
   }
 }

@@ -124,7 +124,7 @@ class SettingsViewController: UIViewController {
   }
   
   @objc private func tappedAutoContributeViewDetails() {
-    let controller = AutoContributeDetailViewController(ledger: state.ledger)
+    let controller = AutoContributeDetailViewController(state: state)
     controller.preferredContentSize = preferredContentSize
     navigationController?.pushViewController(controller, animated: true)
   }

@@ -47,13 +47,6 @@
                                 </constraints>
                                 <state key="normal" title="s"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5CH-br-5MD">
-                                <rect key="frame" x="142" y="607" width="91" height="30"/>
-                                <state key="normal" title="Reset Ledger"/>
-                                <connections>
-                                    <action selector="tappedResetMockLedger" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fbf-K4-oal"/>
-                                </connections>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9Yi-J0-QPl">
                                 <rect key="frame" x="88.5" y="536" width="198.5" height="31"/>
                                 <subviews>
@@ -72,17 +65,36 @@
                                     </switch>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="hvd-Au-5z4">
+                                <rect key="frame" x="76" y="595" width="223" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5CH-br-5MD">
+                                        <rect key="frame" x="0.0" y="0.0" width="91" height="30"/>
+                                        <state key="normal" title="Reset Ledger"/>
+                                        <connections>
+                                            <action selector="tappedResetMockLedger" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fbf-K4-oal"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0p-CR-Knc">
+                                        <rect key="frame" x="151" y="0.0" width="72" height="30"/>
+                                        <state key="normal" title="Load Sites"/>
+                                        <connections>
+                                            <action selector="tappedLoadContent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QYu-qJ-tSd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="height" secondItem="Rn5-Tc-ZWe" secondAttribute="height" id="0w2-Mi-EqX"/>
-                            <constraint firstItem="5CH-br-5MD" firstAttribute="top" secondItem="9Yi-J0-QPl" secondAttribute="bottom" constant="40" id="AZQ-W5-kKC"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="5CH-br-5MD" secondAttribute="bottom" constant="30" id="GAw-ff-bGn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hvd-Au-5z4" secondAttribute="bottom" constant="42" id="6yy-AU-zMA"/>
+                            <constraint firstItem="hvd-Au-5z4" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9eP-ix-NNZ"/>
+                            <constraint firstItem="hvd-Au-5z4" firstAttribute="top" secondItem="9Yi-J0-QPl" secondAttribute="bottom" constant="28" id="Gcp-v6-kel"/>
                             <constraint firstItem="9Yi-J0-QPl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Lxh-PO-59a"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QKC-yA-2Y9"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="XUl-Lz-boD"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="Xh7-Tg-kpe"/>
-                            <constraint firstItem="5CH-br-5MD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aJY-HR-xPm"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="leading" secondItem="fPD-d0-f26" secondAttribute="trailing" constant="-2" id="g73-1o-XqK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rn5-Tc-ZWe" secondAttribute="trailing" constant="16" id="kx6-mc-c6y"/>
                         </constraints>

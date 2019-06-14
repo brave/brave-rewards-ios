@@ -146,6 +146,7 @@
 		27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CACE2294715100935B45 /* AdsDetailsViewController.swift */; };
 		27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CAD02294773600935B45 /* LabelAccessoryView.swift */; };
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
+		59146FE322BC1A3B0085E420 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59146FE222BC1A3B0085E420 /* DataLoader.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
 /* End PBXBuildFile section */
 
@@ -325,6 +326,7 @@
 		27FD38E221E6B69700443796 /* AdsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTests.swift; sourceTree = "<group>"; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27FD395521E9317400443796 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
+		59146FE222BC1A3B0085E420 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -656,6 +658,7 @@
 				27F3E5A321FB9876009A54D5 /* Popover */,
 				27F3E59121FB97CB009A54D5 /* AppDelegate.swift */,
 				27F3E59321FB97CB009A54D5 /* ViewController.swift */,
+				59146FE222BC1A3B0085E420 /* DataLoader.swift */,
 				27F3E59521FB97CB009A54D5 /* Main.storyboard */,
 				27F3E59821FB97CB009A54D5 /* Assets.xcassets */,
 				27F3E59A21FB97CB009A54D5 /* LaunchScreen.storyboard */,
@@ -1071,6 +1074,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59146FE322BC1A3B0085E420 /* DataLoader.swift in Sources */,
 				27F3E5AD21FB9876009A54D5 /* Then.swift in Sources */,
 				27F3E5AF21FB9876009A54D5 /* PopoverController.swift in Sources */,
 				27F3E5B021FB9876009A54D5 /* PopoverContainerView.swift in Sources */,
