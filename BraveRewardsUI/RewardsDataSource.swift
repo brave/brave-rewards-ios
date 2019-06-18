@@ -13,6 +13,6 @@ public protocol RewardsDataSource: AnyObject {
   /// Download or retrieve a cached version of the favicon given a URL. This should also return the
   /// default letter/color favicon if a website has no official favicon.
   ///
-  /// Execute completionBlock with an image (or nil) when its available
-  func retrieveFavicon(with url: URL, completion: @escaping (UIImage?) -> Void)
+  /// Execute completionBlock with FaviconData
+  func retrieveFavicon(with url: URL, completion: @escaping (FaviconData?) -> Void)
 }

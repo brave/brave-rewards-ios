@@ -27,6 +27,7 @@
 		0A62AB34228ABEC000D99614 /* BATValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A62AB33228ABEC000D99614 /* BATValueTests.swift */; };
 		0A9060222285E0BE00F58252 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060212285E0BE00F58252 /* DateExtensions.swift */; };
 		0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060232285E19E00F58252 /* DateExtensionsTests.swift */; };
+		0A91598B22B92A4900CCC119 /* FaviconData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A91598A22B92A4900CCC119 /* FaviconData.swift */; };
 		2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834A2220E9380051239C /* UIImageExtensions.swift */; };
 		2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834C2220EC1D0051239C /* BundleExtensions.swift */; };
 		2704834F2220EFA50051239C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2704834E2220EC720051239C /* Images.xcassets */; };
@@ -204,6 +205,7 @@
 		0A62AB33228ABEC000D99614 /* BATValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BATValueTests.swift; sourceTree = "<group>"; };
 		0A9060212285E0BE00F58252 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		0A9060232285E19E00F58252 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
+		0A91598A22B92A4900CCC119 /* FaviconData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaviconData.swift; sourceTree = "<group>"; };
 		2704834A2220E9380051239C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		2704834C2220EC1D0051239C /* BundleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
 		2704834E2220EC720051239C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 				278A6B3B225BF91700175678 /* QRCode.swift */,
 				274CDD40225FE7CB00FA7364 /* BATUSDPairView.swift */,
 				27371B7F22A7111200E13C00 /* DetailActionableRow.swift */,
+				0A91598A22B92A4900CCC119 /* FaviconData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -973,6 +976,7 @@
 				274CDD34225E6C9400FA7364 /* GrantsListViewController.swift in Sources */,
 				278B55D422667F6F00BB7B89 /* AutoContributeSettingsViewController.swift in Sources */,
 				2774BBBF2227587E00160619 /* InsufficientFundsButton.swift in Sources */,
+				0A91598B22B92A4900CCC119 /* FaviconData.swift in Sources */,
 				278A6B34225BE2D000175678 /* RewardsState.swift in Sources */,
 				270483552220F5060051239C /* SwitchRow.swift in Sources */,
 				273404672220B041008CABC9 /* Button.swift in Sources */,

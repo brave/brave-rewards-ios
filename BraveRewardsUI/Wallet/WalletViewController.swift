@@ -168,9 +168,13 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       }
       
       if let faviconURL = state.faviconURL {
-        state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] image in
-          guard let image = image else { return }
-          self?.publisherSummaryView.publisherView.faviconImageView.image = image
+        state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] faviconData in
+          guard let data = faviconData else { return }
+          
+          self?.publisherSummaryView.publisherView.faviconImageView.do {
+            $0.image = data.image
+            $0.backgroundColor = data.backgroundColor
+          }
         })
       }
     }
