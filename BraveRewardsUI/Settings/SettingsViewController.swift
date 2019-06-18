@@ -118,7 +118,7 @@ class SettingsViewController: UIViewController {
   }
   
   @objc private func tappedTipsViewDetails() {
-    let controller = TipsDetailViewController(ledger: state.ledger)
+    let controller = TipsDetailViewController(state: state)
     controller.preferredContentSize = preferredContentSize
     navigationController?.pushViewController(controller, animated: true)
   }

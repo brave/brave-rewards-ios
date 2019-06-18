@@ -138,4 +138,7 @@ public extension Strings {
   static let AdsUnsupportedDevice = NSLocalizedString("BraveRewardsAdsUnsupportedDvice", bundle: Bundle.RewardsUI, value: "Brave Rewards and Ads are not available on your device at this time.", comment: "")
   static let AutoContributeSwitchLabel = NSLocalizedString("AutoContributeSwitchLabel", bundle: Bundle.RewardsUI, value: "Auto-Contribute", comment: "Label for auto-contribute toggle.")
   static let TipSiteMonthly = NSLocalizedString("TipSiteMonthly", bundle: Bundle.RewardsUI, value: "Tip this site monthly", comment: "")
+  static let OneTimeText = NSLocalizedString("OneTimeText", bundle: Bundle.RewardsUI, value: "One time ", comment: "Text describing the type of contribution")
+  static let RecurringText = NSLocalizedString("RecurringText", bundle: Bundle.RewardsUI, value: "Recurring", comment: "Text describing the type of contribution")
+  static let OnProviderText = NSLocalizedString("OnProviderText", bundle: Bundle.RewardsUI, value: "%@ on %@", comment: "This is a suffix statement. example: SomeChannel on Twitter")
 }
