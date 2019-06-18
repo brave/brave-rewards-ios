@@ -30,6 +30,7 @@ class PublisherView: UIStackView {
     $0.layer.borderColor = UX.faviconBorderColor.cgColor
     $0.layer.borderWidth = 1.0 / UIScreen.main.scale
     $0.setContentHuggingPriority(.required, for: .horizontal)
+    $0.image = UIImage(frameworkResourceNamed: "defaultFavicon")
   }
   
   // "reddit.com" / "Bart Baker on YouTube"
