@@ -142,11 +142,11 @@ extension ViewController: RewardsDataSource {
     return url.host
   }
   
-  func retrieveFavicon(with url: URL, completion: @escaping (UIImage?) -> Void) {
+  func retrieveFavicon(with url: URL, completion: @escaping (FaviconData?) -> Void) {
     DispatchQueue.global().async {
       if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
         DispatchQueue.main.async {
-          completion(image)
+          completion(FaviconData(image: image, backgroundColor: .white))
         }
         return
       }
