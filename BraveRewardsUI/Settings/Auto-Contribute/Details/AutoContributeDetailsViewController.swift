@@ -309,7 +309,10 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         cell.label.text = Strings.EmptyAutoContribution
         return cell
       }
-      let publisher = publishers[indexPath.row]
+      guard let publisher = publishers[safe: indexPath.row] else {
+        assertionFailure("No Publisher found at index: \(indexPath.row)")
+        return UITableViewCell()
+      }
       let cell = tableView.dequeueReusableCell(for: indexPath) as AutoContributeCell
       cell.selectionStyle = .none
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
