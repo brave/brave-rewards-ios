@@ -28,12 +28,12 @@ extension Date {
     return calendar.component(.month, from: self)
   }
   
-  static func dateStringFrom(intervalSince1970: UInt64) -> String {
+  static func dateStringFrom(reconcileStamp: UInt64) -> String {
     let dateFormatter = DateFormatter().then {
       $0.dateStyle = .short
       $0.timeStyle = .none
     }
-    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(integerLiteral: Int64(intervalSince1970)))
+    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(integerLiteral: Int64(reconcileStamp)))
     return dateFormatter.string(from: reconcileDate)
   }
 }

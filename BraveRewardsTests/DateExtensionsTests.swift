@@ -31,7 +31,7 @@ class DateExtensionsTests: XCTestCase {
   
   func testDateStringFromIntervalSince1970() {
     let timeInterval = UInt64(dateFrom(string: "2019-01-20").timeIntervalSince1970)
-    XCTAssertEqual(Date.dateStringFrom(intervalSince1970: timeInterval), "1/20/19")
+    XCTAssertEqual(Date.dateStringFrom(reconcileStamp: timeInterval), "1/20/19")
   }
   
   private func dateFrom(string: String) -> Date {
