@@ -166,8 +166,13 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       }
       let cell = tableView.dequeueReusableCell(for: indexPath) as TipsTableCell
       let tip = tipsList[indexPath.row]
-      let provider = "\(tip.provider.isEmpty ? "" : String(format: Strings.OnProviderText, tip.provider))"
-      cell.siteNameLabel.text = "\(tip.name) \(provider)"
+      let provider = " \(tip.provider.isEmpty ? "" : String(format: Strings.OnProviderText, tip.provider))"
+      
+      let attrName = NSMutableAttributedString(string: tip.name).then {
+        $0.append(NSMutableAttributedString(string: provider, attributes: [.font: UIFont.boldSystemFont(ofSize: 14.0),
+                                                                           .foregroundColor: UIColor.gray]))
+      }
+      cell.siteNameLabel.attributedText = attrName
       
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
       setFavicon(identifier: tip.id, url: tip.faviconUrl)
