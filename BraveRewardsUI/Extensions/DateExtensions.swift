@@ -28,7 +28,7 @@ extension Date {
     return calendar.component(.month, from: self)
   }
   
-  static func dateStringFrom(reconcileStamp: UInt64) -> String {
+  static func stringFrom(reconcileStamp: UInt64) -> String {
     let dateFormatter = DateFormatter().then {
       $0.dateStyle = .short
       $0.timeStyle = .none

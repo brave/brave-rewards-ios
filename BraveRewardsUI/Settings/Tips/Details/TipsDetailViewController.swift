@@ -52,7 +52,7 @@ class TipsDetailViewController: UIViewController {
       
     }
     // Fixme: Check if recurreing tips happen at autoContribute reconcileStamp
-    nextContributionDateView.label.text = Date.dateStringFrom(reconcileStamp: state.ledger.autoContributeProps.reconcileStamp)
+    nextContributionDateView.label.text = Date.stringFrom(reconcileStamp: state.ledger.autoContributeProps.reconcileStamp)
     nextContributionDateView.bounds = CGRect(origin: .zero, size: nextContributionDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     
     state.ledger.listOneTimeTips {[weak self] infoList in
@@ -179,7 +179,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       cell.verifiedStatusImageView.isHidden = !tip.verified
       switch tip.category {
       case .oneTimeTip:
-        cell.typeNameLabel.text = Strings.OneTimeText + Date.dateStringFrom(reconcileStamp: tip.reconcileStamp)
+        cell.typeNameLabel.text = Strings.OneTimeText + Date.stringFrom(reconcileStamp: tip.reconcileStamp)
       case .recurringTip:
         cell.typeNameLabel.text = Strings.RecurringText
       default:
