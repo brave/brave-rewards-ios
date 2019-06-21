@@ -10,6 +10,9 @@ clean=0
 release_flag="Release"
 brave_browser_dir="${@: -1}"
 
+sim_dir="out/ios_Release"
+device_dir="out/ios_Release_arm64"
+
 function usage() {
   echo "Usage: ./build_in_core.sh [--skip-update] [--clean] [--debug] {\$home/brave/brave-browser}"
   echo " --skip-update:   Does not pull down any brave-core/brave-browser changes"
@@ -30,6 +33,8 @@ case $i in
     ;;
     --debug)
     release_flag=""
+    sim_dir="out/ios_Debug"
+    device_dir="out/ios_Debug_arm64"
     shift
     ;;
     --clean)
@@ -67,19 +72,24 @@ fi
 
 if [ "$clean" = 1 ]; then
   # If this script has already been run, we'll clean out the build folders
-  [[ -d out/sim-release ]] && gn clean out/sim-release
-  [[ -d out/device-release ]] && gn clean out/device-release
+  [[ -d $sim_dir ]] && gn clean  $sim_dir
+  [[ -d $device_dir ]] && gn clean $device_dir
+else
+  # Force it to reassemble the products if they've been built already
+  # This prevents things that are only _copied_ into the directory over time in separate branches
+  [[ -d $sim_dir/BraveRewards.framework ]] && rm -rf $sim_dir/BraveRewards.framework
+  [[ -d $device_dir/BraveRewards.framework ]] && rm -rf $device_dir/BraveRewards.framework
 fi
 
 npm run build -- $release_flag --target_os=ios
 npm run build -- $release_flag --target_os=ios --target_arch=arm64
 
 # Copy the framework structure (from iphoneos build) to the universal folder
-cp -R "out/ios_Release_arm64/BraveRewards.framework" "$framework_drop_point/"
+rsync -a --delete "out/$device_dir/BraveRewards.framework" "$framework_drop_point/"
 # cp -R "out/device-release/BraveRewards.dSYM" "$framework_drop_point/BraveRewards.framework.dSYM"
 
 # Create universal binary file using lipo and place the combined executable in the copied framework directory
-lipo -create -output "$framework_drop_point/BraveRewards.framework/BraveRewards" "out/ios_Release/BraveRewards.framework/BraveRewards" "out/ios_Release_arm64/BraveRewards.framework/BraveRewards"
+lipo -create -output "$framework_drop_point/BraveRewards.framework/BraveRewards" "out/$sim_dir/BraveRewards.framework/BraveRewards" "out/$device_dir/BraveRewards.framework/BraveRewards"
 
 echo "Created FAT framework: $framework_drop_point/BraveRewards.framework"
 
