@@ -3,10 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
-
 import BraveRewards
-
-typealias PublisherLoadCallback = (succes: Bool, hasMoreData: Bool)
 
 class AutoContributeDetailViewController: UIViewController {
   
@@ -322,8 +319,12 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       cell.selectionStyle = .none
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
       cell.verifiedStatusImageView.isHidden = !publisher.verified
-      let provider = "\(publisher.provider.isEmpty ? "" : "on \(publisher.provider)")"
-      cell.siteNameLabel.text = "\(publisher.name) \(provider)"
+      let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
+      let attrName = NSMutableAttributedString(string: publisher.name).then {
+        $0.append(NSMutableAttributedString(string: provider, attributes: [.font: UIFont.boldSystemFont(ofSize: 14.0),
+                                                                           .foregroundColor: UIColor.gray]))
+      }
+      cell.siteNameLabel.attributedText = attrName
       cell.attentionAmount = CGFloat(publisher.percent)
       return cell
     }
