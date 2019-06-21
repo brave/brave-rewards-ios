@@ -11,7 +11,6 @@ class TipsDetailViewController: UIViewController {
     return view as! View // swiftlint:disable:this force_cast
   }
   
-  private let nextContributionDateView = LabelAccessoryView()
   private var totalBatTips: Double = 0.0
   private var tipsList: [PublisherInfo] = []
   private let state: RewardsState
@@ -42,6 +41,18 @@ class TipsDetailViewController: UIViewController {
     loadData()
   }
   
+  private var nextContributionDateView: LabelAccessoryView {
+    let view = LabelAccessoryView()
+    let dateFormatter = DateFormatter().then {
+      $0.dateStyle = .short
+      $0.timeStyle = .none
+    }
+    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
+    view.label.text = dateFormatter.string(from: reconcileDate)
+    view.bounds = CGRect(origin: .zero, size: view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
+    return view
+  }
+  
   private func loadData() {
     _ = getTipsThisMonth().then {
       
@@ -49,11 +60,7 @@ class TipsDetailViewController: UIViewController {
         let recurringTips = BATValue($0.recurringDonation) {
         totalBatTips = oneTimeTips.doubleValue + recurringTips.doubleValue
       }
-      
     }
-    // Fixme: Check if recurreing tips happen at autoContribute reconcileStamp
-    nextContributionDateView.label.text = Date.stringFrom(reconcileStamp: state.ledger.autoContributeProps.reconcileStamp)
-    nextContributionDateView.bounds = CGRect(origin: .zero, size: nextContributionDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     
     state.ledger.listOneTimeTips {[weak self] infoList in
       guard let self = self else { return }
@@ -133,6 +140,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     guard Section(rawValue: indexPath.section) == .tips,
+      !tipsList.isEmpty,
       let tipURL = URL(string: tipsList[indexPath.row].url)
     else { return }
     state.delegate?.loadNewTabWithURL(tipURL)
@@ -162,6 +170,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       if tipsList.isEmpty {
         let cell = tableView.dequeueReusableCell(for: indexPath) as EmptyTableCell
         cell.label.text = Strings.EmptyTipsText
+        cell.selectionStyle = .none
         return cell
       }
       let cell = tableView.dequeueReusableCell(for: indexPath) as TipsTableCell
@@ -217,7 +226,8 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     let publisherID = tipsList[indexPath.row].id
     state.ledger.removeRecurringTip(publisherId: publisherID)
     tipsList.remove(at: indexPath.row)
-    tableView.reloadSections([Section.summary.rawValue, Section.tips.rawValue], with: .automatic)
+    //TODO: Animate table updates
+    tableView.reloadData()
   }
 }
 
