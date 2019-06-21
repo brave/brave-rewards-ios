@@ -52,13 +52,6 @@ class AutoContributeDetailViewController: UIViewController {
   }
   
   func reloadData() {
-    let dateFormatter = DateFormatter().then {
-      $0.dateStyle = .short
-      $0.timeStyle = .none
-    }
-    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
-    nextContributionDateView.label.text = dateFormatter.string(from: reconcileDate)
-    nextContributionDateView.bounds = CGRect(origin: .zero, size: nextContributionDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     loadPublishers(start: 0) {[weak self] publishersList in
       guard let self = self else { return }
       self.publishers = publishersList
@@ -133,7 +126,17 @@ class AutoContributeDetailViewController: UIViewController {
     }
   }
   
-  private let nextContributionDateView =  LabelAccessoryView()
+  private var nextContributionDateView: LabelAccessoryView {
+    let view = LabelAccessoryView()
+    let dateFormatter = DateFormatter().then {
+      $0.dateStyle = .short
+      $0.timeStyle = .none
+    }
+    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
+    view.label.text = dateFormatter.string(from: reconcileDate)
+    view.bounds = CGRect(origin: .zero, size: view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
+    return view
+  }
   
   // MARK: - Actions
   
