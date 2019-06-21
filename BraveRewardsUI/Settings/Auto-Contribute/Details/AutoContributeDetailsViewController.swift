@@ -196,7 +196,8 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
           self.state.ledger.restoreAllExcludedPublishers()
-          self.reloadData()
+          // TODO: Animate this update
+          self.contentView.tableView.reloadData()
         }))
         alert.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
         present(alert, animated: true)
@@ -261,7 +262,8 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     if let publisher = publishers[safe: indexPath.row] {
       state.ledger.updatePublisherExclusionState(withId: publisher.id, state: .excluded)
       publishers.remove(at: indexPath.row)
-      tableView.reloadSections([Section.summary.rawValue, Section.contributions.rawValue], with: .automatic)
+      // TODO: Animate this update
+      tableView.reloadData()
     }
   }
   
@@ -335,7 +337,8 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         guard let self = self else { return }
         self.publishers.append(contentsOf: publisherList)
         self.hasMoreContent = publisherList.count == AutoContributeDetailViewController.pageSize
-        self.contentView.tableView.reloadSections([Section.contributions.rawValue], with: .automatic)
+        // TODO: Animate this update
+        tableView.reloadData()
       }
     }
   }
