@@ -27,4 +27,13 @@ extension Date {
     let calendar = Calendar(identifier: .gregorian)
     return calendar.component(.month, from: self)
   }
+  
+  static func stringFrom(reconcileStamp: UInt64) -> String {
+    let dateFormatter = DateFormatter().then {
+      $0.dateStyle = .short
+      $0.timeStyle = .none
+    }
+    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(integerLiteral: Int64(reconcileStamp)))
+    return dateFormatter.string(from: reconcileDate)
+  }
 }
