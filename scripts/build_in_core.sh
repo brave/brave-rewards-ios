@@ -85,11 +85,11 @@ npm run build -- $release_flag --target_os=ios
 npm run build -- $release_flag --target_os=ios --target_arch=arm64
 
 # Copy the framework structure (from iphoneos build) to the universal folder
-rsync -a --delete "out/$device_dir/BraveRewards.framework" "$framework_drop_point/"
+rsync -a --delete "$device_dir/BraveRewards.framework" "$framework_drop_point/"
 # cp -R "out/device-release/BraveRewards.dSYM" "$framework_drop_point/BraveRewards.framework.dSYM"
 
 # Create universal binary file using lipo and place the combined executable in the copied framework directory
-lipo -create -output "$framework_drop_point/BraveRewards.framework/BraveRewards" "out/$sim_dir/BraveRewards.framework/BraveRewards" "out/$device_dir/BraveRewards.framework/BraveRewards"
+lipo -create -output "$framework_drop_point/BraveRewards.framework/BraveRewards" "$sim_dir/BraveRewards.framework/BraveRewards" "$device_dir/BraveRewards.framework/BraveRewards"
 
 echo "Created FAT framework: $framework_drop_point/BraveRewards.framework"
 
