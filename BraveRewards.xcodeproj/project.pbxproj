@@ -45,6 +45,7 @@
 		2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58122527BC300B9EAF7 /* WalletActivityView.swift */; };
 		2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B58422528EE100B9EAF7 /* AddFundsView.swift */; };
 		2726B5872252989900B9EAF7 /* TokenAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2726B5862252989900B9EAF7 /* TokenAddressView.swift */; };
+		2729686922C16B770038CAF9 /* BraveRewardsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729686822C16B770038CAF9 /* BraveRewardsExtensions.swift */; };
 		272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B787122248E8800B7B81E /* TippingOverviewView.swift */; };
 		272B7874222494F600B7B81E /* TippingOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7873222494F600B7B81E /* TippingOptionView.swift */; };
 		272B7876222498EA00B7B81E /* TippingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272B7875222498EA00B7B81E /* TippingSelectionView.swift */; };
@@ -226,6 +227,7 @@
 		2726B58122527BC300B9EAF7 /* WalletActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActivityView.swift; sourceTree = "<group>"; };
 		2726B58422528EE100B9EAF7 /* AddFundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFundsView.swift; sourceTree = "<group>"; };
 		2726B5862252989900B9EAF7 /* TokenAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenAddressView.swift; sourceTree = "<group>"; };
+		2729686822C16B770038CAF9 /* BraveRewardsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BraveRewardsExtensions.swift; sourceTree = "<group>"; };
 		272B787122248E8800B7B81E /* TippingOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOverviewView.swift; sourceTree = "<group>"; };
 		272B7873222494F600B7B81E /* TippingOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingOptionView.swift; sourceTree = "<group>"; };
 		272B7875222498EA00B7B81E /* TippingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionView.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 				27F4C1D622551D6B00CFCD67 /* UIStackViewExtensions.swift */,
 				27F4C1DC2256A67700CFCD67 /* UITableViewExtensions.swift */,
 				278B55D722677AB300BB7B89 /* BraveLedgerExtensions.swift */,
+				2729686822C16B770038CAF9 /* BraveRewardsExtensions.swift */,
 				0A9060212285E0BE00F58252 /* DateExtensions.swift */,
 				5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */,
 			);
@@ -1015,6 +1018,7 @@
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
 				274CDD41225FE7CB00FA7364 /* BATUSDPairView.swift in Sources */,
 				27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */,
+				2729686922C16B770038CAF9 /* BraveRewardsExtensions.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */,
 				270483632221AC260051239C /* RewardsSummaryView.swift in Sources */,

@@ -4,8 +4,8 @@ A UI framework for consuming Brave Rewards on [brave-ios](https://github.com/bra
 
 The latest BraveRewards.framework was built on:
 
-brave-browser/de36aca62f96d233cd5c8e9fb78dc5f7f955c56e
-brave-core/cc28fd3222fd55be3b54d97a4c1cca348bddb872
+brave-browser/6087af7e9db357edae952c341feccd902d358526
+brave-core/5afa96dadfe803e8a058d6ede0c9c3987405b8d8
 
 
 Building the code
