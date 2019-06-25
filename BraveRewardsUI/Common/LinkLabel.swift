@@ -4,22 +4,55 @@
 
 import Foundation
 
-/// A Disclaimer Label that allows clickable links (or data-detectors)
-final class DisclaimerLinkLabel: UITextView {
+/// A Label that allows clickable links (or data-detectors)
+final class LinkLabel: UITextView {
   
   /// Called when a link is tapped
-  var onLinkedTapped: ((Link) -> Void)?
-  
-  /// Types of links supported by this label
-  public enum Link {
-    case unknown
-    case termsOfService
-    case privacyPolicy
-  }
+  var onLinkedTapped: ((URL) -> Void)?
   
   override var text: String? {
     didSet {
       updateText()
+    }
+  }
+  
+  override var textAlignment: NSTextAlignment {
+    didSet {
+      guard let text = self.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
+      let range = NSRange(location: 0, length: text.length)
+      let paragraphStyle = NSMutableParagraphStyle()
+      paragraphStyle.alignment = textAlignment
+      
+      text.beginEditing()
+      text.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
+      text.endEditing()
+    }
+  }
+  
+  override var font: UIFont? {
+    didSet {
+      guard let text = self.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
+      let range = NSRange(location: 0, length: text.length)
+      
+      text.beginEditing()
+      text.addAttribute(.font, value: self.font ?? UIFont.systemFont(ofSize: 12.0), range: range)
+      text.endEditing()
+    }
+  }
+  
+  override var textColor: UIColor? {
+    didSet {
+      guard let text = self.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
+      let range = NSRange(location: 0, length: text.length)
+      
+      text.beginEditing()
+      text.addAttribute(.foregroundColor, value: self.textColor ?? UX.textColor, range: range)
+      text.enumerateAttribute(.link, in: range, options: .init(rawValue: 0), using: { value, range, stop in
+        if value != nil {
+          text.addAttribute(.foregroundColor, value: UX.linkColor, range: range)
+        }
+      })
+      text.endEditing()
     }
   }
   
@@ -32,7 +65,7 @@ final class DisclaimerLinkLabel: UITextView {
     
     let attributedString = { () -> NSAttributedString? in
       let paragraphStyle = NSMutableParagraphStyle()
-      paragraphStyle.alignment = .center
+      paragraphStyle.alignment = self.textAlignment
       
       let attributes: [NSAttributedString.Key: Any] = [.font: self.font ?? UIFont.systemFont(ofSize: 12.0),
                                                        .foregroundColor: self.textColor ?? UX.textColor,
@@ -46,6 +79,7 @@ final class DisclaimerLinkLabel: UITextView {
       let range = NSRange(location: 0, length: text?.length ?? 0)
       text?.addAttribute(.foregroundColor, value: self.textColor ?? UX.textColor, range: range)
       text?.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
+      text?.addAttribute(.font, value: self.font ?? UIFont.systemFont(ofSize: 12.0), range: range)
       
       text?.beginEditing()
       text?.enumerateAttribute(.underlineStyle, in: range, options: .init(rawValue: 0), using: { value, range, stop in
@@ -81,7 +115,6 @@ final class DisclaimerLinkLabel: UITextView {
     super.init(frame: frame, textContainer: textContainer)
     
     /// Setup
-    textAlignment = .center
     delaysContentTouches = false
     isEditable = false
     isScrollEnabled = false
@@ -105,21 +138,10 @@ final class DisclaimerLinkLabel: UITextView {
   }
 }
 
-extension DisclaimerLinkLabel: UITextViewDelegate {
+extension LinkLabel: UITextViewDelegate {
   
   func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-    
-    /// Handle when links are tapped on
-    switch URL.path {
-    case "/terms":
-      onLinkedTapped?(.termsOfService)
-      
-    case "/policy":
-      onLinkedTapped?(.privacyPolicy)
-      
-    default:
-      onLinkedTapped?(.unknown)
-    }
+    onLinkedTapped?(URL)
     return false
   }
   

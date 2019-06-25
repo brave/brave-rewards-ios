@@ -102,9 +102,10 @@ extension RewardsDisabledView {
       $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
-    let termsOfServiceLabel = DisclaimerLinkLabel().then {
-      $0.font = .systemFont(ofSize: 16.0)
+    let termsOfServiceLabel = LinkLabel().then {
+      $0.font = .systemFont(ofSize: 12.0)
       $0.textColor = Colors.grey100
+      $0.textAlignment = .center
       $0.text = Strings.DisclaimerInformation
     }
     

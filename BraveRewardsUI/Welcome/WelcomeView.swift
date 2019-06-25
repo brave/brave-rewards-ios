@@ -13,8 +13,10 @@ extension WelcomeViewController {
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
     
-    let termsOfServiceLabel = DisclaimerLinkLabel().then {
-      $0.font = .systemFont(ofSize: 16.0)
+    let termsOfServiceLabel = LinkLabel().then {
+      $0.font = .systemFont(ofSize: 12.0)
+      $0.textColor = Colors.grey900
+      $0.textAlignment = .center
       $0.text = Strings.DisclaimerInformation
     }
     

@@ -43,7 +43,9 @@ class PublisherView: UIStackView {
   /// The learn more button on the unverified publisher disclaimer was tapped
   var learnMoreTapped: (() -> Void)? {
     didSet {
-      unverifiedDisclaimerView.learnMoreTapped = learnMoreTapped
+      unverifiedDisclaimerView.onLinkedTapped = { [weak self] _ in
+        self?.learnMoreTapped?()
+      }
     }
   }
   
@@ -84,7 +86,13 @@ class PublisherView: UIStackView {
     $0.adjustsFontSizeToFitWidth = true
   }
   // Only shown when unverified
-  private let unverifiedDisclaimerView = DisclaimerView(text: Strings.UnverifiedPublisherDisclaimer)
+  private let unverifiedDisclaimerView = LinkLabel().then {
+    $0.textColor = Colors.grey200
+    $0.font = UIFont.systemFont(ofSize: 12.0)
+    $0.textAlignment = .left
+    $0.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+    $0.text = "\(Strings.UnverifiedPublisherDisclaimer) \(Strings.DisclaimerLearnMore)"
+  }
   
   @available(*, unavailable)
   required init(coder: NSCoder) {

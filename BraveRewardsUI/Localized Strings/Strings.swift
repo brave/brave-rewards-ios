@@ -27,7 +27,7 @@ public extension Strings {
   static let AutoContributeMinimumVisits = NSLocalizedString("BraveRewardsAutoContributeMinimumVisits", bundle: Bundle.RewardsUI, value: "Minimum Visits", comment: "")
   static let AddFundsShowQRCode = NSLocalizedString("BraveRewardsAddFundsShowQRCode", bundle: Bundle.RewardsUI, value: "Show QR Code", comment: "")
   static let RewardsOptInPrefix = NSLocalizedString("RewardsOptInPrefix", bundle: Bundle.RewardsUI, value: "Get ready to experience the next Internet.", comment: "")
-  static let DisclaimerLearnMore = NSLocalizedString("BraveRewardsDisclaimerLearnMore", bundle: Bundle.RewardsUI, value: "Learn More", comment: "")
+  static let DisclaimerLearnMore = NSLocalizedString("BraveRewardsDisclaimerLearnMore", bundle: Bundle.RewardsUI, value: "<a href='learn-more'>Learn More</a>", comment: "")
   static let CLAIM = NSLocalizedString("CLAIM", bundle: Bundle.RewardsUI, value: "CLAIM", comment: "")
   static let AutoContributeNextDate = NSLocalizedString("BraveRewardsAutoContributeNextDate", bundle: Bundle.RewardsUI, value: "Next contribution date", comment: "")
   static let TippingMakeMonthly = NSLocalizedString("BraveRewardsTippingMakeMonthly", bundle: Bundle.RewardsUI, value: "Make this monthly", comment: "")
