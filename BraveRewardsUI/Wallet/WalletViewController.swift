@@ -144,6 +144,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
+    
     // TODO: Update with actual value below
     publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "5"
     let publisherView = publisherSummaryView.publisherView
@@ -158,16 +159,24 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       guard let host = state.url.host else { return }
       attentionView.valueLabel.text = "0%"
       
-      state.ledger.publisherInfo(forId: host) { info in
-        guard let publisher = info else { return }
-        assert(Thread.isMainThread)
-        publisherView.setVerified(publisher.verified)
+      publisherView.onCheckAgainTapped = { [weak self] in
+        guard let self = self else { return }
         
-        if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
-          attentionView.valueLabel.text = "\(percent)%"
+        publisherView.checkAgainButton.isLoading = true
+        self.state.ledger.publisherInfo(forId: host) { info in
+          publisherView.checkAgainButton.isLoading = false
+          
+          guard let publisher = info else { return }
+          assert(Thread.isMainThread)
+          publisherView.setVerified(publisher.verified)
+          
+          if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
+            attentionView.valueLabel.text = "\(percent)%"
+          }
         }
-        
       }
+      
+      publisherView.onCheckAgainTapped?()
       
       if let faviconURL = state.faviconURL {
         state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] faviconData in

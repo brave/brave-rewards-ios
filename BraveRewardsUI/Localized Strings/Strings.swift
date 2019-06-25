@@ -6,6 +6,7 @@ public struct Strings {}
 
 public extension Strings {
   static let Verified = NSLocalizedString("BraveRewardsVerified", bundle: Bundle.RewardsUI, value: "Brave Verified Publisher", comment: "")
+  static let CheckAgain = NSLocalizedString("BraveRewardsCheckAgain", bundle: Bundle.RewardsUI, value: "Check Again...", comment: "")
   static let RewardsOptInLearnMore = NSLocalizedString("RewardsOptInLearnMore", bundle: Bundle.RewardsUI, value: "Learn More", comment: "")
   static let SettingsAdsBody = NSLocalizedString("BraveRewardsSettingsAdsBody", bundle: Bundle.RewardsUI, value: "Earn tokens by viewing ads in Brave. Ads presented are based on your interests, as inferred from your browsing behavior. No personal data or browsing history ever leaves your browser.", comment: "")
   static let WalletHeaderGrants = NSLocalizedString("BraveRewardsWalletHeaderGrants", bundle: Bundle.RewardsUI, value: "Grants", comment: "")

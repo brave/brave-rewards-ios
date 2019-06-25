@@ -49,6 +49,9 @@ class PublisherView: UIStackView {
     }
   }
   
+  /// Refresh Publisher List
+  var onCheckAgainTapped: (() -> Void)?
+  
   // MARK: -
   
   private struct UX {
@@ -71,20 +74,38 @@ class PublisherView: UIStackView {
     $0.spacing = 4.0
   }
   
-  // For containing verificationSymbolImageView and verifiedLabel
+  // For containing verificationSymbolImageView and verifiedCheckAgainStackView
   private let verifiedLabelStackView = UIStackView().then {
     $0.spacing = 4.0
   }
+  
   // ✓ or ?
   private let verificationSymbolImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFit
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
+  
+  // For containing verifiedLabel and checkAgainButton
+  private let verifiedCheckAgainStackView = UIStackView().then {
+    $0.spacing = 4.0
+  }
+  
   // "Brave Verified Publisher" / "Not yet verified"
   private let verifiedLabel = UILabel().then {
     $0.textColor = UX.verifiedStatusColor
     $0.font = .systemFont(ofSize: 12.0)
     $0.adjustsFontSizeToFitWidth = true
   }
+  
+  // "Brave Check Again" button
+  let checkAgainButton = Button().then {
+    $0.setTitleColor(Colors.blue500, for: .normal)
+    $0.titleLabel?.font = .systemFont(ofSize: 12.0)
+    $0.setTitle(Strings.CheckAgain, for: .normal)
+    $0.setContentHuggingPriority(.required, for: .horizontal)
+    $0.loaderView = LoaderView(size: .small)
+  }
+  
   // Only shown when unverified
   private let unverifiedDisclaimerView = LinkLabel().then {
     $0.textColor = Colors.grey200
@@ -113,10 +134,19 @@ class PublisherView: UIStackView {
     publisherStackView.addArrangedSubview(publisherNameLabel)
     publisherStackView.addArrangedSubview(verifiedLabelStackView)
     verifiedLabelStackView.addArrangedSubview(verificationSymbolImageView)
-    verifiedLabelStackView.addArrangedSubview(verifiedLabel)
+    verifiedLabelStackView.addArrangedSubview(verifiedCheckAgainStackView)
+    verifiedCheckAgainStackView.addArrangedSubview(verifiedLabel)
+    verifiedCheckAgainStackView.addArrangedSubview(checkAgainButton)
     
     faviconImageView.snp.makeConstraints {
       $0.size.equalTo(UX.faviconSize)
     }
+    
+    checkAgainButton.addTarget(self, action: #selector(onCheckAgainPressed(_:)), for: .touchUpInside)
+  }
+  
+  @objc
+  private func onCheckAgainPressed(_ button: Button) {
+    onCheckAgainTapped?()
   }
 }
