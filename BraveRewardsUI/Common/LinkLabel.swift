@@ -64,6 +64,11 @@ final class LinkLabel: UITextView {
     }
     
     let attributedString = { () -> NSAttributedString? in
+      guard let data = text.data(using: .utf8) else { return nil }
+      guard let text = try? NSMutableAttributedString(data: data,
+                                                      options: [.documentType: NSAttributedString.DocumentType.html],
+                                                      documentAttributes: nil) else { return nil }
+      
       let paragraphStyle = NSMutableParagraphStyle()
       paragraphStyle.alignment = self.textAlignment
       
@@ -71,23 +76,16 @@ final class LinkLabel: UITextView {
                                                        .foregroundColor: self.textColor ?? UX.textColor,
                                                        .paragraphStyle: paragraphStyle]
       
-      let text = try? NSMutableAttributedString(data: text.data(using: .utf8) ?? Data(),
-                                                          options: [.documentType: NSAttributedString.DocumentType.html,
-                                                                    .defaultAttributes: attributes],
-                                                          documentAttributes: nil)
+      let range = NSRange(location: 0, length: text.length)
       
-      let range = NSRange(location: 0, length: text?.length ?? 0)
-      text?.addAttribute(.foregroundColor, value: self.textColor ?? UX.textColor, range: range)
-      text?.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
-      text?.addAttribute(.font, value: self.font ?? UIFont.systemFont(ofSize: 12.0), range: range)
-      
-      text?.beginEditing()
-      text?.enumerateAttribute(.underlineStyle, in: range, options: .init(rawValue: 0), using: { value, range, stop in
+      text.beginEditing()
+      text.addAttributes(attributes, range: range)
+      text.enumerateAttribute(.underlineStyle, in: range, options: .init(rawValue: 0), using: { value, range, stop in
         if value != nil {
-          text?.addAttribute(.underlineStyle, value: 0, range: range)
+          text.addAttribute(.underlineStyle, value: 0, range: range)
         }
       })
-      text?.endEditing()
+      text.endEditing()
       return text
     }
     

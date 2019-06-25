@@ -89,7 +89,6 @@ class PublisherView: UIStackView {
   private let unverifiedDisclaimerView = LinkLabel().then {
     $0.textColor = Colors.grey200
     $0.font = UIFont.systemFont(ofSize: 12.0)
-    $0.textAlignment = .left
     $0.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     $0.text = "\(Strings.UnverifiedPublisherDisclaimer) \(Strings.DisclaimerLearnMore)"
   }
