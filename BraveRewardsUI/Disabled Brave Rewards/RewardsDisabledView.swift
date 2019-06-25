@@ -102,6 +102,12 @@ extension RewardsDisabledView {
       $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
+    let termsOfServiceLabel = DisclaimerLinkLabel().then {
+      $0.font = .systemFont(ofSize: 16.0)
+      $0.textColor = Colors.grey100
+      $0.text = Strings.DisclaimerInformation
+    }
+    
     @available(*, unavailable)
     required init(coder: NSCoder) {
       fatalError()
@@ -114,6 +120,7 @@ extension RewardsDisabledView {
       addSubview(titleLabel)
       addSubview(subtitleLabel)
       addSubview(bodyLabel)
+      addSubview(termsOfServiceLabel)
       addSubview(enableRewardsButton)
       
       batLogoImageView.snp.makeConstraints {
@@ -133,9 +140,13 @@ extension RewardsDisabledView {
         $0.leading.trailing.equalTo(self).inset(40.0)
       }
       enableRewardsButton.snp.makeConstraints {
-        $0.top.greaterThanOrEqualTo(self.bodyLabel.snp.bottom).offset(30.0)
+        $0.top.equalTo(self.bodyLabel.snp.bottom).offset(30.0)
         $0.leading.trailing.equalTo(self).inset(40.0)
         $0.height.equalTo(UX.rewardsButtonHeight)
+      }
+      termsOfServiceLabel.snp.makeConstraints {
+        $0.top.greaterThanOrEqualTo(self.enableRewardsButton.snp.bottom).offset(30.0)
+        $0.leading.trailing.equalTo(self).inset(60.0)
         $0.bottom.equalTo(self)
       }
     }

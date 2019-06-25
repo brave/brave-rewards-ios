@@ -148,6 +148,7 @@
 		27FD38E321E6B69700443796 /* AdsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27FD38E221E6B69700443796 /* AdsTests.swift */; };
 		59146FE322BC1A3B0085E420 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59146FE222BC1A3B0085E420 /* DataLoader.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
+		5E2A934B22C15F05002EDFFD /* DisclaimerLinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A934A22C15F05002EDFFD /* DisclaimerLinkLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -329,6 +330,7 @@
 		59146FE222BC1A3B0085E420 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		5E2A934A22C15F05002EDFFD /* DisclaimerLinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerLinkLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -537,6 +539,7 @@
 				274CDD40225FE7CB00FA7364 /* BATUSDPairView.swift */,
 				27371B7F22A7111200E13C00 /* DetailActionableRow.swift */,
 				0A91598A22B92A4900CCC119 /* FaviconData.swift */,
+				5E2A934A22C15F05002EDFFD /* DisclaimerLinkLabel.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1042,6 +1045,7 @@
 				27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */,
 				278A6B48225C09AE00175678 /* TippingViewController.swift in Sources */,
 				271E1C322268E67200E933B0 /* OptionsSelectionViewController.swift in Sources */,
+				5E2A934B22C15F05002EDFFD /* DisclaimerLinkLabel.swift in Sources */,
 				2730DF942236CA110031845C /* SettingsGrantSectionView.swift in Sources */,
 				27598847222453D900B2E47A /* PublisherView.swift in Sources */,
 				27623A8B228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift in Sources */,

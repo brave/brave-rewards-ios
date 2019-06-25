@@ -13,6 +13,11 @@ extension WelcomeViewController {
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
     
+    let termsOfServiceLabel = DisclaimerLinkLabel().then {
+      $0.font = .systemFont(ofSize: 16.0)
+      $0.text = Strings.DisclaimerInformation
+    }
+    
     let backgroundView = GradientView.purpleRewardsGradientView()
     
     override init(frame: CGRect) {
@@ -66,6 +71,8 @@ extension WelcomeViewController {
         .customSpace(25.0),
         .view(createWalletButton),
         .customSpace(25.0),
+        .view(termsOfServiceLabel),
+        .customSpace(25.0),
         .view(UILabel().then {
           $0.text = Strings.LearnMoreHowItWorks
           $0.textColor = UIColor(white: 1.0, alpha: 0.5)
@@ -81,6 +88,9 @@ extension WelcomeViewController {
       createWalletButton.snp.makeConstraints {
         $0.leading.trailing.equalTo(self).inset(50.0)
         $0.height.equalTo(40.0)
+      }
+      termsOfServiceLabel.snp.makeConstraints {
+        $0.leading.trailing.equalTo(self).inset(50.0)
       }
       stackView.snp.makeConstraints {
         $0.edges.equalTo(layoutMarginsGuide).inset(20.0)

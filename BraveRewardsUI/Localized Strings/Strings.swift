@@ -93,6 +93,7 @@ public extension Strings {
   static let EmptyAutoContribution = NSLocalizedString("BraveRewardsEmptyAutoContribution", bundle: Bundle.RewardsUI, value: "Sites will appear as you browse", comment: "")
   static let LearnMoreBody = NSLocalizedString("BraveRewardsLearnMoreBody", bundle: Bundle.RewardsUI, value: "Earn tokens for viewing privacy-respecting ads, and pay it forward by supporting content creators you love!", comment: "")
   static let RewardsOptInJoinTitle = NSLocalizedString("RewardsOptInJoinTitle", bundle: Bundle.RewardsUI, value: "Join Rewards", comment: "")
+  static let DisclaimerInformation = NSLocalizedString("DisclaimerInformation", bundle: Bundle.RewardsUI, value: "By clicking 'Join Rewards', you indicate that you have read and agree to the <a href='terms'>Terms of Service</a> and <a href='policy'>Privacy Policy</a>.", comment: "")
   static let AddFundsTokenWalletAddress = NSLocalizedString("BraveRewardsAddFundsTokenWalletAddress", bundle: Bundle.RewardsUI, value: "Wallet Address", comment: "")
   static let AutoContributeToVideos = NSLocalizedString("BraveRewardsAutoContributeToVideos", bundle: Bundle.RewardsUI, value: "Allow contribution to videos", comment: "")
   static let SettingsDisabledBody2 = NSLocalizedString("BraveRewardsSettingsDisabledBody2", bundle: Bundle.RewardsUI, value: "One where your time is valued, your personal data is kept private, and you actually get paid for your attention.", comment: "")
