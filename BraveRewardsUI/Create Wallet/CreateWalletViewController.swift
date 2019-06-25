@@ -33,6 +33,7 @@ class CreateWalletViewController: UIViewController {
     
     createWalletView.createWalletButton.addTarget(self, action: #selector(tappedCreateWallet), for: .touchUpInside)
     createWalletView.learnMoreButton.addTarget(self, action: #selector(tappedLearnMore), for: .touchUpInside)
+    createWalletView.termsOfServiceLabel.onLinkedTapped = tappedDisclaimerLink
     
     let size = CGSize(width: RewardsUX.preferredPanelSize.width, height: UIScreen.main.bounds.height)
     preferredContentSize = view.systemLayoutSizeFitting(
@@ -78,5 +79,18 @@ class CreateWalletViewController: UIViewController {
   @objc private func tappedLearnMore() {
     let controller = WelcomeViewController(state: state)
     navigationController?.pushViewController(controller, animated: true)
+  }
+  
+  private func tappedDisclaimerLink(_ url: URL) {
+    switch url.path {
+    case "/terms":
+      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/terms-of-use/")!) //swiftlint:disable:this force_unwrapping
+      
+    case "/policy":
+      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/privacy/#rewards")!) //swiftlint:disable:this force_unwrapping
+      
+    default:
+      break
+    }
   }
 }

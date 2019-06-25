@@ -10,6 +10,10 @@ class RewardsDisabledView: UIView {
     return contentView.enableRewardsButton
   }
   
+  var termsOfServiceLabel: LinkLabel {
+    return contentView.termsOfServiceLabel
+  }
+  
   private let gradientView = GradientView.softBlueToClearGradientView()
   let scrollView = UIScrollView().then {
     $0.contentInsetAdjustmentBehavior = .never

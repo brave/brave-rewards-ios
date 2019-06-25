@@ -22,21 +22,25 @@ final class LinkLabel: UITextView {
       let range = NSRange(location: 0, length: text.length)
       let paragraphStyle = NSMutableParagraphStyle()
       paragraphStyle.alignment = textAlignment
-      
-      text.beginEditing()
       text.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
-      text.endEditing()
+      self.attributedText = text
     }
   }
   
   override var font: UIFont? {
     didSet {
+      self.linkTextAttributes = [
+        .font: self.linkFont ?? self.font ?? UIFont.systemFont(ofSize: 12.0),
+        .foregroundColor: self.linkColor ?? UX.linkColor,
+        .underlineStyle: 0
+      ]
+      
       guard let text = self.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
       let range = NSRange(location: 0, length: text.length)
-      
-      text.beginEditing()
       text.addAttribute(.font, value: self.font ?? UIFont.systemFont(ofSize: 12.0), range: range)
-      text.endEditing()
+      self.attributedText = text
+      
+      updateLinkFont()
     }
   }
   
@@ -44,15 +48,24 @@ final class LinkLabel: UITextView {
     didSet {
       guard let text = self.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
       let range = NSRange(location: 0, length: text.length)
-      
-      text.beginEditing()
       text.addAttribute(.foregroundColor, value: self.textColor ?? UX.textColor, range: range)
-      text.enumerateAttribute(.link, in: range, options: .init(rawValue: 0), using: { value, range, stop in
-        if value != nil {
-          text.addAttribute(.foregroundColor, value: UX.linkColor, range: range)
-        }
-      })
-      text.endEditing()
+      self.attributedText = text
+    }
+  }
+  
+  var linkFont: UIFont? {
+    didSet {
+      updateLinkFont()
+    }
+  }
+  
+  var linkColor: UIColor? {
+    didSet {
+      self.linkTextAttributes = [
+        .font: self.linkFont ?? self.font ?? UIFont.systemFont(ofSize: 12.0),
+        .foregroundColor: self.linkColor ?? UX.linkColor,
+        .underlineStyle: 0
+      ]
     }
   }
   
@@ -90,15 +103,36 @@ final class LinkLabel: UITextView {
     }
     
     let linkAttributes: [NSAttributedString.Key: Any] = [
-      .font: self.font ?? UIFont.systemFont(ofSize: 12.0),
-      .foregroundColor: UX.linkColor,
+      .font: self.linkFont ?? self.font ?? UIFont.systemFont(ofSize: 12.0),
+      .foregroundColor: self.linkColor ?? UX.linkColor,
       .underlineStyle: 0
     ]
     
     self.linkTextAttributes = linkAttributes
     self.attributedText = attributedString()
-    
+    updateLinkFont()
     setAccessibility()
+  }
+  
+  private func updateLinkFont() {
+    self.linkTextAttributes = [
+      .font: self.linkFont ?? self.font ?? UIFont.systemFont(ofSize: 12.0),
+      .foregroundColor: self.linkColor ?? UX.linkColor,
+      .underlineStyle: 0
+    ]
+    
+    /// For some odd reason.. changing only the `linkTextAttributes` does NOT change the font! (yet it works for colour)
+    guard let text = self.attributedText.mutableCopy() as? NSMutableAttributedString else { return }
+    let range = NSRange(location: 0, length: text.length)
+    
+    text.beginEditing()
+    text.enumerateAttribute(.link, in: range, options: .init(rawValue: 0), using: { value, range, stop in
+      if value != nil {
+        text.addAttribute(.font, value: self.linkFont ?? self.font ?? UIFont.systemFont(ofSize: 12.0), range: range)
+      }
+    })
+    text.endEditing()
+    self.attributedText = text
   }
   
   /// Makes this label accessible as static text.

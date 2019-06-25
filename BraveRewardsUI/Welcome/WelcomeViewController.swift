@@ -35,6 +35,10 @@ class WelcomeViewController: UIViewController {
     welcomeView.createWalletButtons.forEach {
       $0.addTarget(self, action: #selector(tappedCreateWallet(_:)), for: .touchUpInside)
     }
+    
+    welcomeView.termsOfServiceLabels.forEach({
+      $0.onLinkedTapped = self.tappedDisclaimerLink
+    })
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -65,6 +69,19 @@ class WelcomeViewController: UIViewController {
         defer { sender.isCreatingWallet = false }
         self.show(WalletViewController(state: self.state), sender: self)
       })
+    }
+  }
+  
+  private func tappedDisclaimerLink(_ url: URL) {
+    switch url.path {
+    case "/terms":
+      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/terms-of-use/")!) //swiftlint:disable:this force_unwrapping
+      
+    case "/policy":
+      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/privacy/#rewards")!) //swiftlint:disable:this force_unwrapping
+      
+    default:
+      break
     }
   }
 }

@@ -137,7 +137,9 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   // MARK: -
   
   private lazy var publisherSummaryView = PublisherSummaryView().then(setupPublisherView)
-  private lazy var rewardsDisabledView = RewardsDisabledView()
+  private lazy var rewardsDisabledView = RewardsDisabledView().then {
+    $0.termsOfServiceLabel.onLinkedTapped = tappedDisclaimerLink
+  }
   
   func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
@@ -293,6 +295,19 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     }) { _ in
       rewardsSummaryView.monthYearLabel.isHidden = !(rewardsSummaryView.monthYearLabel.alpha > 0.0)
       rewardsSummaryView.alpha = 1.0
+    }
+  }
+  
+  private func tappedDisclaimerLink(_ url: URL) {
+    switch url.path {
+    case "/terms":
+      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/terms-of-use/")!) //swiftlint:disable:this force_unwrapping
+      
+    case "/policy":
+      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/privacy/#rewards")!) //swiftlint:disable:this force_unwrapping
+      
+    default:
+      break
     }
   }
 }

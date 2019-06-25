@@ -65,7 +65,7 @@ extension CreateWalletViewController {
       $0.numberOfLines = 0
     }
     
-    private let termsOfServiceLabel = LinkLabel().then {
+    let termsOfServiceLabel = LinkLabel().then {
       $0.font = .systemFont(ofSize: 12.0)
       $0.textColor = Colors.grey900
       $0.textAlignment = .center
@@ -123,26 +123,11 @@ extension CreateWalletViewController {
         $0.height.equalTo(UX.learnMoreButtonHeight)
         $0.bottom.equalTo(self).offset(-20.0)
       }
-      
-      termsOfServiceLabel.onLinkedTapped = onLinkTapped
     }
     
     @available(*, unavailable)
     required init(coder: NSCoder) {
       fatalError()
-    }
-    
-    private func onLinkTapped(_ link: URL) {
-      switch link.path {
-      case "/terms":
-        print("Go to Terms and Services")
-        
-      case "/policy":
-        print("Go to Privacy Policy")
-        
-      default:
-        print("UNKNOWN LINK TAPPED")
-      }
     }
   }
 }
