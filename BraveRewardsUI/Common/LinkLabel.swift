@@ -104,7 +104,7 @@ final class LinkLabel: UITextView {
   /// Makes this label accessible as static text.
   private func setAccessibility() {
     accessibilityLabel = self.text
-    accessibilityTraits = .staticText
+    accessibilityTraits = [.staticText, .link]
     accessibilityValue = nil
     isAccessibilityElement = true
   }
