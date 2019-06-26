@@ -85,7 +85,6 @@ class PublisherView: UIStackView {
     $0.setContentHuggingPriority(.required, for: .horizontal)
   }
   
-  // For containing verifiedLabel and checkAgainButton
   private let verifiedCheckAgainStackView = UIStackView().then {
     $0.spacing = 4.0
   }
@@ -97,7 +96,6 @@ class PublisherView: UIStackView {
     $0.adjustsFontSizeToFitWidth = true
   }
   
-  // "Brave Check Again" button
   let checkAgainButton = Button().then {
     $0.setTitleColor(Colors.blue500, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 12.0)
