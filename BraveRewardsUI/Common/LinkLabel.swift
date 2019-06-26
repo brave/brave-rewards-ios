@@ -186,3 +186,8 @@ extension LinkLabel: UITextViewDelegate {
     return attributedText.attribute(.link, at: startIndex, effectiveRange: nil) != nil
   }
 }
+
+struct DisclaimerLinks {
+  static let termsOfUseURL = "https://brave.com/terms-of-use/"
+  static let policyURL = "https://brave.com/privacy/#rewards"
+}

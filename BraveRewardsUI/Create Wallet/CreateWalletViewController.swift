@@ -84,13 +84,15 @@ class CreateWalletViewController: UIViewController {
   private func tappedDisclaimerLink(_ url: URL) {
     switch url.path {
     case "/terms":
-      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/terms-of-use/")!) //swiftlint:disable:this force_unwrapping
+      guard let url = URL(string: DisclaimerLinks.termsOfUseURL) else { return }
+      state.delegate?.loadNewTabWithURL(url)
       
     case "/policy":
-      state.delegate?.loadNewTabWithURL(URL(string: "https://brave.com/privacy/#rewards")!) //swiftlint:disable:this force_unwrapping
+      guard let url = URL(string: DisclaimerLinks.policyURL) else { return }
+      state.delegate?.loadNewTabWithURL(url)
       
     default:
-      break
+      assertionFailure()
     }
   }
 }
