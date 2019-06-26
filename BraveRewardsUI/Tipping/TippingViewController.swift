@@ -48,7 +48,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     tippingView.gesturalDismissExecuted = { [weak self] in
       self?.dismiss(animated: true)
     }
-    tippingView.overviewView.disclaimerView.learnMoreTapped = { [weak self] in
+    tippingView.overviewView.disclaimerView.onLinkedTapped = { [weak self] _ in
       let url = URL(string: "https://brave.com/faq-rewards/#unclaimed-funds")!
       self?.state.delegate?.loadNewTabWithURL(url)
     }

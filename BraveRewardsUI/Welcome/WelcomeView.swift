@@ -13,6 +13,13 @@ extension WelcomeViewController {
       $0.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
     
+    let termsOfServiceLabel = LinkLabel().then {
+      $0.font = .systemFont(ofSize: 12.0)
+      $0.textColor = Colors.grey900
+      $0.textAlignment = .center
+      $0.text = Strings.WelcomeDisclaimerInformation
+    }
+    
     let backgroundView = GradientView.purpleRewardsGradientView()
     
     override init(frame: CGRect) {
@@ -66,6 +73,8 @@ extension WelcomeViewController {
         .customSpace(25.0),
         .view(createWalletButton),
         .customSpace(25.0),
+        .view(termsOfServiceLabel),
+        .customSpace(25.0),
         .view(UILabel().then {
           $0.text = Strings.LearnMoreHowItWorks
           $0.textColor = UIColor(white: 1.0, alpha: 0.5)
@@ -81,6 +90,9 @@ extension WelcomeViewController {
       createWalletButton.snp.makeConstraints {
         $0.leading.trailing.equalTo(self).inset(50.0)
         $0.height.equalTo(40.0)
+      }
+      termsOfServiceLabel.snp.makeConstraints {
+        $0.leading.trailing.equalTo(self).inset(50.0)
       }
       stackView.snp.makeConstraints {
         $0.edges.equalTo(layoutMarginsGuide).inset(20.0)
@@ -173,11 +185,24 @@ extension WelcomeViewController {
       $0.layer.borderWidth = 0
     }
     
+    let termsOfServiceLabel = LinkLabel().then {
+      $0.font = .systemFont(ofSize: 12.0)
+      $0.textColor = Colors.grey200
+      $0.linkColor = .black
+      $0.textAlignment = .center
+      $0.text = Strings.WelcomeDisclaimerInformation
+    }
+    
     private let headerView = HeaderView()
     
     private(set) lazy var createWalletButtons: [CreateWalletButton] = [
       headerView.createWalletButton,
       createWalletButton
+    ]
+    
+    private(set) lazy var termsOfServiceLabels: [LinkLabel] = [
+      headerView.termsOfServiceLabel,
+      termsOfServiceLabel
     ]
     
     override init(frame: CGRect) {
@@ -251,9 +276,14 @@ extension WelcomeViewController {
           stackView.alignment = .center
           stackView.axis = .vertical
           stackView.addArrangedSubview(createWalletButton)
+          stackView.setCustomSpacing(20.0, after: createWalletButton)
+          stackView.addArrangedSubview(termsOfServiceLabel)
           createWalletButton.snp.makeConstraints {
             $0.leading.trailing.equalTo(stackView).inset(30)
             $0.height.equalTo(40.0)
+          }
+          termsOfServiceLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(stackView).inset(30)
           }
         })
       )

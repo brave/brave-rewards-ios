@@ -35,6 +35,10 @@ class WelcomeViewController: UIViewController {
     welcomeView.createWalletButtons.forEach {
       $0.addTarget(self, action: #selector(tappedCreateWallet(_:)), for: .touchUpInside)
     }
+    
+    welcomeView.termsOfServiceLabels.forEach({
+      $0.onLinkedTapped = self.tappedDisclaimerLink
+    })
   }
   
   override func viewDidDisappear(_ animated: Bool) {
@@ -65,6 +69,21 @@ class WelcomeViewController: UIViewController {
         defer { sender.isCreatingWallet = false }
         self.show(WalletViewController(state: self.state), sender: self)
       })
+    }
+  }
+  
+  private func tappedDisclaimerLink(_ url: URL) {
+    switch url.path {
+    case "/terms":
+      guard let url = URL(string: DisclaimerLinks.termsOfUseURL) else { return }
+      state.delegate?.loadNewTabWithURL(url)
+      
+    case "/policy":
+      guard let url = URL(string: DisclaimerLinks.policyURL) else { return }
+      state.delegate?.loadNewTabWithURL(url)
+      
+    default:
+      assertionFailure()
     }
   }
 }

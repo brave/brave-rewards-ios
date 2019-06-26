@@ -10,6 +10,10 @@ class RewardsDisabledView: UIView {
     return contentView.enableRewardsButton
   }
   
+  var termsOfServiceLabel: LinkLabel {
+    return contentView.termsOfServiceLabel
+  }
+  
   private let gradientView = GradientView.softBlueToClearGradientView()
   let scrollView = UIScrollView().then {
     $0.contentInsetAdjustmentBehavior = .never
@@ -102,6 +106,13 @@ extension RewardsDisabledView {
       $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
+    let termsOfServiceLabel = LinkLabel().then {
+      $0.font = .systemFont(ofSize: 12.0)
+      $0.textColor = Colors.grey100
+      $0.textAlignment = .center
+      $0.text = Strings.DisclaimerInformation
+    }
+    
     @available(*, unavailable)
     required init(coder: NSCoder) {
       fatalError()
@@ -114,6 +125,7 @@ extension RewardsDisabledView {
       addSubview(titleLabel)
       addSubview(subtitleLabel)
       addSubview(bodyLabel)
+      addSubview(termsOfServiceLabel)
       addSubview(enableRewardsButton)
       
       batLogoImageView.snp.makeConstraints {
@@ -133,9 +145,13 @@ extension RewardsDisabledView {
         $0.leading.trailing.equalTo(self).inset(40.0)
       }
       enableRewardsButton.snp.makeConstraints {
-        $0.top.greaterThanOrEqualTo(self.bodyLabel.snp.bottom).offset(30.0)
+        $0.top.equalTo(self.bodyLabel.snp.bottom).offset(30.0)
         $0.leading.trailing.equalTo(self).inset(40.0)
         $0.height.equalTo(UX.rewardsButtonHeight)
+      }
+      termsOfServiceLabel.snp.makeConstraints {
+        $0.top.greaterThanOrEqualTo(self.enableRewardsButton.snp.bottom).offset(30.0)
+        $0.leading.trailing.equalTo(self).inset(60.0)
         $0.bottom.equalTo(self)
       }
     }

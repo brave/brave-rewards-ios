@@ -65,6 +65,13 @@ extension CreateWalletViewController {
       $0.numberOfLines = 0
     }
     
+    let termsOfServiceLabel = LinkLabel().then {
+      $0.font = .systemFont(ofSize: 12.0)
+      $0.textColor = Colors.grey900
+      $0.textAlignment = .center
+      $0.text = Strings.DisclaimerInformation
+    }
+    
     override init(frame: CGRect) {
       super.init(frame: frame)
       
@@ -75,6 +82,7 @@ extension CreateWalletViewController {
       addSubview(titleLabel)
       addSubview(descriptionLabel)
       addSubview(createWalletButton)
+      addSubview(termsOfServiceLabel)
       addSubview(learnMoreButton)
       
       backgroundView.snp.makeConstraints {
@@ -105,8 +113,12 @@ extension CreateWalletViewController {
         $0.leading.trailing.equalTo(self).inset(50.0)
         $0.height.equalTo(UX.createWalletButtonHeight)
       }
+      termsOfServiceLabel.snp.makeConstraints {
+        $0.top.equalTo(self.createWalletButton.snp.bottom).offset(25.0)
+        $0.leading.trailing.equalTo(self).inset(60.0)
+      }
       learnMoreButton.snp.makeConstraints {
-        $0.top.equalTo(self.createWalletButton.snp.bottom).offset(30.0)
+        $0.top.equalTo(self.termsOfServiceLabel.snp.bottom).offset(30.0)
         $0.centerX.equalTo(self)
         $0.height.equalTo(UX.learnMoreButtonHeight)
         $0.bottom.equalTo(self).offset(-20.0)

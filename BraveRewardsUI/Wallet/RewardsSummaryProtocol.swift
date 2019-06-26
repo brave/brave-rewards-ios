@@ -16,7 +16,7 @@ protocol RewardsSummaryProtocol {
   var summaryRows: [RowView] { get }
   
   /// A view informing users about contributing to unverified publishers.
-  var disclaimerView: DisclaimerView? { get }
+  var disclaimerView: LinkLabel? { get }
 }
 
 private struct Activity {
@@ -70,13 +70,20 @@ extension RewardsSummaryProtocol {
     }
   }
   
-  var disclaimerView: DisclaimerView? {
+  var disclaimerView: LinkLabel? {
     let reservedAmount = BATValue(state.ledger.reservedAmount)
     // Don't show the view if there's no pending contributions.
     if reservedAmount.doubleValue <= 0 { return nil }
     
     let text = String(format: Strings.ContributingToUnverifiedSites, reservedAmount.displayString)
     
-    return DisclaimerView(text: text)
+    return LinkLabel().then {
+      $0.textColor = Colors.grey200
+      $0.font = UIFont.systemFont(ofSize: 12.0)
+      $0.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+      $0.text = "\(text) \(Strings.DisclaimerLearnMore)"
+      $0.backgroundColor = UIColor(white: 0.0, alpha: 0.04)
+      $0.layer.cornerRadius = 4.0
+    }
   }
 }

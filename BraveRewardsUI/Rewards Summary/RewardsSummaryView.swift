@@ -56,7 +56,7 @@ class RewardsSummaryView: UIView {
   
   /// A disclaimer view to show below the rows (Used when the user has auto-contribute enabled
   /// and has a portion of BAT designated to unverified publishers
-  var disclaimerView: DisclaimerView? {
+  var disclaimerView: LinkLabel? {
     willSet {
       disclaimerView?.removeFromSuperview()
     }
