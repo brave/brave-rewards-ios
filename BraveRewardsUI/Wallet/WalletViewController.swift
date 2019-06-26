@@ -98,6 +98,14 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     reloadUIState()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if isLocal && walletView.rewardsSummaryView.transform.ty == 0 {
+      transformRewardSummaryView(animated: false)
+      walletView.rewardsSummaryView.rewardsSummaryButton.isHidden = true
+    }
+  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
@@ -257,6 +265,10 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedRewardsSummaryButton() {
+    transformRewardSummaryView(animated: true)
+  }
+  
+  private func transformRewardSummaryView(animated: Bool) {
     let contentView = walletView.contentView
     let rewardsSummaryView = walletView.rewardsSummaryView
     
@@ -265,7 +277,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       UIImage(frameworkResourceNamed: isExpanding ? "slide-down" : "slide-up")
     
     // Animating the rewards summary with a bit of a bounce
-    UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
+    UIView.animate(withDuration: animated ? 0.4 : 0.0, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
       if isExpanding {
         rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
@@ -282,7 +294,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       rewardsSummaryView.monthYearLabel.alpha = 0.0
     }
     // But animate the rest without a bounce (since it doesnt make sense)
-    UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
+    UIView.animate(withDuration: animated ? 0.4 : 0.0, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
       if isExpanding {
         contentView?.alpha = 0.0
         rewardsSummaryView.monthYearLabel.alpha = 1.0
