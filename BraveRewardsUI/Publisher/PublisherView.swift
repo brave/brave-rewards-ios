@@ -6,10 +6,6 @@ import UIKit
 
 class PublisherView: UIStackView {
   
-  func setVerificationStatusHidden(_ hidden: Bool) {
-    verifiedLabelStackView.isHidden = hidden
-  }
-  
   func setVerified(_ status: Bool) {
     if status {
       verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-verify")

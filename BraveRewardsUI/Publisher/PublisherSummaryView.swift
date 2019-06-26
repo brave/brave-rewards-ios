@@ -10,15 +10,6 @@ class PublisherSummaryView: UIView {
     $0.textLabel.text = Strings.TipSiteMonthly
   }
   
-  func setLocal(_ local: Bool) {
-    if local {
-      publisherView.publisherNameLabel.text = "Brave Browser"
-      publisherView.faviconImageView.image = UIImage(frameworkResourceNamed: "local-icon")
-      attentionView.valueLabel.text = "–"
-    }
-    publisherView.faviconImageView.contentMode = local ? .center : .scaleAspectFill
-  }
-  
   private let scrollView = UIScrollView().then {
     $0.contentInsetAdjustmentBehavior = .never
     $0.delaysContentTouches = false
@@ -51,7 +42,16 @@ class PublisherSummaryView: UIView {
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    
+  }
+  
+  convenience init(emptyView: Bool) {
+    self.init()
+    if !emptyView {
+      setup()
+    }
+  }
+  
+  private func setup() {
     addSubview(scrollView)
     scrollView.addSubview(stackView)
     
