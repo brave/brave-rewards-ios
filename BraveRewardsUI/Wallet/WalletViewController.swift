@@ -170,6 +170,10 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
           assert(Thread.isMainThread)
           publisherView.setVerified(publisher.verified)
           
+          if publisher.verified {
+            publisherView.checkAgainButton.isHidden = true
+          }
+          
           if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
             attentionView.valueLabel.text = "\(percent)%"
           }
