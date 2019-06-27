@@ -98,14 +98,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     reloadUIState()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if isLocal && walletView.rewardsSummaryView.transform.ty == 0 {
-      transformRewardSummaryView(animated: false)
-      walletView.rewardsSummaryView.rewardsSummaryButton.isHidden = true
-    }
-  }
-  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
@@ -119,26 +111,46 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     walletView.headerView.layoutIfNeeded()
     walletView.contentView?.layoutIfNeeded()
+    walletView.rewardsSummaryView.layoutIfNeeded()
     
     guard let contentView = walletView.contentView else { return }
-    
-    var height: CGFloat = walletView.headerView.bounds.height + walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height
-    if let scrollView = walletView.contentView?.innerScrollView {
-      scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
-      scrollView.scrollIndicatorInsets = scrollView.contentInset
-      
-      height += scrollView.contentSize.height
-    } else {
-      height += contentView.bounds.height
-    }
-    
+    var height: CGFloat
     if state.ledger.isEnabled {
-      height = RewardsUX.preferredPanelSize.height
+      if summaryRows.isEmpty && isLocal {
+        height = walletView.rewardsSummaryView.scrollView.contentSize.height +
+          walletView.headerView.bounds.height +
+          walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height +
+          walletView.rewardsSummaryView.monthYearLabel.bounds.height +
+          40 // Padding in Wallet view hierarchy 
+      } else {
+        if let scrollView = walletView.contentView?.innerScrollView {
+          scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
+          scrollView.scrollIndicatorInsets = scrollView.contentInset
+          // Setting content Offset so that scrollview is properly aligned in smaller devices
+          scrollView.contentOffset.y = -scrollView.contentInset.top
+        }
+        height = RewardsUX.preferredPanelSize.height
+      }
+    } else {
+      height = walletView.headerView.bounds.height + walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height
+      if let scrollView = walletView.contentView?.innerScrollView {
+        scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        
+        height += scrollView.contentSize.height
+      } else {
+        height += contentView.bounds.height
+      }
     }
     
     let newSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: height)
     if preferredContentSize != newSize {
       preferredContentSize = newSize
+    }
+    if isLocal {
+      transformRewardSummaryView(isExpanding: true, animated: false)
+      walletView.rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image = nil
+      walletView.rewardsSummaryView.rewardsSummaryButton.isUserInteractionEnabled = false
     }
   }
   
@@ -261,14 +273,16 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedRewardsSummaryButton() {
-    transformRewardSummaryView(animated: true)
-  }
-  
-  private func transformRewardSummaryView(animated: Bool) {
-    let contentView = walletView.contentView
     let rewardsSummaryView = walletView.rewardsSummaryView
     
     let isExpanding = rewardsSummaryView.transform.ty == 0
+    transformRewardSummaryView(isExpanding: isExpanding, animated: true)
+  }
+  
+  private func transformRewardSummaryView(isExpanding: Bool, animated: Bool) {
+    let contentView = walletView.contentView
+    let rewardsSummaryView = walletView.rewardsSummaryView
+    
     rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image =
       UIImage(frameworkResourceNamed: isExpanding ? "slide-down" : "slide-up")
     
@@ -277,7 +291,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       if isExpanding {
         rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
-          y: -self.walletView.summaryLayoutGuide.layoutFrame.height + rewardsSummaryView.rewardsSummaryButton.bounds.height
+          y: -self.walletView.bounds.height + self.walletView.headerView.bounds.height + 20 + rewardsSummaryView.rewardsSummaryButton.bounds.height
         )
       } else {
         rewardsSummaryView.transform = .identity
