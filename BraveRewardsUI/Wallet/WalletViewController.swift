@@ -156,13 +156,12 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   // MARK: -
   
-  private lazy var publisherSummaryView = PublisherSummaryView(emptyView: self.isLocal).then(setupPublisherView)
+  private lazy var publisherSummaryView = PublisherSummaryView().then(setupPublisherView)
   private lazy var rewardsDisabledView = RewardsDisabledView().then {
     $0.termsOfServiceLabel.onLinkedTapped = tappedDisclaimerLink
   }
   
   func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
-    guard !isLocal else { return }
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
     // TODO: Update with actual value below
@@ -204,9 +203,12 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   func reloadUIState() {
     if state.ledger.isEnabled {
-      walletView.contentView = publisherSummaryView
-      
-      publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
+      if isLocal {
+        walletView.contentView = EmptyWalletContentView()
+      } else {
+        walletView.contentView = publisherSummaryView
+        publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
+      }
     } else {
       if rewardsDisabledView.enableRewardsButton.allTargets.count == 0 {
         rewardsDisabledView.enableRewardsButton.addTarget(self, action: #selector(tappedEnableBraveRewards), for: .touchUpInside)

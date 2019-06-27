@@ -42,16 +42,6 @@ class PublisherSummaryView: UIView {
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
-  }
-  
-  convenience init(emptyView: Bool) {
-    self.init()
-    if !emptyView {
-      setup()
-    }
-  }
-  
-  private func setup() {
     addSubview(scrollView)
     scrollView.addSubview(stackView)
     

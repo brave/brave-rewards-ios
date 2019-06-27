@@ -143,3 +143,13 @@ extension WalletViewController {
     }
   }
 }
+
+class EmptyWalletContentView: UIView, WalletContentView {
+  var innerScrollView: UIScrollView? {
+    return nil
+  }
+  
+  var displaysRewardsSummaryButton: Bool {
+    return true
+  }
+}
