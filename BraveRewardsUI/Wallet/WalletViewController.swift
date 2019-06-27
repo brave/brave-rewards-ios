@@ -144,49 +144,45 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   // MARK: -
   
-  private lazy var publisherSummaryView = PublisherSummaryView().then(setupPublisherView)
+  private lazy var publisherSummaryView = PublisherSummaryView(emptyView: self.isLocal).then(setupPublisherView)
   private lazy var rewardsDisabledView = RewardsDisabledView().then {
     $0.termsOfServiceLabel.onLinkedTapped = tappedDisclaimerLink
   }
   
   func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
+    guard !isLocal else { return }
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
     // TODO: Update with actual value below
     publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "5"
     let publisherView = publisherSummaryView.publisherView
     let attentionView = publisherSummaryView.attentionView
-    
-    publisherView.setVerificationStatusHidden(isLocal)
-    
-    publisherSummaryView.setLocal(isLocal)
-    if !isLocal {
-      publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
-      
-      guard let host = state.url.host else { return }
-      attentionView.valueLabel.text = "0%"
-      
-      state.ledger.publisherInfo(forId: host) { info in
-        guard let publisher = info else { return }
-        assert(Thread.isMainThread)
-        publisherView.setVerified(publisher.verified)
         
-        if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
-          attentionView.valueLabel.text = "\(percent)%"
+    publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
+    
+    guard let host = state.url.host else { return }
+    attentionView.valueLabel.text = "0%"
+    
+    state.ledger.publisherInfo(forId: host) { info in
+      guard let publisher = info else { return }
+      assert(Thread.isMainThread)
+      publisherView.setVerified(publisher.verified)
+      
+      if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
+        attentionView.valueLabel.text = "\(percent)%"
+      }
+      
+    }
+    
+    if let faviconURL = state.faviconURL {
+      state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] faviconData in
+        guard let data = faviconData else { return }
+        
+        self?.publisherSummaryView.publisherView.faviconImageView.do {
+          $0.image = data.image
+          $0.backgroundColor = data.backgroundColor
         }
-        
-      }
-      
-      if let faviconURL = state.faviconURL {
-        state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] faviconData in
-          guard let data = faviconData else { return }
-          
-          self?.publisherSummaryView.publisherView.faviconImageView.do {
-            $0.image = data.image
-            $0.backgroundColor = data.backgroundColor
-          }
-        })
-      }
+      })
     }
   }
   
