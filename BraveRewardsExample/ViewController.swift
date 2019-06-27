@@ -70,6 +70,14 @@ let stateStoragePath: String = (NSSearchPathForDirectoriesInDomains(
     true
   ).first! as NSString).appendingPathComponent("brave_ledger")
 
+func rewardsLog(logLevel: LogLevel, line: Int32, file: String, data: String) {
+  if !data.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+    // Should probably just trim the final trailing newline instead, since `print` only appends
+    // a single newline terminator
+    print("[\(logLevel.logPrefix)] \(data.trimmingCharacters(in: .newlines))")
+  }
+}
+
 class ViewController: UIViewController {
   
   @IBOutlet var settingsButton: UIButton!
@@ -80,6 +88,9 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    RewardsLogger.configure(logCallback: rewardsLog, withFlush: nil)
+    
     setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
   }
