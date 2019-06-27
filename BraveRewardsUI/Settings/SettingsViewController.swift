@@ -46,7 +46,7 @@ class SettingsViewController: UIViewController {
       $0.autoContributeSection.viewDetailsButton.addTarget(self, action: #selector(tappedAutoContributeViewDetails), for: .touchUpInside)
       $0.autoContributeSection.toggleSwitch.addTarget(self, action: #selector(autoContributeToggleValueChanged), for: .valueChanged)
       
-      let dollarString = state.ledger.dollarStringForBATAmount(state.ledger.balance) ?? ""
+      let dollarString = state.ledger.dollarStringForBATAmount(state.ledger.balance?.total ?? 0) ?? ""
       $0.walletSection.setWalletBalance(state.ledger.balanceString, crypto: "BAT", dollarValue: dollarString)
       
       if let regionCode = Locale.current.regionCode, !BraveAds.isSupportedRegion(regionCode) {

@@ -42,8 +42,10 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     tippingView.overviewView.dismissButton.addTarget(self, action: #selector(tappedDismissButton), for: .touchUpInside)
     tippingView.optionSelectionView.sendTipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     tippingView.optionSelectionView.optionChanged = { [unowned self] option in
-      let hasEnoughBalanceForTip = option.value.doubleValue < self.state.ledger.balance
-      self.tippingView.optionSelectionView.setEnoughFundsAvailable(hasEnoughBalanceForTip)
+      if let balanceTotal = self.state.ledger.balance?.total {
+        let hasEnoughBalanceForTip = option.value.doubleValue < balanceTotal
+        self.tippingView.optionSelectionView.setEnoughFundsAvailable(hasEnoughBalanceForTip)
+      }
     }
     tippingView.gesturalDismissExecuted = { [weak self] in
       self?.dismiss(animated: true)

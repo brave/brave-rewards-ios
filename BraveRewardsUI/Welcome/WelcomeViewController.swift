@@ -55,20 +55,17 @@ class WelcomeViewController: UIViewController {
       return
     }
     sender.isCreatingWallet = true
-    state.ledger.createWallet { [weak self] error in
+    state.ledger.createWalletAndFetchDetails { [weak self] success in
       guard let self = self else { return }
-      if let error = error {
-        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+      if !success {
+        let alertController = UIAlertController(title: "Error", message: "Oops! Something went wrong. Please try again.", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alertController, animated: true)
         sender.isCreatingWallet = false
         return
       }
-      self.state.ledger.fetchWalletDetails({ [weak self] _ in
-        guard let self = self else { return }
-        defer { sender.isCreatingWallet = false }
-        self.show(WalletViewController(state: self.state), sender: self)
-      })
+      defer { sender.isCreatingWallet = false }
+      self.show(WalletViewController(state: self.state), sender: self)
     }
   }
   

@@ -6,19 +6,25 @@ import Foundation
 import BraveRewards
 
 extension BraveLedger {
+  
+  /// The total balance or 0 if the balance hasn't been loaded yet
+  fileprivate var balanceTotal: Double {
+    return balance?.total ?? 0
+  }
+  
   /// Get the current BAT wallet balance for display
-  var balanceString: String { return BATValue(balance).displayString }
+  var balanceString: String { return BATValue(balanceTotal).displayString }
   
   /// Get the current USD wallet balance for display
   var usdBalanceString: String {
-    return dollarStringForBATAmount(balance) ?? ""
+    return dollarStringForBATAmount(balanceTotal) ?? ""
   }
   
   /// Gets the dollar string for some BAT amount using rates from the users wallet with the
   /// currency code appended (i.e. "6.42 USD")
   func dollarStringForBATAmount(_ amount: Double, currencyCode: String = "USD", includeCurrencyCode: Bool = true) -> String? {
-    guard let walletInfo = walletInfo,
-          let conversionRate = walletInfo.rates[currencyCode]?.doubleValue else {
+    guard let balance = balance,
+          let conversionRate = balance.rates[currencyCode]?.doubleValue else {
       return nil
     }
     
@@ -73,5 +79,52 @@ extension BraveLedger {
       case .oneMinute: return Strings.MinimumLengthChoices2
       }
     }
+  }
+  
+  // MARK: -
+  
+  /// Creates the ledger wallet and fetches wallet properties and balances
+  ///
+  /// Use this is in UI instead of `createWallet` directly unless required
+  func createWalletAndFetchDetails(_ completion: @escaping (Bool) -> Void) {
+    createWallet { [weak self] (error) in
+      guard let self = self else { return }
+      
+      if let _ = error {
+        completion(false)
+        return
+      }
+      
+      let group = DispatchGroup()
+      var success: Bool = true
+      group.enter()
+      self.fetchWalletDetails { details in
+        if details == nil {
+          success = false
+        }
+        group.leave()
+      }
+      group.enter()
+      self.fetchBalance { balance in
+        if balance == nil {
+          success = false
+        }
+        group.leave()
+      }
+      group.notify(queue: .main, execute: {
+        completion(success)
+      })
+    }
+  }
+}
+
+extension PublisherInfo {
+  /// Temporary conveninece method for converting the raw int now in
+  /// PublisherInfo, to the enum we've been using all along
+  var rewardsCategory: RewardsCategory {
+    guard let category = RewardsCategory(rawValue: Int(self.category)) else {
+      fatalError("Could not get a rewards category from category = \(self.category)")
+    }
+    return category
   }
 }

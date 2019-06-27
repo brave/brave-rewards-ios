@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 current_dir="`pwd`/`dirname $0`"
 framework_drop_point="$current_dir/../lib"
@@ -19,6 +19,14 @@ function usage() {
   echo " --clean:         Cleans build directories before building"
   echo " --debug:         Builds a debug instead of release framework. (Should not be pushed with the repo)"
   exit 1
+}
+
+function ensureCleanGit() {
+  if ! `git diff --exit-code --quiet HEAD`; then
+    echo "Warning: Changes in \"`pwd`\" would be wiped away by updating. Aborting!"
+    echo "Use the \`--skip-update\` argument to use current chnages"
+    exit 1
+  fi
 }
 
 for i in "$@"
@@ -53,15 +61,23 @@ fi
 pushd $brave_browser_dir > /dev/null
 
 if [ "$skip_update" = 0 ]; then
+  # Determine if the repo can be updated without blowing away any changes
+  ensureCleanGit
+  pushd src/brave > /dev/null
+  ensureCleanGit
+  popd > /dev/null
   # Make sure we rebase master to head
   git checkout -- "*" && git pull
-  # Do the rest of the work in the src folder
-  cd src
+fi
+
+brave_browser_build_hash=`git rev-parse HEAD`
+
+# Do the rest of the work in the src folder
+cd src
+
+if [ "$skip_update" = 0 ]; then
   # Update the deps
   npm run init -- --all --target_os=ios
-else
-  # Do the rest of the work in the src folder
-  cd src
 fi
 
 # [ -d brave/vendor/brave-rewards-ios ] && rm -r brave/vendor/brave-rewards-ios
@@ -93,12 +109,8 @@ lipo -create -output "$framework_drop_point/BraveRewards.framework/BraveRewards"
 
 echo "Created FAT framework: $framework_drop_point/BraveRewards.framework"
 
-# cd brave
+cd brave
 brave_core_build_hash=`git rev-parse HEAD`
-
-cd ..
-
-brave_browser_build_hash=`git rev-parse HEAD`
 
 popd > /dev/null
 
