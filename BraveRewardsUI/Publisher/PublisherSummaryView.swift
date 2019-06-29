@@ -80,6 +80,10 @@ class PublisherSummaryView: UIView {
 }
 
 extension PublisherSummaryView: WalletContentView {
+  var estimatedHeight: CGFloat {
+    return scrollView.contentSize.height
+  }
+  
   var innerScrollView: UIScrollView? {
     return scrollView
   }

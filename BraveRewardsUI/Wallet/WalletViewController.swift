@@ -8,6 +8,7 @@ import SnapKit
 protocol WalletContentView: AnyObject {
   var innerScrollView: UIScrollView? { get }
   var displaysRewardsSummaryButton: Bool { get }
+  var estimatedHeight: CGFloat { get }
 }
 
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
@@ -87,6 +88,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     reloadUIState()
     view.layoutIfNeeded()
+    setPreferredSize()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -96,6 +98,10 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     reloadUIState()
+    
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+      self.setPreferredSize()
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -106,50 +112,30 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     }
   }
   
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    
+  private func setPreferredSize() {
     walletView.headerView.layoutIfNeeded()
     walletView.contentView?.layoutIfNeeded()
     walletView.rewardsSummaryView.layoutIfNeeded()
     
-    guard let contentView = walletView.contentView else { return }
-    var height: CGFloat
-    if state.ledger.isEnabled {
-      if summaryRows.isEmpty && isLocal {
-        height = walletView.rewardsSummaryView.scrollView.contentSize.height +
-          walletView.headerView.bounds.height +
-          walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height +
-          walletView.rewardsSummaryView.monthYearLabel.bounds.height +
-          40 // Padding in Wallet view hierarchy 
-      } else {
-        if let scrollView = walletView.contentView?.innerScrollView {
-          scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
-          scrollView.scrollIndicatorInsets = scrollView.contentInset
-          // Setting content Offset so that scrollview is properly aligned in smaller devices
-          scrollView.contentOffset.y = -scrollView.contentInset.top
-        }
-        height = RewardsUX.preferredPanelSize.height
-      }
-    } else {
-      height = walletView.headerView.bounds.height + walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height
-      if let scrollView = walletView.contentView?.innerScrollView {
-        scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
-        
-        height += scrollView.contentSize.height
-      } else {
-        height += contentView.bounds.height
-      }
-    }
+    let height = isLocal ? walletView.estimatedHeight(hideConetent: true) :
+                  walletView.estimatedHeight(hideConetent: false)
     
+    if let scrollView = walletView.contentView?.innerScrollView {
+      scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
+      scrollView.scrollIndicatorInsets = scrollView.contentInset
+      // Setting content Offset so that scrollview is properly aligned in smaller devices
+      scrollView.contentOffset.y = -scrollView.contentInset.top
+    }
     let newSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: height)
     if preferredContentSize != newSize {
       preferredContentSize = newSize
     }
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
     if isLocal {
-      transformRewardSummaryView(isExpanding: true, animated: false)
-      walletView.rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image = nil
+      setRewardsSummaryVisible(visible: true, animated: false)
       walletView.rewardsSummaryView.rewardsSummaryButton.isUserInteractionEnabled = false
     }
   }
@@ -204,7 +190,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   func reloadUIState() {
     if state.ledger.isEnabled {
       if isLocal {
-        walletView.contentView = EmptyWalletContentView()
+        walletView.contentView = EmptyContentView()
       } else {
         walletView.contentView = publisherSummaryView
         publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
@@ -278,19 +264,19 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     let rewardsSummaryView = walletView.rewardsSummaryView
     
     let isExpanding = rewardsSummaryView.transform.ty == 0
-    transformRewardSummaryView(isExpanding: isExpanding, animated: true)
+    setRewardsSummaryVisible(visible: isExpanding, animated: true)
   }
   
-  private func transformRewardSummaryView(isExpanding: Bool, animated: Bool) {
+  private func setRewardsSummaryVisible(visible: Bool, animated: Bool) {
     let contentView = walletView.contentView
     let rewardsSummaryView = walletView.rewardsSummaryView
     
     rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image =
-      UIImage(frameworkResourceNamed: isExpanding ? "slide-down" : "slide-up")
+      UIImage(frameworkResourceNamed: visible ? "slide-down" : "slide-up")
     
     // Animating the rewards summary with a bit of a bounce
     UIView.animate(withDuration: animated ? 0.4 : 0.0, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
-      if isExpanding {
+      if visible {
         rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
           y: -self.walletView.bounds.height + self.walletView.headerView.bounds.height + 20 + rewardsSummaryView.rewardsSummaryButton.bounds.height
@@ -300,14 +286,14 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       }
     }, completion: nil)
     
-    if isExpanding {
+    if visible {
       // Prepare animation
       rewardsSummaryView.monthYearLabel.isHidden = false
       rewardsSummaryView.monthYearLabel.alpha = 0.0
     }
     // But animate the rest without a bounce (since it doesnt make sense)
     UIView.animate(withDuration: animated ? 0.4 : 0.0, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
-      if isExpanding {
+      if visible {
         contentView?.alpha = 0.0
         rewardsSummaryView.monthYearLabel.alpha = 1.0
         self.view.backgroundColor = Colors.blurple800

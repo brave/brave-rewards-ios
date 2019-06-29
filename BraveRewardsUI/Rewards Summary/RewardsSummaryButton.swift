@@ -12,6 +12,16 @@ import UIKit
       static let titleTextColor = Colors.blurple600
     }
     
+    override var isUserInteractionEnabled: Bool {
+      set {
+        slideToggleImageView.isHidden = !newValue
+        super.isUserInteractionEnabled = newValue
+      }
+      get {
+        return super.isUserInteractionEnabled
+      }
+    }
+    
     let titleLabel = UILabel().then {
       $0.text = Strings.SummaryTitle.uppercased()
       $0.textColor = UX.titleTextColor

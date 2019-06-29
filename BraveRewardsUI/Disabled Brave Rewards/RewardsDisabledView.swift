@@ -50,6 +50,10 @@ class RewardsDisabledView: UIView {
 }
 
 extension RewardsDisabledView: WalletContentView {
+  var estimatedHeight: CGFloat {
+    return scrollView.contentSize.height
+  }
+  
   var displaysRewardsSummaryButton: Bool {
     return false
   }

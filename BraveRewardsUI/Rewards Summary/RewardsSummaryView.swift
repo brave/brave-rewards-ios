@@ -113,4 +113,9 @@ class RewardsSummaryView: UIView {
     scrollView.layoutIfNeeded()
     gradientView.frame = scrollView.frame
   }
+  
+  var estimatedHeight: CGFloat {
+    return scrollView.contentSize.height +
+      scrollView.frame.origin.y
+  }
 }

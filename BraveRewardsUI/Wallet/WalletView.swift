@@ -141,10 +141,26 @@ extension WalletViewController {
       
       summaryLayoutGuide.snp.makeConstraints { $0.bottom.equalTo(self) }
     }
+    
+    func estimatedHeight(hideConetent: Bool) -> CGFloat {
+      var height = headerView.bounds.height
+      if hideConetent {
+        height += rewardsSummaryView.estimatedHeight +
+        20// Padding between Header and content/rewardsSummary
+      } else if contentView?.displaysRewardsSummaryButton == true {
+        height += rewardsSummaryView.rewardsSummaryButton.bounds.height +
+          (contentView?.estimatedHeight ?? 0.0)
+      } else {
+        height += (contentView?.estimatedHeight ?? 0.0)
+      }
+      return height
+    }
   }
 }
 
-class EmptyWalletContentView: UIView, WalletContentView {
+class EmptyContentView: UIView, WalletContentView {
+  var estimatedHeight: CGFloat { return 0 }
+  
   var innerScrollView: UIScrollView? {
     return nil
   }
