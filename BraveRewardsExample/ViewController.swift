@@ -130,6 +130,16 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: RewardsUIDelegate {
+  func maxContentHeight() -> CGFloat {
+    
+    // Example of how this can be provided, something can be icorporated into PopoverController perhaps?
+    if let popOver = self.presentedViewController as? PopoverController {
+      let rect = braveRewardsPanelButton.convert(braveRewardsPanelButton.frame, to: self.view.window)
+      return popOver.view.bounds.height - popOver.outerMargins.bottom - rect.maxY + popOver.arrowDistance
+    }
+    return 500
+  }
+  
   func presentBraveRewardsController(_ viewController: UIViewController) {
     self.presentedViewController?.dismiss(animated: true) {
       self.present(viewController, animated: true)

@@ -118,7 +118,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     walletView.contentView?.layoutIfNeeded()
     walletView.rewardsSummaryView.layoutIfNeeded()
     
-    let height = isLocal ? walletView.estimatedHeight(hideConetent: true) :
+    let height = isLocal || (walletView.rewardsSummaryView.transform.ty != 0) ? walletView.estimatedHeight(hideConetent: true) :
                   walletView.estimatedHeight(hideConetent: false)
     
     if let scrollView = walletView.contentView?.innerScrollView {
@@ -269,6 +269,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     let rewardsSummaryView = walletView.rewardsSummaryView
     
     let isExpanding = rewardsSummaryView.transform.ty == 0
+    setPreferredSize(height: walletView.estimatedHeight(hideConetent: isExpanding))
     setRewardsSummaryVisible(visible: isExpanding, animated: true)
   }
   
@@ -279,12 +280,31 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image =
       UIImage(frameworkResourceNamed: visible ? "slide-down" : "slide-up")
     
+    var walletaViewHeightChange: CGFloat = 0
+    if !isLocal {
+      let publisherViewHeight = walletView.estimatedHeight(hideConetent: false)
+      let rewardsSummaryHeight = walletView.estimatedHeight(hideConetent: true)
+      let walletHeight = walletView.bounds.height
+      let maxHeight = state.delegate?.maxContentHeight() ?? walletHeight
+      if rewardsSummaryHeight < walletHeight {
+        walletaViewHeightChange = rewardsSummaryHeight - walletHeight
+      } else if rewardsSummaryHeight > walletHeight &&
+        walletHeight == publisherViewHeight &&
+        walletHeight < maxHeight {
+        if rewardsSummaryHeight <= maxHeight {
+          walletaViewHeightChange =  rewardsSummaryHeight - walletHeight
+        } else {
+          walletaViewHeightChange = rewardsSummaryHeight - maxHeight
+        }
+      }
+    }
+    
     // Animating the rewards summary with a bit of a bounce
     UIView.animate(withDuration: animated ? 0.4 : 0.0, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
       if visible {
         rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
-          y: -self.walletView.bounds.height + self.walletView.headerView.bounds.height + 20 + rewardsSummaryView.rewardsSummaryButton.bounds.height
+          y: -self.walletView.bounds.height + self.walletView.headerView.bounds.height + 20 + rewardsSummaryView.rewardsSummaryButton.bounds.height - walletaViewHeightChange
         )
       } else {
         rewardsSummaryView.transform = .identity

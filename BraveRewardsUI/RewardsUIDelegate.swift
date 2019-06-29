@@ -10,4 +10,6 @@ public protocol RewardsUIDelegate: AnyObject {
   func presentBraveRewardsController(_ controller: UIViewController)
   /// Tells the client to load a tab to a specific URL
   func loadNewTabWithURL(_ url: URL)
+  ///Asks the client for the max height of rewards container.
+  func maxContentHeight() -> CGFloat
 }
