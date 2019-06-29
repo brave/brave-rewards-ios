@@ -88,7 +88,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     reloadUIState()
     view.layoutIfNeeded()
-    setPreferredSize()
+    configureSize()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -99,8 +99,9 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     }
     reloadUIState()
     
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-      self.setPreferredSize()
+    // Not sure why this works
+    DispatchQueue.main.asyncAfter(deadline: .now()) {
+      self.configureSize()
     }
   }
   
@@ -112,7 +113,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     }
   }
   
-  private func setPreferredSize() {
+  private func configureSize() {
     walletView.headerView.layoutIfNeeded()
     walletView.contentView?.layoutIfNeeded()
     walletView.rewardsSummaryView.layoutIfNeeded()
@@ -126,9 +127,13 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       // Setting content Offset so that scrollview is properly aligned in smaller devices
       scrollView.contentOffset.y = -scrollView.contentInset.top
     }
+    setPreferredSize(height: height)
+  }
+  
+  private func setPreferredSize(height: CGFloat) {
     let newSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: height)
-    if preferredContentSize != newSize {
-      preferredContentSize = newSize
+    if (navigationController ?? self).preferredContentSize != newSize {
+      (navigationController ?? self).preferredContentSize = newSize
     }
   }
   
