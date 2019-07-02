@@ -96,7 +96,7 @@ extension BraveLedger {
       }
       
       let group = DispatchGroup()
-      var success: Bool = true
+      var success = true
       group.enter()
       self.fetchWalletDetails { details in
         if details == nil {

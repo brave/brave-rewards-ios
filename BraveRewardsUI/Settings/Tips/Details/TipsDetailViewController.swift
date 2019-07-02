@@ -126,8 +126,8 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
-      let recurringTips = tipsList.filter({$0.rewardsCategory == .recurringTip})
-      return 1 + (recurringTips.isEmpty ? 0 : 1 )
+      let hasRecurringTips = tipsList.contains { $0.rewardsCategory == .recurringTip }
+      return 1 + (hasRecurringTips ? 1 : 0)
     case .tips:
       return tipsList.isEmpty ? 1 : tipsList.count
     }
