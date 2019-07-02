@@ -28,6 +28,7 @@
 		0A9060222285E0BE00F58252 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060212285E0BE00F58252 /* DateExtensions.swift */; };
 		0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9060232285E19E00F58252 /* DateExtensionsTests.swift */; };
 		0A91598B22B92A4900CCC119 /* FaviconData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A91598A22B92A4900CCC119 /* FaviconData.swift */; };
+		0AE5C08E22CA26B300DFF3EE /* PublisherIconCircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE5C08D22CA26B300DFF3EE /* PublisherIconCircleImageView.swift */; };
 		2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834A2220E9380051239C /* UIImageExtensions.swift */; };
 		2704834D2220EC1D0051239C /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704834C2220EC1D0051239C /* BundleExtensions.swift */; };
 		2704834F2220EFA50051239C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2704834E2220EC720051239C /* Images.xcassets */; };
@@ -207,6 +208,7 @@
 		0A9060212285E0BE00F58252 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		0A9060232285E19E00F58252 /* DateExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsTests.swift; sourceTree = "<group>"; };
 		0A91598A22B92A4900CCC119 /* FaviconData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaviconData.swift; sourceTree = "<group>"; };
+		0AE5C08D22CA26B300DFF3EE /* PublisherIconCircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherIconCircleImageView.swift; sourceTree = "<group>"; };
 		2704834A2220E9380051239C /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		2704834C2220EC1D0051239C /* BundleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
 		2704834E2220EC720051239C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 				27371B7F22A7111200E13C00 /* DetailActionableRow.swift */,
 				0A91598A22B92A4900CCC119 /* FaviconData.swift */,
 				5E2A934A22C15F05002EDFFD /* LinkLabel.swift */,
+				0AE5C08D22CA26B300DFF3EE /* PublisherIconCircleImageView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1057,6 +1060,7 @@
 				2730DF8D2231C75B0031845C /* SettingsRewardsSectionView.swift in Sources */,
 				2726B58222527BC300B9EAF7 /* WalletActivityView.swift in Sources */,
 				27371B8122A7118500E13C00 /* ArrayExtensions.swift in Sources */,
+				0AE5C08E22CA26B300DFF3EE /* PublisherIconCircleImageView.swift in Sources */,
 				273404742220BA73008CABC9 /* GradientView.swift in Sources */,
 				27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */,
 				278A6B46225C08AE00175678 /* WalletDetailsViewController.swift in Sources */,
