@@ -30,6 +30,8 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     return view as! View // swiftlint:disable:this force_cast
   }
   
+  let rewardsSummaryView = RewardsSummaryView()
+  
   override func loadView() {
     view = View(frame: UIScreen.main.bounds)
   }
@@ -66,8 +68,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     }
     
     navigationController?.setNavigationBarHidden(true, animated: false)
-    
-    let rewardsSummaryView = walletView.rewardsSummaryView
     
     rewardsSummaryView.rewardsSummaryButton.addTarget(self, action: #selector(tappedRewardsSummaryButton), for: .touchUpInside)
     rewardsSummaryView.disclaimerView = disclaimerView
@@ -111,10 +111,14 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     walletView.headerView.layoutIfNeeded()
     walletView.contentView?.layoutIfNeeded()
+    rewardsSummaryView.layoutIfNeeded()
     
     guard let contentView = walletView.contentView else { return }
     
-    var height: CGFloat = walletView.headerView.bounds.height + walletView.rewardsSummaryView.rewardsSummaryButton.bounds.height
+    var height: CGFloat = walletView.headerView.bounds.height
+    if contentView.displaysRewardsSummaryButton {
+      height += rewardsSummaryView.rewardsSummaryButton.bounds.height
+    }
     if let scrollView = walletView.contentView?.innerScrollView {
       scrollView.contentInset = UIEdgeInsets(top: walletView.headerView.bounds.height, left: 0, bottom: 0, right: 0)
       scrollView.scrollIndicatorInsets = scrollView.contentInset
@@ -125,7 +129,15 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     }
     
     if state.ledger.isEnabled {
-      height = RewardsUX.preferredPanelSize.height
+      if isLocal && rewardsSummaryView.rows.isEmpty {
+        // 20 = offset between header view and content view
+        // FIXME: Generate this height without using 20 or manual math
+        height = rewardsSummaryView.scrollView.contentSize.height +
+          rewardsSummaryView.scrollView.frame.origin.y + 20 +
+          walletView.headerView.bounds.height
+      } else {
+        height = RewardsUX.preferredPanelSize.height
+      }
     }
     
     let newSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: height)
@@ -152,7 +164,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     publisherView.setVerificationStatusHidden(isLocal)
     
-    publisherSummaryView.setLocal(isLocal)
     if !isLocal {
       publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
       
@@ -198,9 +209,21 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   func reloadUIState() {
     if state.ledger.isEnabled {
-      walletView.contentView = publisherSummaryView
-      
-      publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
+      if isLocal {
+        rewardsSummaryView.rewardsSummaryButton.isEnabled = false
+        
+        self.view.backgroundColor = Colors.blurple800
+        walletView.contentView = rewardsSummaryView
+        
+        rewardsSummaryView.rewardsSummaryButton.snp.remakeConstraints {
+          $0.top.leading.trailing.equalTo(self.walletView.summaryLayoutGuide)
+        }
+      } else {
+        walletView.rewardsSummaryView = rewardsSummaryView
+        walletView.contentView = publisherSummaryView
+        
+        publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
+      }
     } else {
       if rewardsDisabledView.enableRewardsButton.allTargets.count == 0 {
         rewardsDisabledView.enableRewardsButton.addTarget(self, action: #selector(tappedEnableBraveRewards), for: .touchUpInside)
@@ -268,7 +291,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   @objc private func tappedRewardsSummaryButton() {
     let contentView = walletView.contentView
-    let rewardsSummaryView = walletView.rewardsSummaryView
     
     let isExpanding = rewardsSummaryView.transform.ty == 0
     rewardsSummaryView.rewardsSummaryButton.slideToggleImageView.image =
@@ -277,12 +299,12 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     // Animating the rewards summary with a bit of a bounce
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0, options: [], animations: {
       if isExpanding {
-        rewardsSummaryView.transform = CGAffineTransform(
+        self.rewardsSummaryView.transform = CGAffineTransform(
           translationX: 0,
-          y: -self.walletView.summaryLayoutGuide.layoutFrame.height + rewardsSummaryView.rewardsSummaryButton.bounds.height
+          y: -self.walletView.summaryLayoutGuide.layoutFrame.height + self.rewardsSummaryView.rewardsSummaryButton.bounds.height
         )
       } else {
-        rewardsSummaryView.transform = .identity
+        self.rewardsSummaryView.transform = .identity
       }
     }, completion: nil)
     
@@ -295,16 +317,16 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1000, initialSpringVelocity: 0, options: [], animations: {
       if isExpanding {
         contentView?.alpha = 0.0
-        rewardsSummaryView.monthYearLabel.alpha = 1.0
+        self.rewardsSummaryView.monthYearLabel.alpha = 1.0
         self.view.backgroundColor = Colors.blurple800
       } else {
         contentView?.alpha = 1.0
-        rewardsSummaryView.monthYearLabel.alpha = 0.0
+        self.rewardsSummaryView.monthYearLabel.alpha = 0.0
         self.view.backgroundColor = .white
       }
     }) { _ in
-      rewardsSummaryView.monthYearLabel.isHidden = !(rewardsSummaryView.monthYearLabel.alpha > 0.0)
-      rewardsSummaryView.alpha = 1.0
+      self.rewardsSummaryView.monthYearLabel.isHidden = !(self.rewardsSummaryView.monthYearLabel.alpha > 0.0)
+      self.rewardsSummaryView.alpha = 1.0
     }
   }
   
