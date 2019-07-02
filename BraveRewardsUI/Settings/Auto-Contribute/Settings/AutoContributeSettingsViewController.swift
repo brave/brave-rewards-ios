@@ -99,7 +99,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
       let choices = wallet.parametersChoices.map { $0.doubleValue }
       let selectedIndex = choices.index(of: monthlyPayment) ?? 0
       let stringChoices = choices.map { choice -> String in
-        var amount = "\(choice) \(wallet.altcurrency)"
+        var amount = "\(choice) BAT"
         if let dollarRate = ledger.dollarStringForBATAmount(choice) {
           amount.append(" (\(dollarRate))")
         }
@@ -166,8 +166,8 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
     switch row {
     case .monthlyPayment:
       cell.label.text = Strings.AutoContributeMonthlyPayment
-      if let walletInfo = ledger.walletInfo, let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
-        cell.accessoryLabel?.text = "\(ledger.contributionAmount) \(walletInfo.altcurrency) (\(dollarAmount))"
+      if let dollarAmount = ledger.dollarStringForBATAmount(ledger.contributionAmount) {
+        cell.accessoryLabel?.text = "\(ledger.contributionAmount) BAT (\(dollarAmount))"
       }
     case .minimumLength:
       cell.label.text = Strings.AutoContributeMinimumLengthMessage

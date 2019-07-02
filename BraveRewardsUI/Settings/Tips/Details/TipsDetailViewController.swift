@@ -126,7 +126,8 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
     guard let typedSection = Section(rawValue: section) else { return 0 }
     switch typedSection {
     case .summary:
-      return 1 + (tipsList.filter({$0.category == .recurringTip}).isEmpty ? 0 : 1 )
+      let hasRecurringTips = tipsList.contains { $0.rewardsCategory == .recurringTip }
+      return 1 + (hasRecurringTips ? 1 : 0)
     case .tips:
       return tipsList.isEmpty ? 1 : tipsList.count
     }
@@ -181,7 +182,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
       setFavicon(identifier: tip.id, url: tip.faviconUrl)
       cell.verifiedStatusImageView.isHidden = !tip.verified
-      switch tip.category {
+      switch tip.rewardsCategory {
       case .oneTimeTip:
         cell.typeNameLabel.text = Strings.OneTimeText + Date.stringFrom(reconcileStamp: tip.reconcileStamp)
       case .recurringTip:
@@ -199,14 +200,14 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     guard Section(rawValue: indexPath.section) == .tips &&
       !tipsList.isEmpty &&
-      tipsList[indexPath.row].category == .recurringTip else { return false }
+      tipsList[indexPath.row].rewardsCategory == .recurringTip else { return false }
     return true
   }
   
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     guard Section(rawValue: indexPath.section) == .tips &&
       !tipsList.isEmpty &&
-      tipsList[indexPath.row].category == .recurringTip else { return .none }
+      tipsList[indexPath.row].rewardsCategory == .recurringTip else { return .none }
     return .delete
   }
   
@@ -217,7 +218,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
     guard Section(rawValue: indexPath.section) == .tips &&
       !tipsList.isEmpty &&
-      tipsList[indexPath.row].category == .recurringTip else { return }
+      tipsList[indexPath.row].rewardsCategory == .recurringTip else { return }
     let publisherID = tipsList[indexPath.row].id
     state.ledger.removeRecurringTip(publisherId: publisherID)
     tipsList.remove(at: indexPath.row)

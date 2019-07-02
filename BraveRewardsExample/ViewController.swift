@@ -14,9 +14,6 @@ class UIMockLedger: BraveLedger {
     UserDefaults.standard.removeObject(forKey: "BATUIWalletCreated")
     UserDefaults.standard.removeObject(forKey: "BATUIAutoContributeEnabled")
   }
-  override var balance: Double {
-    return 30.0
-  }
   override var isEnabled: Bool {
     get { return defaults.bool(forKey: "BATUILedgerEnabled") }
     set { return defaults.set(newValue, forKey: "BATUILedgerEnabled") }

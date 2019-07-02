@@ -20,7 +20,7 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   override func loadView() {
-    view = View(isEmpty: state.ledger.balance == 0.0)
+    view = View(isEmpty: state.ledger.balance?.total == 0.0)
   }
   
   var detailsView: View {
