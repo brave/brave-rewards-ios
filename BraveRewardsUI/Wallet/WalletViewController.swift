@@ -159,28 +159,29 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       guard let host = state.url.host else { return }
       attentionView.valueLabel.text = "0%"
       
-      publisherView.onCheckAgainTapped = { [weak self] in
-        guard let self = self else { return }
+      self.state.ledger.publisherInfo(forId: host) { info in
+        guard let publisher = info else { return }
+        assert(Thread.isMainThread)
+        publisherView.setVerified(publisher.verified)
         
-        publisherView.checkAgainButton.isLoading = true
-        self.state.ledger.publisherInfo(forId: host) { info in
-          publisherView.checkAgainButton.isLoading = false
-          
-          guard let publisher = info else { return }
-          assert(Thread.isMainThread)
-          publisherView.setVerified(publisher.verified)
-          
-          if publisher.verified {
-            publisherView.checkAgainButton.isHidden = true
-          }
-          
-          if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
-            attentionView.valueLabel.text = "\(percent)%"
-          }
+        if publisher.verified {
+          publisherView.checkAgainButton.isHidden = true
+        }
+        
+        if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
+          attentionView.valueLabel.text = "\(percent)%"
         }
       }
       
-      publisherView.onCheckAgainTapped?()
+      publisherView.onCheckAgainTapped = { [weak self] in
+        guard let self = self else { return }
+        publisherView.checkAgainButton.isLoading = true
+        
+        self.state.ledger.refreshPublisher(withId: host, completion: { didRefresh in
+          publisherView.checkAgainButton.isLoading = false
+          publisherView.checkAgainButton.isHidden = true
+        })
+      }
       
       if let faviconURL = state.faviconURL {
         state.dataSource?.retrieveFavicon(with: faviconURL, completion: { [weak self] faviconData in
