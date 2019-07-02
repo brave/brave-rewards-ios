@@ -144,6 +144,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   func setupPublisherView(_ publisherSummaryView: PublisherSummaryView) {
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
+    
     // TODO: Update with actual value below
     publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "5"
     let publisherView = publisherSummaryView.publisherView
@@ -166,7 +167,16 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
           attentionView.valueLabel.text = "\(percent)%"
         }
+      }
+      
+      publisherView.onCheckAgainTapped = { [weak self] in
+        guard let self = self else { return }
+        publisherView.checkAgainButton.isLoading = true
         
+        self.state.ledger.refreshPublisher(withId: host, completion: { didRefresh in
+          publisherView.checkAgainButton.isLoading = false
+          publisherView.checkAgainButton.isHidden = true
+        })
       }
       
       if let faviconURL = state.faviconURL {
