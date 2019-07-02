@@ -51,5 +51,11 @@ import UIKit
     required init(coder: NSCoder) {
       fatalError()
     }
+
+    override var isEnabled: Bool {
+      didSet {
+        slideToggleImageView.isHidden = !isEnabled
+      }
+    }
   }
 //}

@@ -76,7 +76,7 @@ extension WalletViewController {
       }
     }
     
-    let rewardsSummaryView = RewardsSummaryView()
+    var rewardsSummaryView: RewardsSummaryView?
     let summaryLayoutGuide = UILayoutGuide()
     
     override init(frame: CGRect) {
@@ -94,6 +94,7 @@ extension WalletViewController {
       summaryLayoutGuide.snp.makeConstraints {
         $0.top.equalTo(self.headerView.snp.bottom).offset(20.0)
         $0.leading.trailing.equalTo(self)
+        $0.bottom.equalTo(self)
       }
       
       setupContentView()
@@ -120,10 +121,13 @@ extension WalletViewController {
         $0.leading.trailing.equalTo(self)
       }
       
-      if contentView.displaysRewardsSummaryButton {
+      if let rewardsSummaryView = rewardsSummaryView, contentView.displaysRewardsSummaryButton {
+        // Hide this by default, it'll be shown when the user expands it
+        rewardsSummaryView.monthYearLabel.isHidden = true
+        
         insertSubview(rewardsSummaryView, belowSubview: headerView)
         contentView.snp.makeConstraints {
-          $0.bottom.equalTo(self.rewardsSummaryView.snp.top)
+          $0.bottom.equalTo(rewardsSummaryView.snp.top)
         }
         rewardsSummaryView.snp.makeConstraints {
           $0.leading.trailing.equalTo(self)
@@ -133,13 +137,11 @@ extension WalletViewController {
           $0.bottom.equalTo(self)
         }
       } else {
-        rewardsSummaryView.removeFromSuperview()
+        rewardsSummaryView?.removeFromSuperview()
         contentView.snp.makeConstraints {
           $0.bottom.equalTo(self)
         }
       }
-      
-      summaryLayoutGuide.snp.makeConstraints { $0.bottom.equalTo(self) }
     }
   }
 }

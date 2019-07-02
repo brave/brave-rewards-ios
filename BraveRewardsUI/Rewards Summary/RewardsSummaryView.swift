@@ -16,7 +16,6 @@ class RewardsSummaryView: UIView {
   let monthYearLabel = UILabel().then {
     $0.textColor = UX.monthYearColor
     $0.font = .systemFont(ofSize: 22.0)
-    $0.isHidden = true
   }
   let scrollView = UIScrollView()
   let gradientView = GradientView().then {
@@ -112,5 +111,14 @@ class RewardsSummaryView: UIView {
     
     scrollView.layoutIfNeeded()
     gradientView.frame = scrollView.frame
+  }
+}
+
+extension RewardsSummaryView: WalletContentView {
+  var innerScrollView: UIScrollView? {
+    return nil
+  }
+  var displaysRewardsSummaryButton: Bool {
+    return false
   }
 }
