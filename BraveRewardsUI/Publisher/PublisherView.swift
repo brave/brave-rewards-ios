@@ -22,18 +22,8 @@ class PublisherView: UIStackView {
     }
   }
   
-  let faviconImageView = UIImageView().then {
-    $0.backgroundColor = UX.faviconBackgroundColor
-    $0.contentMode = .scaleAspectFill
-    $0.clipsToBounds = true
-    $0.layer.cornerRadius = UX.faviconSize.width / 2.0
-    $0.layer.borderColor = UX.faviconBorderColor.cgColor
-    $0.layer.borderWidth = 1.0 / UIScreen.main.scale
-    $0.setContentHuggingPriority(.required, for: .horizontal)
-    $0.image = UIImage(frameworkResourceNamed: "defaultFavicon")
-  }
+  let faviconImageView = PublisherIconCircleImageView(size: UX.faviconSize)
   
-  // "reddit.com" / "Bart Baker on YouTube"
   let publisherNameLabel = UILabel().then {
     $0.textColor = UX.publisherNameColor
     $0.font = .systemFont(ofSize: 18.0, weight: .medium)
@@ -55,9 +45,7 @@ class PublisherView: UIStackView {
   // MARK: -
   
   private struct UX {
-    static let faviconBackgroundColor = Colors.neutral800
-    static let faviconSize = CGSize(width: 48.0, height: 48.0)
-    static let faviconBorderColor = Colors.neutral800
+    static let faviconSize: CGFloat = 48
     static let publisherNameColor = Colors.grey000
     static let verifiedStatusColor = Colors.grey200
   }

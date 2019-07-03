@@ -4,6 +4,7 @@
 
 import UIKit
 import SnapKit
+import BraveRewards
 
 protocol WalletContentView: AnyObject {
   var innerScrollView: UIScrollView? { get }
@@ -175,6 +176,9 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         assert(Thread.isMainThread)
         publisherView.setVerified(publisher.verified)
         
+        publisherSummaryView.setAutoContribute(enabled:
+          publisher.excluded != ExcludeFilter.filterExcluded.rawValue)
+        
         if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
           attentionView.valueLabel.text = "\(percent)%"
         }
@@ -201,6 +205,21 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         })
       }
     }
+    
+    publisherSummaryView.autoContributeChanged = { [weak self] enabled in
+      guard let self = self, let host = self.state.url.host else { return }
+      
+      // setting publisher exclusion to .included didn't seem to work, using .default instead.
+      let state: PublisherExclude = enabled ? .default : .excluded
+      self.state.ledger.updatePublisherExclusionState(withId: host, state: state)
+      
+      // Toggling auto contribute inclusion may result in updated attention value.
+      self.state.ledger.publisherInfo(forId: host) { info in
+        guard let info = info else { return }
+        attentionView.valueLabel.text = "\(info.percent)%"
+      }
+    }
+
   }
   
   var isLocal: Bool {
@@ -222,7 +241,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         walletView.rewardsSummaryView = rewardsSummaryView
         walletView.contentView = publisherSummaryView
         
-        publisherSummaryView.updateViewVisibility(autoContributionEnabled: state.ledger.isAutoContributeEnabled)
+        publisherSummaryView.updateViewVisibility(globalAutoContributionEnabled: state.ledger.isAutoContributeEnabled)
       }
     } else {
       if rewardsDisabledView.enableRewardsButton.allTargets.count == 0 {

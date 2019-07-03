@@ -6,6 +6,12 @@ import UIKit
 
 class PublisherSummaryView: UIView {
   
+  var autoContributeChanged: ((Bool) -> Void)?
+  
+  func setAutoContribute(enabled: Bool) {
+    autoContributeRow.toggleSwitch.isOn = enabled
+  }
+  
   lazy var monthlyTipView = DetailActionableRow().then {
     $0.textLabel.text = Strings.TipSiteMonthly
   }
@@ -28,6 +34,7 @@ class PublisherSummaryView: UIView {
   let attentionView = PublisherAttentionView()
   private let autoContributeRow = SwitchRow().then {
     $0.textLabel.text = Strings.AutoContributeSwitchLabel
+    $0.toggleSwitch.isOn = true
   }
   let tipButton = ActionButton(type: .system).then {
     $0.tintColor = Colors.blurple400
@@ -59,6 +66,10 @@ class PublisherSummaryView: UIView {
     stackView.setCustomSpacing(20.0, after: stackView.arrangedSubviews.last!)
     stackView.addArrangedSubview(tipButton)
     
+    autoContributeRow.valueChanged = { enabled in
+      self.autoContributeChanged?(enabled)
+    }
+    
     scrollView.snp.makeConstraints {
       $0.edges.equalTo(self)
     }
@@ -75,8 +86,8 @@ class PublisherSummaryView: UIView {
     }
   }
   
-  func updateViewVisibility(autoContributionEnabled: Bool) {
-    autoContributeStackView.isHidden = !autoContributionEnabled
+  func updateViewVisibility(globalAutoContributionEnabled: Bool) {
+    autoContributeStackView.isHidden = !globalAutoContributionEnabled
   }
 }
 

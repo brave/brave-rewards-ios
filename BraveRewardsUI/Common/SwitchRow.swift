@@ -6,6 +6,8 @@ import UIKit
 
 class SwitchRow: UIStackView {
   
+  var valueChanged: ((Bool) -> Void)?
+  
   private struct UX {
     static let textColor = Colors.grey200
   }
@@ -26,6 +28,12 @@ class SwitchRow: UIStackView {
    
     addArrangedSubview(textLabel)
     addArrangedSubview(toggleSwitch)
+    
+    toggleSwitch.addTarget(self, action: #selector(switchToggled(sender:)), for: .valueChanged)
+  }
+  
+  @objc func switchToggled(sender: UISwitch) {
+    valueChanged?(sender.isOn)
   }
   
   @available(*, unavailable)
