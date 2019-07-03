@@ -19,13 +19,8 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
     $0.backgroundColor = Colors.blurple800
   }
   
-  let siteImageView = UIImageView().then {
-    $0.setContentHuggingPriority(.required, for: .horizontal)
-    $0.contentMode = .scaleAspectFit
-    $0.snp.makeConstraints {
-      $0.width.equalTo(28.0)
-    }
-  }
+  let siteImageView = PublisherIconCircleImageView(size: 28)
+  
   let verifiedStatusImageView = UIImageView(image: UIImage(frameworkResourceNamed: "icn-verify")).then {
     $0.isHidden = true
   }
@@ -59,8 +54,8 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
       $0.trailing.lessThanOrEqualTo(attentionLabel.snp.leading).offset(-10.0)
     }
     verifiedStatusImageView.snp.makeConstraints {
-      $0.top.equalTo(siteStackView)
-      $0.leading.equalTo(siteImageView.snp.trailing).offset(-4.0)
+      $0.top.equalTo(siteStackView).offset(-4.0)
+      $0.leading.equalTo(siteImageView.snp.trailing).offset(-8.0)
     }
     attentionLabel.snp.makeConstraints {
       $0.trailing.equalTo(contentView).inset(15.0)

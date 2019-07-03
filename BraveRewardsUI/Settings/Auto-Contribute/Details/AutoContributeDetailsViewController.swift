@@ -317,7 +317,14 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       }
       let cell = tableView.dequeueReusableCell(for: indexPath) as AutoContributeCell
       cell.selectionStyle = .none
-      cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
+      
+      if let url = state.faviconURL {
+        state.dataSource?.retrieveFavicon(with: url) { data in
+          cell.siteImageView.image = data?.image
+          cell.siteImageView.backgroundColor = data?.backgroundColor
+        }
+      }
+      
       cell.verifiedStatusImageView.isHidden = !publisher.verified
       let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
       let attrName = NSMutableAttributedString(string: publisher.name).then {
