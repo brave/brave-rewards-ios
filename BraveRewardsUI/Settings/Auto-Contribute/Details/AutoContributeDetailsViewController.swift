@@ -318,7 +318,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       let cell = tableView.dequeueReusableCell(for: indexPath) as AutoContributeCell
       cell.selectionStyle = .none
       
-      if let url = state.faviconURL {
+      if let url = URL(string: publisher.url) {
         state.dataSource?.retrieveFavicon(with: url) { data in
           cell.siteImageView.image = data?.image
           cell.siteImageView.backgroundColor = data?.backgroundColor
