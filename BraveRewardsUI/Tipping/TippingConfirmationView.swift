@@ -26,10 +26,31 @@ class TippingConfirmationView: UIView {
     $0.layer.borderWidth = 2.0
   }
   
-  let confirmationLabel = UILabel().then {
+  let titleLabel = UILabel().then {
     $0.text = Strings.TippingConfirmation
     $0.textColor = UX.confirmationTextColor
     $0.font = .systemFont(ofSize: 25.0, weight: .bold)
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+  }
+  
+  let subtitleLabel = UILabel().then {
+    $0.textColor = UX.confirmationTextColor
+    $0.font = .systemFont(ofSize: 12.0, weight: .regular)
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+  }
+  
+  let infoLabel = UILabel().then {
+    $0.textColor = UX.confirmationTextColor
+    $0.font = .systemFont(ofSize: 17.0, weight: .regular)
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+  }
+  
+  let monthlyTipLabel = UILabel().then {
+    $0.textColor = UX.confirmationTextColor
+    $0.font = .systemFont(ofSize: 12.0, weight: .regular)
     $0.textAlignment = .center
     $0.numberOfLines = 0
   }
@@ -41,7 +62,13 @@ class TippingConfirmationView: UIView {
     
     addSubview(stackView)
     stackView.addArrangedSubview(faviconImageView)
-    stackView.addArrangedSubview(confirmationLabel)
+    stackView.addArrangedSubview(titleLabel)
+    stackView.addArrangedSubview(subtitleLabel)
+    stackView.addArrangedSubview(infoLabel)
+    stackView.addArrangedSubview(monthlyTipLabel)
+    
+    stackView.setCustomSpacing(4.0, after: titleLabel)
+    stackView.setCustomSpacing(25.0, after: infoLabel)
     
     stackView.snp.makeConstraints {
       $0.leading.trailing.equalTo(self).inset(20.0)

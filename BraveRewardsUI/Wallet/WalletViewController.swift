@@ -171,9 +171,13 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       guard let host = state.url.host else { return }
       attentionView.valueLabel.text = "0%"
       
-      state.ledger.publisherInfo(forId: host) { info in
-        guard let publisher = info else { return }
+      state.ledger.publisherInfo(forId: host) { [weak self] info in
+        guard let self = self else { return }
+        
         assert(Thread.isMainThread)
+        publisherView.checkAgainButton.isHidden = info != nil
+        
+        guard let publisher = info else { return }
         publisherView.setVerified(publisher.verified)
         
         publisherSummaryView.setAutoContribute(enabled:
@@ -279,8 +283,13 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedSendTip() {
-    let controller = TippingViewController(state: state, publisherId: "") // TODO: pass publisher Id
-    state.delegate?.presentBraveRewardsController(controller)
+    guard let host = state.url.host else { return }
+    state.ledger.publisherInfo(forId: host) { [weak self] info in
+      guard let self = self, let publisherInfo = info else { return }
+      
+      let controller = TippingViewController(state: self.state, publisherInfo: publisherInfo)
+      self.state.delegate?.presentBraveRewardsController(controller)
+    }
   }
   
   @objc private func tappedMonthlyTip() {

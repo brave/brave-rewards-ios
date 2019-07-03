@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
+import BraveRewards
 
 extension TippingViewController {
   
@@ -10,6 +11,40 @@ extension TippingViewController {
   class View: UIView {
     
     var gesturalDismissExecuted: (() -> Void)?
+    
+    func setInfo(name: String, tipAmount: Double) {
+      let isMonthly = optionSelectionView.isMonthly
+      
+      confirmationView.faviconImageView.image = overviewView.faviconImageView.image
+      confirmationView.subtitleLabel.text = isMonthly ? Strings.TippingMonthlyTitle : Strings.TippingOneTimeTitle
+      
+      confirmationView.infoLabel.text = "\(name)\n\(tipAmount) BAT\(isMonthly ? ", \(Strings.TippingRecurring)" : "")"
+      
+      if isMonthly {
+        confirmationView.monthlyTipLabel.attributedText = {
+          let paragraphStyle = NSMutableParagraphStyle()
+          paragraphStyle.alignment = .center
+          paragraphStyle.lineBreakMode = .byWordWrapping
+          paragraphStyle.lineSpacing = 8.0
+          
+          let text = NSMutableAttributedString(string: "\(Strings.TippingRecurringDetails)\n", attributes: [
+            .font: UIFont.systemFont(ofSize: 12.0, weight: .regular),
+            .foregroundColor: Colors.grey600
+            ])
+          
+          // TODO: Find out where to get the date!
+          text.append(NSAttributedString(string: "6/20/2019", attributes: [
+            .font: UIFont.systemFont(ofSize: 12.0, weight: .regular),
+            .foregroundColor: Colors.orange400
+            ]))
+          
+          text.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: text.length))
+          return text
+        }()
+      }
+      
+      confirmationView.monthlyTipLabel.isHidden = !isMonthly
+    }
     
     func setTippingConfirmationVisible(_ visible: Bool, animated: Bool = true) {
       if confirmationView.isHidden == !visible {
@@ -20,7 +55,6 @@ extension TippingViewController {
       if visible {
         addSubview(confirmationView)
         confirmationView.isHidden = false
-        confirmationView.faviconImageView.image = overviewView.faviconImageView.image
         confirmationView.snp.makeConstraints {
           $0.edges.equalTo(self)
         }

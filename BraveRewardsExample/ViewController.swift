@@ -83,6 +83,8 @@ class ViewController: UIViewController {
   
   var rewards: BraveRewards!
   
+  private static let testPublisherURL = "https://3zsistemi.si" //"https://bumpsmack.com"
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -96,7 +98,7 @@ class ViewController: UIViewController {
     if (useMockLedgerSwitch.isOn) {
       rewards = BraveRewards(configuration: .default, ledgerClass: UIMockLedger.self, adsClass: nil)
       // Simulate visiting a sample url to test publisher verification.
-      let url = URL(string: "https://bumpsmack.com")!
+      let url = URL(string: ViewController.testPublisherURL)!
       rewards.ledger.publisherActivity(from: url, faviconURL: url, publisherBlob: "")
     } else {
       rewards = BraveRewards(configuration: .default)
@@ -110,7 +112,7 @@ class ViewController: UIViewController {
     }
     
 //    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
-    let url = URL(string: "https://bumpsmacked.com")!
+    let url = URL(string: ViewController.testPublisherURL)!
     let braveRewardsPanel = RewardsPanelController(
       rewards,
       url: url,
