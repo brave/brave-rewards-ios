@@ -190,4 +190,5 @@ extension LinkLabel: UITextViewDelegate {
 struct DisclaimerLinks {
   static let termsOfUseURL = "https://brave.com/terms-of-use/"
   static let policyURL = "https://brave.com/privacy/#rewards"
+  static let unclaimedFundsURL = "https://brave.com/faq-rewards/#unclaimed-funds"
 }

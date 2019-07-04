@@ -158,15 +158,25 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     publisherSummaryView.tipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
     publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
     
-    // TODO: Update with actual value below
+    publisherSummaryView.monthlyTipView.isHidden = true
     publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "5"
+    
     let publisherView = publisherSummaryView.publisherView
     let attentionView = publisherSummaryView.attentionView
     
     publisherView.setVerificationStatusHidden(isLocal)
+    publisherView.learnMoreTapped = { [weak self] in
+      guard let self = self, let url = URL(string: DisclaimerLinks.unclaimedFundsURL) else { return }
+      self.state.delegate?.loadNewTabWithURL(url)
+    }
+    
+    walletView.rewardsSummaryView?.disclaimerView?.onLinkedTapped = { [weak self] _ in
+      guard let self = self, let url = URL(string: DisclaimerLinks.unclaimedFundsURL) else { return }
+      self.state.delegate?.loadNewTabWithURL(url)
+    }
     
     if !isLocal {
-      publisherView.publisherNameLabel.text = state.dataSource?.displayString(for: state.url)
+      publisherView.updatePublisherName(state.dataSource?.displayString(for: state.url) ?? "", provider: "")
       
       guard let host = state.url.host else { return }
       attentionView.valueLabel.text = "0%"
@@ -178,6 +188,10 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         publisherView.checkAgainButton.isHidden = info != nil
         
         guard let publisher = info else { return }
+        let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
+        
+        publisherView.updatePublisherName(publisher.name, provider: provider)
+        
         publisherView.setVerified(publisher.verified)
         publisherView.checkAgainButton.isHidden = publisher.verified
         
@@ -189,11 +203,19 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         }
       }
       
+      self.state.ledger.listRecurringTips { [weak self] in
+        guard let self = self else { return }
+        guard let recurringTip = $0.filter({ $0.id == host && $0.rewardsCategory == .recurringTip }).first else { return }
+        
+        self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\((recurringTip.contributions.first?.value ?? 0))"
+        self.publisherSummaryView.monthlyTipView.isHidden = false
+      }
+      
       publisherView.onCheckAgainTapped = { [weak self] in
         guard let self = self else { return }
         publisherView.checkAgainButton.isLoading = true
         
-        self.state.ledger.refreshPublisher(withId: host, completion: { didRefresh in
+        self.state.ledger.refreshPublisher(withId: host, completion: { _ in
           publisherView.checkAgainButton.isLoading = false
           publisherView.checkAgainButton.isHidden = true
         })

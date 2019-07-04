@@ -78,11 +78,8 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       self?.state.delegate?.loadNewTabWithURL(url)
     }
     
-    // FIXME: Set this disclaimer hidden based on whether or not the publisher is verified
-    tippingView.overviewView.disclaimerView.isHidden = true
-    
+    tippingView.overviewView.disclaimerView.isHidden = !publisherInfo.verified
     tippingView.optionSelectionView.setWalletBalance(state.ledger.balanceString, crypto: "BAT")
-    // FIXME: Remove fake data
     tippingView.optionSelectionView.options = TippingViewController.defaultTippingAmounts.map {
       TippingOption.batAmount(BATValue($0), dollarValue: state.ledger.dollarStringForBATAmount($0) ?? "")
     }
@@ -104,7 +101,9 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       
       if let dataSource = self.state.dataSource, let favIconURL = self.state.faviconURL {
         dataSource.retrieveFavicon(with: favIconURL, completion: { favIconData in
-          self.tippingView.overviewView.faviconImageView.image = favIconData?.image
+          guard let favIconData = favIconData else { return }
+          self.tippingView.overviewView.faviconImageView.image = favIconData.image
+          self.tippingView.overviewView.faviconImageView.backgroundColor = favIconData.backgroundColor
         })
       }
       
