@@ -6,7 +6,7 @@ import UIKit
 
 class TippingConfirmationView: UIView {
   struct UX {
-    static let backgroundColor = Colors.blurple000.withAlphaComponent(0.85)
+    static let backgroundColor = Colors.blurple000.withAlphaComponent(0.95)
     static let faviconBackgroundColor = Colors.neutral800
     static let faviconSize = CGSize(width: 92.0, height: 92.0)
     static let confirmationTextColor = Colors.grey600
@@ -29,28 +29,28 @@ class TippingConfirmationView: UIView {
   let titleLabel = UILabel().then {
     $0.text = Strings.TippingConfirmation
     $0.textColor = UX.confirmationTextColor
-    $0.font = .systemFont(ofSize: 25.0, weight: .bold)
+    $0.font = .systemFont(ofSize: 28.0, weight: .bold)
     $0.textAlignment = .center
     $0.numberOfLines = 0
   }
   
   let subtitleLabel = UILabel().then {
     $0.textColor = UX.confirmationTextColor
-    $0.font = .systemFont(ofSize: 12.0)
+    $0.font = .systemFont(ofSize: 14.0, weight: .medium)
     $0.textAlignment = .center
     $0.numberOfLines = 0
   }
   
   let infoLabel = UILabel().then {
     $0.textColor = UX.confirmationTextColor
-    $0.font = .systemFont(ofSize: 17.0)
+    $0.font = .systemFont(ofSize: 20.0, weight: .medium)
     $0.textAlignment = .center
     $0.numberOfLines = 0
   }
   
   let monthlyTipLabel = UILabel().then {
     $0.textColor = UX.confirmationTextColor
-    $0.font = .systemFont(ofSize: 12.0)
+    $0.font = .systemFont(ofSize: 14.0, weight: .medium)
     $0.textAlignment = .center
     $0.numberOfLines = 0
   }

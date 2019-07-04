@@ -28,12 +28,12 @@ extension TippingViewController {
           paragraphStyle.lineSpacing = 8.0
           
           let text = NSMutableAttributedString(string: "\(Strings.TippingRecurringDetails)\n", attributes: [
-            .font: UIFont.systemFont(ofSize: 12.0),
+            .font: UIFont.systemFont(ofSize: 14.0, weight: .medium),
             .foregroundColor: Colors.grey600
           ])
           
           text.append(NSAttributedString(string: recurringDate, attributes: [
-            .font: UIFont.systemFont(ofSize: 12.0),
+            .font: UIFont.systemFont(ofSize: 14.0, weight: .medium),
             .foregroundColor: Colors.orange400
           ]))
           
