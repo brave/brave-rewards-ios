@@ -12,7 +12,7 @@ extension TippingViewController {
     
     var gesturalDismissExecuted: (() -> Void)?
     
-    func setInfo(name: String, tipAmount: Double) {
+    func setInfo(name: String, tipAmount: Double, recurringDate: String?) {
       let isMonthly = optionSelectionView.isMonthly
       
       confirmationView.faviconImageView.image = overviewView.faviconImageView.image
@@ -20,7 +20,7 @@ extension TippingViewController {
       
       confirmationView.infoLabel.text = "\(name)\n\(tipAmount) BAT\(isMonthly ? ", \(Strings.TippingRecurring)" : "")"
       
-      if isMonthly {
+      if isMonthly, let recurringDate = recurringDate {
         confirmationView.monthlyTipLabel.attributedText = {
           let paragraphStyle = NSMutableParagraphStyle()
           paragraphStyle.alignment = .center
@@ -30,13 +30,12 @@ extension TippingViewController {
           let text = NSMutableAttributedString(string: "\(Strings.TippingRecurringDetails)\n", attributes: [
             .font: UIFont.systemFont(ofSize: 12.0, weight: .regular),
             .foregroundColor: Colors.grey600
-            ])
+          ])
           
-          // TODO: Find out where to get the date!
-          text.append(NSAttributedString(string: "6/20/2019", attributes: [
+          text.append(NSAttributedString(string: recurringDate, attributes: [
             .font: UIFont.systemFont(ofSize: 12.0, weight: .regular),
             .foregroundColor: Colors.orange400
-            ]))
+          ]))
           
           text.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: text.length))
           return text

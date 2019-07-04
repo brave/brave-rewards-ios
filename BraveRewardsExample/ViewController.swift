@@ -9,6 +9,11 @@ import BraveRewardsUI
 class UIMockLedger: BraveLedger {
   let defaults = UserDefaults.standard
   
+  static var isUsingMockLedger: Bool {
+    get { return UserDefaults.standard.bool(forKey: "BATIsUsingMockLedger") }
+    set { UserDefaults.standard.set(newValue, forKey: "BATIsUsingMockLedger") }
+  }
+  
   static func reset() {
     UserDefaults.standard.removeObject(forKey: "BATUILedgerEnabled")
     UserDefaults.standard.removeObject(forKey: "BATUIWalletCreated")
@@ -90,6 +95,8 @@ class ViewController: UIViewController {
     
     RewardsLogger.configure(logCallback: rewardsLog, withFlush: nil)
     
+    useMockLedgerSwitch.isOn = UIMockLedger.isUsingMockLedger
+    
     setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
   }
@@ -135,6 +142,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func useMockLedgerValueChanged() {
+    UIMockLedger.isUsingMockLedger = useMockLedgerSwitch.isOn
     setupRewards()
   }
 }

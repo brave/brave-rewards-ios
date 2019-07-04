@@ -171,15 +171,26 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
           self.state.ledger.addRecurringTip(publisherId: self.publisherInfo.id, amount: amount)
         }
         
-        // TODO: Figure out -- Not sure why amount is of type integer..
-        // Also not sure user's currency
         self.state.ledger.tipPublisherDirectly(self.publisherInfo, amount: Int32(amount), currency: "BAT")
         
-        self.tippingView.setInfo(name: self.publisherInfo.name, tipAmount: amount)
-        self.tippingView.setTippingConfirmationVisible(true, animated: true)
+        let displayConfirmationView = { (recurringDate: String?) in
+          self.tippingView.setInfo(name: self.publisherInfo.name, tipAmount: amount, recurringDate: recurringDate)
+          self.tippingView.setTippingConfirmationVisible(true, animated: true)
+          
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.dismiss(animated: true)
+          }
+        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-          self?.dismiss(animated: true)
+        if self.tippingView.optionSelectionView.isMonthly {
+          let date = Date(timeIntervalSince1970: TimeInterval(self.state.ledger.autoContributeProps.reconcileStamp))
+          let dateString = DateFormatter().then {
+            $0.dateFormat = "MM/dd/yyyy"
+          }.string(from: date)
+          
+          displayConfirmationView(dateString)
+        } else {
+          displayConfirmationView(nil)
         }
       }
     }
