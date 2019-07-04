@@ -174,7 +174,9 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
         self.state.ledger.tipPublisherDirectly(self.publisherInfo, amount: Int32(amount), currency: "BAT")
         
         let displayConfirmationView = { (recurringDate: String?) in
-          self.tippingView.setInfo(name: self.publisherInfo.name, tipAmount: amount, recurringDate: recurringDate)
+          let provider = " \(self.publisherInfo.provider.isEmpty ? "" : String(format: Strings.OnProviderText, self.publisherInfo.provider))"
+          
+          self.tippingView.setInfo(name: "\(self.publisherInfo.name)\(provider)", tipAmount: amount, recurringDate: recurringDate)
           self.tippingView.setTippingConfirmationVisible(true, animated: true)
           
           DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
