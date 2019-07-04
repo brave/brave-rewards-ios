@@ -179,6 +179,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         
         guard let publisher = info else { return }
         publisherView.setVerified(publisher.verified)
+        publisherView.checkAgainButton.isHidden = publisher.verified
         
         publisherSummaryView.setAutoContribute(enabled:
           publisher.excluded != ExcludeFilter.filterExcluded.rawValue)

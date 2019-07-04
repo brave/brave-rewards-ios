@@ -12,7 +12,7 @@ extension TippingViewController {
     
     var gesturalDismissExecuted: (() -> Void)?
     
-    func setInfo(name: String, tipAmount: Double, recurringDate: String?) {
+    func updateConfirmationInfo(name: String, tipAmount: Double, recurringDate: String?) {
       let isMonthly = optionSelectionView.isMonthly
       
       confirmationView.faviconImageView.image = overviewView.faviconImageView.image
@@ -28,12 +28,12 @@ extension TippingViewController {
           paragraphStyle.lineSpacing = 8.0
           
           let text = NSMutableAttributedString(string: "\(Strings.TippingRecurringDetails)\n", attributes: [
-            .font: UIFont.systemFont(ofSize: 12.0, weight: .regular),
+            .font: UIFont.systemFont(ofSize: 12.0),
             .foregroundColor: Colors.grey600
           ])
           
           text.append(NSAttributedString(string: recurringDate, attributes: [
-            .font: UIFont.systemFont(ofSize: 12.0, weight: .regular),
+            .font: UIFont.systemFont(ofSize: 12.0),
             .foregroundColor: Colors.orange400
           ]))
           

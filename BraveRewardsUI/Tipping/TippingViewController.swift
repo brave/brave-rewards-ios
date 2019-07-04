@@ -129,7 +129,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
   }
   
   private func downloadImage(url: String, _ completion: @escaping (UIImage?) -> Void) {
-    guard !url.isEmpty, let url = URL(string: url.replacingOccurrences(of: "chrome://rewards-image/", with: "")) else {
+    guard !url.isEmpty, let url = URL(string: url) else {
       completion(nil)
       return
     }
@@ -158,42 +158,34 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     if let selectedIndex = self.tippingView.optionSelectionView.selectedOptionIndex {
       let amount = self.tippingView.optionSelectionView.options[selectedIndex].value.doubleValue
       
-      state.ledger.listRecurringTips { [weak self] info in
-        guard let self = self else { return }
-        
-        // If the user has recurring tips, remove the monthly tip
-        if info.firstIndex(where: { $0.id == self.publisherInfo.id }) != nil {
-          self.state.ledger.removeRecurringTip(publisherId: self.publisherInfo.id)
-        }
-        
-        // Add recurring tips if there is none..
-        if self.tippingView.optionSelectionView.isMonthly {
-          self.state.ledger.addRecurringTip(publisherId: self.publisherInfo.id, amount: amount)
-        }
-        
+      // Add recurring tips if isMonthly..
+      if self.tippingView.optionSelectionView.isMonthly {
+        self.state.ledger.addRecurringTip(publisherId: self.publisherInfo.id, amount: amount)
+      } else {
         self.state.ledger.tipPublisherDirectly(self.publisherInfo, amount: Int32(amount), currency: "BAT")
+      }
+      
+      let displayConfirmationView = { (recurringDate: String?) in
+        let provider = " \(self.publisherInfo.provider.isEmpty ? "" : String(format: Strings.OnProviderText, self.publisherInfo.provider))"
         
-        let displayConfirmationView = { (recurringDate: String?) in
-          let provider = " \(self.publisherInfo.provider.isEmpty ? "" : String(format: Strings.OnProviderText, self.publisherInfo.provider))"
-          
-          self.tippingView.setInfo(name: "\(self.publisherInfo.name)\(provider)", tipAmount: amount, recurringDate: recurringDate)
-          self.tippingView.setTippingConfirmationVisible(true, animated: true)
-          
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.dismiss(animated: true)
-          }
-        }
+        self.tippingView.updateConfirmationInfo(name: "\(self.publisherInfo.name)\(provider)", tipAmount: amount, recurringDate: recurringDate)
+        self.tippingView.setTippingConfirmationVisible(true, animated: true)
         
-        if self.tippingView.optionSelectionView.isMonthly {
-          let date = Date(timeIntervalSince1970: TimeInterval(self.state.ledger.autoContributeProps.reconcileStamp))
-          let dateString = DateFormatter().then {
-            $0.dateFormat = "MM/dd/yyyy"
-          }.string(from: date)
-          
-          displayConfirmationView(dateString)
-        } else {
-          displayConfirmationView(nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+          self.dismiss(animated: true)
         }
+      }
+      
+      if self.tippingView.optionSelectionView.isMonthly {
+        let date = Date(timeIntervalSince1970: TimeInterval(self.state.ledger.autoContributeProps.reconcileStamp))
+        let dateString = DateFormatter().then {
+          $0.dateStyle = .short
+          $0.timeStyle = .none
+        }.string(from: date)
+        
+        displayConfirmationView(dateString)
+      } else {
+        displayConfirmationView(nil)
       }
     }
   }
