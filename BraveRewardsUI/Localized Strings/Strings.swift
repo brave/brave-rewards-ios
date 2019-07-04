@@ -143,5 +143,5 @@ public extension Strings {
   static let TipSiteMonthly = NSLocalizedString("TipSiteMonthly", bundle: Bundle.RewardsUI, value: "Tip this site monthly", comment: "")
   static let OneTimeText = NSLocalizedString("OneTimeText", bundle: Bundle.RewardsUI, value: "One time ", comment: "Text describing the type of contribution")
   static let RecurringText = NSLocalizedString("RecurringText", bundle: Bundle.RewardsUI, value: "Recurring", comment: "Text describing the type of contribution")
-  static let OnProviderText = NSLocalizedString("OnProviderText", bundle: Bundle.RewardsUI, value: "%@ on %@", comment: "This is a suffix statement. example: SomeChannel on Twitter")
+  static let OnProviderText = NSLocalizedString("OnProviderText", bundle: Bundle.RewardsUI, value: "on %@", comment: "This is a suffix statement. example: SomeChannel on Twitter")
 }
