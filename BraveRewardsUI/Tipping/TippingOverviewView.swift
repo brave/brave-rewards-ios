@@ -19,6 +19,7 @@ class TippingOverviewView: UIView {
   
   let headerView = UIImageView().then {
     $0.backgroundColor = UX.headerBackgroundColor
+    $0.contentMode = .scaleAspectFill
     $0.clipsToBounds = true
   }
   
@@ -38,9 +39,6 @@ class TippingOverviewView: UIView {
   
   let socialStackView = UIStackView().then {
     $0.spacing = 20.0
-    for icon in ["pub-youtube", "pub-twitter", "pub-twitch"] {
-      $0.addArrangedSubview(UIImageView(image: UIImage(frameworkResourceNamed: icon)))
-    }
   }
   
   private let bodyStackView = UIStackView().then {
@@ -109,7 +107,7 @@ class TippingOverviewView: UIView {
     }
     headerView.snp.makeConstraints {
       $0.top.leading.trailing.equalTo(self)
-      $0.height.greaterThanOrEqualTo(UX.headerHeight)
+      $0.height.equalTo(UX.headerHeight)
     }
     dismissButton.snp.makeConstraints {
       $0.top.trailing.equalToSuperview().inset(8.0)

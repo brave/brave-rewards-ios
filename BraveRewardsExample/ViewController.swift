@@ -9,6 +9,11 @@ import BraveRewardsUI
 class UIMockLedger: BraveLedger {
   let defaults = UserDefaults.standard
   
+  static var isUsingMockLedger: Bool {
+    get { return UserDefaults.standard.bool(forKey: "BATIsUsingMockLedger") }
+    set { UserDefaults.standard.set(newValue, forKey: "BATIsUsingMockLedger") }
+  }
+  
   static func reset() {
     UserDefaults.standard.removeObject(forKey: "BATUILedgerEnabled")
     UserDefaults.standard.removeObject(forKey: "BATUIWalletCreated")
@@ -83,10 +88,14 @@ class ViewController: UIViewController {
   
   var rewards: BraveRewards!
   
+  private static let testPublisherURL = "https://3zsistemi.si" //"https://bumpsmack.com"
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     RewardsLogger.configure(logCallback: rewardsLog, withFlush: nil)
+    
+    useMockLedgerSwitch.isOn = UIMockLedger.isUsingMockLedger
     
     setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
@@ -96,7 +105,7 @@ class ViewController: UIViewController {
     if (useMockLedgerSwitch.isOn) {
       rewards = BraveRewards(configuration: .default, ledgerClass: UIMockLedger.self, adsClass: nil)
       // Simulate visiting a sample url to test publisher verification.
-      let url = URL(string: "https://bumpsmack.com")!
+      let url = URL(string: ViewController.testPublisherURL)!
       rewards.ledger.publisherActivity(from: url, faviconURL: url, publisherBlob: "")
     } else {
       rewards = BraveRewards(configuration: .default)
@@ -110,7 +119,7 @@ class ViewController: UIViewController {
     }
     
 //    let ledger = useMockLedgerSwitch.isOn ? UIMockLedger() : self.ledger
-    let url = URL(string: "https://bumpsmacked.com")!
+    let url = URL(string: ViewController.testPublisherURL)!
     let braveRewardsPanel = RewardsPanelController(
       rewards,
       url: url,
@@ -133,6 +142,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func useMockLedgerValueChanged() {
+    UIMockLedger.isUsingMockLedger = useMockLedgerSwitch.isOn
     setupRewards()
   }
 }

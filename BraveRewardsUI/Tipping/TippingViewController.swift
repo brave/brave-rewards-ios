@@ -5,14 +5,34 @@
 import UIKit
 import BraveRewards
 
+enum PublisherMediaType: String {
+  case youtube
+  case twitter
+  case twitch
+  
+  var iconName: String {
+    switch self {
+    case .youtube:
+      return "pub-youtube"
+      
+    case .twitter:
+      return "pub-twitter"
+      
+    case .twitch:
+      return "pub-twitch"
+    }
+  }
+}
+
 class TippingViewController: UIViewController, UIViewControllerTransitioningDelegate {
   
   let state: RewardsState
-  let publisherId: String
+  let publisherInfo: PublisherInfo
+  private static let defaultTippingAmounts = [1.0, 5.0, 10.0]
   
-  init(state: RewardsState, publisherId: String) {
+  init(state: RewardsState, publisherInfo: PublisherInfo) {
     self.state = state
-    self.publisherId = publisherId
+    self.publisherInfo = publisherInfo
     
     super.init(nibName: nil, bundle: nil)
     
@@ -41,10 +61,13 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     
     tippingView.overviewView.dismissButton.addTarget(self, action: #selector(tappedDismissButton), for: .touchUpInside)
     tippingView.optionSelectionView.sendTipButton.addTarget(self, action: #selector(tappedSendTip), for: .touchUpInside)
-    tippingView.optionSelectionView.optionChanged = { [unowned self] option in
+    tippingView.optionSelectionView.optionChanged = { [weak self] option in
+      guard let self = self else { return }
       if let balanceTotal = self.state.ledger.balance?.total {
         let hasEnoughBalanceForTip = option.value.doubleValue < balanceTotal
         self.tippingView.optionSelectionView.setEnoughFundsAvailable(hasEnoughBalanceForTip)
+      } else {
+        self.tippingView.optionSelectionView.setEnoughFundsAvailable(false)
       }
     }
     tippingView.gesturalDismissExecuted = { [weak self] in
@@ -60,8 +83,68 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     
     tippingView.optionSelectionView.setWalletBalance(state.ledger.balanceString, crypto: "BAT")
     // FIXME: Remove fake data
-    tippingView.optionSelectionView.options = [1.0, 5.0, 10.0].map {
+    tippingView.optionSelectionView.options = TippingViewController.defaultTippingAmounts.map {
       TippingOption.batAmount(BATValue($0), dollarValue: state.ledger.dollarStringForBATAmount($0) ?? "")
+    }
+    
+    loadPublisherBanner()
+  }
+  
+  // MARK: - Networking
+  private func loadPublisherBanner() {
+    state.ledger.publisherBanner(forId: self.publisherInfo.id) { [weak self] banner in
+      guard let self = self, let banner = banner else { return }
+      
+      self.tippingView.overviewView.titleLabel.text = banner.title.isEmpty ? Strings.TippingOverviewTitle : banner.title
+      self.tippingView.overviewView.bodyLabel.text = banner.desc.isEmpty ? Strings.TippingOverviewBody : banner.desc
+      
+      self.downloadImage(url: banner.background, { image in
+        self.tippingView.overviewView.headerView.image = image
+      })
+      
+      if let dataSource = self.state.dataSource, let favIconURL = self.state.faviconURL {
+        dataSource.retrieveFavicon(with: favIconURL, completion: { favIconData in
+          self.tippingView.overviewView.faviconImageView.image = favIconData?.image
+        })
+      }
+      
+      self.tippingView.overviewView.socialStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
+      
+      if !banner.social.isEmpty {
+        let orderedIcons: [PublisherMediaType] = [.youtube, .twitter, .twitch]
+        let medias = banner.social.keys.compactMap({ PublisherMediaType(rawValue: $0) })
+        
+        orderedIcons.filter(medias.contains).forEach({
+          self.tippingView.overviewView.socialStackView.addArrangedSubview(UIImageView(image: UIImage(frameworkResourceNamed: $0.iconName)))
+        })
+      }
+      
+      self.tippingView.overviewView.disclaimerView.isHidden = banner.verified
+      
+      let bannerAmounts = banner.amounts.isEmpty ? TippingViewController.defaultTippingAmounts : banner.amounts.compactMap({ $0.doubleValue })
+      self.tippingView.optionSelectionView.options = bannerAmounts.map {
+        TippingOption.batAmount(BATValue($0), dollarValue: self.state.ledger.dollarStringForBATAmount($0) ?? "")
+      }
+    }
+  }
+  
+  private func downloadImage(url: String, _ completion: @escaping (UIImage?) -> Void) {
+    guard !url.isEmpty, let url = URL(string: url) else {
+      completion(nil)
+      return
+    }
+    
+    DispatchQueue.global().async {
+      if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+        DispatchQueue.main.async {
+          completion(image)
+        }
+        return
+      }
+      
+      DispatchQueue.main.async {
+        completion(nil)
+      }
     }
   }
   
@@ -72,9 +155,38 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
   }
   
   @objc private func tappedSendTip() {
-    tippingView.setTippingConfirmationVisible(true, animated: true)
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
-      self?.dismiss(animated: true)
+    if let selectedIndex = self.tippingView.optionSelectionView.selectedOptionIndex {
+      let amount = self.tippingView.optionSelectionView.options[selectedIndex].value.doubleValue
+      
+      // Add recurring tips if isMonthly..
+      if self.tippingView.optionSelectionView.isMonthly {
+        self.state.ledger.addRecurringTip(publisherId: self.publisherInfo.id, amount: amount)
+      } else {
+        self.state.ledger.tipPublisherDirectly(self.publisherInfo, amount: Int32(amount), currency: "BAT")
+      }
+      
+      let displayConfirmationView = { (recurringDate: String?) in
+        let provider = " \(self.publisherInfo.provider.isEmpty ? "" : String(format: Strings.OnProviderText, self.publisherInfo.provider))"
+        
+        self.tippingView.updateConfirmationInfo(name: "\(self.publisherInfo.name)\(provider)", tipAmount: amount, recurringDate: recurringDate)
+        self.tippingView.setTippingConfirmationVisible(true, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+          self.dismiss(animated: true)
+        }
+      }
+      
+      if self.tippingView.optionSelectionView.isMonthly {
+        let date = Date(timeIntervalSince1970: TimeInterval(self.state.ledger.autoContributeProps.reconcileStamp))
+        let dateString = DateFormatter().then {
+          $0.dateStyle = .short
+          $0.timeStyle = .none
+        }.string(from: date)
+        
+        displayConfirmationView(dateString)
+      } else {
+        displayConfirmationView(nil)
+      }
     }
   }
   
