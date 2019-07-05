@@ -22,12 +22,34 @@ class PublisherView: UIStackView {
     }
   }
   
+  func updatePublisherName(_ name: String, provider: String) {
+    publisherNameLabel.attributedText = {
+      let paragraphStyle = NSMutableParagraphStyle()
+      paragraphStyle.lineBreakMode = .byWordWrapping
+      
+      let text = NSMutableAttributedString(string: name.trimmingCharacters(in: .whitespacesAndNewlines), attributes: [
+        .font: UIFont.systemFont(ofSize: 18.0, weight: .medium),
+        .foregroundColor: UX.publisherNameColor
+      ])
+      
+      if !provider.isEmpty {
+        text.append(NSMutableAttributedString(string: provider.trimmingCharacters(in: .whitespacesAndNewlines), attributes: [
+          .font: UIFont.systemFont(ofSize: 18.0),
+          .foregroundColor: UX.publisherNameColor
+        ]))
+      }
+      
+      text.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: text.length))
+      return text
+    }()
+  }
+  
   let faviconImageView = PublisherIconCircleImageView(size: UX.faviconSize)
   
-  let publisherNameLabel = UILabel().then {
+  private let publisherNameLabel = UILabel().then {
     $0.textColor = UX.publisherNameColor
     $0.font = .systemFont(ofSize: 18.0, weight: .medium)
-    $0.numberOfLines = 0
+    $0.numberOfLines = 2
   }
   
   /// The learn more button on the unverified publisher disclaimer was tapped

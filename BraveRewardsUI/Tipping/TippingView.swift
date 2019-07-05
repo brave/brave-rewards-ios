@@ -16,6 +16,7 @@ extension TippingViewController {
       let isMonthly = optionSelectionView.isMonthly
       
       confirmationView.faviconImageView.image = overviewView.faviconImageView.image
+      confirmationView.faviconImageView.backgroundColor = overviewView.faviconImageView.backgroundColor
       confirmationView.subtitleLabel.text = isMonthly ? Strings.TippingMonthlyTitle : Strings.TippingOneTimeTitle
       
       confirmationView.infoLabel.text = "\(name)\n\(tipAmount) BAT\(isMonthly ? ", \(Strings.TippingRecurring)" : "")"
