@@ -204,10 +204,11 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       }
       
       self.state.ledger.listRecurringTips { [weak self] in
-        guard let self = self else { return }
-        guard let recurringTip = $0.filter({ $0.id == host && $0.rewardsCategory == .recurringTip }).first else { return }
+        guard let self = self, let recurringTip = $0.first(where: { $0.id == host && $0.rewardsCategory == .recurringTip }) else { return }
         
-        self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\((recurringTip.contributions.first?.value ?? 0))"
+        guard let contributionAmount = recurringTip.contributions.first?.value else { return }
+        
+        self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\(Int(contributionAmount))"
         self.publisherSummaryView.monthlyTipView.isHidden = false
       }
       
