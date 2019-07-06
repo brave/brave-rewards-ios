@@ -88,7 +88,7 @@
 		27623A8B228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */; };
 		2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769558C2270A7CB008E5DED /* WalletNotificationView.swift */; };
 		2769559322738942008E5DED /* WalletActionNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559222738942008E5DED /* WalletActionNotificationView.swift */; };
-		2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletMessageNotificationView.swift */; };
+		2769559722738C26008E5DED /* WalletAlertNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletAlertNotificationView.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		27700EA622A6E549009D8B6F /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
 		27700EA822A6E558009D8B6F /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
@@ -267,7 +267,7 @@
 		27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyWalletSummaryView.swift; sourceTree = "<group>"; };
 		2769558C2270A7CB008E5DED /* WalletNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNotificationView.swift; sourceTree = "<group>"; };
 		2769559222738942008E5DED /* WalletActionNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionNotificationView.swift; sourceTree = "<group>"; };
-		2769559622738C26008E5DED /* WalletMessageNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletMessageNotificationView.swift; sourceTree = "<group>"; };
+		2769559622738C26008E5DED /* WalletAlertNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAlertNotificationView.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		27700EA522A6E549009D8B6F /* BraveRewards.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BraveRewards.framework; path = lib/BraveRewards.framework; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
@@ -604,7 +604,7 @@
 			children = (
 				2769558C2270A7CB008E5DED /* WalletNotificationView.swift */,
 				2769559222738942008E5DED /* WalletActionNotificationView.swift */,
-				2769559622738C26008E5DED /* WalletMessageNotificationView.swift */,
+				2769559622738C26008E5DED /* WalletAlertNotificationView.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -1012,7 +1012,7 @@
 				27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */,
 				2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */,
 				27F4C1D722551D6B00CFCD67 /* UIStackViewExtensions.swift in Sources */,
-				2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */,
+				2769559722738C26008E5DED /* WalletAlertNotificationView.swift in Sources */,
 				27871A23227B4729003477D4 /* WelcomeView.swift in Sources */,
 				278A6B42225C044F00175678 /* SettingsViewController.swift in Sources */,
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,

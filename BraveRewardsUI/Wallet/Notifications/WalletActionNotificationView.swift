@@ -10,25 +10,20 @@ struct WalletActionNotification {
     let title: String
     let action: String
     
-    static let adsRewards = Category(
+    static let insufficientFunds = Category(
       icon: UIImage(frameworkResourceNamed: "icn-ads"),
-      title: Strings.NotificationAdsTitle,
-      action: Strings.CLAIM.uppercased()
+      title: Strings.NotificationInsufficientFundsTitle,
+      action: Strings.AddFunds
     )
-    static let autoContribute = Category(
-      icon: UIImage(frameworkResourceNamed: "icn-contribute"),
-      title: Strings.NotificationAutoContributeTitle,
-      action: Strings.OK.uppercased()
-    )
-    static let tokenGrant = Category(
+    static let grant = Category(
       icon: UIImage(frameworkResourceNamed: "icn-grant"),
       title: Strings.NotificationTokenGrantTitle,
       action: Strings.CLAIM.uppercased()
     )
-    static let recurringTip = Category(
-      icon: UIImage(frameworkResourceNamed: "icn-contribute"),
-      title: Strings.NotificationRecurringTipTitle,
-      action: Strings.OK.uppercased()
+    static let adsLaunch = Category(
+      icon: UIImage(frameworkResourceNamed: "icn-ads"),
+      title: Strings.NotificationAdsTitle,
+      action: Strings.TurnOnAds
     )
   }
   
@@ -45,16 +40,13 @@ class WalletActionNotificationView: WalletNotificationView {
   
   init(notification: WalletActionNotification) {
     self.notification = notification
-    
     super.init(frame: .zero)
     
-    let stackView = UIStackView().then {
-      $0.axis = .vertical
-      $0.alignment = .center
-      $0.spacing = 15.0
-    }
+    stackView.axis = .vertical
+    stackView.alignment = .center
+    stackView.spacing = 15.0
     
-    let imageView = UIImageView(image: notification.category.icon)
+    iconImageView.image = notification.category.icon
     let bodyLabel = UILabel().then {
       $0.numberOfLines = 0
       $0.textAlignment = .center
@@ -67,19 +59,9 @@ class WalletActionNotificationView: WalletNotificationView {
       $0.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
       $0.contentEdgeInsets = UIEdgeInsets(top: 6, left: 13, bottom: 6, right: 13)
     }
-    
-    addSubview(stackView)
-    stackView.addArrangedSubview(imageView)
     stackView.addArrangedSubview(bodyLabel)
     stackView.setCustomSpacing(15.0, after: bodyLabel)
     stackView.addArrangedSubview(actionButton)
-    
-    stackView.snp.makeConstraints {
-      $0.top.greaterThanOrEqualTo(self).offset(15.0)
-      $0.centerY.equalToSuperview()
-      $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(35.0)
-      $0.bottom.lessThanOrEqualTo(self).inset(25.0)
-    }
   }
   
   /// Forms the body string: "{title} | {body} {short-date}"

@@ -4,7 +4,7 @@
 
 import UIKit
 
-struct WalletMessageNotification {
+struct WalletAlertNotification {
   struct Category {
     let icon: UIImage
     let backgroundImage: UIImage
@@ -27,25 +27,19 @@ struct WalletMessageNotification {
   let body: String
 }
 
-class WalletMessageNotificationView: WalletNotificationView {
+class WalletAlertNotificationView: WalletNotificationView {
   
-  let notification: WalletMessageNotification
+  let notification: WalletAlertNotification
   
-  init(notification: WalletMessageNotification) {
+  init(notification: WalletAlertNotification) {
     self.notification = notification
-    
     super.init(frame: .zero)
     
-    let stackView = UIStackView().then {
-      $0.spacing = 20.0
-      $0.alignment = .center
-    }
+    stackView.spacing = 20.0
+    stackView.alignment = .center
     
     backgroundView.image = notification.category.backgroundImage
-    let iconImageView = UIImageView(image: notification.category.icon).then {
-      $0.setContentHuggingPriority(.required, for: .horizontal)
-      $0.setContentCompressionResistancePriority(.required, for: .horizontal)
-    }
+    iconImageView.image = notification.category.icon
     
     let label = UILabel().then {
       $0.numberOfLines = 0
@@ -53,16 +47,7 @@ class WalletMessageNotificationView: WalletNotificationView {
 //      $0.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
-    addSubview(stackView)
-    stackView.addArrangedSubview(iconImageView)
     stackView.addArrangedSubview(label)
-    
-    stackView.snp.makeConstraints {
-      $0.top.greaterThanOrEqualTo(self).offset(15.0)
-      $0.centerY.equalToSuperview()
-      $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(35.0)
-      $0.bottom.lessThanOrEqualTo(self).inset(25.0)
-    }
   }
   
   /// Forms the body string: "{bolded title} {body}"
