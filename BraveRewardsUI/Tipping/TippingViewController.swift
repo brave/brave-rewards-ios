@@ -99,11 +99,13 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
         self.tippingView.overviewView.headerView.image = image
       })
       
-      if let dataSource = self.state.dataSource, let favIconURL = self.state.faviconURL {
-        dataSource.retrieveFavicon(with: favIconURL, completion: { favIconData in
-          guard let favIconData = favIconData else { return }
-          self.tippingView.overviewView.faviconImageView.image = favIconData.image
-          self.tippingView.overviewView.faviconImageView.backgroundColor = favIconData.backgroundColor
+      if let dataSource = self.state.dataSource,
+        let pageURL = URL(string: self.publisherInfo.url),
+        let faviconURL = self.state.faviconURL {
+        dataSource.retrieveFavicon(for: pageURL, faviconURL: faviconURL, completion: { faviconData in
+          guard let faviconData = faviconData else { return }
+          self.tippingView.overviewView.faviconImageView.image = faviconData.image
+          self.tippingView.overviewView.faviconImageView.backgroundColor = faviconData.backgroundColor
         })
       }
       

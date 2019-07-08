@@ -103,12 +103,12 @@ class ViewController: UIViewController {
   
   func setupRewards() {
     if (useMockLedgerSwitch.isOn) {
-      rewards = BraveRewards(configuration: .default, ledgerClass: UIMockLedger.self, adsClass: nil)
+      rewards = BraveRewards(configuration: .default, delegate: self, ledgerClass: UIMockLedger.self, adsClass: nil)
       // Simulate visiting a sample url to test publisher verification.
       let url = URL(string: ViewController.testPublisherURL)!
       rewards.ledger.publisherActivity(from: url, faviconURL: url, publisherBlob: "")
     } else {
-      rewards = BraveRewards(configuration: .default)
+      rewards = BraveRewards(configuration: .default, delegate: self)
     }
   }
 
@@ -147,6 +147,16 @@ class ViewController: UIViewController {
   }
 }
 
+extension ViewController: BraveRewardsDelegate {
+  func faviconURL(fromPageURL pageURL: URL, completion: @escaping (URL?) -> Void) {
+    guard let url = URL(string: "\(pageURL.scheme!)\(pageURL.host!)/favicon.ico") else {
+      completion(nil)
+      return
+    }
+    completion(url)
+  }
+}
+
 extension ViewController: RewardsUIDelegate {
   func presentBraveRewardsController(_ viewController: UIViewController) {
     self.presentedViewController?.dismiss(animated: true) {
@@ -163,9 +173,9 @@ extension ViewController: RewardsDataSource {
     return url.host
   }
   
-  func retrieveFavicon(with url: URL, completion: @escaping (FaviconData?) -> Void) {
+  func retrieveFavicon(for pageURL: URL, faviconURL: URL?, completion: @escaping (FaviconData?) -> Void) {
     DispatchQueue.global().async {
-      if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+      if let data = try? Data(contentsOf: faviconURL ?? pageURL), let image = UIImage(data: data) {
         DispatchQueue.main.async {
           completion(FaviconData(image: image, backgroundColor: .white))
         }
