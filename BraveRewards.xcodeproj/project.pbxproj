@@ -148,6 +148,7 @@
 		27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CAD02294773600935B45 /* LabelAccessoryView.swift */; };
 		59146FE322BC1A3B0085E420 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59146FE222BC1A3B0085E420 /* DataLoader.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
+		59FD1B3022D4013B000A541A /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59FD1B2F22D4013B000A541A /* NotificationHandler.swift */; };
 		5E2A934B22C15F05002EDFFD /* LinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A934A22C15F05002EDFFD /* LinkLabel.swift */; };
 /* End PBXBuildFile section */
 
@@ -330,6 +331,7 @@
 		59146FE222BC1A3B0085E420 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		59FD1B2F22D4013B000A541A /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		5E2A934A22C15F05002EDFFD /* LinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -605,6 +607,7 @@
 				2769558C2270A7CB008E5DED /* WalletNotificationView.swift */,
 				2769559222738942008E5DED /* WalletActionNotificationView.swift */,
 				2769559622738C26008E5DED /* WalletAlertNotificationView.swift */,
+				59FD1B2F22D4013B000A541A /* NotificationHandler.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -1008,6 +1011,7 @@
 				0A5AAEE02286015000F0EBC7 /* RewardsSummaryProtocol.swift in Sources */,
 				27598845222452A100B2E47A /* PublisherAttentionView.swift in Sources */,
 				274CDD3A225F9E7D00FA7364 /* AutoContributeCell.swift in Sources */,
+				59FD1B3022D4013B000A541A /* NotificationHandler.swift in Sources */,
 				279A2079224C157700192214 /* WalletDetailsView.swift in Sources */,
 				27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */,
 				2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */,

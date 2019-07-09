@@ -60,7 +60,7 @@ class WalletNotificationView: UIView {
   }
   
   private func commonSetup() {
-    backgroundColor = .clear
+    backgroundColor = .white
     
     closeButton.do {
       $0.setImage(UIImage(frameworkResourceNamed: "close-icon").alwaysTemplate, for: .normal)
