@@ -319,7 +319,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       cell.selectionStyle = .none
       
       if let url = URL(string: publisher.url) {
-        state.dataSource?.retrieveFavicon(with: url) { data in
+        state.dataSource?.retrieveFavicon(for: url, faviconURL: URL(string: publisher.faviconUrl)) { data in
           cell.siteImageView.image = data?.image
           cell.siteImageView.backgroundColor = data?.backgroundColor
         }

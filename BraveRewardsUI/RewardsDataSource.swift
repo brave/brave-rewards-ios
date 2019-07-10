@@ -14,5 +14,7 @@ public protocol RewardsDataSource: AnyObject {
   /// default letter/color favicon if a website has no official favicon.
   ///
   /// Execute completionBlock with FaviconData
-  func retrieveFavicon(with url: URL, completion: @escaping (FaviconData?) -> Void)
+  func retrieveFavicon(for pageURL: URL,
+                       faviconURL: URL?,
+                       completion: @escaping (FaviconData?) -> Void)
 }
