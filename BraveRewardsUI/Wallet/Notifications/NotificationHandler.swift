@@ -14,60 +14,64 @@ protocol NotificationHandlerDelegate: AnyObject {
 class NotificationHandler {
 
   private var ledger: BraveLedger
-  weak var delegate: NotificationHandlerDelegate?
+  private weak var delegate: NotificationHandlerDelegate?
   
   init(ledger: BraveLedger) {
     self.ledger = ledger
   }
   
   deinit {
-    stop()
+    NotificationCenter.default.removeObserver(self)
   }
   
-  weak var currrentNotification: RewardsNotification?
+  weak var currentNotification: RewardsNotification?
   
-  func start() {
+  func start(delegate: NotificationHandlerDelegate) {
+    //Stopping as a precaution
+    stop()
     // Add observer
-    stop()
-    NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: .init(rawValue: "BATBraveLedgerNotificationAdded"), object: nil)
-    loadNotification()
+    currentNotification = nil
+    self.delegate = delegate
+    NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
+    loadNextNotification()
   }
   
-  private func stop() {
-    NotificationCenter.default.removeObserver(self, name: .init(rawValue: "BATBraveLedgerNotificationAdded"), object: nil)
+  func stop() {
+    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
+    delegate = nil
   }
   
   @objc private func notificationAdded(_ notification: Notification) {
     // TODO: Filter notification?
-    if currrentNotification == nil {
-      loadNotification()
+    if currentNotification == nil {
+      loadNextNotification()
     }
   }
   
-  private func loadNotification() {
-    guard delegate != nil else {
-      return
+  private func clearCurrentNotification() {
+    if let currentNotification = currentNotification {
+      ledger.clearNotification(currentNotification)
+      self.currentNotification = nil
     }
-    if let currrentNotification = currrentNotification {
-      ledger.clearNotification(currrentNotification)
-      self.currrentNotification = nil
-    }
+  }
+  
+  private func loadNextNotification() {
+    clearCurrentNotification()
     
     //.failedContribution, .invalid & .backupWallet are not supported right now
     // TODO: Verify that notifications are ordered & they are displayed in FIFO.
     let ignoredRewardNotificationTypes: [RewardsNotification.Kind] = [.failedContribution,
                                                                       .invalid,
                                                                       .backupWallet]
-    let notification = ledger.notifications
-    if let notification = notification.first(where: {
+    if let notification = ledger.notifications.first(where: {
       !ignoredRewardNotificationTypes.contains($0.kind)
     }) {
-      currrentNotification = notification
+      currentNotification = notification
       switch notification.kind {
       case .autoContribute, .tipsProcessed, .verifiedPublisher:
-        addMessageNotification(notification: notification)
+        add(messageNotification: notification)
       case .grant, .grantAds, .insufficientFunds, .pendingNotEnoughFunds, .adsLaunch:
-        addActionNotification(notification: notification)
+        add(actionNotification: notification)
       default:
         return
       }
@@ -76,11 +80,11 @@ class NotificationHandler {
     }
   }
   
-  private func addActionNotification(notification: RewardsNotification) {
+  private func add(actionNotification: RewardsNotification) {
     let category: WalletActionNotification.Category
     let body: String
     
-    switch notification.kind {
+    switch actionNotification.kind {
     case .grant:
       body = Strings.NotificationGrantNotification
       category = .grant
@@ -93,14 +97,11 @@ class NotificationHandler {
     case .pendingNotEnoughFunds:
       body = Strings.NotificationPendingNotEnoughFunds
       category = .insufficientFunds
-    case .adsLaunch:
-      body = Strings.NotificationBraveAdsLaunchMsg
-      category = .adsLaunch
     default:
-      loadNotification()
+      assertionFailure("Undefined case for action notification")
       return
     }
-    let date = Date(timeIntervalSince1970: notification.dateAdded)
+    let date = Date(timeIntervalSince1970: actionNotification.dateAdded)
     let notificationView = WalletActionNotificationView(
       notification: WalletActionNotification(
         category: category,
@@ -112,27 +113,27 @@ class NotificationHandler {
   }
   
   @objc private func tappedNotificationClose() {
-    loadNotification()
+    loadNextNotification()
   }
   
   @objc private func tappedNotificationAction() {
-    if let notification = currrentNotification {
-      loadNotification()
+    if let notification = currentNotification {
       delegate?.handleAction(notification: notification)
+      loadNextNotification()
     }
   }
   
-  private func addMessageNotification(notification: RewardsNotification) {
-    var category: WalletNotification.Category = .contribute
+  private func add(messageNotification: RewardsNotification) {
+    var category: WalletMessageNotification.Category
     let body: String
     var alertType: WalletAlertNotification.Category?
-    switch notification.kind {
+    switch messageNotification.kind {
     case .autoContribute:
-      if let result = notification.userInfo["result"] as? Int, let amount = notification.userInfo["amount"] as? String {
+      if let result = messageNotification.userInfo["result"] as? Int, let amount = messageNotification.userInfo["amount"] as? String {
+        category = .contribute
         switch result {
         case 0:
           body = String.localizedStringWithFormat(Strings.NotificationContributeSuccess, amount)
-          category = .contribute
         case 15:
           body = Strings.NotificationAutoContributeNotEnoughFundsBody
           alertType = .warning
@@ -144,7 +145,7 @@ class NotificationHandler {
           alertType = .error
         }
       } else {
-        loadNotification()
+        loadNextNotification()
         return
       }
     case .tipsProcessed:
@@ -152,15 +153,15 @@ class NotificationHandler {
       category = .tipsProcessed
     case .verifiedPublisher:
       // FIXME: Verify key
-      if let name = notification.userInfo["name"] as? String {
+      if let name = messageNotification.userInfo["name"] as? String {
         body = String.localizedStringWithFormat(Strings.NotificationVerifiedPublisherBody, name)// publisher name"
         category = .verifiedPublisher
       } else {
-        loadNotification()
+        loadNextNotification()
         return
       }
     default:
-      loadNotification()
+      assertionFailure("Undefined case for message notification")
       return
     }
     if let type = alertType {
@@ -168,12 +169,14 @@ class NotificationHandler {
       return
     }
     
-    let date = Date(timeIntervalSince1970: notification.dateAdded)
-    let notificationView = WalletNotificationView(
-      notification: WalletNotification(
+    let date = Date(timeIntervalSince1970: messageNotification.dateAdded)
+    let notificationView = WalletMessageNotificationView(
+      notification: WalletMessageNotification(
         category: category,
         body: body,
-        date: date))
+        date: date
+      )
+    )
     notificationView.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)
     delegate?.show(notificationView: notificationView)
   }

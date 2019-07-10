@@ -20,7 +20,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     self.state = state
     self.notificationHandler = NotificationHandler(ledger: state.ledger)
     super.init(nibName: nil, bundle: nil)
-    self.notificationHandler.delegate = self
   }
   
   @available(*, unavailable)
@@ -72,7 +71,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     reloadUIState()
     view.layoutIfNeeded()
-    notificationHandler.start()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +80,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     reloadUIState()
+    notificationHandler.start(delegate: self)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -90,6 +89,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     if presentedViewController == nil {
       navigationController?.setNavigationBarHidden(false, animated: animated)
     }
+    notificationHandler.stop()
   }
   
   override func viewDidLayoutSubviews() {
