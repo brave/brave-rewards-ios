@@ -14,11 +14,11 @@ protocol WalletContentView: AnyObject {
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   let state: RewardsState
-  let notificationHandler: NotificationHandler
+  let notificationHandler: RewardsNotificationService
   
   init(state: RewardsState) {
     self.state = state
-    self.notificationHandler = NotificationHandler(ledger: state.ledger)
+    self.notificationHandler = RewardsNotificationService(ledger: state.ledger)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -341,12 +341,19 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
 }
 
-extension WalletViewController: NotificationHandlerDelegate {
+extension WalletViewController: RewardsNotificationServiceDelegate {
+  
+  // Since `walletView.setNotificationView` handles caes of previous and new notification & since we didnt hide old notification
+  // in hideNotification(hasNext: Bool) when hasNext is true, we can call as below in all cases for seamless transitions.
   func show(notificationView: WalletNotificationView) {
     self.walletView.setNotificationView(notificationView, animated: true)
   }
   
-  func handleAction(notification: RewardsNotification) {
+  // We may or may not call loadNext here.
+  // In case we are doing an async task we can call loadNext on completion of such async task
+  // or in case we are going to present another controller, the service will load next in viewWillAppear-> notificationHandler.start()
+  // If a next notifcation is to be loaded immediately then one may call loadNext() early
+  func handleAction(notification: RewardsNotification, loadNext: () -> Void) {
     // TODO: Verify the action usage
     switch notification.kind {
     case .grant, .grantAds:
@@ -356,11 +363,14 @@ extension WalletViewController: NotificationHandlerDelegate {
     case .adsLaunch:
       tappedSettings()
     default:
+      loadNext()
       return
     }
   }
   
-  func hideNotifications() {
-    self.walletView.setNotificationView(nil, animated: true)
+  func hideNotification(hasNext: Bool) {
+    if !hasNext {
+      self.walletView.setNotificationView(nil, animated: true)
+    }
   }
 }
