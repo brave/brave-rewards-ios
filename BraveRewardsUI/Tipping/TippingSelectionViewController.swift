@@ -6,43 +6,28 @@ import Foundation
 import UIKit
 import BraveRewards
 
-class TippingSelectionViewController: OptionsSelectionViewController {
+class BATValueOptionsSelectionViewController: OptionsSelectionViewController<BATValue> {
   
-  private let state: RewardsState?
+  private let ledger: BraveLedger?
   
-  // Hide the super constructor with `DisplayableOption`
-  // in favour of our constructor with `BatValue`
-  private override init(options: [DisplayableOption],
-                        selectedOptionIndex: Int = 0,
-                        optionSelected: @escaping (_ selectedIndex: Int) -> Void) {
-    self.state = nil
-    super.init(options: options, selectedOptionIndex: selectedOptionIndex, optionSelected: optionSelected)
-  }
-  
-  init(state: RewardsState, options: [BATValue],
+  init(ledger: BraveLedger, options: [BATValue],
        selectedOptionIndex: Int = 0,
        optionSelected: @escaping (_ selectedIndex: Int) -> Void) {
-    self.state = state
+    self.ledger = ledger
     super.init(options: options, selectedOptionIndex: selectedOptionIndex, optionSelected: optionSelected)
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Recurring Tips"
+    self.title = Strings.RecurringTipTitle
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "OptionCell", for: indexPath)
-    cell.textLabel?.text = options[indexPath.row].displayString
-    cell.textLabel?.font = .systemFont(ofSize: 14.0)
-    cell.textLabel?.textColor = Colors.grey100
-    cell.textLabel?.numberOfLines = 0
-    cell.accessoryType = selectedOptionIndex == indexPath.row ? .checkmark : .none
-    
-    guard let options = options as? [BATValue] else { return cell }
+    let cell = super.tableView(tableView, cellForRowAt: indexPath)
+
     let displayString = options[indexPath.row].displayString
-    let dollarAmount = state?.ledger.dollarStringForBATAmount(options[indexPath.row].doubleValue) ?? ""
+    let dollarAmount = ledger?.dollarStringForBATAmount(options[indexPath.row].doubleValue) ?? ""
     
     let attributedText = NSMutableAttributedString(string: displayString, attributes: [
       .foregroundColor: Colors.grey100,

@@ -52,6 +52,7 @@ public extension Strings {
   static let SettingsAdsTitle = NSLocalizedString("BraveRewardsSettingsAdsTitle", bundle: Bundle.RewardsUI, value: "Ads", comment: "")
   static let NotificationRecurringTipTitle = NSLocalizedString("BraveRewardsNotificationRecurringTipTitle", bundle: Bundle.RewardsUI, value: "Recurring Tips", comment: "")
   static let EmptyWalletTitle = NSLocalizedString("BraveRewardsEmptyWalletTitle", bundle: Bundle.RewardsUI, value: "Sorry, no tokens yet.", comment: "")
+  static let RecurringTipTitle = NSLocalizedString("BraveRewardsRecurringTipTitle", bundle: Bundle.RewardsUI, value: "Recurring Tip", comment: "")
   static let UnverifiedPublisherDisclaimer = NSLocalizedString("BraveRewardsUnverifiedPublisherDisclaimer", bundle: Bundle.RewardsUI, value: "This creator has not yet signed up to receive contributions from Brave users. Any tips you send will remain in your wallet until they verify.", comment: "")
   static let SettingsGrantClaimButtonTitle = NSLocalizedString("BraveRewardsSettingsGrantClaimButtonTitle", bundle: Bundle.RewardsUI, value: "Claim", comment: "")
   static let AutoContributeMinimumLength = NSLocalizedString("BraveRewardsAutoContributeMinimumLength", bundle: Bundle.RewardsUI, value: "Minimum Length", comment: "")

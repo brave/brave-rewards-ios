@@ -40,6 +40,13 @@ class UIMockLedger: BraveLedger {
     }
   }
   
+  override var balance: Balance? {
+    return Balance().then {
+      $0.total = 30.0
+      $0.rates = ["USD": 0.3]
+    }
+  }
+  
   override func balanceReport(for month: ActivityMonth, year: Int32) -> BalanceReportInfo {
     // Returns the same values for all months at the moment.
     // Could expand this to play with different values based on month or year.

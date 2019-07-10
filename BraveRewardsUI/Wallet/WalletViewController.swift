@@ -330,7 +330,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       
       let selectedIndex = options.firstIndex(where: { Int($0.doubleValue) == Int(self.recurringTipAmount) }) ?? 0
       
-      let optionsVC = TippingSelectionViewController(state: self.state, options: options, selectedOptionIndex: selectedIndex, optionSelected: { [weak self] optionIndex in
+      let optionsVC = BATValueOptionsSelectionViewController(ledger: self.state.ledger, options: options, selectedOptionIndex: selectedIndex, optionSelected: { [weak self] optionIndex in
         guard let self = self else { return }
         
         self.recurringTipAmount = options[optionIndex].doubleValue
@@ -340,7 +340,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = options[safe: optionIndex]?.displayString ?? options[0].displayString
         
         // The user decided to remove an existing tip.
-        if optionIndex == 0 && selectedIndex > 0 {
+        if Int(self.recurringTipAmount) == 0 {
           self.state.ledger.removeRecurringTip(publisherId: host)
           self.publisherSummaryView.monthlyTipView.isHidden = true
         }

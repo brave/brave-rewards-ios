@@ -15,9 +15,9 @@ extension String: DisplayableOption {
 }
 
 /// A view controller which allows a user to select a single option from a set
-class OptionsSelectionViewController: UIViewController {
+class OptionsSelectionViewController<OptionType: DisplayableOption>: UIViewController, UITableViewDelegate, UITableViewDataSource {
   /// The list of options
-  let options: [DisplayableOption]
+  let options: [OptionType]
   /// The selected option's index
   private(set) var selectedOptionIndex: Int {
     didSet {
@@ -30,7 +30,7 @@ class OptionsSelectionViewController: UIViewController {
   /// A closure executed when the user taps on an option
   let optionSelected: (Int) -> Void
   
-  init(options: [DisplayableOption],
+  init(options: [OptionType],
        selectedOptionIndex: Int = 0,
        optionSelected: @escaping (_ selectedIndex: Int) -> Void) {
     self.options = options
@@ -59,16 +59,17 @@ class OptionsSelectionViewController: UIViewController {
     contentView.tableView.delegate = self
     contentView.tableView.dataSource = self
   }
-}
-
-extension OptionsSelectionViewController: UITableViewDelegate {
+  
+  // MARK: - Delegate
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     selectedOptionIndex = indexPath.row
     optionSelected(selectedOptionIndex)
     tableView.deselectRow(at: indexPath, animated: true)
   }
-}
-extension OptionsSelectionViewController: UITableViewDataSource {
+  
+  // MARK: - DataSource
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return options.count
   }
