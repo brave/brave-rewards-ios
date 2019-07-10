@@ -89,7 +89,13 @@ struct RewardsNotificationViewBuilder {
       return nil
     }
     if let type = alertType {
-      return showAlertNotification(type: type, message: body)
+      return WalletAlertNotificationView(
+        notification: WalletAlertNotification(
+          category: type,
+          title: nil,
+          body: body
+        )
+      )
     }
     
     let date = Date(timeIntervalSince1970: messageNotification.dateAdded)
@@ -101,15 +107,5 @@ struct RewardsNotificationViewBuilder {
       )
     )
     return notificationView
-  }
-  
-  private static func showAlertNotification(type: WalletAlertNotification.Category, message: String) -> WalletNotificationView {
-    return WalletAlertNotificationView(
-      notification: WalletAlertNotification(
-        category: type,
-        title: nil,
-        body: message
-      )
-    )
   }
 }
