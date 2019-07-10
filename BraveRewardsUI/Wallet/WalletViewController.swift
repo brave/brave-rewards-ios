@@ -14,11 +14,10 @@ protocol WalletContentView: AnyObject {
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   let state: RewardsState
-  let notificationHandler: RewardsNotificationService
+  weak var currentNotification: RewardsNotification?
   
   init(state: RewardsState) {
     self.state = state
-    self.notificationHandler = RewardsNotificationService(ledger: state.ledger)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -80,7 +79,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     reloadUIState()
-    notificationHandler.start(delegate: self)
+    startNotificationObserver()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -89,7 +88,11 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     if presentedViewController == nil {
       navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    notificationHandler.stop()
+    stopNotificationObserver()
+  }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
   }
   
   override func viewDidLayoutSubviews() {
@@ -341,36 +344,79 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
 }
 
-extension WalletViewController: RewardsNotificationServiceDelegate {
+extension WalletViewController {
   
-  // Since `walletView.setNotificationView` handles caes of previous and new notification & since we didnt hide old notification
-  // in hideNotification(hasNext: Bool) when hasNext is true, we can call as below in all cases for seamless transitions.
-  func show(notificationView: WalletNotificationView) {
-    self.walletView.setNotificationView(notificationView, animated: true)
+  func startNotificationObserver() {
+    // Stopping as a precaution
+    stopNotificationObserver()
+    // Add observer
+    NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
+    loadNextNotification()
   }
   
-  // We may or may not call loadNext here.
-  // In case we are doing an async task we can call loadNext on completion of such async task
-  // or in case we are going to present another controller, the service will load next in viewWillAppear-> notificationHandler.start()
-  // If a next notifcation is to be loaded immediately then one may call loadNext() early
-  func handleAction(notification: RewardsNotification, loadNext: () -> Void) {
-    // TODO: Verify the action usage
-    switch notification.kind {
-    case .grant, .grantAds:
-      tappedGrantsButton()
-    case .pendingNotEnoughFunds, .insufficientFunds:
-      tappedAddFunds()
-    case .adsLaunch:
-      tappedSettings()
-    default:
-      loadNext()
-      return
+  func stopNotificationObserver() {
+    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
+    currentNotification = nil
+  }
+  
+  @objc private func notificationAdded(_ notification: Notification) {
+    // TODO: Filter notification?
+    // LoadNext if there is no current notification
+    if currentNotification == nil {
+      loadNextNotification()
     }
   }
   
-  func hideNotification(hasNext: Bool) {
-    if !hasNext {
-      self.walletView.setNotificationView(nil, animated: true)
+  private func clearCurrentNotification() {
+    if let currentNotification = currentNotification {
+      state.ledger.clearNotification(currentNotification)
+      self.currentNotification = nil
+    }
+  }
+  
+  private func loadNextNotification() {
+    //.failedContribution, .adsLaunch, .invalid & .backupWallet are not supported right now
+    // TODO: Verify that notifications are ordered & they are displayed in FIFO.
+    let ignoredRewardNotificationTypes: [RewardsNotification.Kind] = [.failedContribution,
+                                                                      .invalid,
+                                                                      .backupWallet,
+                                                                      .adsLaunch]
+    if let notification = state.ledger.notifications.first(where: {
+      !ignoredRewardNotificationTypes.contains($0.kind)
+    }) {
+      currentNotification = notification
+      if let notificationView = RewardsNotificationViewBuilder.get(notification: notification) {
+        notificationView.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)
+        (notificationView as? WalletActionNotificationView)?.actionButton.addTarget(self, action: #selector(tappedNotificationAction), for: .touchUpInside)
+        walletView.setNotificationView(notificationView, animated: true)
+      } else {
+        clearCurrentNotification()
+        loadNextNotification()
+      }
+    } else {
+      walletView.setNotificationView(nil, animated: true)
+    }
+  }
+  
+  @objc private func tappedNotificationClose() {
+    clearCurrentNotification()
+    loadNextNotification()
+  }
+  
+  @objc private func tappedNotificationAction() {
+    if let notification = currentNotification {
+      switch notification.kind {
+      case .grant, .grantAds:
+        tappedGrantsButton()
+      case .pendingNotEnoughFunds, .insufficientFunds:
+        tappedAddFunds()
+      case .adsLaunch:
+        tappedSettings()
+      default:
+        loadNextNotification()
+        return
+      }
+      clearCurrentNotification()
     }
   }
 }
