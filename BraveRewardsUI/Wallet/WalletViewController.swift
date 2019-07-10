@@ -413,7 +413,8 @@ extension WalletViewController {
       case .adsLaunch:
         tappedSettings()
       default:
-        loadNextNotification()
+        assertionFailure("Undefined case in handling actions")
+        tappedNotificationClose()
         return
       }
       clearCurrentNotification()
