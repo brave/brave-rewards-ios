@@ -96,7 +96,7 @@ class RewardsNotificationService {
   @objc private func tappedNotificationAction() {
     if let notification = currentNotification {
       delegate?.handleAction(notification: notification, loadNext: { [weak self] in
-        self?.tappedNotificationClose()
+        self?.loadNextNotification()
       })
       clearCurrentNotification()
     }
