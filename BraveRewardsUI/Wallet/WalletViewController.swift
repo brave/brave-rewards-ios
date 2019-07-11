@@ -182,27 +182,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       guard let host = state.url.host else { return }
       attentionView.valueLabel.text = "0%"
       
-      state.ledger.publisherInfo(forId: host) { [weak self] info in
-        guard let self = self else { return }
-        
-        assert(Thread.isMainThread)
-        publisherView.checkAgainButton.isHidden = info != nil
-        
-        guard let publisher = info else { return }
-        let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
-        
-        publisherView.updatePublisherName(publisher.name, provider: provider)
-        
-        publisherView.setVerified(publisher.verified)
-        publisherView.checkAgainButton.isHidden = publisher.verified
-        
-        publisherSummaryView.setAutoContribute(enabled:
-          publisher.excluded != ExcludeFilter.filterExcluded.rawValue)
-        
-        if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
-          attentionView.valueLabel.text = "\(percent)%"
-        }
-      }
+      updatePublisherView(completion: nil)
       
       self.state.ledger.listRecurringTips { [weak self] in
         guard let self = self, let recurringTip = $0.first(where: { $0.id == host && $0.rewardsCategory == .recurringTip }) else { return }
@@ -218,9 +198,16 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         guard let self = self else { return }
         publisherView.checkAgainButton.isLoading = true
         
-        self.state.ledger.refreshPublisher(withId: host, completion: { _ in
+        self.state.ledger.refreshPublisher(withId: host, completion: { [weak self] didRefresh in
+          guard let self = self else { return }
+          
           publisherView.checkAgainButton.isLoading = false
-          publisherView.checkAgainButton.isHidden = true
+          
+          if didRefresh {
+            self.updatePublisherView(completion: {
+              publisherView.checkAgainButton.isHidden = true
+            })
+          }
         })
       }
       
@@ -247,7 +234,40 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         attentionView.valueLabel.text = "\(info.percent)%"
       }
     }
-
+  }
+  
+  private func updatePublisherView(completion: (() -> Void)?) {
+    guard let host = state.url.host else { return }
+    self.state.ledger.publisherInfo(forId: host) { [weak self] info in
+      guard let self = self else { return }
+      
+      assert(Thread.isMainThread)
+      
+      let publisherView = self.publisherSummaryView.publisherView
+      let attentionView = self.publisherSummaryView.attentionView
+      publisherView.checkAgainButton.isHidden = info != nil
+      
+      guard let publisher = info else {
+        publisherView.setVerified(false)
+        completion?()
+        return
+      }
+      
+      let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
+      publisherView.updatePublisherName(publisher.name, provider: provider)
+      
+      publisherView.setVerified(publisher.verified)
+      publisherView.checkAgainButton.isHidden = publisher.verified
+      
+      self.publisherSummaryView.setAutoContribute(enabled:
+        publisher.excluded != ExcludeFilter.filterExcluded.rawValue)
+      
+      if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
+        attentionView.valueLabel.text = "\(percent)%"
+      }
+      
+      completion?()
+    }
   }
   
   var isLocal: Bool {
