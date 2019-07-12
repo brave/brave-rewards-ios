@@ -40,10 +40,10 @@ class UIMockLedger: BraveLedger {
     RewardsNotification(id: "2", dateAdded: Date().timeIntervalSince1970, kind: .insufficientFunds, userInfo: nil),
     RewardsNotification(id: "3", dateAdded: Date().timeIntervalSince1970, kind: .tipsProcessed, userInfo: nil),
     RewardsNotification(id: "4", dateAdded: Date().timeIntervalSince1970, kind: .grant, userInfo: nil),
-    RewardsNotification(id: "5", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 0, "amount": "1 BAT"]),
-    RewardsNotification(id: "6", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 15, "amount": "1 BAT"]),
-    RewardsNotification(id: "7", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 16, "amount": "1 BAT"]),
-    RewardsNotification(id: "8", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 10, "amount": "1 BAT"])
+    RewardsNotification(id: "5", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 0, "amount": "1"]),
+    RewardsNotification(id: "6", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 15, "amount": "1"]),
+    RewardsNotification(id: "7", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 16, "amount": "1"]),
+    RewardsNotification(id: "8", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 10, "amount": "1"])
   ]
   override var notifications: [RewardsNotification] {
     return mockNotifications
@@ -114,6 +114,12 @@ class ViewController: UIViewController {
     
     setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+//      (self.rewards.ledger as! UIMockLedger).mockNotifications = [
+//        RewardsNotification(id: "8", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 10, "amount": "1 BAT"])
+//      ]
+//      NotificationCenter.default.post(name: .init("BATBraveLedgerNotificationAdded"), object: nil)
+//    }
   }
   
   func setupRewards() {

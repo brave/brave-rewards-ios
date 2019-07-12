@@ -10,11 +10,6 @@ struct WalletActionNotification {
     let title: String
     let action: String
     
-    static let insufficientFunds = Category(
-      icon: UIImage(frameworkResourceNamed: "icn-ads"),
-      title: Strings.NotificationInsufficientFundsTitle,
-      action: Strings.AddFunds
-    )
     static let grant = Category(
       icon: UIImage(frameworkResourceNamed: "icn-grant"),
       title: Strings.NotificationTokenGrantTitle,

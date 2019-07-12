@@ -70,6 +70,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     reloadUIState()
     view.layoutIfNeeded()
+    startNotificationObserver()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +80,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     reloadUIState()
-    startNotificationObserver()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -88,7 +88,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     if presentedViewController == nil {
       navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    stopNotificationObserver()
   }
   
   deinit {
@@ -348,15 +347,9 @@ extension WalletViewController {
   
   func startNotificationObserver() {
     // Stopping as a precaution
-    stopNotificationObserver()
     // Add observer
     NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
     loadNextNotification()
-  }
-  
-  func stopNotificationObserver() {
-    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
-    currentNotification = nil
   }
   
   @objc private func notificationAdded(_ notification: Notification) {
@@ -408,16 +401,12 @@ extension WalletViewController {
       switch notification.kind {
       case .grant, .grantAds:
         tappedGrantsButton()
-      case .pendingNotEnoughFunds, .insufficientFunds:
-        tappedAddFunds()
       case .adsLaunch:
         tappedSettings()
       default:
         assertionFailure("Undefined case in handling actions")
-        tappedNotificationClose()
-        return
       }
-      clearCurrentNotification()
+      tappedNotificationClose()
     }
   }
 }

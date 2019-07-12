@@ -9,9 +9,9 @@ struct RewardsNotificationViewBuilder {
   
   static func get(notification: RewardsNotification) -> WalletNotificationView? {
     switch notification.kind {
-    case .autoContribute, .tipsProcessed, .verifiedPublisher:
+    case .autoContribute, .tipsProcessed, .verifiedPublisher, .insufficientFunds, .pendingNotEnoughFunds:
       return RewardsNotificationViewBuilder.get(messageNotification: notification)
-    case .grant, .grantAds, .insufficientFunds, .pendingNotEnoughFunds, .adsLaunch:
+    case .grant, .grantAds:
       return RewardsNotificationViewBuilder.get(actionNotification: notification)
     default:
       return nil
@@ -29,12 +29,6 @@ struct RewardsNotificationViewBuilder {
     case .grantAds:
       body = Strings.NotificationEarningsClaimDefault
       category = .grant
-    case .insufficientFunds:
-      body = Strings.NotificationInsufficientFunds
-      category = .insufficientFunds
-    case .pendingNotEnoughFunds:
-      body = Strings.NotificationPendingNotEnoughFunds
-      category = .insufficientFunds
     default:
       assertionFailure("Undefined case for action notification")
       return nil
@@ -48,20 +42,21 @@ struct RewardsNotificationViewBuilder {
   }
   
   private static func get(messageNotification: RewardsNotification) -> WalletNotificationView? {
-    var category: WalletMessageNotification.Category
+    var category: WalletMessageNotification.Category!
     let body: String
     var alertType: WalletAlertNotification.Category?
     switch messageNotification.kind {
     case .autoContribute:
-      if let result = messageNotification.userInfo["result"] as? Int, let amount = messageNotification.userInfo["amount"] as? String {
+      if let result = messageNotification.userInfo["result"] as? Int, let amount = messageNotification.userInfo["amount"] as? String, let batResult = Result(rawValue: result) {
         category = .contribute
-        switch result {
-        case 0:
+        
+        switch batResult {
+        case .ledgerOk:
           body = String.localizedStringWithFormat(Strings.NotificationContributeSuccess, amount)
-        case 15:
+        case .notEnoughFunds:
           body = Strings.NotificationAutoContributeNotEnoughFundsBody
           alertType = .warning
-        case 16:
+        case .tipError:
           body = Strings.NotificationContributeTipError
           alertType = .error
         default:
@@ -75,6 +70,12 @@ struct RewardsNotificationViewBuilder {
     case .tipsProcessed:
       body = Strings.NotificationTipsProcessedBody
       category = .tipsProcessed
+    case .insufficientFunds:
+      body = Strings.NotificationInsufficientFunds
+      alertType = .warning
+    case .pendingNotEnoughFunds:
+      body = Strings.NotificationPendingNotEnoughFunds
+      alertType = .warning
     case .verifiedPublisher:
       // FIXME: Verify key
       if let name = messageNotification.userInfo["name"] as? String {
@@ -97,15 +98,18 @@ struct RewardsNotificationViewBuilder {
         )
       )
     }
+    if category == nil {
+      assertionFailure("Undefined case for message notification")
+      return nil
+    }
     
     let date = Date(timeIntervalSince1970: messageNotification.dateAdded)
-    let notificationView = WalletMessageNotificationView(
+    return WalletMessageNotificationView(
       notification: WalletMessageNotification(
         category: category,
         body: body,
         date: date
       )
     )
-    return notificationView
   }
 }

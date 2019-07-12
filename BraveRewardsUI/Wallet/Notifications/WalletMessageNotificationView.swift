@@ -52,13 +52,7 @@ class WalletMessageNotificationView: WalletNotificationView {
         .foregroundColor: UIColor.black,
       ]
     ))
-    string.append(NSAttributedString(
-      string: " | ",
-      attributes: [
-        .font: UIFont.systemFont(ofSize: 14.0),
-        .foregroundColor: UIColor.gray,
-      ]
-    ))
+    string.append(NSAttributedString(string: "\n"))
     string.append(NSAttributedString(
       string: notification.body,
       attributes: [

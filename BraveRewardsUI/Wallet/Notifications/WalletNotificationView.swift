@@ -12,6 +12,7 @@ class WalletNotificationView: UIView {
   let iconImageView = UIImageView(image: nil).then {
     $0.setContentHuggingPriority(.required, for: .horizontal)
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+    $0.contentMode = .scaleAspectFit
   }
   
   let stackView = UIStackView()
