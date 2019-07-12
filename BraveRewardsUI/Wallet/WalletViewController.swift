@@ -219,16 +219,25 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       }
       
       publisherView.onCheckAgainTapped = { [weak self] in
+        publisherView.setCheckAgainIsLoading(true)
+        let date = Date()
+        
         self?.state.ledger.refreshPublisher(withId: host, completion: { isVerified in
           
-          // I am only adding this delay because of ticket: brave-ios/issues/1236
-          // Desktop is apparently doing this as well..
-          // - Brandon T.
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
-            publisherView.checkAgainButton.isLoading = false
+          let updateStates = {
+            publisherView.setCheckAgainIsLoading(false)
             publisherView.checkAgainButton.isHidden = true
             publisherView.setVerified(isVerified)
-          })
+          }
+          
+          //Fixes brave-rewards-ios/issues/134
+          if isVerified || Date().timeIntervalSince(date) > 2.5 {
+            updateStates()
+          } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
+              updateStates()
+            })
+          }
         })
       }
       
