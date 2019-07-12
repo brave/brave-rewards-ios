@@ -150,6 +150,7 @@
 		592A459A22D5DA2900E42A0E /* WalletMessageNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592A459922D5DA2900E42A0E /* WalletMessageNotificationView.swift */; };
 		592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
+		598151D322D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */; };
 		5E2A934B22C15F05002EDFFD /* LinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A934A22C15F05002EDFFD /* LinkLabel.swift */; };
 /* End PBXBuildFile section */
 
@@ -334,6 +335,7 @@
 		592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilder.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilderTests.swift; sourceTree = "<group>"; };
 		5E2A934A22C15F05002EDFFD /* LinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -716,6 +718,7 @@
 				0A62AB33228ABEC000D99614 /* BATValueTests.swift */,
 				0A9060232285E19E00F58252 /* DateExtensionsTests.swift */,
 				27FD38E421E6B69700443796 /* Info.plist */,
+				598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */,
 			);
 			path = BraveRewardsTests;
 			sourceTree = "<group>";
@@ -1106,6 +1109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */,
+				598151D322D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift in Sources */,
 				0A62AB34228ABEC000D99614 /* BATValueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
