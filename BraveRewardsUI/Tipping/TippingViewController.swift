@@ -28,7 +28,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
   
   let state: RewardsState
   let publisherInfo: PublisherInfo
-  private static let defaultTippingAmounts = [1.0, 5.0, 10.0]
+  static let defaultTippingAmounts = [1.0, 5.0, 10.0]
   
   init(state: RewardsState, publisherInfo: PublisherInfo) {
     self.state = state

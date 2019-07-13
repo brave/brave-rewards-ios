@@ -14,6 +14,7 @@ protocol WalletContentView: AnyObject {
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   let state: RewardsState
+  private var recurringTipAmount: Double = 0.0
   
   init(state: RewardsState) {
     self.state = state
@@ -159,7 +160,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     publisherSummaryView.monthlyTipView.addTarget(self, action: #selector(tappedMonthlyTip), for: .touchUpInside)
     
     publisherSummaryView.monthlyTipView.isHidden = true
-    publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "5"
+    publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\(Int(self.recurringTipAmount))"
     
     let publisherView = publisherSummaryView.publisherView
     let attentionView = publisherSummaryView.attentionView
@@ -181,21 +182,25 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       guard let host = state.url.host else { return }
       attentionView.valueLabel.text = "0%"
       
-      state.ledger.publisherInfo(forId: host) { [weak self] info in
+      self.state.ledger.publisherInfo(forId: host) { [weak self] info in
         guard let self = self else { return }
         
         assert(Thread.isMainThread)
+        
         publisherView.checkAgainButton.isHidden = info != nil
         
-        guard let publisher = info else { return }
-        let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
+        guard let publisher = info else {
+          publisherView.setVerified(false)
+          return
+        }
         
+        let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
         publisherView.updatePublisherName(publisher.name, provider: provider)
         
         publisherView.setVerified(publisher.verified)
         publisherView.checkAgainButton.isHidden = publisher.verified
         
-        publisherSummaryView.setAutoContribute(enabled:
+        self.publisherSummaryView.setAutoContribute(enabled:
           publisher.excluded != ExcludeFilter.filterExcluded.rawValue)
         
         if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
@@ -208,17 +213,31 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         
         guard let contributionAmount = recurringTip.contributions.first?.value else { return }
         
+        self.recurringTipAmount = contributionAmount
         self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\(Int(contributionAmount))"
         self.publisherSummaryView.monthlyTipView.isHidden = false
       }
       
       publisherView.onCheckAgainTapped = { [weak self] in
-        guard let self = self else { return }
-        publisherView.checkAgainButton.isLoading = true
+        publisherView.setCheckAgainIsLoading(true)
+        let date = Date()
         
-        self.state.ledger.refreshPublisher(withId: host, completion: { _ in
-          publisherView.checkAgainButton.isLoading = false
-          publisherView.checkAgainButton.isHidden = true
+        self?.state.ledger.refreshPublisher(withId: host, completion: { isVerified in
+          
+          let updateStates = {
+            publisherView.setCheckAgainIsLoading(false)
+            publisherView.checkAgainButton.isHidden = true
+            publisherView.setVerified(isVerified)
+          }
+          
+          //Fixes brave-rewards-ios/issues/134
+          if isVerified || Date().timeIntervalSince(date) > 2.5 {
+            updateStates()
+          } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
+              updateStates()
+            })
+          }
         })
       }
       
@@ -245,7 +264,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         attentionView.valueLabel.text = "\(info.percent)%"
       }
     }
-
   }
   
   var isLocal: Bool {
@@ -315,23 +333,37 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedMonthlyTip() {
-    // TODO: Replace with actual values.
-    let options = [
-      BATValue(1),
-      BATValue(5),
-      BATValue(10)
-    ]
-    let optionsVC = OptionsSelectionViewController(options: options, selectedOptionIndex: 1, optionSelected: { [weak self] index in
-      // TODO: save selection and update UI
-      guard let self = self else {
-        return
+    guard let host = state.url.host else { return }
+    state.ledger.publisherBanner(forId: host, completion: { [weak self] banner in
+      guard let self = self else { return }
+      
+      var options = TippingViewController.defaultTippingAmounts.map({ BATValue($0) })
+      if let banner = banner, !banner.amounts.isEmpty {
+        options = banner.amounts.map({ BATValue($0.doubleValue) })
       }
-      self.navigationController?.popToViewController(self, animated: true)
-      // swiftlint:ignore:next
-      self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = options[safe: index]?.displayString ?? options[0].displayString
+      
+      options.insert(BATValue(0.0), at: 0)
+      
+      let selectedIndex = options.firstIndex(where: { Int($0.doubleValue) == Int(self.recurringTipAmount) }) ?? 0
+      
+      let optionsVC = BATValueOptionsSelectionViewController(ledger: self.state.ledger, options: options, selectedOptionIndex: selectedIndex, optionSelected: { [weak self] optionIndex in
+        guard let self = self else { return }
+        
+        self.recurringTipAmount = options[optionIndex].doubleValue
+        
+        self.navigationController?.popToViewController(self, animated: true)
+        // swiftlint:ignore:next
+        self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = options[safe: optionIndex]?.displayString ?? options[0].displayString
+        
+        // The user decided to remove an existing tip.
+        if Int(self.recurringTipAmount) == 0 {
+          self.state.ledger.removeRecurringTip(publisherId: host)
+          self.publisherSummaryView.monthlyTipView.isHidden = true
+        }
+      })
+      
+      self.navigationController?.pushViewController(optionsVC, animated: true)
     })
-    
-    self.navigationController?.pushViewController(optionsVC, animated: true)
   }
   
   @objc private func tappedEnableBraveRewards() {
