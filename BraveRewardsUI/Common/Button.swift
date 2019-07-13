@@ -80,7 +80,6 @@ class Button: UIButton {
             loaderView.removeFromSuperview()
           }
         }
-        break
       }
     }
   }

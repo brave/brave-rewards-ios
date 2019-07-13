@@ -180,7 +180,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       cell.siteNameLabel.attributedText = attrName
       
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
-      setFavicon(identifier: tip.id, url: tip.faviconUrl)
+      setFavicon(identifier: tip.id, pageURL: tip.url, faviconURL: tip.faviconUrl)
       cell.verifiedStatusImageView.isHidden = !tip.verified
       switch tip.rewardsCategory {
       case .oneTimeTip:
@@ -263,9 +263,9 @@ extension TipsDetailViewController {
     return state.ledger.balanceReport(for: ActivityMonth(rawValue: month) ?? .any, year: Int32(year))
   }
   
-  fileprivate func setFavicon(identifier: String, url: String) {
-    if let faviconURL = URL(string: url) {
-      state.dataSource?.retrieveFavicon(with: faviconURL, completion: {[weak self] favData in
+  fileprivate func setFavicon(identifier: String, pageURL: String, faviconURL: String?) {
+    if let pageURL = URL(string: pageURL) {
+      state.dataSource?.retrieveFavicon(for: pageURL, faviconURL: URL(string: faviconURL ?? ""), completion: {[weak self] favData in
         guard let self = self,
           let image = favData?.image,
           let index = self.tipsList.firstIndex(where: {$0.id == identifier}) else {

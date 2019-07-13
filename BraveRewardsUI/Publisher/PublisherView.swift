@@ -22,12 +22,34 @@ class PublisherView: UIStackView {
     }
   }
   
+  func updatePublisherName(_ name: String, provider: String) {
+    publisherNameLabel.attributedText = {
+      let paragraphStyle = NSMutableParagraphStyle()
+      paragraphStyle.lineBreakMode = .byWordWrapping
+      
+      let text = NSMutableAttributedString(string: name.trimmingCharacters(in: .whitespacesAndNewlines), attributes: [
+        .font: UIFont.systemFont(ofSize: 18.0, weight: .medium),
+        .foregroundColor: UX.publisherNameColor
+      ])
+      
+      if !provider.isEmpty {
+        text.append(NSMutableAttributedString(string: provider.trimmingCharacters(in: .whitespacesAndNewlines), attributes: [
+          .font: UIFont.systemFont(ofSize: 18.0),
+          .foregroundColor: UX.publisherNameColor
+        ]))
+      }
+      
+      text.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: text.length))
+      return text
+    }()
+  }
+  
   let faviconImageView = PublisherIconCircleImageView(size: UX.faviconSize)
   
-  let publisherNameLabel = UILabel().then {
+  private let publisherNameLabel = UILabel().then {
     $0.textColor = UX.publisherNameColor
     $0.font = .systemFont(ofSize: 18.0, weight: .medium)
-    $0.numberOfLines = 0
+    $0.numberOfLines = 2
   }
   
   /// The learn more button on the unverified publisher disclaimer was tapped
@@ -84,12 +106,15 @@ class PublisherView: UIStackView {
     $0.adjustsFontSizeToFitWidth = true
   }
   
-  let checkAgainButton = Button().then {
+  let checkAgainButton = Button(type: .system).then {
     $0.setTitleColor(Colors.blue500, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 12.0)
     $0.setTitle(Strings.CheckAgain, for: .normal)
     $0.setContentHuggingPriority(.required, for: .horizontal)
-    $0.loaderView = LoaderView(size: .small)
+  }
+  
+  private let checkAgainLoaderView = LoaderView(size: .small).then {
+    $0.alpha = 0.0
   }
   
   // Only shown when unverified
@@ -123,9 +148,15 @@ class PublisherView: UIStackView {
     verifiedLabelStackView.addArrangedSubview(verifiedCheckAgainStackView)
     verifiedCheckAgainStackView.addArrangedSubview(verifiedLabel)
     verifiedCheckAgainStackView.addArrangedSubview(checkAgainButton)
+    verifiedCheckAgainStackView.addSubview(checkAgainLoaderView)
     
     faviconImageView.snp.makeConstraints {
       $0.size.equalTo(UX.faviconSize)
+    }
+    
+    checkAgainLoaderView.snp.makeConstraints {
+      $0.centerY.equalTo(checkAgainButton)
+      $0.right.equalTo(checkAgainButton.snp.right)
     }
     
     checkAgainButton.addTarget(self, action: #selector(onCheckAgainPressed(_:)), for: .touchUpInside)
@@ -134,5 +165,28 @@ class PublisherView: UIStackView {
   @objc
   private func onCheckAgainPressed(_ button: Button) {
     onCheckAgainTapped?()
+  }
+  
+  func setCheckAgainIsLoading(_ loading: Bool) {
+    let animatingOutView = loading ? checkAgainButton : checkAgainLoaderView
+    let animatingInView = loading ? checkAgainLoaderView : checkAgainButton
+    
+    if loading {
+      checkAgainLoaderView.start()
+    }
+    
+    UIView.animateKeyframes(withDuration: 0.45, delay: 0, options: [], animations: {
+      UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.2, animations: {
+        animatingOutView.alpha = 0.0
+      })
+      UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.2, animations: {
+        animatingInView.alpha = 1.0
+      })
+    }, completion: { _ in
+      if !loading {
+        self.checkAgainLoaderView.stop()
+        self.checkAgainLoaderView.alpha = 0.0
+      }
+    })
   }
 }

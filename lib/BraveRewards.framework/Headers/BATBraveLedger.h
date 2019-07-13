@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^BATFaviconFetcher)(NSURL *pageURL, void (^completion)(NSURL * _Nullable faviconURL));
+
 /// The error domain for ledger related errors
 extern NSString * const BATBraveLedgerErrorDomain NS_SWIFT_NAME(BraveLedgerErrorDomain);
 
@@ -21,6 +23,8 @@ NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject
 
 @property (nonatomic, weak) BATBraveAds *ads;
+
+@property (nonatomic, copy, nullable) BATFaviconFetcher faviconFetcher;
 
 /// Create a brave ledger that will read and write its state to the given path
 - (instancetype)initWithStateStoragePath:(NSString *)path;
@@ -65,7 +69,7 @@ NS_SWIFT_NAME(BraveLedger)
 
 /// Recover the users wallet using their passphrase
 - (void)recoverWalletUsingPassphrase:(NSString *)passphrase
-                          completion:(nullable void (^)(NSError *_Nullable))completion;
+                          completion:(nullable void (^)(NSError * _Nullable))completion;
 
 /// The wallet's addresses. nil if the wallet has not been created yet
 @property (nonatomic, readonly, nullable) NSString *BATAddress;
@@ -95,18 +99,9 @@ NS_SWIFT_NAME(BraveLedger)
                            filter:(BATActivityInfoFilter *)filter
                        completion:(void (^)(NSArray<BATPublisherInfo *> *))completion;
 
-- (void)activityInfoWithFilter:(nullable BATActivityInfoFilter *)filter
-                    completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
-
 - (void)publisherActivityFromURL:(NSURL *)URL
                       faviconURL:(nullable NSURL *)faviconURL
                    publisherBlob:(nullable NSString *)publisherBlob;
-
-- (void)mediaPublisherInfoForMediaKey:(NSString *)mediaKey
-                           completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
-
-- (void)updateMediaPublisherInfo:(NSString *)publisherId
-                        mediaKey:(NSString *)mediaKey;
 
 /// Returns activity info for current reconcile stamp.
 - (nullable BATPublisherInfo *)currentActivityInfoWithPublisherId:(NSString *)publisherId;
@@ -195,12 +190,6 @@ NS_SWIFT_NAME(BraveLedger)
                  tabId:(UInt32)tabId
          firstPartyURL:(NSURL *)firstPartyURL
            referrerURL:(nullable NSURL *)referrerURL;
-
-/// Report that media has started on a tab with a given id
-- (void)reportMediaStartedWithTabId:(UInt32)tabId NS_SWIFT_NAME(reportMediaStarted(tabId:));
-
-/// Report that media has stopped on a tab with a given id
-- (void)reportMediaStoppedWithTabId:(UInt32)tabId NS_SWIFT_NAME(reportMediaStopped(tabId:));
 
 /// Report that a tab with a given id was closed by the user
 - (void)reportTabClosedWithTabId:(UInt32)tabId NS_SWIFT_NAME(reportTabClosed(tabId:));

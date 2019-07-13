@@ -96,24 +96,17 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
     case .monthlyPayment:
       guard let wallet = ledger.walletInfo else { break }
       let monthlyPayment = ledger.contributionAmount
-      let choices = wallet.parametersChoices.map { $0.doubleValue }
-      let selectedIndex = choices.index(of: monthlyPayment) ?? 0
-      let stringChoices = choices.map { choice -> String in
-        var amount = "\(choice) BAT"
-        if let dollarRate = ledger.dollarStringForBATAmount(choice) {
-          amount.append(" (\(dollarRate))")
+      let choices = wallet.parametersChoices.map { BATValue($0.doubleValue) }
+      let selectedIndex = choices.map({ $0.doubleValue }).index(of: monthlyPayment) ?? 0
+      
+      let controller = BATValueOptionsSelectionViewController(ledger: ledger, options: choices, selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
+        guard let self = self else { return }
+        if selectedIndex < choices.count {
+          self.ledger.contributionAmount = choices[selectedIndex].doubleValue
         }
-        return amount
+        self.navigationController?.popViewController(animated: true)
       }
-      let controller = OptionsSelectionViewController(
-        options: stringChoices,
-        selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
-          guard let self = self else { return }
-          if selectedIndex < choices.count {
-            self.ledger.contributionAmount = choices[selectedIndex]
-          }
-          self.navigationController?.popViewController(animated: true)
-      }
+      
       controller.title = Strings.AutoContributeMonthlyPayment
       navigationController?.pushViewController(controller, animated: true)
     case .minimumLength:

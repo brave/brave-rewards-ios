@@ -151,6 +151,7 @@
 		592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
 		598151D322D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */; };
+		5E1AB45E22D4EBA500CBE581 /* TippingSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */; };
 		5E2A934B22C15F05002EDFFD /* LinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A934A22C15F05002EDFFD /* LinkLabel.swift */; };
 /* End PBXBuildFile section */
 
@@ -335,6 +336,7 @@
 		592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilder.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionViewController.swift; sourceTree = "<group>"; };
 		598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilderTests.swift; sourceTree = "<group>"; };
 		5E2A934A22C15F05002EDFFD /* LinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -601,6 +603,7 @@
 				272B7875222498EA00B7B81E /* TippingSelectionView.swift */,
 				2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */,
 				27AFF5432229798F009320F5 /* TippingConfirmationView.swift */,
+				5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */,
 			);
 			path = Tipping;
 			sourceTree = "<group>";
@@ -1010,6 +1013,7 @@
 				2730DF8B2231A72F0031845C /* SettingsSectionView.swift in Sources */,
 				59512897228CF3F8002D3791 /* Strings.swift in Sources */,
 				592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */,
+				5E1AB45E22D4EBA500CBE581 /* TippingSelectionViewController.swift in Sources */,
 				27F4C1D922569E2B00CFCD67 /* TipsDetailViewController.swift in Sources */,
 				27371B8022A7111300E13C00 /* DetailActionableRow.swift in Sources */,
 				27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */,
