@@ -164,5 +164,6 @@ public extension Strings {
   static let NotificationInsufficientFunds = NSLocalizedString("NotificationinsufficientFunds", bundle: Bundle.RewardsUI, value: "Your Brave Rewards account is waiting for a deposit.", comment: "Description for new insufficient funds notification")
   static let NotificationEarningsClaimDefault = NSLocalizedString("NotificationEarningsClaimDefault", bundle: Bundle.RewardsUI, value: "Your rewards from Ads are here!", comment: "Panel notification text for Ads grant")
   static let NotificationGrantNotification = NSLocalizedString("NotificationGrantNotification", bundle: Bundle.RewardsUI, value: "You have a grant waiting for you.", comment: "Description for new grant notification")
+  static let NotificationErrorTitle = NSLocalizedString("NotificationErrorTitle", bundle: Bundle.RewardsUI, value: "Error!", comment: "Title for an error notification")
 }
 

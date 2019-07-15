@@ -15,6 +15,24 @@ struct WalletActionNotification {
       title: Strings.NotificationTokenGrantTitle,
       action: Strings.CLAIM.uppercased()
     )
+    
+    static let tipsProcessed = Category(
+      icon: UIImage(frameworkResourceNamed: "icn-contribute"),
+      title: Strings.NotificationRecurringTipTitle,
+      action: Strings.OK.uppercased()
+    )
+    
+    static let contribute = Category(
+      icon: UIImage(frameworkResourceNamed: "icn-contribute"),
+      title: Strings.NotificationAutoContributeTitle,
+      action: Strings.OK.uppercased()
+    )
+    
+    static let verifiedPublisher = Category(
+      icon: UIImage(frameworkResourceNamed: "icn-contribute"),
+      title: Strings.NotificationPendingContributionTitle,
+      action: Strings.OK.uppercased()
+    )
   }
   
   let category: Category

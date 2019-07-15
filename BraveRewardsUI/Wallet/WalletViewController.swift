@@ -431,15 +431,7 @@ extension WalletViewController {
   }
   
   private func loadNextNotification() {
-    //.failedContribution, .adsLaunch, .invalid & .backupWallet are not supported right now
-    // TODO: Verify that notifications are ordered & they are displayed in FIFO.
-    let ignoredRewardNotificationTypes: [RewardsNotification.Kind] = [.failedContribution,
-                                                                      .invalid,
-                                                                      .backupWallet,
-                                                                      .adsLaunch]
-    if let notification = state.ledger.notifications.first(where: {
-      !ignoredRewardNotificationTypes.contains($0.kind)
-    }) {
+    if let notification = state.ledger.notifications.first {
       currentNotification = notification
       if let notificationView = RewardsNotificationViewBuilder.get(notification: notification) {
         notificationView.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)
@@ -467,7 +459,7 @@ extension WalletViewController {
       case .adsLaunch:
         tappedSettings()
       default:
-        assertionFailure("Undefined case in handling actions")
+        break
       }
       tappedNotificationClose()
     }

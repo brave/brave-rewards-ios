@@ -9,25 +9,24 @@ import XCTest
 
 class RewardsNotificationViewBuilderTests: XCTestCase {
   
-  
-  func testBuilder() {
+  func testUnhandledNotifications() {
     // Notifications not handled:
     XCTAssertNil(RewardsNotificationViewBuilder.get(notification: notification(.adsLaunch)))
-    
     XCTAssertNil(RewardsNotificationViewBuilder.get(notification: notification(.backupWallet)))
-    
     XCTAssertNil(RewardsNotificationViewBuilder.get(notification: notification(.failedContribution)))
-    
     XCTAssertNil(RewardsNotificationViewBuilder.get(notification: notification(.invalid)))
-    
-    // Wanted cases
-    
+  }
+  
+  func testActionNotifiication() {
     XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.grant)) is WalletActionNotificationView)
-    XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.tipsProcessed)) is WalletMessageNotificationView)
+    XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.tipsProcessed)) is WalletActionNotificationView)
+    XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.verifiedPublisher, userInfo: ["name": "abc"])) is WalletActionNotificationView)
+    XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.autoContribute, userInfo: ["result": 0, "amount": "1"])) is WalletActionNotificationView)
+  }
+  
+  func testAlertNotification() {
     XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.insufficientFunds)) is WalletAlertNotificationView)
     XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.pendingNotEnoughFunds)) is WalletAlertNotificationView)
-    XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.verifiedPublisher, userInfo: ["name": "abc"])) is WalletMessageNotificationView)
-    XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.autoContribute, userInfo: ["result": 0, "amount": "1"])) is WalletMessageNotificationView)
     XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.autoContribute, userInfo: ["result": 15, "amount": "1"])) is WalletAlertNotificationView)
     XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.autoContribute, userInfo: ["result": 16, "amount": "1"])) is WalletAlertNotificationView)
     XCTAssert(RewardsNotificationViewBuilder.get(notification: notification(.autoContribute, userInfo: ["result": 10, "amount": "1"])) is WalletAlertNotificationView)

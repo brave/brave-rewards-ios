@@ -130,12 +130,6 @@ class ViewController: UIViewController {
     
     setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
-//      (self.rewards.ledger as! UIMockLedger).mockNotifications = [
-//        RewardsNotification(id: "8", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 10, "amount": "1 BAT"])
-//      ]
-//      NotificationCenter.default.post(name: .init("BATBraveLedgerNotificationAdded"), object: nil)
-//    }
   }
   
   func setupRewards() {
