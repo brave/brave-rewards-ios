@@ -88,7 +88,7 @@
 		27623A8B228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */; };
 		2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769558C2270A7CB008E5DED /* WalletNotificationView.swift */; };
 		2769559322738942008E5DED /* WalletActionNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559222738942008E5DED /* WalletActionNotificationView.swift */; };
-		2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletMessageNotificationView.swift */; };
+		2769559722738C26008E5DED /* WalletAlertNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletAlertNotificationView.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
 		27700EA622A6E549009D8B6F /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
 		27700EA822A6E558009D8B6F /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
@@ -147,7 +147,9 @@
 		27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CACE2294715100935B45 /* AdsDetailsViewController.swift */; };
 		27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CAD02294773600935B45 /* LabelAccessoryView.swift */; };
 		59146FE322BC1A3B0085E420 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59146FE222BC1A3B0085E420 /* DataLoader.swift */; };
+		592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
+		598151D322D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */; };
 		5E1AB45E22D4EBA500CBE581 /* TippingSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */; };
 		5E2A934B22C15F05002EDFFD /* LinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A934A22C15F05002EDFFD /* LinkLabel.swift */; };
 /* End PBXBuildFile section */
@@ -268,7 +270,7 @@
 		27623A8A228F1E8F00DFA8F5 /* EmptyWalletSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyWalletSummaryView.swift; sourceTree = "<group>"; };
 		2769558C2270A7CB008E5DED /* WalletNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNotificationView.swift; sourceTree = "<group>"; };
 		2769559222738942008E5DED /* WalletActionNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionNotificationView.swift; sourceTree = "<group>"; };
-		2769559622738C26008E5DED /* WalletMessageNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletMessageNotificationView.swift; sourceTree = "<group>"; };
+		2769559622738C26008E5DED /* WalletAlertNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAlertNotificationView.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		27700EA522A6E549009D8B6F /* BraveRewards.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BraveRewards.framework; path = lib/BraveRewards.framework; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
@@ -329,8 +331,10 @@
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27FD395521E9317400443796 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
 		59146FE222BC1A3B0085E420 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilder.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		59512896228CF3F8002D3791 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilderTests.swift; sourceTree = "<group>"; };
 		5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionViewController.swift; sourceTree = "<group>"; };
 		5E2A934A22C15F05002EDFFD /* LinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkLabel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -607,7 +611,8 @@
 			children = (
 				2769558C2270A7CB008E5DED /* WalletNotificationView.swift */,
 				2769559222738942008E5DED /* WalletActionNotificationView.swift */,
-				2769559622738C26008E5DED /* WalletMessageNotificationView.swift */,
+				592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */,
+				2769559622738C26008E5DED /* WalletAlertNotificationView.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -713,6 +718,7 @@
 				0A62AB33228ABEC000D99614 /* BATValueTests.swift */,
 				0A9060232285E19E00F58252 /* DateExtensionsTests.swift */,
 				27FD38E421E6B69700443796 /* Info.plist */,
+				598151D222D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift */,
 			);
 			path = BraveRewardsTests;
 			sourceTree = "<group>";
@@ -1003,6 +1009,7 @@
 				274CDD2C225D446800FA7364 /* AutoContributeDetailsViewController.swift in Sources */,
 				2730DF8B2231A72F0031845C /* SettingsSectionView.swift in Sources */,
 				59512897228CF3F8002D3791 /* Strings.swift in Sources */,
+				592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */,
 				5E1AB45E22D4EBA500CBE581 /* TippingSelectionViewController.swift in Sources */,
 				27F4C1D922569E2B00CFCD67 /* TipsDetailViewController.swift in Sources */,
 				27371B8022A7111300E13C00 /* DetailActionableRow.swift in Sources */,
@@ -1016,7 +1023,7 @@
 				27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */,
 				2769558D2270A7CB008E5DED /* WalletNotificationView.swift in Sources */,
 				27F4C1D722551D6B00CFCD67 /* UIStackViewExtensions.swift in Sources */,
-				2769559722738C26008E5DED /* WalletMessageNotificationView.swift in Sources */,
+				2769559722738C26008E5DED /* WalletAlertNotificationView.swift in Sources */,
 				27871A23227B4729003477D4 /* WelcomeView.swift in Sources */,
 				278A6B42225C044F00175678 /* SettingsViewController.swift in Sources */,
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
@@ -1102,6 +1109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A9060292285E4C100F58252 /* DateExtensionsTests.swift in Sources */,
+				598151D322D91DB90006C2FC /* RewardsNotificationViewBuilderTests.swift in Sources */,
 				0A62AB34228ABEC000D99614 /* BATValueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

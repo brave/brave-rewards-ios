@@ -9,11 +9,17 @@ class WalletNotificationView: UIView {
   let closeButton = Button()
   
   let backgroundView = UIImageView(image: UIImage(frameworkResourceNamed: "notification_header"))
+  let iconImageView = UIImageView(image: nil).then {
+    $0.setContentHuggingPriority(.required, for: .horizontal)
+    $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+    $0.contentMode = .scaleAspectFit
+  }
+  
+  let stackView = UIStackView()
   
   override init(frame: CGRect) {
-    super.init(frame: .zero)
-    
-    backgroundColor = .clear
+    super.init(frame: frame)
+    backgroundColor = .white
     
     closeButton.do {
       $0.setImage(UIImage(frameworkResourceNamed: "close-icon").alwaysTemplate, for: .normal)
@@ -23,16 +29,24 @@ class WalletNotificationView: UIView {
     
     addSubview(backgroundView)
     addSubview(closeButton)
+    addSubview(stackView)
+    stackView.addArrangedSubview(iconImageView)
     
     closeButton.snp.makeConstraints {
       $0.top.trailing.equalTo(safeAreaLayoutGuide)
       $0.width.height.equalTo(44.0)
     }
+    
+    stackView.snp.makeConstraints {
+      $0.top.greaterThanOrEqualTo(self).offset(15.0)
+      $0.centerY.equalToSuperview()
+      $0.leading.trailing.equalTo(safeAreaLayoutGuide).inset(35.0)
+      $0.bottom.lessThanOrEqualTo(self).inset(25.0)
+    }
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
-    
     backgroundView.frame = bounds
   }
   

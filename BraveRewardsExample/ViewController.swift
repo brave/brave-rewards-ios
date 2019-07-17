@@ -40,6 +40,30 @@ class UIMockLedger: BraveLedger {
     }
   }
   
+  var mockNotifications: [RewardsNotification] = [
+    RewardsNotification(id: "1", dateAdded: Date().timeIntervalSince1970, kind: .insufficientFunds, userInfo: nil),
+    RewardsNotification(id: "2", dateAdded: Date().timeIntervalSince1970, kind: .insufficientFunds, userInfo: nil),
+    RewardsNotification(id: "3", dateAdded: Date().timeIntervalSince1970, kind: .tipsProcessed, userInfo: nil),
+    RewardsNotification(id: "4", dateAdded: Date().timeIntervalSince1970, kind: .grant, userInfo: nil),
+    RewardsNotification(id: "5", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 0, "amount": "1"]),
+    RewardsNotification(id: "6", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 15, "amount": "1"]),
+    RewardsNotification(id: "7", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 16, "amount": "1"]),
+    RewardsNotification(id: "8", dateAdded: Date().timeIntervalSince1970, kind: .autoContribute, userInfo: ["result": 10, "amount": "1"])
+  ]
+  override var notifications: [RewardsNotification] {
+    return mockNotifications
+  }
+  
+  override func clearAllNotifications() {
+    mockNotifications.removeAll()
+  }
+  
+  override func clearNotification(_ notification: RewardsNotification) {
+    mockNotifications.removeAll { noti -> Bool in
+      noti.id == notification.id
+    }
+  }
+  
   override var balance: Balance? {
     return Balance().then {
       $0.total = 30.0

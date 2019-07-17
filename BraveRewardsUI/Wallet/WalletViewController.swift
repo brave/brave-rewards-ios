@@ -14,6 +14,7 @@ protocol WalletContentView: AnyObject {
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   let state: RewardsState
+  weak var currentNotification: RewardsNotification?
   private var recurringTipAmount: Double = 0.0
   
   init(state: RewardsState) {
@@ -40,25 +41,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // FIXME: Only show these when we have notifications to show?
-//    let notification = WalletActionNotificationView(
-//      notification: WalletActionNotification(
-//        category: .adsRewards,
-//        body: "You’ve earned 10 BAT.",
-//        date: Date()
-//      )
-//    )
-//    let notification = WalletMessageNotificationView(
-//      notification: WalletMessageNotification(
-//        category: .success,
-//        title: "Wallet restored!",
-//        body: "Your wallet key has been verified and loaded successfuly"
-//      )
-//    )
-//    notification.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)
-//    notification.actionButton.addTarget(self, action: #selector(tappedNotificationAction), for: .touchUpInside)
-//    walletView.notificationView = notification
     
     // Not actually visible from this controller
     title = Strings.PanelTitle
@@ -89,6 +71,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     
     reloadUIState()
     view.layoutIfNeeded()
+    startNotificationObserver()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -106,6 +89,10 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     if presentedViewController == nil {
       navigationController?.setNavigationBarHidden(false, animated: animated)
     }
+  }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
   }
   
   override func viewDidLayoutSubviews() {
@@ -297,15 +284,6 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   // MARK: - Actions
   
-  @objc private func tappedNotificationClose() {
-    self.walletView.setNotificationView(nil, animated: true)
-  }
-  
-  @objc private func tappedNotificationAction() {
-    // TODO: Do something with the notification
-    self.walletView.setNotificationView(nil, animated: true)
-  }
-  
   @objc private func tappedGrantsButton() {
     let controller = GrantsListViewController(ledger: state.ledger)
     navigationController?.pushViewController(controller, animated: true)
@@ -424,6 +402,66 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       
     default:
       assertionFailure()
+    }
+  }
+}
+
+extension WalletViewController {
+  
+  func startNotificationObserver() {
+    // Stopping as a precaution
+    // Add observer
+    NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
+    loadNextNotification()
+  }
+  
+  @objc private func notificationAdded(_ notification: Notification) {
+    // TODO: Filter notification?
+    // LoadNext if there is no current notification
+    if currentNotification == nil {
+      loadNextNotification()
+    }
+  }
+  
+  private func clearCurrentNotification() {
+    if let currentNotification = currentNotification {
+      state.ledger.clearNotification(currentNotification)
+      self.currentNotification = nil
+    }
+  }
+  
+  private func loadNextNotification() {
+    if let notification = state.ledger.notifications.first {
+      currentNotification = notification
+      if let notificationView = RewardsNotificationViewBuilder.get(notification: notification) {
+        notificationView.closeButton.addTarget(self, action: #selector(tappedNotificationClose), for: .touchUpInside)
+        (notificationView as? WalletActionNotificationView)?.actionButton.addTarget(self, action: #selector(tappedNotificationAction), for: .touchUpInside)
+        walletView.setNotificationView(notificationView, animated: true)
+      } else {
+        clearCurrentNotification()
+        loadNextNotification()
+      }
+    } else {
+      walletView.setNotificationView(nil, animated: true)
+    }
+  }
+  
+  @objc private func tappedNotificationClose() {
+    clearCurrentNotification()
+    loadNextNotification()
+  }
+  
+  @objc private func tappedNotificationAction() {
+    if let notification = currentNotification {
+      switch notification.kind {
+      case .grant, .grantAds:
+        tappedGrantsButton()
+      case .adsLaunch:
+        tappedSettings()
+      default:
+        break
+      }
+      tappedNotificationClose()
     }
   }
 }
