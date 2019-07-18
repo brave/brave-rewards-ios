@@ -70,6 +70,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     rewardsSummaryView.rows = summaryRows
     
     reloadUIState()
+    setupPublisherView(publisherSummaryView)
     view.layoutIfNeeded()
     startNotificationObserver()
   }
@@ -137,7 +138,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   // MARK: -
   
-  private lazy var publisherSummaryView = PublisherSummaryView().then(setupPublisherView)
+  private lazy var publisherSummaryView = PublisherSummaryView()
   private lazy var rewardsDisabledView = RewardsDisabledView().then {
     $0.termsOfServiceLabel.onLinkedTapped = tappedDisclaimerLink
   }
