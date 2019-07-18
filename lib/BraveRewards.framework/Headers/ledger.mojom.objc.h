@@ -12,7 +12,7 @@
 
 
 
-@class BATContributionInfo, BATPublisherInfo, BATPendingContribution, BATPendingContributionInfo, BATVisitData, BATGrant, BATWalletProperties, BATBalance;
+@class BATContributionInfo, BATPublisherInfo, BATPublisherBanner, BATPendingContribution, BATPendingContributionInfo, BATVisitData, BATGrant, BATWalletProperties, BATBalance, BATAutoContributeProps;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,6 +40,20 @@ NS_SWIFT_NAME(PublisherInfo)
 @property (nonatomic, copy) NSString * provider;
 @property (nonatomic, copy) NSString * faviconUrl;
 @property (nonatomic, copy) NSArray<BATContributionInfo *> * contributions;
+@end
+
+NS_SWIFT_NAME(PublisherBanner)
+@interface BATPublisherBanner : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * publisherKey;
+@property (nonatomic, copy) NSString * title;
+@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * desc;
+@property (nonatomic, copy) NSString * background;
+@property (nonatomic, copy) NSString * logo;
+@property (nonatomic, copy) NSArray<NSNumber *> * amounts;
+@property (nonatomic, copy) NSString * provider;
+@property (nonatomic, copy) NSDictionary<NSString *, NSString *> * social;
+@property (nonatomic) bool verified;
 @end
 
 NS_SWIFT_NAME(PendingContribution)
@@ -101,6 +115,16 @@ NS_SWIFT_NAME(Balance)
 @property (nonatomic) double total;
 @property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * rates;
 @property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * wallets;
+@end
+
+NS_SWIFT_NAME(AutoContributeProps)
+@interface BATAutoContributeProps : NSObject <NSCopying>
+@property (nonatomic) bool enabledContribute;
+@property (nonatomic) uint64_t contributionMinTime;
+@property (nonatomic) int32_t contributionMinVisits;
+@property (nonatomic) bool contributionNonVerified;
+@property (nonatomic) bool contributionVideos;
+@property (nonatomic) uint64_t reconcileStamp;
 @end
 
 NS_ASSUME_NONNULL_END

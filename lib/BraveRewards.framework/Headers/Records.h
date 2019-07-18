@@ -1,25 +1,13 @@
-/* WARNING: THIS FILE IS GENERATED. ANY CHANGES TO THIS FILE WILL BE OVERWRITTEN
- *
- * This Source Code Form is subject to the terms of the Mozilla Public
+/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #import <Foundation/Foundation.h>
 #import "Enums.h"
 
-@class BATAutoContributeProps, BATBalanceReportInfo, BATPublisherBanner, BATReconcileInfo, BATRewardsInternalsInfo, BATTransactionInfo, BATTransactionsInfo, BATMediaEventInfo;
+@class BATBalanceReportInfo, BATReconcileInfo, BATRewardsInternalsInfo, BATTransactionInfo, BATTransactionsInfo, BATMediaEventInfo;
 
 NS_ASSUME_NONNULL_BEGIN
-
-NS_SWIFT_NAME(AutoContributeProps)
-@interface BATAutoContributeProps : NSObject
-@property (nonatomic) bool enabledContribute;
-@property (nonatomic) unsigned long long contributionMinTime;
-@property (nonatomic) int contributionMinVisits;
-@property (nonatomic) bool contributionNonVerified;
-@property (nonatomic) bool contributionVideos;
-@property (nonatomic) unsigned long long reconcileStamp;
-@end
 
 NS_SWIFT_NAME(BalanceReportInfo)
 @interface BATBalanceReportInfo : NSObject
@@ -32,20 +20,6 @@ NS_SWIFT_NAME(BalanceReportInfo)
 @property (nonatomic) NSString * recurringDonation;
 @property (nonatomic) NSString * oneTimeDonation;
 @property (nonatomic) NSString * total;
-@end
-
-NS_SWIFT_NAME(PublisherBanner)
-@interface BATPublisherBanner : NSObject
-@property (nonatomic) NSString * publisherKey;
-@property (nonatomic) NSString * title;
-@property (nonatomic) NSString * name;
-@property (nonatomic) NSString * desc;
-@property (nonatomic) NSString * background;
-@property (nonatomic) NSString * logo;
-@property (nonatomic) NSArray<NSNumber *> * amounts;
-@property (nonatomic) NSString * provider;
-@property (nonatomic) NSDictionary<NSString *, NSString *> * social;
-@property (nonatomic) bool verified;
 @end
 
 NS_SWIFT_NAME(ReconcileInfo)

@@ -139,7 +139,8 @@ class ViewController: UIViewController {
       let url = URL(string: ViewController.testPublisherURL)!
       rewards.ledger.publisherActivity(from: url, faviconURL: url, publisherBlob: "")
     } else {
-      rewards = BraveRewards(configuration: .default, delegate: self)
+      rewards = BraveRewards(configuration: .default)
+      rewards.delegate = self
     }
   }
 
