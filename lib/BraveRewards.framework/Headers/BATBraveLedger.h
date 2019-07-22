@@ -7,6 +7,7 @@
 #import "ledger.mojom.objc.h"
 #import "BATActivityInfoFilter.h"
 #import "BATRewardsNotification.h"
+#import "BATBraveLedgerObserver.h"
 
 @class BATBraveAds;
 
@@ -17,7 +18,7 @@ typedef void (^BATFaviconFetcher)(NSURL *pageURL, void (^completion)(NSURL * _Nu
 /// The error domain for ledger related errors
 extern NSString * const BATBraveLedgerErrorDomain NS_SWIFT_NAME(BraveLedgerErrorDomain);
 
-extern NSNotificationName const BATBraveLedgerNotificationAdded;
+extern NSNotificationName const BATBraveLedgerNotificationAdded NS_SWIFT_NAME(BraveLedger.NotificationAdded);
 
 NS_SWIFT_NAME(BraveLedger)
 @interface BATBraveLedger : NSObject
@@ -30,6 +31,16 @@ NS_SWIFT_NAME(BraveLedger)
 - (instancetype)initWithStateStoragePath:(NSString *)path;
 
 - (instancetype)init NS_UNAVAILABLE;
+
+#pragma mark - Observers
+
+/// Add an interface to the list of observers
+///
+/// Observers are stored weakly and do not necessarily need to be removed
+- (void)addObserver:(BATBraveLedgerObserver *)observer;
+
+/// Removes an interface from the list of observers
+- (void)removeObserver:(BATBraveLedgerObserver *)observer;
 
 #pragma mark - Global
 
@@ -91,13 +102,25 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Publishers
 
+/// Get publisher info based on its publisher key.
+///
+/// This key is _not_ always the URL's host. Use `publisherActivityFromURL`
+/// instead when obtaining a publisher given a URL
+///
+/// @note `completion` callback is called synchronously
 - (void)publisherInfoForId:(NSString *)publisherId
-                completion:(void (^)(BATPublisherInfo * _Nullable info))completion;
+                completion:(void (NS_NOESCAPE ^)(BATPublisherInfo * _Nullable info))completion;
 
+/// Get publisher info & its activity based on its publisher key
+///
+/// This key is _not_ always the URL's host. Use `publisherActivityFromURL`
+/// instead when obtaining a publisher given a URL
+///
+/// @note `completion` callback is called synchronously
 - (void)listActivityInfoFromStart:(unsigned int)start
                             limit:(unsigned int)limit
                            filter:(BATActivityInfoFilter *)filter
-                       completion:(void (^)(NSArray<BATPublisherInfo *> *))completion;
+                       completion:(void (NS_NOESCAPE ^)(NSArray<BATPublisherInfo *> *))completion;
 
 - (void)publisherActivityFromURL:(NSURL *)URL
                       faviconURL:(nullable NSURL *)faviconURL
@@ -116,8 +139,14 @@ NS_SWIFT_NAME(BraveLedger)
 
 @property (nonatomic, readonly) NSUInteger numberOfExcludedPublishers;
 
+/// Get the publisher banner given some publisher key
+///
+/// This key is _not_ always the URL's host. Use `publisherActivityFromURL`
+/// instead when obtaining a publisher given a URL
+///
+/// @note `completion` callback is called synchronously
 - (void)publisherBannerForId:(NSString *)publisherId
-                  completion:(void (^)(BATPublisherBanner * _Nullable banner))completion;
+                  completion:(void (NS_NOESCAPE ^)(BATPublisherBanner * _Nullable banner))completion;
 
 /// Refresh a publishers verification status
 - (void)refreshPublisherWithId:(NSString *)publisherId
@@ -125,14 +154,20 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Tips
 
-- (void)listRecurringTips:(void (^)(NSArray<BATPublisherInfo *> *))completion;
+/// Get a list of publishers who the user has recurring tips on
+///
+/// @note `completion` callback is called synchronously
+- (void)listRecurringTips:(void (NS_NOESCAPE ^)(NSArray<BATPublisherInfo *> *))completion;
 
 - (void)addRecurringTipToPublisherWithId:(NSString *)publisherId
                                   amount:(double)amount NS_SWIFT_NAME(addRecurringTip(publisherId:amount:));
 
 - (void)removeRecurringTipForPublisherWithId:(NSString *)publisherId NS_SWIFT_NAME(removeRecurringTip(publisherId:));
 
-- (void)listOneTimeTips:(void (^)(NSArray<BATPublisherInfo *> *))completion;
+/// Get a list of publishers who the user has made direct tips too
+///
+/// @note `completion` callback is called synchronously
+- (void)listOneTimeTips:(void (NS_NOESCAPE ^)(NSArray<BATPublisherInfo *> *))completion;
 
 - (void)tipPublisherDirectly:(BATPublisherInfo *)publisher
                       amount:(int)amount

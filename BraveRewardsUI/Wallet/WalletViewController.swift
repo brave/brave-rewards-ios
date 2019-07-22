@@ -412,7 +412,7 @@ extension WalletViewController {
   func startNotificationObserver() {
     // Stopping as a precaution
     // Add observer
-    NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: NSNotification.Name.BATBraveLedgerNotificationAdded, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(notificationAdded(_:)), name: BraveLedger.NotificationAdded, object: nil)
     loadNextNotification()
   }
   
