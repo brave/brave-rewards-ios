@@ -11,8 +11,61 @@
 
 
 
+typedef NS_ENUM(NSInteger, BATExcludeFilter) {
+  BATExcludeFilterFilterAll = -1,
+  BATExcludeFilterFilterDefault = 0,
+  BATExcludeFilterFilterExcluded = 1,
+  BATExcludeFilterFilterIncluded = 2,
+  BATExcludeFilterFilterAllExceptExcluded = 3,
+} NS_SWIFT_NAME(ExcludeFilter);
 
-@class BATContributionInfo, BATPublisherInfo, BATPublisherBanner, BATPendingContribution, BATPendingContributionInfo, BATVisitData, BATGrant, BATWalletProperties, BATBalance, BATAutoContributeProps;
+
+typedef NS_ENUM(NSInteger, BATContributionRetry) {
+  BATContributionRetryStepNo = 0,
+  BATContributionRetryStepReconcile = 1,
+  BATContributionRetryStepCurrent = 2,
+  BATContributionRetryStepPayload = 3,
+  BATContributionRetryStepRegister = 4,
+  BATContributionRetryStepViewing = 5,
+  BATContributionRetryStepWinners = 6,
+  BATContributionRetryStepPrepare = 7,
+  BATContributionRetryStepProof = 8,
+  BATContributionRetryStepVote = 9,
+  BATContributionRetryStepFinal = 10,
+} NS_SWIFT_NAME(ContributionRetry);
+
+
+typedef NS_ENUM(NSInteger, BATResult) {
+  BATResultLedgerOk = 0,
+  BATResultLedgerError = 1,
+  BATResultNoPublisherState = 2,
+  BATResultNoLedgerState = 3,
+  BATResultInvalidPublisherState = 4,
+  BATResultInvalidLedgerState = 5,
+  BATResultCaptchaFailed = 6,
+  BATResultNoPublisherList = 7,
+  BATResultTooManyResults = 8,
+  BATResultNotFound = 9,
+  BATResultRegistrationVerificationFailed = 10,
+  BATResultBadRegistrationResponse = 11,
+  BATResultWalletCreated = 12,
+  BATResultGrantNotFound = 13,
+  BATResultAcTableEmpty = 14,
+  BATResultNotEnoughFunds = 15,
+  BATResultTipError = 16,
+  BATResultCorruptedWallet = 17,
+  BATResultGrantAlreadyClaimed = 18,
+  BATResultContributionAmountTooLow = 19,
+  BATResultVerifiedPublisher = 20,
+  BATResultPendingPublisherRemoved = 21,
+  BATResultPendingNotEnoughFunds = 22,
+  BATResultRecurringTableEmpty = 23,
+  BATResultExpiredToken = 24,
+} NS_SWIFT_NAME(Result);
+
+
+
+@class BATContributionInfo, BATPublisherInfo, BATPublisherBanner, BATPendingContribution, BATPendingContributionInfo, BATVisitData, BATGrant, BATWalletProperties, BATBalance, BATAutoContributeProps, BATMediaEventInfo, BATExternalWallet, BATBalanceReportInfo, BATActivityInfoFilterOrderPair, BATActivityInfoFilter, BATReconcileInfo, BATRewardsInternalsInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -113,6 +166,7 @@ NS_SWIFT_NAME(WalletProperties)
 NS_SWIFT_NAME(Balance)
 @interface BATBalance : NSObject <NSCopying>
 @property (nonatomic) double total;
+@property (nonatomic, copy) NSString * userFunds;
 @property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * rates;
 @property (nonatomic, copy) NSDictionary<NSString *, NSNumber *> * wallets;
 @end
@@ -125,6 +179,76 @@ NS_SWIFT_NAME(AutoContributeProps)
 @property (nonatomic) bool contributionNonVerified;
 @property (nonatomic) bool contributionVideos;
 @property (nonatomic) uint64_t reconcileStamp;
+@end
+
+NS_SWIFT_NAME(MediaEventInfo)
+@interface BATMediaEventInfo : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * event;
+@property (nonatomic, copy) NSString * time;
+@property (nonatomic, copy) NSString * status;
+@end
+
+NS_SWIFT_NAME(ExternalWallet)
+@interface BATExternalWallet : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * token;
+@property (nonatomic, copy) NSString * address;
+@property (nonatomic) uint32_t status;
+@property (nonatomic, copy) NSString * verifyUrl;
+@property (nonatomic, copy) NSString * addUrl;
+@property (nonatomic, copy) NSString * withdrawUrl;
+@property (nonatomic, copy) NSString * oneTimeString;
+@property (nonatomic, copy) NSString * userName;
+@property (nonatomic, copy) NSString * accountUrl;
+@property (nonatomic) bool transferred;
+@end
+
+NS_SWIFT_NAME(BalanceReportInfo)
+@interface BATBalanceReportInfo : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * openingBalance;
+@property (nonatomic, copy) NSString * closingBalance;
+@property (nonatomic, copy) NSString * deposits;
+@property (nonatomic, copy) NSString * grants;
+@property (nonatomic, copy) NSString * earningFromAds;
+@property (nonatomic, copy) NSString * autoContribute;
+@property (nonatomic, copy) NSString * recurringDonation;
+@property (nonatomic, copy) NSString * oneTimeDonation;
+@property (nonatomic, copy) NSString * total;
+@end
+
+NS_SWIFT_NAME(ActivityInfoFilterOrderPair)
+@interface BATActivityInfoFilterOrderPair : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * propertyName;
+@property (nonatomic) bool ascending;
+@end
+
+NS_SWIFT_NAME(ActivityInfoFilter)
+@interface BATActivityInfoFilter : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * id;
+@property (nonatomic) BATExcludeFilter excluded;
+@property (nonatomic) uint32_t percent;
+@property (nonatomic, copy) NSArray<BATActivityInfoFilterOrderPair *> * orderBy;
+@property (nonatomic) uint64_t minDuration;
+@property (nonatomic) uint64_t reconcileStamp;
+@property (nonatomic) bool nonVerified;
+@property (nonatomic) uint32_t minVisits;
+@end
+
+NS_SWIFT_NAME(ReconcileInfo)
+@interface BATReconcileInfo : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * viewingId;
+@property (nonatomic, copy) NSString * amount;
+@property (nonatomic) BATContributionRetry retryStep;
+@property (nonatomic) int32_t retryLevel;
+@end
+
+NS_SWIFT_NAME(RewardsInternalsInfo)
+@interface BATRewardsInternalsInfo : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * paymentId;
+@property (nonatomic) bool isKeyInfoSeedValid;
+@property (nonatomic, copy) NSString * personaId;
+@property (nonatomic, copy) NSString * userId;
+@property (nonatomic) uint64_t bootStamp;
+@property (nonatomic, copy) NSDictionary<NSString *, BATReconcileInfo *> * currentReconciles;
 @end
 
 NS_ASSUME_NONNULL_END

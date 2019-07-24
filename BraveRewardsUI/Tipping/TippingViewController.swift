@@ -161,9 +161,13 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       
       // Add recurring tips if isMonthly..
       if self.tippingView.optionSelectionView.isMonthly {
-        self.state.ledger.addRecurringTip(publisherId: self.publisherInfo.id, amount: amount)
+        self.state.ledger.addRecurringTip(publisherId: self.publisherInfo.id, amount: amount) { _ in
+          // TODO: Handle started tip process
+        }
       } else {
-        self.state.ledger.tipPublisherDirectly(self.publisherInfo, amount: Int32(amount), currency: "BAT")
+        self.state.ledger.tipPublisherDirectly(self.publisherInfo, amount: Int32(amount), currency: "BAT") { _ in
+          // TODO: Handle started tip process
+        }
       }
       
       let displayConfirmationView = { (recurringDate: String?) in

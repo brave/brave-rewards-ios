@@ -39,10 +39,10 @@ class AddFundsViewController: UIViewController {
     }
     
     let map: [(TokenAddressView.TokenKind, String?)] = [
-      (.bitcoin, state.ledger.btcAddress),
-      (.ethereum, state.ledger.ethAddress),
-      (.basicAttentionToken, state.ledger.batAddress),
-      (.litecoin, state.ledger.ltcAddress)
+//      (.bitcoin, state.ledger.btcAddress),
+//      (.ethereum, state.ledger.ethAddress),
+//      (.basicAttentionToken, state.ledger.batAddress),
+//      (.litecoin, state.ledger.ltcAddress)
     ]
     addFundsView.tokenViews = map.map { (kind, address) in
       TokenAddressView(tokenKind: kind).then {
@@ -63,10 +63,10 @@ class AddFundsViewController: UIViewController {
       }
     }
     let map: [TokenAddressView.TokenKind: String] = [
-      .bitcoin: state.ledger.btcAddress,
-      .ethereum: state.ledger.ethAddress,
-      .basicAttentionToken: state.ledger.batAddress,
-      .litecoin: state.ledger.ltcAddress
+      .bitcoin: "",
+//      .ethereum: state.ledger.ethAddress,
+//      .basicAttentionToken: state.ledger.batAddress,
+//      .litecoin: state.ledger.ltcAddress
     ].compactMapValues({ $0 })
     guard let address = map[addressView.tokenKind] else { return }
     let qrCode = "\(addressView.tokenKind.codePrefix):\(address)"
