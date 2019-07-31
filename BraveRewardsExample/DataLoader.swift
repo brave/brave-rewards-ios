@@ -10,8 +10,8 @@ struct DataLoader {
     
     func report(site: (String, Int), tab: Int) {
       let url = URL(string: site.0)!
-      rewards.reportLoadedPage(url: url, tabId: UInt32(tab), html: "<html><body>hjabsd</body></html>", completion: { _ in })
-      rewards.reportTabUpdated(tab, url: url, isSelected: true, isPrivate: false, completion: { _ in })
+      rewards.reportLoadedPage(url: url, faviconUrl: nil, tabId: UInt32(tab), html: "<html><body>hjabsd</body></html>")
+      rewards.reportTabUpdated(tab, url: url, faviconURL: nil, isSelected: true, isPrivate: false)
       
     }
     let sites: [(String, Int)] = [

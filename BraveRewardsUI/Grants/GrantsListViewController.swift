@@ -35,12 +35,14 @@ class GrantsListViewController: UIViewController {
     
     if let grants = ledger.walletInfo?.grants, !grants.isEmpty {
       grants.forEach {
-        grantsView.stackView.addArrangedSubview(
-          GrantsItemView(
-            amount: $0.probi,
-            expirationDate: Date(timeIntervalSince1970: TimeInterval($0.expiryTime))
+        if let value = BATValue(probi: $0.probi) {
+          grantsView.stackView.addArrangedSubview(
+            GrantsItemView(
+              amount: value.displayString,
+              expirationDate: Date(timeIntervalSince1970: TimeInterval($0.expiryTime))
+            )
           )
-        )
+        }
       }
     }
   }

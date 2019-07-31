@@ -138,7 +138,7 @@ class ViewController: UIViewController {
       rewards = BraveRewards(configuration: .default, delegate: self, ledgerClass: UIMockLedger.self, adsClass: nil)
       // Simulate visiting a sample url to test publisher verification.
       let url = URL(string: ViewController.testPublisherURL)!
-      rewards.ledger.publisherActivity(from: url, faviconURL: url, publisherBlob: "")
+      rewards.ledger.fetchPublisherActivity(from: url, faviconURL: url, publisherBlob: nil, tabId: 1)
     } else {
       rewards = BraveRewards(configuration: .default)
       rewards.delegate = self
@@ -160,6 +160,7 @@ class ViewController: UIViewController {
     let url = URL(string: ViewController.testPublisherURL)!
     let braveRewardsPanel = RewardsPanelController(
       rewards,
+      tabId: 1,
       url: url,
       faviconURL: URL(string: "https://github.com/apple-touch-icon.png")!,
       delegate: self,
@@ -231,5 +232,9 @@ extension ViewController: RewardsDataSource {
         completion(nil)
       }
     }
+  }
+  
+  func pageHTML(for tabId: UInt64, completionHandler: @escaping (String?) -> Void) {
+    completionHandler(nil)
   }
 }

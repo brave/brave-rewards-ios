@@ -14,17 +14,61 @@ protocol WalletContentView: AnyObject {
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
   
   let state: RewardsState
+  let ledgerObserver: LedgerObserver
   weak var currentNotification: RewardsNotification?
   private var recurringTipAmount: Double = 0.0
+  private var publisher: PublisherInfo?
   
   init(state: RewardsState) {
     self.state = state
+    self.ledgerObserver = LedgerObserver(ledger: state.ledger)
     super.init(nibName: nil, bundle: nil)
+    
+    self.state.ledger.add(self.ledgerObserver)
+    
+    self.ledgerObserver.fetchedPanelPublisher = { [weak self] publisher, tabId in
+      guard let self = self, self.state.tabId == tabId else { return }
+      self.publisher = publisher
+      if let activity = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id) {
+        self.publisher?.percent = activity.percent
+      }
+      self.reloadPublisherDetails()
+    }
+    self.ledgerObserver.activityRemoved = { [weak self] publisherKey in
+      guard let self = self, publisherKey == self.publisher?.id else { return }
+      self.fetchPublisherActivity()
+    }
+    if !isLocal {
+      self.fetchPublisherActivity()
+    }
+    self.reloadPublisherDetails()
   }
   
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()
+  }
+  
+  /// Fetches the publisher for the page's url.
+  private func fetchPublisherActivity() {
+    if let dataSource = state.dataSource {
+      dataSource.pageHTML(for: state.tabId) { [weak self] html in
+        guard let self = self else { return }
+        self.state.ledger.fetchPublisherActivity(
+          from: self.state.url,
+          faviconURL: self.state.faviconURL,
+          publisherBlob: html,
+          tabId: self.state.tabId
+        )
+      }
+    } else {
+      state.ledger.fetchPublisherActivity(
+        from: state.url,
+        faviconURL: state.faviconURL,
+        publisherBlob: nil,
+        tabId: state.tabId
+      )
+    }
   }
   
   // MARK: -
@@ -151,9 +195,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\(Int(self.recurringTipAmount))"
     
     let publisherView = publisherSummaryView.publisherView
-    let attentionView = publisherSummaryView.attentionView
     
-    publisherView.setVerificationStatusHidden(isLocal)
     publisherView.learnMoreTapped = { [weak self] in
       guard let self = self, let url = URL(string: DisclaimerLinks.unclaimedFundsURL) else { return }
       self.state.delegate?.loadNewTabWithURL(url)
@@ -164,72 +206,58 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       self.state.delegate?.loadNewTabWithURL(url)
     }
     
-    if !isLocal {
-      publisherView.updatePublisherName(state.dataSource?.displayString(for: state.url) ?? "", provider: "")
+    publisherView.onCheckAgainTapped = { [weak self] in
+      guard let self = self, let publisher = self.publisher else { return }
       
-      guard let host = state.url.host else { return }
+      publisherView.setCheckAgainIsLoading(true)
+      let date = Date()
+      
+      self.state.ledger.refreshPublisher(withId: publisher.id, completion: { isVerified in
+        let updateStates = {
+          publisherView.setCheckAgainIsLoading(false)
+          publisherView.checkAgainButton.isHidden = true
+          publisherView.setVerified(isVerified)
+        }
+
+        // Create an artificial delay so user sees something is happening
+        let delay = max(0, min(2.5, 2.5 - Date().timeIntervalSince(date)))
+        if isVerified {
+          updateStates()
+        } else {
+          DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+            updateStates()
+          })
+        }
+      })
+    }
+    
+    publisherSummaryView.autoContributeChanged = { [weak self] enabled in
+      guard let self = self, let publisher = self.publisher else { return }
+      
+      // setting publisher exclusion to .included didn't seem to work, using .default instead.
+      let state: PublisherExclude = enabled ? .default : .excluded
+      self.state.ledger.updatePublisherExclusionState(withId: publisher.id, state: state)
+    }
+  }
+  
+  var isLocal: Bool {
+    return state.url.host == "127.0.0.1" || state.url.host == "localhost"
+  }
+  
+  func reloadPublisherDetails() {
+    reloadUIState()
+    
+    let publisherView = publisherSummaryView.publisherView
+    let attentionView = publisherSummaryView.attentionView
+    
+    publisherView.setVerificationStatusHidden(isLocal)
+    
+    if !isLocal {
       attentionView.valueLabel.text = "0%"
       
-      self.state.ledger.publisherInfo(forId: host) { [weak self] info in
-        guard let self = self else { return }
-        
-        assert(Thread.isMainThread)
-        
-        publisherView.checkAgainButton.isHidden = info != nil
-        
-        guard let publisher = info else {
-          publisherView.setVerified(false)
-          return
-        }
-        
-        let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.provider))"
-        publisherView.updatePublisherName(publisher.name, provider: provider)
-        
-        publisherView.setVerified(publisher.verified)
-        publisherView.checkAgainButton.isHidden = publisher.verified
-        
-        self.publisherSummaryView.setAutoContribute(enabled:
-          publisher.excluded != ExcludeFilter.filterExcluded.rawValue)
-        
-        if let percent = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id)?.percent {
-          attentionView.valueLabel.text = "\(percent)%"
-        }
-      }
+      publisherView.checkAgainButton.isHidden = publisher != nil
       
-      self.state.ledger.listRecurringTips { [weak self] in
-        guard let self = self, let recurringTip = $0.first(where: { $0.id == host && $0.rewardsCategory == .recurringTip }) else { return }
-        
-        guard let contributionAmount = recurringTip.contributions.first?.value else { return }
-        
-        self.recurringTipAmount = contributionAmount
-        self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\(Int(contributionAmount))"
-        self.publisherSummaryView.monthlyTipView.isHidden = false
-      }
-      
-      publisherView.onCheckAgainTapped = { [weak self] in
-        publisherView.setCheckAgainIsLoading(true)
-        let date = Date()
-        
-        self?.state.ledger.refreshPublisher(withId: host, completion: { isVerified in
-          
-          let updateStates = {
-            publisherView.setCheckAgainIsLoading(false)
-            publisherView.checkAgainButton.isHidden = true
-            publisherView.setVerified(isVerified)
-          }
-          
-          //Fixes brave-rewards-ios/issues/134
-          if isVerified || Date().timeIntervalSince(date) > 2.5 {
-            updateStates()
-          } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
-              updateStates()
-            })
-          }
-        })
-      }
-      
-      state.dataSource?.retrieveFavicon(for: state.url, faviconURL: state.faviconURL, completion: { [weak self] faviconData in
+      state.dataSource?.retrieveFavicon(for: state.url, faviconURL: URL(string: publisher?.faviconUrl ?? "") ?? state.faviconURL, completion: { [weak self] faviconData in
         guard let data = faviconData else { return }
         
         self?.publisherSummaryView.publisherView.faviconImageView.do {
@@ -237,25 +265,34 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
           $0.backgroundColor = data.backgroundColor
         }
       })
-    }
-    
-    publisherSummaryView.autoContributeChanged = { [weak self] enabled in
-      guard let self = self, let host = self.state.url.host else { return }
       
-      // setting publisher exclusion to .included didn't seem to work, using .default instead.
-      let state: PublisherExclude = enabled ? .default : .excluded
-      self.state.ledger.updatePublisherExclusionState(withId: host, state: state)
+      guard let publisher = publisher else {
+        publisherView.updatePublisherName(state.dataSource?.displayString(for: state.url) ?? "", provider: "")
+        publisherView.setVerified(false)
+        return
+      }
       
-      // Toggling auto contribute inclusion may result in updated attention value.
-      self.state.ledger.publisherInfo(forId: host) { info in
-        guard let info = info else { return }
-        attentionView.valueLabel.text = "\(info.percent)%"
+      let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.providerDisplayString))"
+      publisherView.updatePublisherName(publisher.name, provider: provider)
+      
+      publisherView.setVerified(publisher.verified)
+      publisherView.checkAgainButton.isHidden = publisher.verified
+      
+      self.publisherSummaryView.setAutoContribute(enabled:
+        publisher.excluded != PublisherExclude.excluded.rawValue)
+      
+      attentionView.valueLabel.text = "\(publisher.percent)%"
+      
+      self.state.ledger.listRecurringTips { [weak self] in
+        guard let self = self, let recurringTip = $0.first(where: { $0.id == publisher.id && $0.rewardsCategory == .recurringTip }) else { return }
+        
+        guard let contributionAmount = recurringTip.contributions.first?.value else { return }
+        
+        self.recurringTipAmount = contributionAmount
+        self.publisherSummaryView.monthlyTipView.batValueView.amountLabel.text = "\(Int(contributionAmount))"
+        self.publisherSummaryView.monthlyTipView.isHidden = false
       }
     }
-  }
-  
-  var isLocal: Bool {
-    return state.url.host == "127.0.0.1" || state.url.host == "localhost"
   }
   
   func reloadUIState() {
@@ -302,18 +339,15 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedSendTip() {
-    guard let host = state.url.host else { return }
-    state.ledger.publisherInfo(forId: host) { [weak self] info in
-      guard let self = self, let publisherInfo = info else { return }
-      
-      let controller = TippingViewController(state: self.state, publisherInfo: publisherInfo)
-      self.state.delegate?.presentBraveRewardsController(controller)
-    }
+    guard let publisherInfo = publisher else { return }
+    
+    let controller = TippingViewController(state: self.state, publisherInfo: publisherInfo)
+    self.state.delegate?.presentBraveRewardsController(controller)
   }
   
   @objc private func tappedMonthlyTip() {
-    guard let host = state.url.host else { return }
-    state.ledger.publisherBanner(forId: host, completion: { [weak self] banner in
+    guard let publisher = publisher else { return }
+    state.ledger.publisherBanner(forId: publisher.id, completion: { [weak self] banner in
       guard let self = self else { return }
       
       var options = TippingViewController.defaultTippingAmounts.map({ BATValue($0) })
@@ -336,7 +370,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         
         // The user decided to remove an existing tip.
         if Int(self.recurringTipAmount) == 0 {
-          self.state.ledger.removeRecurringTip(publisherId: host)
+          self.state.ledger.removeRecurringTip(publisherId: publisher.id)
           self.publisherSummaryView.monthlyTipView.isHidden = true
         }
       })

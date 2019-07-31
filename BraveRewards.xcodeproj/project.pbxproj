@@ -90,6 +90,7 @@
 		2769559322738942008E5DED /* WalletActionNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559222738942008E5DED /* WalletActionNotificationView.swift */; };
 		2769559722738C26008E5DED /* WalletAlertNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2769559622738C26008E5DED /* WalletAlertNotificationView.swift */; };
 		276A4EB722492CCB004094F4 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276A4EB622492CCB004094F4 /* LoaderView.swift */; };
+		276E7A3E22F2345100939424 /* PublisherInfoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276E7A3D22F2345100939424 /* PublisherInfoExtensions.swift */; };
 		27700EA622A6E549009D8B6F /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
 		27700EA822A6E558009D8B6F /* BraveRewards.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; };
 		27700EA922A6E558009D8B6F /* BraveRewards.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 27700EA522A6E549009D8B6F /* BraveRewards.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -272,6 +273,7 @@
 		2769559222738942008E5DED /* WalletActionNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletActionNotificationView.swift; sourceTree = "<group>"; };
 		2769559622738C26008E5DED /* WalletAlertNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletAlertNotificationView.swift; sourceTree = "<group>"; };
 		276A4EB622492CCB004094F4 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
+		276E7A3D22F2345100939424 /* PublisherInfoExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherInfoExtensions.swift; sourceTree = "<group>"; };
 		27700EA522A6E549009D8B6F /* BraveRewards.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BraveRewards.framework; path = lib/BraveRewards.framework; sourceTree = "<group>"; };
 		2774BBBE2227587E00160619 /* InsufficientFundsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsufficientFundsButton.swift; sourceTree = "<group>"; };
 		277E08CF22973AAF00C96CCC /* AdsUnsupportedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsUnsupportedView.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				2729686822C16B770038CAF9 /* BraveRewardsExtensions.swift */,
 				0A9060212285E0BE00F58252 /* DateExtensions.swift */,
 				5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */,
+				276E7A3D22F2345100939424 /* PublisherInfoExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1076,6 +1079,7 @@
 				27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */,
 				278A6B46225C08AE00175678 /* WalletDetailsViewController.swift in Sources */,
 				2704834B2220E9380051239C /* UIImageExtensions.swift in Sources */,
+				276E7A3E22F2345100939424 /* PublisherInfoExtensions.swift in Sources */,
 				2726B58522528EE100B9EAF7 /* AddFundsView.swift in Sources */,
 				278A6B36225BE4BC00175678 /* CreateWalletViewController.swift in Sources */,
 				27598843222451FF00B2E47A /* PublisherSummaryView.swift in Sources */,

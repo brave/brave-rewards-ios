@@ -9,10 +9,10 @@ public class RewardsPanelController: PopoverNavigationController {
   
   public static let batLogoImage = UIImage(frameworkResourceNamed: "bat-small")
   
-  public init(_ rewards: BraveRewards, url: URL, faviconURL: URL?, delegate: RewardsUIDelegate, dataSource: RewardsDataSource) {
+  public init(_ rewards: BraveRewards, tabId: UInt64, url: URL, faviconURL: URL?, pageHTML: String? = nil, delegate: RewardsUIDelegate, dataSource: RewardsDataSource) {
     super.init()
     
-    let state = RewardsState(ledger: rewards.ledger, ads: rewards.ads, url: url, faviconURL: faviconURL, delegate: delegate, dataSource: dataSource)
+    let state = RewardsState(ledger: rewards.ledger, ads: rewards.ads, tabId: tabId, url: url, faviconURL: faviconURL, delegate: delegate, dataSource: dataSource)
     
     if !rewards.ledger.isWalletCreated {
       viewControllers = [CreateWalletViewController(state: state)]

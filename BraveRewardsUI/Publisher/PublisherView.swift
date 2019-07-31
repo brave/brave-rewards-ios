@@ -33,7 +33,7 @@ class PublisherView: UIStackView {
       ])
       
       if !provider.isEmpty {
-        text.append(NSMutableAttributedString(string: provider.trimmingCharacters(in: .whitespacesAndNewlines), attributes: [
+        text.append(NSMutableAttributedString(string: " " + provider.trimmingCharacters(in: .whitespacesAndNewlines), attributes: [
           .font: UIFont.systemFont(ofSize: 18.0),
           .foregroundColor: UX.publisherNameColor
         ]))
@@ -152,6 +152,10 @@ class PublisherView: UIStackView {
     
     faviconImageView.snp.makeConstraints {
       $0.size.equalTo(UX.faviconSize)
+    }
+    
+    checkAgainButton.snp.makeConstraints {
+      $0.height.equalTo(20)
     }
     
     checkAgainLoaderView.snp.makeConstraints {
