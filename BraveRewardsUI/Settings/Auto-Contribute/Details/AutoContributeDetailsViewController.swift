@@ -58,7 +58,7 @@ class AutoContributeDetailViewController: UIViewController {
   }
   
   private func loadPublishers(start: Int, limit: Int = AutoContributeDetailViewController.pageSize, completion: @escaping ([PublisherInfo]) -> Void) {
-    let sort = ActivityInfoFilter.OrderPair().then {
+    let sort = ActivityInfoFilterOrderPair().then {
       $0.propertyName = "percent"
       $0.ascending = false
     }
