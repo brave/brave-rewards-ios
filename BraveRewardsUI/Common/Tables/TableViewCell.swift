@@ -83,7 +83,7 @@ class TableViewCell: UITableViewCell, TableViewReusable {
   override func updateConstraints() {
     super.updateConstraints()
     
-    label.snp_remakeConstraints {
+    label.snp.remakeConstraints {
       $0.top.equalToSuperview().inset(layoutMargins.top)
       if let imageView = imageView, imageView.image != nil, imageView.superview != nil {
         $0.leading.equalTo(imageView.snp.trailing).offset(layoutMargins.left)
