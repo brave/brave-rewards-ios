@@ -4,18 +4,26 @@
 
 import UIKit
 
-class PublisherIconCircleImageView: UIImageView {
+class PublisherIconCircleImageView: UIView {
+  
+  private var imageView = UIImageView()
   
   init(size: CGFloat) {
     super.init(frame: .zero)
+    
+    addSubview(imageView)
     
     snp.makeConstraints {
       $0.size.equalTo(size)
     }
     
+    imageView.snp.makeConstraints {
+      $0.edges.equalTo(self).inset(7)
+    }
+    
     setContentHuggingPriority(.required, for: .horizontal)
     
-    contentMode = .scaleAspectFill
+    contentMode = .scaleAspectFit
     clipsToBounds = true
     image = UIImage(frameworkResourceNamed: "defaultFavicon")
     
@@ -29,4 +37,8 @@ class PublisherIconCircleImageView: UIImageView {
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) { fatalError() }
   
+  var image: UIImage? {
+    get { return imageView.image }
+    set { imageView.image = newValue }
+  }
 }

@@ -11,6 +11,8 @@ struct RewardsState {
   var ledger: BraveLedger
   /// The controlling ads
   var ads: BraveAds
+  /// The tab id for this panel
+  var tabId: UInt64
   /// The url currently viewing
   var url: URL
   /// The favicon URL for `url`

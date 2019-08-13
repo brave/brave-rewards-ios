@@ -71,7 +71,7 @@ class AutoContributeCell: UITableViewCell, TableViewReusable {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    let width = bounds.width * attentionAmount
+    let width = bounds.width * (attentionAmount / 100)
     attentionBackgroundFillView.frame = CGRect(
       x: bounds.width - width,
       y: 0,

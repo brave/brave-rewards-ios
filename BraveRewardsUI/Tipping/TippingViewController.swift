@@ -171,7 +171,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       }
       
       let displayConfirmationView = { (recurringDate: String?) in
-        let provider = " \(self.publisherInfo.provider.isEmpty ? "" : String(format: Strings.OnProviderText, self.publisherInfo.provider))"
+        let provider = " \(self.publisherInfo.provider.isEmpty ? "" : String(format: Strings.OnProviderText, self.publisherInfo.providerDisplayString))"
         
         self.tippingView.updateConfirmationInfo(name: "\(self.publisherInfo.name)\(provider)", tipAmount: amount, recurringDate: recurringDate)
         self.tippingView.setTippingConfirmationVisible(true, animated: true)
