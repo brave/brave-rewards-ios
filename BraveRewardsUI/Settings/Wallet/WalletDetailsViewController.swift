@@ -6,14 +6,17 @@ import UIKit
 import BraveRewards
 
 class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
-
+  private var ledgerObserver: LedgerObserver
   let state: RewardsState
   
   init(state: RewardsState) {
     self.state = state
+    ledgerObserver = LedgerObserver(ledger: state.ledger)
+    state.ledger.add(ledgerObserver)
     super.init(nibName: nil, bundle: nil)
+    setupLedgerObservers()
   }
-  
+
   @available(*, unavailable)
   required init(coder: NSCoder) {
     fatalError()
@@ -29,7 +32,6 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     title = Strings.WalletDetailsTitle
     
     detailsView.walletSection.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
@@ -51,5 +53,31 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
     let controller = AddFundsViewController(state: state)
     let container = PopoverNavigationController(rootViewController: controller)
     present(container, animated: true)
+  }
+  
+  func setupLedgerObservers() {
+    ledgerObserver.balanceReportUpdated = { [weak self] in
+      guard let self = self, self.isViewLoaded else {
+        return
+      }
+      let rows = self.summaryRows.map({ row -> RowView in
+        row.isHidden = true
+        return row
+      })
+      UIView.animate(withDuration: 0.15, animations: {
+        self.detailsView.activityView.stackView.arrangedSubviews.forEach({
+          $0.isHidden = true
+          $0.alpha = 0
+        })
+      }, completion: { _ in
+        self.detailsView.activityView.rows = rows
+        UIView.animate(withDuration: 0.15, animations: {
+          self.detailsView.activityView.stackView.arrangedSubviews.forEach({
+            $0.isHidden = false
+            $0.alpha = 1
+          })
+        })
+      })
+    }
   }
 }

@@ -10,7 +10,7 @@ class WalletActivityView: SettingsSectionView {
     static let monthYearColor = Colors.blurple400
   }
   
-  private let stackView = UIStackView().then {
+  let stackView = UIStackView().then {
     $0.axis = .vertical
   }
   

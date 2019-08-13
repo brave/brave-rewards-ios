@@ -6,7 +6,7 @@ import UIKit
 import BraveRewards
 
 class TipsDetailViewController: UIViewController {
-  
+  private var ledgerObserver: LedgerObserver
   private var tipsView: View {
     return view as! View // swiftlint:disable:this force_cast
   }
@@ -17,7 +17,10 @@ class TipsDetailViewController: UIViewController {
 
   init(state: RewardsState) {
     self.state = state
+    ledgerObserver = LedgerObserver(ledger: state.ledger)
+    state.ledger.add(ledgerObserver)
     super.init(nibName: nil, bundle: nil)
+    setupLedgerObservers()
   }
   
   @available(*, unavailable)
@@ -31,7 +34,7 @@ class TipsDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    setupLedgerObservers()
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
     
     tipsView.tableView.delegate = self
@@ -59,12 +62,14 @@ class TipsDetailViewController: UIViewController {
     
     state.ledger.listOneTimeTips {[weak self] infoList in
       guard let self = self else { return }
+      infoList.forEach({$0.category = Int32(RewardsCategory.oneTimeTip.rawValue)})
       self.tipsList.append(contentsOf: infoList)
       (self.view as? View)?.tableView.reloadData()
     }
     
     state.ledger.listRecurringTips {[weak self] infoList in
       guard let self = self else { return }
+      infoList.forEach({$0.category = Int32(RewardsCategory.recurringTip.rawValue)})
       self.tipsList.insert(contentsOf: infoList, at: 0)
       (self.view as? View)?.tableView.reloadData()
     }
@@ -158,6 +163,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       }
       // Next Contribution Row
       let cell = tableView.dequeueReusableCell(for: indexPath) as TableViewCell
+      cell.label.font = SettingsUX.bodyFont
       cell.label.text = Strings.AutoContributeNextDate
       cell.accessoryView = nextContributionDateView
       cell.selectionStyle = .none
@@ -190,7 +196,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       default:
         cell.typeNameLabel.text = ""
       }
-      let contribution = tip.contributions.first?.value ?? 0.0
+      let contribution = tip.weight
       cell.tokenView.batContainer.amountLabel.text = "\(contribution)"
       cell.tokenView.usdContainer.amountLabel.text = state.ledger.dollarStringForBATAmount(contribution)
       return cell
@@ -221,9 +227,6 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       tipsList[indexPath.row].rewardsCategory == .recurringTip else { return }
     let publisherID = tipsList[indexPath.row].id
     state.ledger.removeRecurringTip(publisherId: publisherID)
-    tipsList.remove(at: indexPath.row)
-    //TODO: Animate table updates
-    tableView.reloadData()
   }
 }
 
@@ -241,6 +244,7 @@ extension TipsDetailViewController {
       tableView.separatorInset = .zero
       tableView.register(TipsTableCell.self)
       tableView.register(TipsSummaryTableCell.self)
+      tableView.register(TableViewCell.self)
       tableView.register(EmptyTableCell.self)
       
       addSubview(tableView)
@@ -277,6 +281,28 @@ extension TipsDetailViewController {
           cell.siteImageView.image = image
         }
       })
+    }
+  }
+  
+  func setupLedgerObservers() {
+    ledgerObserver.recurringTipRemoved = { [weak self] key in
+      guard let self = self, self.isViewLoaded else {
+        return
+      }
+      let tableView = self.tipsView.tableView
+      let oldCount = self.tipsList.count
+      self.tipsList.removeAll(where: {
+        $0.category == RewardsCategory.recurringTip.rawValue &&
+        $0.id == key
+      })
+      if oldCount > self.tipsList.count {
+        var sections: IndexSet = [Section.tips.rawValue]
+        if tableView.numberOfRows(inSection: Section.summary.rawValue) == 2 &&
+          !self.tipsList.contains { $0.rewardsCategory == .recurringTip } {
+          sections.insert(Section.summary.rawValue)
+        }
+        self.tipsView.tableView.reloadSections(sections, with: .automatic)
+      }
     }
   }
 }

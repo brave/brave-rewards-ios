@@ -6,7 +6,7 @@ import UIKit
 import BraveRewards
 
 class AutoContributeDetailViewController: UIViewController {
-  
+  private var ledgerObserver: LedgerObserver
   private var contentView: View {
     return view as! View // swiftlint:disable:this force_cast
   }
@@ -19,7 +19,10 @@ class AutoContributeDetailViewController: UIViewController {
   
   init(state: RewardsState) {
     self.state = state
+    ledgerObserver = LedgerObserver(ledger: state.ledger)
+    state.ledger.add(ledgerObserver)
     super.init(nibName: nil, bundle: nil)
+    setupLedgerObservers()
   }
   
   @available(*, unavailable)
@@ -33,7 +36,6 @@ class AutoContributeDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     contentView.tableView.delegate = self
     contentView.tableView.dataSource = self
     
@@ -193,8 +195,6 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites), style: .default, handler: { _ in
           self.state.ledger.restoreAllExcludedPublishers()
-          // TODO: Animate this update
-          self.contentView.tableView.reloadData()
         }))
         alert.addAction(UIAlertAction(title: Strings.Cancel, style: .cancel, handler: nil))
         present(alert, animated: true)
@@ -258,9 +258,6 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
     guard Section(rawValue: indexPath.section) == .contributions else { return }
     if let publisher = publishers[safe: indexPath.row] {
       state.ledger.updatePublisherExclusionState(withId: publisher.id, state: .excluded)
-      publishers.remove(at: indexPath.row)
-      // TODO: Animate this update
-      tableView.reloadData()
     }
   }
   
@@ -279,30 +276,33 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       cell.label.numberOfLines = 0
       cell.accessoryLabel?.textColor = Colors.grey100
       cell.accessoryLabel?.font = SettingsUX.bodyFont
+      cell.accessoryType = .none
+      cell.selectionStyle = .none
       switch row {
       case .settings:
         cell.label.text = Strings.Settings
         cell.imageView?.image = UIImage(frameworkResourceNamed: "settings").alwaysTemplate
         cell.imageView?.tintColor = BraveUX.autoContributeTintColor
         cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .default
       case .monthlyPayment:
         cell.label.text = Strings.AutoContributeMonthlyPayment
         cell.accessoryType = .disclosureIndicator
         if let dollarAmount = state.ledger.dollarStringForBATAmount(state.ledger.contributionAmount) {
           cell.accessoryLabel?.text = "\(state.ledger.contributionAmount) BAT (\(dollarAmount))"
         }
+        cell.selectionStyle = .default
       case .nextContribution:
         cell.label.text = Strings.AutoContributeNextDate
         cell.accessoryView = nextContributionDateView
-        cell.selectionStyle = .none
       case .supportedSites:
         cell.label.text = Strings.AutoContributeSupportedSites
         cell.accessoryLabel?.attributedText = totalSitesAttributedString(from: publishers.count)
-        cell.selectionStyle = .none
       case .excludedSites:
         let numberOfExcludedSites = state.ledger.numberOfExcludedPublishers
         cell.label.text = String(format: Strings.AutoContributeRestoreExcludedSites, numberOfExcludedSites)
         cell.label.textColor = Colors.blurple400
+        cell.selectionStyle = .default
       }
       return cell
     case .contributions:
@@ -320,7 +320,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       
       if let url = URL(string: publisher.url) {
         state.dataSource?.retrieveFavicon(for: url, faviconURL: URL(string: publisher.faviconUrl)) { data in
-          cell.siteImageView.image = data?.image
+          cell.siteImageView.image = data?.image ?? UIImage(frameworkResourceNamed: "defaultFavicon")
           cell.siteImageView.backgroundColor = data?.backgroundColor
         }
       }
@@ -379,6 +379,53 @@ extension AutoContributeDetailViewController {
     @available(*, unavailable)
     required init(coder: NSCoder) {
       fatalError()
+    }
+  }
+}
+
+/// Ledger Observers
+extension AutoContributeDetailViewController {
+  func setupLedgerObservers() {
+    ledgerObserver.excludedSitesChanged = { [weak self] key, exclude -> Void in
+      guard let self = self, self.isViewLoaded else {
+        return
+      }
+      let tableView = self.contentView.tableView
+      switch exclude {
+      case .all:
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [IndexPath(row: SummaryRows.supportedSites.rawValue, section: Section.summary.rawValue)], with: .automatic)
+        tableView.deleteRows(at: [IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)], with: .automatic)
+        tableView.endUpdates()
+      case .excluded:
+        
+        if let row = self.publishers.firstIndex(where: {$0.id == key}) {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.loadPublishers(start: 0, limit: self.publishers.count, completion: { info in
+              self.publishers = info
+              tableView.beginUpdates()
+              tableView.deleteRows(at: [IndexPath(row: row, section: Section.contributions.rawValue)], with: .automatic)
+              if info.count == 0 {
+                tableView.insertRows(at: [IndexPath(row: 0, section: Section.contributions.rawValue)], with: .automatic)
+              } else {
+                let visibleRowsToReload = tableView.indexPathsForVisibleRows?.filter({$0.row != row && $0.section == Section.contributions.rawValue}) ?? []
+                tableView.reloadRows(at: visibleRowsToReload, with: .automatic)
+              }
+              let excludedRowExists = tableView.cellForRow(at: IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)) != nil
+              if excludedRowExists {
+                tableView.reloadRows(at: [IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)], with: .automatic)
+              } else {
+                tableView.insertRows(at: [IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)], with: .automatic)
+              }
+              tableView.endUpdates()
+              tableView.reloadData()
+              
+            })
+          })
+        }
+      default:
+        return
+      }
     }
   }
 }

@@ -26,19 +26,8 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     super.init(nibName: nil, bundle: nil)
     
     self.state.ledger.add(self.ledgerObserver)
-    
-    self.ledgerObserver.fetchedPanelPublisher = { [weak self] publisher, tabId in
-      guard let self = self, self.state.tabId == tabId else { return }
-      self.publisher = publisher
-      if let activity = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id) {
-        self.publisher?.percent = activity.percent
-      }
-      self.reloadPublisherDetails()
-    }
-    self.ledgerObserver.activityRemoved = { [weak self] publisherKey in
-      guard let self = self, publisherKey == self.publisher?.id else { return }
-      self.fetchPublisherActivity()
-    }
+    setupLedgerObservers()
+
     if !isLocal {
       self.fetchPublisherActivity()
     }
@@ -521,6 +510,44 @@ extension WalletViewController {
         break
       }
       tappedNotificationClose()
+    }
+  }
+  
+  func setupLedgerObservers() {
+    ledgerObserver.fetchedPanelPublisher = { [weak self] publisher, tabId in
+      guard let self = self, self.state.tabId == tabId else { return }
+      self.publisher = publisher
+      if let activity = self.state.ledger.currentActivityInfo(withPublisherId: publisher.id) {
+        self.publisher?.percent = activity.percent
+      }
+      self.reloadPublisherDetails()
+    }
+    ledgerObserver.activityRemoved = { [weak self] publisherKey in
+      guard let self = self, publisherKey == self.publisher?.id else { return }
+      self.fetchPublisherActivity()
+    }
+    ledgerObserver.balanceReportUpdated = { [weak self] in
+      guard let self = self, self.isViewLoaded else {
+        return
+      }
+      let rows = self.summaryRows.map({ row -> RowView in
+        row.isHidden = true
+        return row
+      })
+      UIView.animate(withDuration: 0.15, animations: {
+        self.rewardsSummaryView.stackView.arrangedSubviews.forEach({
+          $0.isHidden = true
+          $0.alpha = 0
+        })
+      }, completion: { _ in
+        self.rewardsSummaryView.rows = rows
+        UIView.animate(withDuration: 0.15, animations: {
+          self.rewardsSummaryView.stackView.arrangedSubviews.forEach({
+            $0.isHidden = false
+            $0.alpha = 1
+          })
+        })
+      })
     }
   }
 }
