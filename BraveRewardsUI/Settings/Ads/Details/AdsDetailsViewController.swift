@@ -3,6 +3,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import UIKit
+import BraveRewards
 
 class AdsDetailsViewController: UIViewController {
   
@@ -11,10 +12,17 @@ class AdsDetailsViewController: UIViewController {
   }
   
   let state: RewardsState
+  private let observer: LedgerObserver
   
   init(state: RewardsState) {
     self.state = state
+    observer = LedgerObserver(ledger: state.ledger)
     super.init(nibName: nil, bundle: nil)
+    
+    state.ledger.add(observer)
+    observer.confirmationsTransactionHistoryDidChange = { [weak self] in
+      self?.fetchAdsDetails()
+    }
   }
   
   @available(*, unavailable)
@@ -34,14 +42,28 @@ class AdsDetailsViewController: UIViewController {
     
     title = Strings.SettingsAdsTitle
     
-    nextPaymentDateView.label.text = Strings.AdsPayoutDate
-    nextPaymentDateView.bounds = CGRect(origin: .zero, size: nextPaymentDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
-    
-    state.ledger.adsDetailsForCurrentCycle { [weak self] adsReceived, estimatedEarnings in
-      self?.adsReceived = adsReceived
-      self?.estimatedEarnings = estimatedEarnings
-      self?.contentView.tableView.reloadData()
+    fetchAdsDetails()
+  }
+  
+  func fetchAdsDetails() {
+    state.ledger.adsDetailsForCurrentCycle { [weak self] adsReceived, estimatedEarnings, nextPaymentDate in
+      self?.updateAdsInfo(adsReceived: adsReceived, estimatedEarnings: estimatedEarnings, nextPaymentDate: nextPaymentDate)
     }
+  }
+  
+  func updateAdsInfo(adsReceived: Int, estimatedEarnings: Double, nextPaymentDate: Date?) {
+    self.adsReceived = adsReceived
+    self.estimatedEarnings = estimatedEarnings
+    if let date = nextPaymentDate {
+      let formatter = DateFormatter().then {
+        $0.dateFormat = Strings.AdsPayoutDateFormat
+      }
+      nextPaymentDateView.label.text = formatter.string(from: date)
+    } else {
+      nextPaymentDateView.label.text = ""
+    }
+    nextPaymentDateView.bounds = CGRect(origin: .zero, size: nextPaymentDateView.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
+    contentView.tableView.reloadData()
   }
   
   override func viewWillAppear(_ animated: Bool) {

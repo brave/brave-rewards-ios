@@ -235,7 +235,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       guard let self = self, let publisher = self.publisher else { return }
       
       // setting publisher exclusion to .included didn't seem to work, using .default instead.
-      let state: PublisherExclude = enabled ? .default : .excluded
+      let state: PublisherExclude = enabled ? .included : .excluded
       self.state.ledger.updatePublisherExclusionState(withId: publisher.id, state: state)
     }
   }
