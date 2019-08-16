@@ -54,7 +54,7 @@ class WelcomeViewController: UIViewController {
     if sender.isCreatingWallet {
       return
     }
-    sender.isCreatingWallet = true
+    welcomeView.createWalletButtons.forEach { $0.isCreatingWallet = true }
     state.ledger.createWalletAndFetchDetails { [weak self] success in
       guard let self = self else { return }
       if !success {
@@ -64,7 +64,7 @@ class WelcomeViewController: UIViewController {
         sender.isCreatingWallet = false
         return
       }
-      defer { sender.isCreatingWallet = false }
+      defer { self.welcomeView.createWalletButtons.forEach { $0.isCreatingWallet = false } }
       self.show(WalletViewController(state: self.state), sender: self)
     }
   }
