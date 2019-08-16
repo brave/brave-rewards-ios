@@ -6,6 +6,15 @@ import UIKit
 
 class SettingsGrantSectionView: SettingsSectionView {
   
+  /// The grant type
+  enum GrantType {
+    /// A regular UGP grant, which does not show the user what the amount is
+    case ugp
+    /// An ads grant. The amount optionally should be a `BATValue`'s
+    /// `displayString`
+    case ads(amount: String?)
+  }
+  
   let claimGrantButton = Button().then {
     $0.loaderView = LoaderView(size: .small)
     $0.backgroundColor = BraveUX.braveOrange
@@ -17,8 +26,21 @@ class SettingsGrantSectionView: SettingsSectionView {
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
   }
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(type: GrantType) {
+    super.init(frame: .zero)
+    
+    switch type {
+    case .ads(let amount):
+      iconImageView.image = UIImage(frameworkResourceNamed: "icn-ads")
+      if let amount = amount {
+        textLabel.text = String(format: Strings.SettingsAdsGrantText, "\(amount) BAT,")
+      } else {
+        textLabel.text = Strings.SettingsAdsGrantText
+      }
+    case .ugp:
+      iconImageView.image = UIImage(frameworkResourceNamed: "icn-grant")
+      textLabel.text = Strings.SettingsGrantText
+    }
     
     clippedContentView.addSubview(claimGrantButton)
     clippedContentView.addSubview(iconImageView)
@@ -46,12 +68,11 @@ class SettingsGrantSectionView: SettingsSectionView {
   
   // MARK: - Private UI
   
-  private let iconImageView = UIImageView(image: UIImage(frameworkResourceNamed: "icn-grant")).then {
+  private let iconImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
   }
   
   private let textLabel = UILabel().then {
-    $0.text = Strings.SettingsGrantText
     $0.textColor = SettingsUX.bodyTextColor
     $0.font = SettingsUX.bodyFont
     $0.numberOfLines = 0

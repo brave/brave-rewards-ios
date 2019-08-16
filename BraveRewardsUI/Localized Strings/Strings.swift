@@ -70,6 +70,8 @@ public extension Strings {
   static let SettingsDisabledTitle2 = NSLocalizedString("BraveRewardsSettingsDisabledTitle2", bundle: Bundle.RewardsUI, value: "Today, Brave welcomes you to the new internet.", comment: "")
   static let SummaryTitle = NSLocalizedString("BraveRewardsSummaryTitle", bundle: Bundle.RewardsUI, value: "Rewards Summary", comment: "")
   static let SettingsGrantText = NSLocalizedString("BraveRewardsSettingsGrantText", bundle: Bundle.RewardsUI, value: "A free token grant is available.", comment: "")
+  static let SettingsAdsGrantText = NSLocalizedString("BraveRewardsSettingsAdsGrantText", bundle: Bundle.RewardsUI, value: "Your Ads earnings are available.", comment: "")
+  static let SettingsAdsGrantAmountText = NSLocalizedString("BraveRewardsSettingsAdsGrantAmountText", bundle: Bundle.RewardsUI, value: "Your Ads earnings, %@ are available.", comment: "")
   static let Grants = NSLocalizedString("BraveRewardsGrants", bundle: Bundle.RewardsUI, value: "Grants", comment: "")
   static let LearnMoreTipsBody = NSLocalizedString("BraveRewardsLearnMoreTipsBody", bundle: Bundle.RewardsUI, value: "Set budget and browse normally. Your favorite sites get paid automatically.", comment: "")
   static let WalletDetailsTitle = NSLocalizedString("BraveRewardsWalletDetailsTitle", bundle: Bundle.RewardsUI, value: "Wallet Details", comment: "")

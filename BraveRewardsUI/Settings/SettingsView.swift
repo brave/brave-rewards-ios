@@ -8,7 +8,7 @@ extension SettingsViewController {
   class View: UIView {
     
     let rewardsToggleSection = SettingsRewardsSectionView()
-    let grantSection = SettingsGrantSectionView()
+    let grantSection = SettingsGrantSectionView(type: .ugp)
     let walletSection = SettingsWalletSectionView(buttonType: .viewDetails)
     let adsSection = SettingsAdSectionView()
     let autoContributeSection = SettingsAutoContributeSectionView()
