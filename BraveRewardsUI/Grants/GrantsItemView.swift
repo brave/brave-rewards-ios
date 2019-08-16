@@ -6,7 +6,7 @@ import UIKit
 
 class GrantsItemView: SettingsSectionView {
   
-  init(amount: String, expirationDate date: Date) {
+  init(amount: String, expirationDate: Date?) {
     super.init(frame: .zero)
   
     let dateFormatter = DateFormatter().then {
@@ -27,19 +27,23 @@ class GrantsItemView: SettingsSectionView {
       $0.font = .systemFont(ofSize: 13.0)
       $0.text = "BAT"
     })
-    let expirationLabel = UILabel().then {
-      $0.textColor = Colors.grey300
-      $0.font = .systemFont(ofSize: 14.0)
-      $0.numberOfLines = 0
-      $0.text = String(
-        format: Strings.GrantListExpiresOn,
-        dateFormatter.string(from: date)
-      )
-    }
     
     addSubview(stackView)
     stackView.addArrangedSubview(amountView)
-    stackView.addArrangedSubview(expirationLabel)
+    
+    if let date = expirationDate {
+      let expirationLabel = UILabel().then {
+        $0.textColor = Colors.grey300
+        $0.font = .systemFont(ofSize: 14.0)
+        $0.numberOfLines = 0
+        $0.text = String(
+          format: Strings.GrantListExpiresOn,
+          dateFormatter.string(from: date)
+        )
+      }
+      stackView.addArrangedSubview(expirationLabel)
+    }
+    
     stackView.snp.makeConstraints {
       $0.edges.equalTo(layoutMarginsGuide)
     }
