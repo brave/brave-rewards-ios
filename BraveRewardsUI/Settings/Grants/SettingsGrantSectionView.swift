@@ -15,6 +15,8 @@ class SettingsGrantSectionView: SettingsSectionView {
     case ads(amount: String?)
   }
   
+  var claimGrantTapped: ((SettingsGrantSectionView) -> Void)?
+  
   let claimGrantButton = Button().then {
     $0.loaderView = LoaderView(size: .small)
     $0.backgroundColor = BraveUX.braveOrange
@@ -28,6 +30,8 @@ class SettingsGrantSectionView: SettingsSectionView {
   
   init(type: GrantType) {
     super.init(frame: .zero)
+    
+    claimGrantButton.addTarget(self, action: #selector(tappedClaimGrantButton), for: .touchUpInside)
     
     switch type {
     case .ads(let amount):
@@ -63,6 +67,12 @@ class SettingsGrantSectionView: SettingsSectionView {
       $0.leading.equalTo(self.iconImageView.snp.trailing).offset(10.0)
       $0.trailing.equalTo(self.claimGrantButton.snp.leading).offset(-10.0)
       $0.centerY.equalTo(self)
+    }
+  }
+  
+  @objc private func tappedClaimGrantButton() {
+    if !claimGrantButton.isLoading {
+      claimGrantTapped?(self)
     }
   }
   

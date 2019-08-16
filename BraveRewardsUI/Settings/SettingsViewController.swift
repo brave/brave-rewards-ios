@@ -40,7 +40,28 @@ class SettingsViewController: UIViewController {
     
     settingsView.do {
       $0.rewardsToggleSection.toggleSwitch.addTarget(self, action: #selector(rewardsSwitchValueChanged), for: .valueChanged)
-      $0.grantSection.claimGrantButton.addTarget(self, action: #selector(tappedClaimGrant), for: .touchUpInside)
+      $0.grantsSections = state.ledger.pendingGrants.map {
+        var type: SettingsGrantSectionView.GrantType
+        if $0.type == "ads" {
+          type = .ads(amount: BATValue(probi: $0.probi)?.displayString)
+        } else {
+          type = .ugp
+        }
+        let section = SettingsGrantSectionView(type: type)
+        section.claimGrantTapped = { [weak self] section in
+          guard let self = self else { return }
+          // FIXME: Remove fake values
+          let controller = GrantClaimedViewController(grantAmount: "30.0 BAT", expirationDate: Date().addingTimeInterval(30*24*60*60))
+          let container = PopoverNavigationController(rootViewController: controller)
+          
+          section.claimGrantButton.isLoading = true
+          DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.present(container, animated: true)
+            section.claimGrantButton.isLoading = false
+          }
+        }
+        return section
+      }
       $0.walletSection.viewDetailsButton.addTarget(self, action: #selector(tappedWalletViewDetails), for: .touchUpInside)
       $0.adsSection.viewDetailsButton.addTarget(self, action: #selector(tappedAdsViewDetails), for: .touchUpInside)
       $0.adsSection.toggleSwitch.addTarget(self, action: #selector(adsToggleValueChanged), for: .valueChanged)
@@ -93,18 +114,6 @@ class SettingsViewController: UIViewController {
   
   @objc private func tappedDone() {
     dismiss(animated: true)
-  }
-  
-  @objc private func tappedClaimGrant() {
-    // FIXME: Remove fake values
-    let controller = GrantClaimedViewController(grantAmount: "30.0 BAT", expirationDate: Date().addingTimeInterval(30*24*60*60))
-    let container = PopoverNavigationController(rootViewController: controller)
-    
-    settingsView.grantSection.claimGrantButton.isLoading = true
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-      self?.present(container, animated: true)
-      self?.settingsView.grantSection.claimGrantButton.isLoading = false
-    }
   }
   
   @objc private func tappedAdsViewDetails() {
