@@ -137,7 +137,7 @@ public extension Strings {
   static let ThreeAdsPerHour = NSLocalizedString("BraveRewardsThreeAdsPerHour", bundle: Bundle.RewardsUI, value: "3 ads per hour", comment: "")
   static let FourAdsPerHour = NSLocalizedString("BraveRewardsFourAdsPerHour", bundle: Bundle.RewardsUI, value: "4 ads per hour", comment: "")
   static let FiveAdsPerHour = NSLocalizedString("BraveRewardsFiveAdsPerHour", bundle: Bundle.RewardsUI, value: "5 ads per hour", comment: "")
-  static let AdsPayoutDate = NSLocalizedString("BraveRewardsAdsPayoutDate", bundle: Bundle.RewardsUI, value: "Monthly, 5th", comment: "")
+  static let AdsPayoutDateFormat = NSLocalizedString("BraveRewardsAdsPayoutDateFormat", bundle: Bundle.RewardsUI, value: "MMM d", comment: "")
   static let TotalGrantsClaimed = NSLocalizedString("BraveRewardsTotalGrantsClaimed", bundle: Bundle.RewardsUI, value: "Total Grants Claimed", comment: "")
   static let EarningFromAds = NSLocalizedString("BraveRewardsEarningFromAds", bundle: Bundle.RewardsUI, value: "Earnings from Ads", comment: "")
   static let OneTimeTips = NSLocalizedString("BraveRewardsOneTimeTips", bundle: Bundle.RewardsUI, value: "One-Time Tips", comment: "")

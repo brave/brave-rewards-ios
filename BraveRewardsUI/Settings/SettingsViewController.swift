@@ -36,6 +36,8 @@ class SettingsViewController: UIViewController {
     
     preferredContentSize = CGSize(width: RewardsUX.preferredPanelSize.width, height: 750)
     
+    state.ledger.updateAdsRewards()
+    
     settingsView.do {
       $0.rewardsToggleSection.toggleSwitch.addTarget(self, action: #selector(rewardsSwitchValueChanged), for: .valueChanged)
       $0.grantSection.claimGrantButton.addTarget(self, action: #selector(tappedClaimGrant), for: .touchUpInside)
@@ -49,7 +51,7 @@ class SettingsViewController: UIViewController {
       let dollarString = state.ledger.dollarStringForBATAmount(state.ledger.balance?.total ?? 0) ?? ""
       $0.walletSection.setWalletBalance(state.ledger.balanceString, crypto: "BAT", dollarValue: dollarString)
       
-      if let regionCode = Locale.current.regionCode, !BraveAds.isSupportedRegion(regionCode) {
+      if !BraveAds.isSupportedRegion(Locale.current.identifier) {
          $0.adsSection.status = .unsupportedRegion
       }
       $0.adsSection.toggleSwitch.isOn = state.ads.isEnabled
