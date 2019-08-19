@@ -169,7 +169,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         guard let wallet = state.ledger.walletInfo else { break }
         let monthlyPayment = state.ledger.contributionAmount
         let choices = wallet.parametersChoices.map { $0.doubleValue }
-        let selectedIndex = choices.index(of: monthlyPayment) ?? 0
+        let selectedIndex = choices.firstIndex(of: monthlyPayment) ?? 0
         let stringChoices = choices.map { choice -> String in
           var amount = "\(choice) BAT"
           if let dollarRate = state.ledger.dollarStringForBATAmount(choice) {

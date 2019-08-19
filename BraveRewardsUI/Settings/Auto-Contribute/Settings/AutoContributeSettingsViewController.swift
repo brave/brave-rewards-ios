@@ -97,7 +97,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
       guard let wallet = ledger.walletInfo else { break }
       let monthlyPayment = ledger.contributionAmount
       let choices = wallet.parametersChoices.map { BATValue($0.doubleValue) }
-      let selectedIndex = choices.map({ $0.doubleValue }).index(of: monthlyPayment) ?? 0
+      let selectedIndex = choices.map({ $0.doubleValue }).firstIndex(of: monthlyPayment) ?? 0
       
       let controller = BATValueOptionsSelectionViewController(ledger: ledger, options: choices, selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
         guard let self = self else { return }
@@ -111,7 +111,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
       navigationController?.pushViewController(controller, animated: true)
     case .minimumLength:
       let choices = BraveLedger.MinimumVisitDurationOptions.allCases.map { $0.rawValue }
-      let selectedIndex = choices.index(of: ledger.minimumVisitDuration) ?? 0
+      let selectedIndex = choices.firstIndex(of: ledger.minimumVisitDuration) ?? 0
       let controller = OptionsSelectionViewController(
         options: BraveLedger.MinimumVisitDurationOptions.allCases,
         selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
@@ -125,7 +125,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
       navigationController?.pushViewController(controller, animated: true)
     case .minimumVisits:
       let choices = BraveLedger.MinimumVisitsOptions.allCases.map { $0.rawValue }
-      let selectedIndex = choices.index(of: ledger.minimumNumberOfVisits) ?? 0
+      let selectedIndex = choices.firstIndex(of: ledger.minimumNumberOfVisits) ?? 0
       let controller = OptionsSelectionViewController(
         options: BraveLedger.MinimumVisitsOptions.allCases,
         selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in

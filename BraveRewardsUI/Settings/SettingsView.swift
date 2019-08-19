@@ -18,7 +18,7 @@ extension SettingsViewController {
         grantsSections.forEach { $0.removeFromSuperview() }
       }
       didSet {
-        if let index = stackView.arrangedSubviews.index(of: walletSection) {
+        if let index = stackView.arrangedSubviews.firstIndex(of: walletSection) {
           grantsSections.reversed().forEach {
             stackView.insertArrangedSubview($0, at: index)
           }
