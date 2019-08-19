@@ -15,6 +15,9 @@ extension LogLevel {
     case .logRequest: return "REQUEST"
     case .logWarning: return "WARNING"
     case .logResponse: return "RESPONSE"
+    @unknown default:
+      assertionFailure()
+      return "DEBUG"
     }
   }
 }

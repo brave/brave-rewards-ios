@@ -38,6 +38,8 @@ class TableViewCell: UITableViewCell, TableViewReusable {
         $0.setContentCompressionResistancePriority(.required, for: .horizontal)
       }
     case .subtitle, .value2:
+      fallthrough
+    @unknown default:
       fatalError("Currently not supported")
     }
     
