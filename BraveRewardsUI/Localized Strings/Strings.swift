@@ -5,6 +5,8 @@
 public struct Strings {}
 
 public extension Strings {
+  static let Open = NSLocalizedString("BraveRewardsOpen", bundle: Bundle.RewardsUI, value: "Open", comment: "")
+  static let AdNotificationTitle = NSLocalizedString("BraveRewardsAdNotificationTitle", bundle: Bundle.RewardsUI, value: "Advertisement", comment: "")
   static let Verified = NSLocalizedString("BraveRewardsVerified", bundle: Bundle.RewardsUI, value: "Brave Verified Publisher", comment: "")
   static let CheckAgain = NSLocalizedString("BraveRewardsCheckAgain", bundle: Bundle.RewardsUI, value: "Check Again...", comment: "")
   static let RewardsOptInLearnMore = NSLocalizedString("RewardsOptInLearnMore", bundle: Bundle.RewardsUI, value: "Learn More", comment: "")
