@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14865.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14819.2"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rn5-Tc-ZWe">
-                                <rect key="frame" x="44" y="25" width="315" height="38"/>
+                                <rect key="frame" x="44" y="5" width="315" height="38"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhu-pz-fiK">
                                         <rect key="frame" x="269" y="0.0" width="46" height="38"/>
@@ -31,17 +29,26 @@
                                             <action selector="tappedBraveRewards" destination="BYZ-38-t0r" eventType="touchUpInside" id="KWJ-vM-o95"/>
                                         </connections>
                                     </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F2V-8R-QaB">
+                                        <rect key="frame" x="0.0" y="0.0" width="261" height="38"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="Mhu-pz-fiK" firstAttribute="top" secondItem="Rn5-Tc-ZWe" secondAttribute="top" id="2sR-5P-mlX"/>
+                                    <constraint firstItem="Mhu-pz-fiK" firstAttribute="leading" secondItem="F2V-8R-QaB" secondAttribute="trailing" constant="8" id="IQr-sc-gxa"/>
                                     <constraint firstItem="Mhu-pz-fiK" firstAttribute="height" secondItem="Rn5-Tc-ZWe" secondAttribute="height" id="J3H-LK-OSD"/>
+                                    <constraint firstAttribute="bottom" secondItem="F2V-8R-QaB" secondAttribute="bottom" id="ZPX-x6-f4k"/>
                                     <constraint firstAttribute="trailing" secondItem="Mhu-pz-fiK" secondAttribute="trailing" id="b7g-0a-h27"/>
                                     <constraint firstAttribute="height" constant="38" id="gWg-YH-Nrf"/>
+                                    <constraint firstItem="F2V-8R-QaB" firstAttribute="leading" secondItem="Rn5-Tc-ZWe" secondAttribute="leading" id="qeH-dS-466"/>
+                                    <constraint firstItem="F2V-8R-QaB" firstAttribute="top" secondItem="Rn5-Tc-ZWe" secondAttribute="top" id="xEv-HS-JaG"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPD-d0-f26">
-                                <rect key="frame" x="0.0" y="25" width="46" height="38"/>
+                                <rect key="frame" x="0.0" y="5" width="46" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="OzD-3F-3f0"/>
                                 </constraints>
@@ -91,6 +98,14 @@
                                     <action selector="tappedServeSampleAd:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fzn-0y-3dA"/>
                                 </connections>
                             </button>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LtC-2J-5qe">
+                                <rect key="frame" x="0.0" y="62" width="375" height="392"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -101,18 +116,24 @@
                             <constraint firstItem="9Yi-J0-QPl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Lxh-PO-59a"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QKC-yA-2Y9"/>
                             <constraint firstItem="myC-t7-p9s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UGe-3J-vhU"/>
+                            <constraint firstItem="myC-t7-p9s" firstAttribute="top" secondItem="LtC-2J-5qe" secondAttribute="bottom" constant="24" id="VxM-Or-Jq0"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="XUl-Lz-boD"/>
                             <constraint firstItem="fPD-d0-f26" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="Xh7-Tg-kpe"/>
                             <constraint firstItem="9Yi-J0-QPl" firstAttribute="top" secondItem="myC-t7-p9s" secondAttribute="bottom" constant="28" id="dPM-a2-OO7"/>
+                            <constraint firstItem="LtC-2J-5qe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="g5Y-Pk-LKD"/>
                             <constraint firstItem="Rn5-Tc-ZWe" firstAttribute="leading" secondItem="fPD-d0-f26" secondAttribute="trailing" constant="-2" id="g73-1o-XqK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rn5-Tc-ZWe" secondAttribute="trailing" constant="16" id="kx6-mc-c6y"/>
+                            <constraint firstAttribute="trailing" secondItem="LtC-2J-5qe" secondAttribute="trailing" id="t6r-D2-Mig"/>
+                            <constraint firstItem="LtC-2J-5qe" firstAttribute="top" secondItem="Rn5-Tc-ZWe" secondAttribute="bottom" constant="19" id="vpM-IV-9Hh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="braveRewardsPanelButton" destination="Mhu-pz-fiK" id="4tK-UZ-gov"/>
                         <outlet property="settingsButton" destination="fPD-d0-f26" id="Vch-lF-vwt"/>
+                        <outlet property="textField" destination="F2V-8R-QaB" id="4xW-jh-Ltz"/>
                         <outlet property="useMockLedgerSwitch" destination="cw8-wz-4i5" id="vCI-O8-wt5"/>
+                        <outlet property="webView" destination="LtC-2J-5qe" id="OR2-ks-66d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -89,7 +89,18 @@ public class AdsNotificationHandler: BraveAdsNotificationHandler {
     adsQueue.removeAll(where: { $0.id == identifier })
   }
   
-  public func isNotificationsAvailable(_ completionHandler: @escaping (Bool) -> Void) {
-    completionHandler(true)
+  public func shouldShowNotifications() -> Bool {
+    guard let presentingController = presentingController,
+      let rootVC = UIApplication.shared.delegate?.window??.rootViewController else { return false }
+    func topViewController(startingFrom viewController: UIViewController) -> UIViewController {
+      var top: UIViewController = viewController
+      while let next = top.presentedViewController {
+        top = next
+      }
+      return top
+    }
+    let isTopController = presentingController == topViewController(startingFrom: rootVC)
+    let isTopWindow = presentingController.view.window?.isKeyWindow == true
+    return isTopController && isTopWindow
   }
 }

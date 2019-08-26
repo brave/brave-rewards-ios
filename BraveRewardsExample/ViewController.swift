@@ -5,6 +5,7 @@
 import UIKit
 import BraveRewards
 import BraveRewardsUI
+import WebKit
 
 class UIMockLedger: BraveLedger {
   let defaults = UserDefaults.standard
@@ -116,6 +117,8 @@ class ViewController: UIViewController {
   @IBOutlet var settingsButton: UIButton!
   @IBOutlet var braveRewardsPanelButton: UIButton!
   @IBOutlet var useMockLedgerSwitch: UISwitch!
+  @IBOutlet var textField: UITextField!
+  @IBOutlet var webView: WKWebView!
   
   var rewards: BraveRewards!
   var notificationsHandler: AdsNotificationHandler!
@@ -131,6 +134,8 @@ class ViewController: UIViewController {
     
     setupRewards()
     braveRewardsPanelButton.setImage(RewardsPanelController.batLogoImage, for: .normal)
+    
+    textField.delegate = self
   }
   
   func setupRewards() {
@@ -231,5 +236,19 @@ extension ViewController: RewardsDataSource {
   
   func pageHTML(for tabId: UInt64, completionHandler: @escaping (String?) -> Void) {
     completionHandler(nil)
+  }
+}
+
+extension ViewController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    guard var text = textField.text else { return true }
+    if !text.hasPrefix("http://") || !text.hasPrefix("https://") {
+      text = "http://\(text)"
+    }
+    guard let url = URL(string: text) else { return true }
+    let request = URLRequest(url: url)
+    webView.load(request)
+    textField.resignFirstResponder()
+    return true
   }
 }
