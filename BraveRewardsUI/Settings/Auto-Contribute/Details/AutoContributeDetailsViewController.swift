@@ -414,12 +414,11 @@ extension AutoContributeDetailViewController {
               let excludedRowExists = tableView.cellForRow(at: IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)) != nil
               if excludedRowExists {
                 tableView.reloadRows(at: [IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)], with: .automatic)
-              } else {
+              } else if tableView.numberOfRows(inSection: Section.summary.rawValue) <= SummaryRows.excludedSites.rawValue {
                 tableView.insertRows(at: [IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)], with: .automatic)
               }
               tableView.endUpdates()
               tableView.reloadData()
-              
             })
           })
         }
