@@ -118,7 +118,7 @@ class ViewController: UIViewController {
   @IBOutlet var useMockLedgerSwitch: UISwitch!
   
   var rewards: BraveRewards!
-  var notificationsHandler: SystemNotificationsHandler!
+  var notificationsHandler: AdsNotificationHandler!
   
   private static let testPublisherURL = "https://3zsistemi.si" //"https://bumpsmack.com"
   
@@ -143,11 +143,10 @@ class ViewController: UIViewController {
       rewards = BraveRewards(configuration: .default)
       rewards.delegate = self
     }
-    notificationsHandler = SystemNotificationsHandler(ads: rewards.ads)
-    notificationsHandler.adTapped = { notification in
-      print(notification.url)
+    notificationsHandler = AdsNotificationHandler(ads: rewards.ads, presentingController: self)
+    notificationsHandler.actionOccured = { notification, action in
+//      print(notification.url)
     }
-    UNUserNotificationCenter.current().delegate = notificationsHandler
   }
 
   @IBAction func tappedBraveRewards() {
@@ -172,11 +171,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func tappedServeSampleAd(_ sender: Any) {
-    notificationsHandler.requestNotificationPermissions { granted in
-      if granted {
-        self.rewards.ads.serveSampleAd()
-      }
-    }
+    self.rewards.ads.serveSampleAd()
   }
   
   @IBAction func tappedLoadContent(_ sender: Any) {

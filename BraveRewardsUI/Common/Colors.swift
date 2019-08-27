@@ -35,6 +35,7 @@ class Colors {
   static let purple300 = UIColor(hex: 0x6845D1)
   static let purple400 = UIColor(hex: 0x845EF7)
   static let orange400 = UIColor(hex: 0xFB542B)
+  static let red300 = UIColor(hex: 0xBD1531)
 }
 
 /// Collection of common color usages
