@@ -36,7 +36,10 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
     
     super.init(nibName: nil, bundle: nil)
     
-    modalPresentationStyle = .overFullScreen
+    modalPresentationStyle = .overCurrentContext
+    if #available(iOS 13.0, *) {
+      isModalInPresentation = true
+    }
     transitioningDelegate = self
   }
   
