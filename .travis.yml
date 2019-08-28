@@ -1,5 +1,5 @@
 language: swift
-osx_image: xcode10.2
+osx_image: xcode11
 cache:
   directories:
     - Carthage
@@ -15,4 +15,4 @@ before_script:
 
 xcode_project: BraveRewards.xcodeproj
 xcode_scheme: BraveRewardsExample
-xcode_destination: platform=iOS Simulator,OS=12.2,name=iPhone 8
+xcode_destination: platform=iOS Simulator,OS=13.0,name=iPhone 8
