@@ -11,7 +11,8 @@ public class RewardsPanelController: PopoverNavigationController {
   
   public init(_ rewards: BraveRewards, tabId: UInt64, url: URL, faviconURL: URL?, pageHTML: String? = nil, delegate: RewardsUIDelegate, dataSource: RewardsDataSource) {
     super.init()
-    
+    // Fixes #188. Stop multi touch to avoid race conditions.
+    UIView.appearance().isExclusiveTouch = true
     let state = RewardsState(ledger: rewards.ledger, ads: rewards.ads, tabId: tabId, url: url, faviconURL: faviconURL, delegate: delegate, dataSource: dataSource)
     
     if !rewards.ledger.isWalletCreated {
