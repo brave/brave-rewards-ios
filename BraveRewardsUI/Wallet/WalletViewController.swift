@@ -5,6 +5,7 @@
 import UIKit
 import SnapKit
 import BraveRewards
+import Network
 
 protocol WalletContentView: AnyObject {
   var innerScrollView: UIScrollView? { get }
@@ -12,7 +13,7 @@ protocol WalletContentView: AnyObject {
 }
 
 class WalletViewController: UIViewController, RewardsSummaryProtocol {
-  
+  private let networkMonitor = NWPathMonitor()
   let state: RewardsState
   let ledgerObserver: LedgerObserver
   weak var currentNotification: RewardsNotification?
@@ -117,6 +118,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     setupPublisherView(publisherSummaryView)
     view.layoutIfNeeded()
     startNotificationObserver()
+    startNetworkObserver()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -137,6 +139,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   deinit {
+    networkMonitor.cancel()
     NotificationCenter.default.removeObserver(self)
   }
   
@@ -438,6 +441,27 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     default:
       assertionFailure()
     }
+  }
+}
+
+extension WalletViewController {
+  func startNetworkObserver() {
+    networkMonitor.pathUpdateHandler = {[weak self] path in
+      guard let self = self else {
+        return
+      }
+        if path.status == .satisfied {
+            //hide network not available banner
+            self.walletView.setNotificationView(nil, animated: true)
+            self.loadNextNotification()
+        } else {
+            //Show network not available banner
+            let notification = RewardsNotificationViewBuilder.networkUnavailableNotification
+            notification.closeButton.isHidden = true
+            self.walletView.setNotificationView(notification, animated: true)
+        }
+    }
+    networkMonitor.start(queue: .main)
   }
 }
 

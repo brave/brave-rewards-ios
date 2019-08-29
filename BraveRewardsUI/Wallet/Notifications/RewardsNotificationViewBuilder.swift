@@ -20,6 +20,16 @@ struct RewardsNotificationViewBuilder {
     }
   }
   
+  static var networkUnavailableNotification: WalletNotificationView {
+    return WalletAlertNotificationView(
+      notification: WalletAlertNotification(
+        category: .error,
+        title: Strings.NoNetworkTitle,
+        body: Strings.NoNetworkBody
+      )
+    )
+  }
+  
   private static func getAutoContribute(notification: RewardsNotification) -> WalletNotificationView? {
     if let result = notification.userInfo["result"] as? Int, let amount = notification.userInfo["amount"] as? String, let batResult = Result(rawValue: result) {
       switch batResult {
