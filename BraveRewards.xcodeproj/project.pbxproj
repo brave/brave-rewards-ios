@@ -154,6 +154,7 @@
 		27F4C1E62257AA1A00CFCD67 /* CurrencyContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C1E52257AA1A00CFCD67 /* CurrencyContainerView.swift */; };
 		27F4CACF2294715100935B45 /* AdsDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CACE2294715100935B45 /* AdsDetailsViewController.swift */; };
 		27F4CAD12294773600935B45 /* LabelAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4CAD02294773600935B45 /* LabelAccessoryView.swift */; };
+		590D148A23174F2A00CB3792 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D148923174F2A00CB3792 /* WebKit.framework */; };
 		59146FE322BC1A3B0085E420 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59146FE222BC1A3B0085E420 /* DataLoader.swift */; };
 		592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */; };
 		59512897228CF3F8002D3791 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59512896228CF3F8002D3791 /* Strings.swift */; };
@@ -346,6 +347,7 @@
 		27FD38E021E6B69700443796 /* BraveRewardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BraveRewardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		27FD38E421E6B69700443796 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27FD395521E9317400443796 /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = System/Library/Frameworks/Network.framework; sourceTree = SDKROOT; };
+		590D148923174F2A00CB3792 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		59146FE222BC1A3B0085E420 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		592A459B22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsNotificationViewBuilder.swift; sourceTree = "<group>"; };
 		5941A4E922A4A19F00F82330 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				590D148A23174F2A00CB3792 /* WebKit.framework in Frameworks */,
 				273404602220B004008CABC9 /* BraveRewardsUI.framework in Frameworks */,
 				2734046D2220B259008CABC9 /* SnapKit.framework in Frameworks */,
 				27700EA822A6E558009D8B6F /* BraveRewards.framework in Frameworks */,
@@ -788,6 +791,7 @@
 		A1FDEB7720D2B2E200F92CAF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				590D148923174F2A00CB3792 /* WebKit.framework */,
 				27700EA522A6E549009D8B6F /* BraveRewards.framework */,
 				270918302283370F0092B1F4 /* Security.framework */,
 				2709182B2282265C0092B1F4 /* CoreData.framework */,
