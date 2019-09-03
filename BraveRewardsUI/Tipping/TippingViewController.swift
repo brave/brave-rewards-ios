@@ -81,7 +81,7 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       self?.state.delegate?.loadNewTabWithURL(url)
     }
     
-    tippingView.overviewView.disclaimerView.isHidden = !publisherInfo.verified
+    tippingView.overviewView.disclaimerView.isHidden = publisherInfo.status == .verified
     tippingView.optionSelectionView.setWalletBalance(state.ledger.balanceString, crypto: "BAT")
     tippingView.optionSelectionView.options = TippingViewController.defaultTippingAmounts.map {
       TippingOption.batAmount(BATValue($0), dollarValue: state.ledger.dollarStringForBATAmount($0) ?? "")
@@ -114,16 +114,16 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       
       self.tippingView.overviewView.socialStackView.arrangedSubviews.forEach({ $0.removeFromSuperview() })
       
-      if !banner.social.isEmpty {
+      if !banner.links.isEmpty {
         let orderedIcons: [PublisherMediaType] = [.youtube, .twitter, .twitch]
-        let medias = banner.social.keys.compactMap({ PublisherMediaType(rawValue: $0) })
+        let medias = banner.links.keys.compactMap({ PublisherMediaType(rawValue: $0) })
         
         orderedIcons.filter(medias.contains).forEach({
           self.tippingView.overviewView.socialStackView.addArrangedSubview(UIImageView(image: UIImage(frameworkResourceNamed: $0.iconName)))
         })
       }
       
-      self.tippingView.overviewView.disclaimerView.isHidden = banner.verified
+      self.tippingView.overviewView.disclaimerView.isHidden = banner.status == .verified
       
       let bannerAmounts = banner.amounts.isEmpty ? TippingViewController.defaultTippingAmounts : banner.amounts.compactMap({ $0.doubleValue })
       self.tippingView.optionSelectionView.options = bannerAmounts.map {

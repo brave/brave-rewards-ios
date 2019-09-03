@@ -92,6 +92,8 @@ NS_SWIFT_NAME(BraveLedger)
 
 #pragma mark - Publishers
 
+@property (nonatomic, readonly, getter=isLoadingPublisherList) BOOL loadingPublisherList;
+
 /// Get publisher info & its activity based on its publisher key
 ///
 /// This key is _not_ always the URL's host. Use `publisherActivityFromURL`
@@ -135,7 +137,7 @@ NS_SWIFT_NAME(BraveLedger)
 
 /// Refresh a publishers verification status
 - (void)refreshPublisherWithId:(NSString *)publisherId
-                    completion:(void (^)(BOOL verified))completion;
+                    completion:(void (^)(BATPublisherStatus status))completion;
 
 #pragma mark - Tips
 
@@ -183,8 +185,9 @@ NS_SWIFT_NAME(BraveLedger)
 
 @property (nonatomic, readonly) NSDictionary<NSString *, BATBalanceReportInfo *> *balanceReports;
 
-- (BATBalanceReportInfo *)balanceReportForMonth:(BATActivityMonth)month
-                                           year:(int)year;
+- (void)balanceReportForMonth:(BATActivityMonth)month
+                         year:(int)year
+                   completion:(void (NS_NOESCAPE ^)(BATBalanceReportInfo * _Nullable info))completion;
 
 @property (nonatomic, readonly) BATAutoContributeProps *autoContributeProps;
 
