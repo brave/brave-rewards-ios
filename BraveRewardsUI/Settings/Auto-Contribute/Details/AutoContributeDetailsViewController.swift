@@ -186,7 +186,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
             }
             self.navigationController?.popViewController(animated: true)
         }
-        controller.title = Strings.AutoContributeMonthlyPayment
+        controller.title = Strings.AutoContributeMonthlyPaymentTitle
         navigationController?.pushViewController(controller, animated: true)
       case SummaryRows.excludedSites.rawValue:
         let numberOfExcludedSites = state.ledger.numberOfExcludedPublishers
