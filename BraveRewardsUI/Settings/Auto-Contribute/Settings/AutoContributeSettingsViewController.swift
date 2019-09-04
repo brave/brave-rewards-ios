@@ -107,7 +107,7 @@ extension AutoContributeSettingsViewController: UITableViewDelegate, UITableView
         self.navigationController?.popViewController(animated: true)
       }
       
-      controller.title = Strings.AutoContributeMonthlyPayment
+      controller.title = Strings.AutoContributeMonthlyPaymentTitle
       navigationController?.pushViewController(controller, animated: true)
     case .minimumLength:
       let choices = BraveLedger.MinimumVisitDurationOptions.allCases.map { $0.rawValue }
