@@ -217,8 +217,6 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
   
   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
     guard let typedSection = Section(rawValue: section), typedSection == .contributions else { return nil }
-    // To stop the deleted cell to appear below the header
-    headerView.backgroundColor = SettingsUX.backgroundColor
     return headerView
   }
   
@@ -228,7 +226,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       CGSize(width: tableView.bounds.width, height: tableView.bounds.height),
       withHorizontalFittingPriority: .required,
       verticalFittingPriority: .fittingSizeLevel
-    ).height + 13 // To stop the deleted cell to appear below the header
+    ).height
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -395,42 +393,14 @@ extension AutoContributeDetailViewController {
       let tableView = self.contentView.tableView
       switch exclude {
       case .all:
-        tableView.beginUpdates()
-        tableView.reloadRows(at: [IndexPath(row: SummaryRows.supportedSites.rawValue, section: Section.summary.rawValue)], with: .none)
-        tableView.deleteRows(at: [IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)], with: .right)
-        tableView.endUpdates()
+        tableView.reloadData()
       case .excluded:
-        
-        if let row = self.publishers.firstIndex(where: {$0.id == key}) {
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-            self.loadPublishers(start: 0, limit: self.publishers.count, completion: { info in
-              self.publishers = info
-              var deletedRows: [IndexPath] = []
-              var insertedRows: [IndexPath] = []
-              var reloadRows: [IndexPath] = []
-              let excludedRowExists = tableView.cellForRow(at: IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue)) != nil
-              if excludedRowExists {
-                reloadRows.append(IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue))
-              } else if tableView.numberOfRows(inSection: Section.summary.rawValue) <= SummaryRows.excludedSites.rawValue {
-                insertedRows.append(IndexPath(row: SummaryRows.excludedSites.rawValue, section: Section.summary.rawValue))
-              }
-              deletedRows = [IndexPath(row: row, section: Section.contributions.rawValue)]
-              if info.count == 0 {
-                insertedRows.append(IndexPath(row: 0, section: Section.contributions.rawValue))
-              } else {
-                let visibleRowsToReload = tableView.indexPathsForVisibleRows?.filter({$0.row != row && $0.section == Section.contributions.rawValue}) ?? []
-                reloadRows.append(contentsOf: visibleRowsToReload)
-              }
-              tableView.performBatchUpdates({
-                tableView.reloadRows(at: reloadRows, with: .none)
-                tableView.insertRows(at: insertedRows, with: .left)
-                tableView.deleteRows(at: deletedRows, with: .none)
-              }) { _ in
-                tableView.reloadData()
-              }
-            })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+          self.loadPublishers(start: 0, limit: self.publishers.count, completion: { info in
+            self.publishers = info
+            tableView.reloadData()
           })
-        }
+        })
       default:
         return
       }
