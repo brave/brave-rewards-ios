@@ -18,7 +18,7 @@ public class AdView: UIView {
     super.init(frame: frame)
    
     addSubview(adContentButton)
-    addSubview(openSwipeButton)
+//    addSubview(openSwipeButton)
     addSubview(dislikeSwipeButton)
     
     adContentButton.snp.makeConstraints {
@@ -29,14 +29,14 @@ public class AdView: UIView {
   public override func layoutSubviews() {
     super.layoutSubviews()
     
-    let openWidth = max(0, adContentButton.frame.minX - 8)
-    openSwipeButton.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: openWidth,
-      height: adContentButton.bounds.height
-    )
-    openSwipeButton.alpha = max(0, openWidth - 30) / 20
+//    let openWidth = max(0, adContentButton.frame.minX - 8)
+//    openSwipeButton.frame = CGRect(
+//      x: 0,
+//      y: 0,
+//      width: openWidth,
+//      height: adContentButton.bounds.height
+//    )
+//    openSwipeButton.alpha = max(0, openWidth - 30) / 20
     
     let dislikeWidth = max(0, bounds.width - adContentButton.frame.maxX - 8)
     dislikeSwipeButton.frame = CGRect(
