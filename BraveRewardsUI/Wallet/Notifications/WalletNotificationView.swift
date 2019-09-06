@@ -33,7 +33,8 @@ class WalletNotificationView: UIView {
     stackView.addArrangedSubview(iconImageView)
     
     closeButton.snp.makeConstraints {
-      $0.top.trailing.equalTo(safeAreaLayoutGuide)
+      $0.top.equalTo(self).inset(PopoverArrowHeight)
+      $0.trailing.equalTo(self)
       $0.width.height.equalTo(44.0)
     }
     

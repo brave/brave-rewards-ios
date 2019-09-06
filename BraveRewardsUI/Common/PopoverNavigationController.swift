@@ -4,11 +4,13 @@
 
 import UIKit
 
+public let PopoverArrowHeight: CGFloat = 8.0
+
 public class PopoverNavigationController: UINavigationController {
   
   private class NavigationBar: UINavigationBar {
     override var frame: CGRect {
-      get { return super.frame.with { $0.origin.y = 8 } }
+      get { return super.frame.with { $0.origin.y = PopoverArrowHeight } }
       set { super.frame = newValue }
     }
     override var barPosition: UIBarPosition {
@@ -39,7 +41,7 @@ public class PopoverNavigationController: UINavigationController {
   }
   
   public override var additionalSafeAreaInsets: UIEdgeInsets {
-    get { return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0) }
+    get { return UIEdgeInsets(top: PopoverArrowHeight, left: 0, bottom: 0, right: 0) }
     set { } // swiftlint:disable:this unused_setter_value
   }
   
