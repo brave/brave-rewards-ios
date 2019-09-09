@@ -60,17 +60,16 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
       guard let self = self, self.isViewLoaded else {
         return
       }
-      let rows = self.summaryRows.map({ row -> RowView in
-        row.isHidden = true
-        return row
-      })
       UIView.animate(withDuration: 0.15, animations: {
         self.detailsView.activityView.stackView.arrangedSubviews.forEach({
           $0.isHidden = true
           $0.alpha = 0
         })
       }, completion: { _ in
-        self.detailsView.activityView.rows = rows
+        // Update rows but set them hidden to be animated
+        self.detailsView.activityView.rows = self.summaryRows.map { $0.isHidden = true
+          return $0
+        }
         UIView.animate(withDuration: 0.15, animations: {
           self.detailsView.activityView.stackView.arrangedSubviews.forEach({
             $0.isHidden = false

@@ -395,6 +395,7 @@ extension AutoContributeDetailViewController {
       case .all:
         tableView.reloadData()
       case .excluded:
+        //The delay is to ensure the db is updated. This is just a fail safe.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
           self.loadPublishers(start: 0, limit: self.publishers.count, completion: { info in
             self.publishers = info

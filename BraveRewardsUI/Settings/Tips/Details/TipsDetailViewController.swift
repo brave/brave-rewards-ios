@@ -289,20 +289,11 @@ extension TipsDetailViewController {
       guard let self = self, self.isViewLoaded else {
         return
       }
-      let tableView = self.tipsView.tableView
-      let oldCount = self.tipsList.count
       self.tipsList.removeAll(where: {
         $0.category == RewardsCategory.recurringTip.rawValue &&
         $0.id == key
       })
-      if oldCount > self.tipsList.count {
-        var sections: IndexSet = [Section.tips.rawValue]
-        if tableView.numberOfRows(inSection: Section.summary.rawValue) == 2 &&
-          !self.tipsList.contains { $0.rewardsCategory == .recurringTip } {
-          sections.insert(Section.summary.rawValue)
-        }
-        self.tipsView.tableView.reloadSections(sections, with: .automatic)
-      }
+      self.tipsView.tableView.reloadData()
     }
   }
 }
