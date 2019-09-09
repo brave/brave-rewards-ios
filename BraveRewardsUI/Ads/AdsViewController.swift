@@ -192,31 +192,31 @@ public class AdsViewController: UIViewController {
       dismissTimers[adView]?.invalidate()
     case .changed:
       let tx = swipeState + pan.translation(in: adView).x
-      if tx > actionTriggerThreshold && !adView.openSwipeButton.isHighlighted {
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.prepare()
-        impact.impactOccurred()
-      }
-      adView.openSwipeButton.isHighlighted = tx > actionTriggerThreshold
+//      if tx > actionTriggerThreshold && !adView.openSwipeButton.isHighlighted {
+//        let impact = UIImpactFeedbackGenerator(style: .medium)
+//        impact.prepare()
+//        impact.impactOccurred()
+//      }
+//      adView.openSwipeButton.isHighlighted = tx > actionTriggerThreshold
       if tx < -actionTriggerThreshold && !adView.dislikeSwipeButton.isHighlighted {
         let impact = UIImpactFeedbackGenerator(style: .medium)
         impact.prepare()
         impact.impactOccurred()
       }
       adView.dislikeSwipeButton.isHighlighted = tx < -actionTriggerThreshold
-      adView.adContentButton.transform.tx = tx
+      adView.adContentButton.transform.tx = min(0, tx)
       adView.setNeedsLayout()
     case .ended:
       let velocity = pan.velocity(in: adView).x
       let tx = swipeState + pan.translation(in: adView).x
       let projected = project(initialVelocity: velocity, decelerationRate: UIScrollView.DecelerationRate.normal.rawValue)
-      if tx > actionTriggerThreshold || tx < -actionTriggerThreshold {
+      if /*tx > actionTriggerThreshold ||*/ tx < -actionTriggerThreshold {
         guard let displayedAd = displayedAds[adView] else { break }
         adView.setSwipeTranslation(0, animated: true, panVelocity: velocity)
         hide(adView: adView)
         displayedAd.handler(displayedAd.ad, tx > 0 ? .opened : .disliked)
         break
-      } else if tx + projected > actionRestThreshold || tx + projected < -actionRestThreshold {
+      } else if /*tx + projected > actionRestThreshold ||*/ tx + projected < -actionRestThreshold {
         adView.setSwipeTranslation((tx + projected) > 0 ? actionRestThreshold : -actionRestThreshold, animated: true, panVelocity: velocity)
         break
       }
