@@ -6,7 +6,7 @@ The latest BraveRewards.framework was built on:
 
 ```
 brave-browser/459bf88860c9809d7ccabd43157cf7c0984d3fc7
-brave-core/54fc45f75241798441b9929c04979e306adff73e
+brave-core/e28df2f318db7fba76fa281f58b9a84311f8ee53
 ```
 
 Building the code
