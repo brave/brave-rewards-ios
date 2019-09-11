@@ -172,5 +172,7 @@ public extension Strings {
   static let NotificationErrorTitle = NSLocalizedString("NotificationErrorTitle", bundle: Bundle.RewardsUI, value: "Uh oh!", comment: "Title for an error notification")
   static let NoNetworkTitle = NSLocalizedString("NoNetworkTitle", bundle: Bundle.RewardsUI, value: "Uh oh!", comment: "Title for a no network notification")
   static let NoNetworkBody = NSLocalizedString("NoNetworkBody", bundle: Bundle.RewardsUI, value: "The Brave Rewards server is not responding. We will fix this as soon as possible.", comment: "Body for a no network notification")
+  static let MyFirstAdTitle = NSLocalizedString("MyFirstAdTitle", bundle: Bundle.RewardsUI, value: "This is your first Brave ad", comment: "")
+  static let MyFirstAdBody = NSLocalizedString("MyFirstAdBody", bundle: Bundle.RewardsUI, value: "Tap here to learn more.", comment: "")
 }
 
