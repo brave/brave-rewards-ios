@@ -129,6 +129,7 @@
 		27A4707B22418D5900596431 /* SettingsTipsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */; };
 		27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A4707C2242EA6C00596431 /* GrabberView.swift */; };
 		27AFF5442229798F009320F5 /* TippingConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AFF5432229798F009320F5 /* TippingConfirmationView.swift */; };
+		27D86AF4232AE66200530EF7 /* QASettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D86AF3232AE66200530EF7 /* QASettingsViewController.swift */; };
 		27DED66122260E7700E0F0E3 /* TippingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DED66022260E7700E0F0E3 /* TippingView.swift */; };
 		27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */; };
 		27F1955A228B492B004E92ED /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2709182B2282265C0092B1F4 /* CoreData.framework */; };
@@ -318,6 +319,7 @@
 		27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTipsSectionView.swift; sourceTree = "<group>"; };
 		27A4707C2242EA6C00596431 /* GrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabberView.swift; sourceTree = "<group>"; };
 		27AFF5432229798F009320F5 /* TippingConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingConfirmationView.swift; sourceTree = "<group>"; };
+		27D86AF3232AE66200530EF7 /* QASettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QASettingsViewController.swift; sourceTree = "<group>"; };
 		27DED66022260E7700E0F0E3 /* TippingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingView.swift; sourceTree = "<group>"; };
 		27F1737B2280B934001B5AC4 /* CreateWalletButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletButton.swift; sourceTree = "<group>"; };
 		27F26840224AA6E600C9EE5C /* GrantClaimedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrantClaimedViewController.swift; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				2726B58322528ECD00B9EAF7 /* Add Funds */,
 				27598848222479AB00B2E47A /* Tipping */,
 				2730DF8522318FA90031845C /* Settings */,
+				27D86AF2232AE64B00530EF7 /* QA Settings */,
 				275F1392230B256D00FAC6DA /* Ads */,
 			);
 			path = BraveRewardsUI;
@@ -696,6 +699,14 @@
 				27A4707A22418D5900596431 /* SettingsTipsSectionView.swift */,
 			);
 			path = Tips;
+			sourceTree = "<group>";
+		};
+		27D86AF2232AE64B00530EF7 /* QA Settings */ = {
+			isa = PBXGroup;
+			children = (
+				27D86AF3232AE66200530EF7 /* QASettingsViewController.swift */,
+			);
+			path = "QA Settings";
 			sourceTree = "<group>";
 		};
 		27F3E59021FB97CB009A54D5 /* BraveRewardsExample */ = {
@@ -1066,6 +1077,7 @@
 				272B787222248E8800B7B81E /* TippingOverviewView.swift in Sources */,
 				274CDD41225FE7CB00FA7364 /* BATUSDPairView.swift in Sources */,
 				27F1737C2280B934001B5AC4 /* CreateWalletButton.swift in Sources */,
+				27D86AF4232AE66200530EF7 /* QASettingsViewController.swift in Sources */,
 				2729686922C16B770038CAF9 /* BraveRewardsExtensions.swift in Sources */,
 				270483512220F1D80051239C /* SeparatorView.swift in Sources */,
 				27A4707622417B4F00596431 /* SettingsAutoContributeSectionView.swift in Sources */,
