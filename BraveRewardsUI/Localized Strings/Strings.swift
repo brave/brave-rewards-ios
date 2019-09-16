@@ -2,9 +2,9 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-public struct Strings {}
+internal struct Strings {}
 
-public extension Strings {
+internal extension Strings {
   static let Open = NSLocalizedString("BraveRewardsOpen", bundle: Bundle.RewardsUI, value: "Open", comment: "")
   static let AdNotificationTitle = NSLocalizedString("BraveRewardsAdNotificationTitle", bundle: Bundle.RewardsUI, value: "Advertisement", comment: "")
   static let Verified = NSLocalizedString("BraveRewardsVerified", bundle: Bundle.RewardsUI, value: "Brave Verified Publisher", comment: "")
