@@ -153,7 +153,18 @@ class ViewController: UIViewController {
 //      print(notification.url)
     }
   }
-
+  
+  @IBAction func tappedSettings(_ sender: Any) {
+    let settings = QASettingsViewController(rewards: self.rewards)
+    settings.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(tappedDone))
+    let container = UINavigationController(rootViewController: settings)
+    present(container, animated: true)
+  }
+  
+  @objc private func tappedDone() {
+    dismiss(animated: true)
+  }
+  
   @IBAction func tappedBraveRewards() {
     if UIDevice.current.userInterfaceIdiom != .pad && UIApplication.shared.statusBarOrientation.isLandscape {
       let value = UIInterfaceOrientation.portrait.rawValue
