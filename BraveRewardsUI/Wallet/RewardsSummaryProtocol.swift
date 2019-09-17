@@ -26,7 +26,7 @@ private struct Activity {
   init?(_ valueString: String, title: String, color: UIColor) {
     // Convert to double to avoid any issues with changing what the "0" string is (i.e. if it were
     // to change to "0.00")
-    guard let value = BATValue(valueString), value.doubleValue != 0.0 else {
+    guard let value = BATValue(probi: valueString), value.doubleValue != 0.0 else {
       return nil
     }
     self.value = value
@@ -49,7 +49,6 @@ extension RewardsSummaryProtocol {
     
     let ledger = state.ledger
     let balance = ledger.balanceReport(for: activityMonth, year: Int32(now.currentYear))
-    
     let activities = [
       Activity(balance.grants, title: Strings.TotalGrantsClaimed, color: BraveUX.adsTintColor),
       Activity(balance.earningFromAds, title: Strings.EarningFromAds, color: BraveUX.adsTintColor),

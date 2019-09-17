@@ -12,10 +12,14 @@ class SettingsViewController: UIViewController {
   }
   
   let state: RewardsState
+  let ledgerObserver: LedgerObserver
   
   init(state: RewardsState) {
     self.state = state
+    self.ledgerObserver = LedgerObserver(ledger: state.ledger)
     super.init(nibName: nil, bundle: nil)
+    self.state.ledger.add(self.ledgerObserver)
+    setupLedgerObservers()
   }
   
   @available(*, unavailable)
@@ -153,5 +157,16 @@ class SettingsViewController: UIViewController {
   @objc private func autoContributeToggleValueChanged() {
     state.ledger.isAutoContributeEnabled = settingsView.autoContributeSection.toggleSwitch.isOn
     updateVisualStateOfSections(animated: true)
+  }
+  
+  func setupLedgerObservers() {
+    ledgerObserver.fetchedBalance = { [weak self] in
+      guard let self = self else { return }
+      self.settingsView.walletSection.setWalletBalance(
+        self.state.ledger.balanceString,
+        crypto: "BAT",
+        dollarValue: self.state.ledger.usdBalanceString
+      )
+    }
   }
 }

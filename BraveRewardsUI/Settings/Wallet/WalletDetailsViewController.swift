@@ -56,6 +56,15 @@ class WalletDetailsViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   func setupLedgerObservers() {
+    ledgerObserver.fetchedBalance = { [weak self] in
+      if let self = self {
+        self.detailsView.walletSection.setWalletBalance(
+          self.state.ledger.balanceString,
+          crypto: "BAT",
+          dollarValue: self.state.ledger.usdBalanceString
+        )
+      }
+    }
     ledgerObserver.balanceReportUpdated = { [weak self] in
       guard let self = self, self.isViewLoaded else {
         return

@@ -93,12 +93,9 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
     walletView.headerView.addFundsButton.addTarget(self, action: #selector(tappedAddFunds), for: .touchUpInside)
     walletView.headerView.settingsButton.addTarget(self, action: #selector(tappedSettings), for: .touchUpInside)
     walletView.headerView.grantsButton.addTarget(self, action: #selector(tappedGrantsButton), for: .touchUpInside)
-    
-    walletView.headerView.setWalletBalance(
-      state.ledger.balanceString,
-      crypto: "BAT",
-      dollarValue: state.ledger.usdBalanceString
-    )
+
+    updateWalletHeader()
+    state.ledger.fetchBalance(nil)
     
     rewardsSummaryView.monthYearLabel.text = summaryPeriod
     rewardsSummaryView.rows = summaryRows
@@ -513,6 +510,14 @@ extension WalletViewController {
     }
   }
   
+  func updateWalletHeader() {
+    walletView.headerView.setWalletBalance(
+      state.ledger.balanceString,
+      crypto: "BAT",
+      dollarValue: state.ledger.usdBalanceString
+    )
+  }
+  
   func setupLedgerObservers() {
     ledgerObserver.fetchedPanelPublisher = { [weak self] publisher, tabId in
       guard let self = self, self.state.tabId == tabId else { return }
@@ -521,6 +526,9 @@ extension WalletViewController {
         self.publisher?.percent = activity.percent
       }
       self.reloadPublisherDetails()
+    }
+    ledgerObserver.fetchedBalance = { [weak self] in
+      self?.updateWalletHeader()
     }
     ledgerObserver.activityRemoved = { [weak self] publisherKey in
       guard let self = self, publisherKey == self.publisher?.id else { return }
