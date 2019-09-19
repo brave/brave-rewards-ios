@@ -86,7 +86,7 @@ extension BraveLedger {
   /// Creates the ledger wallet and fetches wallet properties and balances
   ///
   /// Use this is in UI instead of `createWallet` directly unless required
-  func createWalletAndFetchDetails(_ completion: @escaping (Bool) -> Void) {
+  public func createWalletAndFetchDetails(_ completion: @escaping (Bool) -> Void) {
     createWallet { [weak self] (error) in
       guard let self = self else { return }
       
