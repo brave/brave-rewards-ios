@@ -292,7 +292,7 @@ extension AdsViewController: UIGestureRecognizerDelegate {
 
 extension AdsViewController {
   /// Display a "My First Ad" on a presenting controller and be notified if they tap it
-  public static func displayFirstAd(on presentingController: UIViewController, tapped: @escaping (URL) -> Void) {
+  public static func displayFirstAd(on presentingController: UIViewController, completion: @escaping (AdsNotificationHandler.Action, URL) -> Void) {
     let adsViewController = AdsViewController()
     
     presentingController.addChild(adsViewController)
@@ -305,9 +305,7 @@ extension AdsViewController {
     )
     
     adsViewController.display(ad: notification, handler: { (notification, action) in
-      if action == .opened {
-        tapped(notification.url)
-      }
+      completion(action, notification.url)
     }, animatedOut: {
       adsViewController.removeFromParent()
       adsViewController.view.removeFromSuperview()
