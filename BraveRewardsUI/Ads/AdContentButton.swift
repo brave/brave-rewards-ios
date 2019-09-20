@@ -18,6 +18,29 @@ class AdContentButton: UIControl {
     $0.font = .systemFont(ofSize: 15.0)
     $0.numberOfLines = 3
   }
+  private let appNameLabel = UILabel().then {
+    $0.textColor = .black
+    $0.font = .systemFont(ofSize: 14.0, weight: .medium)
+    $0.text = Strings.AdNotificationTitle
+  }
+  
+  private let backgroundView: UIVisualEffectView = {
+    let backgroundView: UIVisualEffectView
+    if #available(iOS 13.0, *) {
+      backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+      } else {
+      backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    }
+    backgroundView.isUserInteractionEnabled = false
+    backgroundView.contentView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
+    backgroundView.layer.cornerRadius = 10
+    backgroundView.layer.masksToBounds = true
+    return backgroundView
+  }()
+  
+  private var isDarkMode: Bool {
+    return traitCollection.userInterfaceStyle == .dark
+  }
   
   override public init(frame: CGRect) {
     super.init(frame: frame)
@@ -32,18 +55,6 @@ class AdContentButton: UIControl {
       $0.alignment = .leading
       $0.isUserInteractionEnabled = false
     }
-    
-    let appNameLabel = UILabel().then {
-      $0.textColor = .black
-      $0.font = .systemFont(ofSize: 14.0, weight: .medium)
-      $0.text = Strings.AdNotificationTitle
-    }
-    
-    let backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-    backgroundView.isUserInteractionEnabled = false
-    backgroundView.contentView.backgroundColor = UIColor.white.withAlphaComponent(0.7)
-    backgroundView.layer.cornerRadius = 10
-    backgroundView.layer.masksToBounds = true
     
     addSubview(backgroundView)
     addSubview(stackView)
@@ -74,6 +85,8 @@ class AdContentButton: UIControl {
     layer.shadowOpacity = 0.25
     layer.shadowOffset = CGSize(width: 0, height: 1)
     layer.shadowRadius = 2
+    
+    applyTheme()
   }
   
   public override func layoutSubviews() {
@@ -96,5 +109,17 @@ class AdContentButton: UIControl {
         animation.toValue = CGSize(width: scale, height: scale)
       }
     }
+  }
+  
+  func applyTheme() {
+    appNameLabel.textColor = isDarkMode ? .white : .black
+    titleLabel.textColor = isDarkMode ? .white : .black
+    bodyLabel.textColor = UIColor(white: isDarkMode ? 1.0 : 0.0, alpha: 0.5)
+    backgroundView.contentView.backgroundColor = isDarkMode ? UIColor.black.withAlphaComponent(0.3) : UIColor.white.withAlphaComponent(0.7)
+  }
+  
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    applyTheme()
   }
 }
