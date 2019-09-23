@@ -47,6 +47,10 @@ public class AdsNotificationHandler: BraveAdsNotificationHandler {
     if adsViewController.parent == nil {
       presentingController.addChild(adsViewController)
       presentingController.view.addSubview(adsViewController.view)
+      adsViewController.didMove(toParent: presentingController)
+      adsViewController.view.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+      }
     }
     
     self.ads.reportNotificationEvent(notification.id, eventType: .viewed)
@@ -71,8 +75,9 @@ public class AdsNotificationHandler: BraveAdsNotificationHandler {
     }, animatedOut: { [weak self] in
       guard let self = self else { return }
       if self.adsViewController.visibleAdView == nil && self.adsQueue.isEmpty {
-        self.adsViewController.removeFromParent()
+        self.adsViewController.willMove(toParent: nil)
         self.adsViewController.view.removeFromSuperview()
+        self.adsViewController.removeFromParent()
       }
     })
   }
