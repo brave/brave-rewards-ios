@@ -22,9 +22,15 @@ public class AdsViewController: UIViewController {
     view = View(frame: UIScreen.main.bounds)
   }
   
+  public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    super.viewWillTransition(to: size, with: coordinator)
+    
+    view.frame = CGRect(origin: .zero, size: size)
+  }
+  
   public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
-    
+
     view.frame = UIScreen.main.bounds
   }
   
@@ -298,9 +304,6 @@ extension AdsViewController {
     presentingController.addChild(adsViewController)
     presentingController.view.addSubview(adsViewController.view)
     adsViewController.didMove(toParent: presentingController)
-    adsViewController.view.snp.makeConstraints {
-      $0.edges.equalToSuperview()
-    }
     
     let notification = AdsNotification.customAd(
       title: Strings.MyFirstAdTitle,
