@@ -48,6 +48,9 @@ public class AdsNotificationHandler: BraveAdsNotificationHandler {
       presentingController.addChild(adsViewController)
       presentingController.view.addSubview(adsViewController.view)
       adsViewController.didMove(toParent: presentingController)
+      adsViewController.view.snp.makeConstraints {
+        $0.edges.equalToSuperview()
+      }
     }
     
     self.ads.reportNotificationEvent(notification.id, eventType: .viewed)
