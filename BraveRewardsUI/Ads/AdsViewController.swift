@@ -22,18 +22,6 @@ public class AdsViewController: UIViewController {
     view = View(frame: UIScreen.main.bounds)
   }
   
-  public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    super.viewWillTransition(to: size, with: coordinator)
-    
-    view.frame = CGRect(origin: .zero, size: size)
-  }
-  
-  public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
-
-    view.frame = UIScreen.main.bounds
-  }
-  
   private let dismissGestureName = "dismiss"
   private let swipeGestureName = "swipe"
   
@@ -52,6 +40,7 @@ public class AdsViewController: UIViewController {
       $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
       $0.top.greaterThanOrEqualTo(view).offset(4) // Makes sure in landscape its at least 4px from the top
     }
+    view.layoutIfNeeded()
     
     animateIn(adView: adView)
     
@@ -304,6 +293,9 @@ extension AdsViewController {
     presentingController.addChild(adsViewController)
     presentingController.view.addSubview(adsViewController.view)
     adsViewController.didMove(toParent: presentingController)
+    adsViewController.view.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
     
     let notification = AdsNotification.customAd(
       title: Strings.MyFirstAdTitle,
