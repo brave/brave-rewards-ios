@@ -297,10 +297,10 @@ extension AdsViewController {
     
     presentingController.addChild(adsViewController)
     presentingController.view.addSubview(adsViewController.view)
-		adsViewController.didMove(toParent: presentingController)
-		adsViewController.view.snp.makeConstraints {
-			$0.edges.equalToSuperview()
-		}
+    adsViewController.didMove(toParent: presentingController)
+    adsViewController.view.snp.makeConstraints {
+      $0.edges.equalToSuperview()
+    }
     
     let notification = AdsNotification.customAd(
       title: Strings.MyFirstAdTitle,
@@ -311,8 +311,8 @@ extension AdsViewController {
     adsViewController.display(ad: notification, handler: { (notification, action) in
       completion(action, notification.url)
     }, animatedOut: {
-			adsViewController.willMove(toParent: nil)
-			adsViewController.view.removeFromSuperview()
+      adsViewController.willMove(toParent: nil)
+      adsViewController.view.removeFromSuperview()
       adsViewController.removeFromParent()
     })
   }
