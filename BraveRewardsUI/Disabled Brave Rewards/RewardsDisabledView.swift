@@ -110,7 +110,7 @@ extension RewardsDisabledView {
       $0.font = .systemFont(ofSize: 12.0)
       $0.textColor = Colors.grey100
       $0.textAlignment = .center
-			$0.setURLs(text: Strings.DisclaimerInformation, urlInfo: [Strings.TermsOfServiceURL: "terms", Strings.PrivacyPolicyURL: "policy"])
+      $0.setURLs(text: Strings.DisclaimerInformation, urlInfo: [Strings.TermsOfServiceURL: "terms", Strings.PrivacyPolicyURL: "policy"])
     }
     
     @available(*, unavailable)

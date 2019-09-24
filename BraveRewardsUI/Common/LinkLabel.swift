@@ -9,11 +9,11 @@ final class LinkLabel: UITextView {
   
   /// Called when a link is tapped
   var onLinkedTapped: ((URL) -> Void)?
-	
-	func setURLs(text: String, urlInfo: [String: String]) {
-		self.text = text
-		self.updateText(urlInfo: urlInfo)
-	}
+  
+  func setURLs(text: String, urlInfo: [String: String]) {
+    self.text = text
+    self.updateText(urlInfo: urlInfo)
+  }
   
   override var textAlignment: NSTextAlignment {
     didSet {
@@ -71,21 +71,21 @@ final class LinkLabel: UITextView {
   /// Converts the text into attributed text for display
 	func updateText(urlInfo: [String: String]) {
     let attributedString = { () -> NSAttributedString in
-			let paragraphStyle = NSMutableParagraphStyle()
+      let paragraphStyle = NSMutableParagraphStyle()
       paragraphStyle.alignment = self.textAlignment
-			
-			let text = NSMutableAttributedString(string: self.text, attributes: [
-				.font: self.font ?? UIFont.systemFont(ofSize: 12.0),
-				.foregroundColor: self.textColor ?? UX.textColor,
-				.paragraphStyle: paragraphStyle
-			])
-			
-			for info in urlInfo {
-				let range = (self.text as NSString).range(of: info.key)
-				if range.location != NSNotFound {
-					text.addAttribute(.link, value: info.value, range: range)
-				}
-			}
+      
+      let text = NSMutableAttributedString(string: self.text, attributes: [
+        .font: self.font ?? UIFont.systemFont(ofSize: 12.0),
+        .foregroundColor: self.textColor ?? UX.textColor,
+        .paragraphStyle: paragraphStyle
+      ])
+      
+      for info in urlInfo {
+        let range = (self.text as NSString).range(of: info.key)
+        if range.location != NSNotFound {
+          text.addAttribute(.link, value: info.value, range: range)
+        }
+      }
       
       let range = NSRange(location: 0, length: text.length)
       
