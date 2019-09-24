@@ -80,7 +80,7 @@ extension RewardsSummaryProtocol {
       $0.textColor = Colors.grey200
       $0.font = UIFont.systemFont(ofSize: 12.0)
       $0.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-      $0.text = "\(text) \(Strings.DisclaimerLearnMore)"
+			$0.setURLs(text: "\(text) \(Strings.DisclaimerLearnMore)", urlInfo: [:])
       $0.backgroundColor = UIColor(white: 0.0, alpha: 0.04)
       $0.layer.cornerRadius = 4.0
     }
