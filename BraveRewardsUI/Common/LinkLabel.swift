@@ -76,30 +76,16 @@ final class LinkLabel: UITextView {
       return
     }
     
-    let attributedString = { () -> NSAttributedString? in
-      guard let data = text.data(using: .utf8) else { return nil }
-      guard let text = try? NSMutableAttributedString(data: data,
-                                                      options: [.documentType: NSAttributedString.DocumentType.html],
-                                                      documentAttributes: nil) else { return nil }
-      
-      let paragraphStyle = NSMutableParagraphStyle()
+    let attributedString = { () -> NSAttributedString in
+			let paragraphStyle = NSMutableParagraphStyle()
       paragraphStyle.alignment = self.textAlignment
-      
-      let attributes: [NSAttributedString.Key: Any] = [.font: self.font ?? UIFont.systemFont(ofSize: 12.0),
-                                                       .foregroundColor: self.textColor ?? UX.textColor,
-                                                       .paragraphStyle: paragraphStyle]
-      
-      let range = NSRange(location: 0, length: text.length)
-      
-      text.beginEditing()
-      text.addAttributes(attributes, range: range)
-      text.enumerateAttribute(.underlineStyle, in: range, options: .init(rawValue: 0), using: { value, range, stop in
-        if value != nil {
-          text.addAttribute(.underlineStyle, value: 0, range: range)
-        }
-      })
-      text.endEditing()
-      return text
+			
+			return MiniHTMLTagParser(string: text).toString(with: [
+				.font: self.font ?? UIFont.systemFont(ofSize: 12.0),
+				.foregroundColor: self.textColor ?? UX.textColor,
+				.paragraphStyle: paragraphStyle,
+				.underlineStyle: 0
+			])
     }
     
     let linkAttributes: [NSAttributedString.Key: Any] = [
