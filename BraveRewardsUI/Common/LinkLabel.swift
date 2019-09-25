@@ -10,7 +10,7 @@ final class LinkLabel: UITextView {
   /// Called when a link is tapped
   var onLinkedTapped: ((URL) -> Void)?
   
-  func setURLInfo(text: String, urlInfo: [String: String]) {
+  func setURLInfo(_ urlInfo: [String: String]) {
     self.updateText(urlInfo: urlInfo)
   }
   
