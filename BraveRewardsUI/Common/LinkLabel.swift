@@ -10,10 +10,8 @@ final class LinkLabel: UITextView {
   /// Called when a link is tapped
   var onLinkedTapped: ((URL) -> Void)?
   
-  override var text: String? {
-    didSet {
-      updateText()
-    }
+  func setURLInfo(_ urlInfo: [String: String]) {
+    self.updateText(urlInfo: urlInfo)
   }
   
   override var textAlignment: NSTextAlignment {
@@ -70,29 +68,27 @@ final class LinkLabel: UITextView {
   }
   
   /// Converts the text into attributed text for display
-  func updateText() {
-    guard let text = text else {
-      super.text = nil
-      return
-    }
-    
-    let attributedString = { () -> NSAttributedString? in
-      guard let data = text.data(using: .utf8) else { return nil }
-      guard let text = try? NSMutableAttributedString(data: data,
-                                                      options: [.documentType: NSAttributedString.DocumentType.html],
-                                                      documentAttributes: nil) else { return nil }
-      
+  func updateText(urlInfo: [String: String]) {
+    let attributedString = { () -> NSAttributedString in
       let paragraphStyle = NSMutableParagraphStyle()
       paragraphStyle.alignment = self.textAlignment
       
-      let attributes: [NSAttributedString.Key: Any] = [.font: self.font ?? UIFont.systemFont(ofSize: 12.0),
-                                                       .foregroundColor: self.textColor ?? UX.textColor,
-                                                       .paragraphStyle: paragraphStyle]
+      let text = NSMutableAttributedString(string: self.text, attributes: [
+        .font: self.font ?? UIFont.systemFont(ofSize: 12.0),
+        .foregroundColor: self.textColor ?? UX.textColor,
+        .paragraphStyle: paragraphStyle
+      ])
+      
+      for info in urlInfo {
+        let range = (self.text as NSString).range(of: info.key)
+        if range.location != NSNotFound {
+          text.addAttribute(.link, value: info.value, range: range)
+        }
+      }
       
       let range = NSRange(location: 0, length: text.length)
       
       text.beginEditing()
-      text.addAttributes(attributes, range: range)
       text.enumerateAttribute(.underlineStyle, in: range, options: .init(rawValue: 0), using: { value, range, stop in
         if value != nil {
           text.addAttribute(.underlineStyle, value: 0, range: range)

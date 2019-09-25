@@ -51,6 +51,7 @@ class TippingOverviewView: UIView {
     $0.font = UIFont.systemFont(ofSize: 12.0)
     $0.textContainerInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
     $0.text = "\(Strings.TippingUnverifiedDisclaimer) \(Strings.DisclaimerLearnMore)"
+    $0.setURLInfo([Strings.DisclaimerLearnMore: "learn-more"])
     $0.backgroundColor = .white
     $0.layer.cornerRadius = 4.0
     $0.isHidden = true
