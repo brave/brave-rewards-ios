@@ -17,7 +17,8 @@ extension WelcomeViewController {
       $0.font = .systemFont(ofSize: 12.0)
       $0.textColor = Colors.grey900
       $0.textAlignment = .center
-      $0.setURLs(text: Strings.WelcomeDisclaimerInformation, urlInfo: [Strings.TermsOfServiceURL: "terms", Strings.PrivacyPolicyURL: "policy"])
+      $0.text = Strings.WelcomeDisclaimerInformation
+      $0.setURLInfo([Strings.TermsOfServiceURL: "terms", Strings.PrivacyPolicyURL: "policy"])
     }
     
     let backgroundView = GradientView.purpleRewardsGradientView()
@@ -190,7 +191,8 @@ extension WelcomeViewController {
       $0.textColor = Colors.grey200
       $0.linkColor = .black
       $0.textAlignment = .center
-      $0.setURLs(text: Strings.WelcomeDisclaimerInformation, urlInfo: [Strings.TermsOfServiceURL: "terms", Strings.PrivacyPolicyURL: "policy"])
+      $0.text = Strings.WelcomeDisclaimerInformation
+      $0.setURLInfo([Strings.TermsOfServiceURL: "terms", Strings.PrivacyPolicyURL: "policy"])
     }
     
     private let headerView = HeaderView()

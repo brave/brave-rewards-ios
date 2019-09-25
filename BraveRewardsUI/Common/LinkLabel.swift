@@ -10,8 +10,7 @@ final class LinkLabel: UITextView {
   /// Called when a link is tapped
   var onLinkedTapped: ((URL) -> Void)?
   
-  func setURLs(text: String, urlInfo: [String: String]) {
-    self.text = text
+  func setURLInfo(text: String, urlInfo: [String: String]) {
     self.updateText(urlInfo: urlInfo)
   }
   
@@ -69,7 +68,7 @@ final class LinkLabel: UITextView {
   }
   
   /// Converts the text into attributed text for display
-	func updateText(urlInfo: [String: String]) {
+  func updateText(urlInfo: [String: String]) {
     let attributedString = { () -> NSAttributedString in
       let paragraphStyle = NSMutableParagraphStyle()
       paragraphStyle.alignment = self.textAlignment
