@@ -162,6 +162,7 @@
 		5E1AB45E22D4EBA500CBE581 /* TippingSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */; };
 		5E214AC3232973F500902680 /* DeviceCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E214AC2232973F500902680 /* DeviceCheck.swift */; };
 		5E2A934B22C15F05002EDFFD /* LinkLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2A934A22C15F05002EDFFD /* LinkLabel.swift */; };
+		CAD7E18C233D49B20039335C /* Cryptography.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAD7E18B233D49B20039335C /* Cryptography.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -357,6 +358,7 @@
 		5E1AB45D22D4EBA500CBE581 /* TippingSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TippingSelectionViewController.swift; sourceTree = "<group>"; };
 		5E214AC2232973F500902680 /* DeviceCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCheck.swift; sourceTree = "<group>"; };
 		5E2A934A22C15F05002EDFFD /* LinkLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkLabel.swift; sourceTree = "<group>"; };
+		CAD7E18B233D49B20039335C /* Cryptography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cryptography.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -772,6 +774,7 @@
 			isa = PBXGroup;
 			children = (
 				5E214AC2232973F500902680 /* DeviceCheck.swift */,
+				CAD7E18B233D49B20039335C /* Cryptography.swift */,
 			);
 			path = Security;
 			sourceTree = "<group>";
@@ -1059,6 +1062,7 @@
 				275F1394230B258800FAC6DA /* AdsNotificationHandler.swift in Sources */,
 				592A459C22D5FE6900E42A0E /* RewardsNotificationViewBuilder.swift in Sources */,
 				5E1AB45E22D4EBA500CBE581 /* TippingSelectionViewController.swift in Sources */,
+				CAD7E18C233D49B20039335C /* Cryptography.swift in Sources */,
 				27F4C1D922569E2B00CFCD67 /* TipsDetailViewController.swift in Sources */,
 				27371B8022A7111300E13C00 /* DetailActionableRow.swift in Sources */,
 				27A4707D2242EA6C00596431 /* GrabberView.swift in Sources */,

@@ -5,8 +5,12 @@
 import Foundation
 import DeviceCheck
 
+/// A structure used to register a device for Brave's DeviceCheck enrollment
 public struct DeviceCheckRegistration: Codable {
+  // The enrollment blob is a Base64 Encoded `DeviceCheckEnrollment` structure
   let enrollmentBlob: DeviceCheckEnrollment
+  
+  /// The signature is base64(token) + the base64(publicKey) signed using the privateKey.
   let signature: String
   
   public init(enrollmentBlob: DeviceCheckEnrollment, signature: String) {
@@ -41,13 +45,24 @@ public struct DeviceCheckRegistration: Codable {
 }
 
 public struct DeviceCheckEnrollment: Codable {
+  // Not sure yet
   let paymentID: String
+  
+  // The public key in ASN.1 DER format (PEM).
+  // Until the server is working, we will never be sure if the key should be with the universal key octets included.
+  // TODO: Wait on test server..
   let publicKey: String
+  
+  // The device check token base64 encoded.
   let deviceToken: String
 }
 
+/// A structure used to respond to a nonce challenge
 public struct AttestationVerifcation: Codable {
+  // The attestation blob is a base-64 encoded version of `AttestationBlob`
   let attestationBlob: AttestationBlob
+  
+  // The signature is the `nonce` signed by the privateKey and base-64 encoded.
   let signature: String
   
   public init(attestationBlob: AttestationBlob, signature: String) {
@@ -82,175 +97,16 @@ public struct AttestationVerifcation: Codable {
 }
 
 public struct AttestationBlob: Codable {
+  // The nonce is a UUIDv4 string
   let nonce: String
-}
-
-/// An error class representing an error that has occurred when handling encryption
-public struct CryptographyError: Error {
-  //The error domain
-  public let domain: String
-  
-  //The error code
-  public let code: Int32
-  
-  //A description of the error
-  public let description: String?
-  
-  init(code: Int32, description: String? = nil) {
-    self.domain = "com.brave.security.cryptography.error"
-    self.code = code
-    self.description = description
-  }
-}
-
-/// A class representing a cryptographic key.
-public struct CryptographicKey {
-  private let key: SecKey
-  private let keyId: String
-  
-  public init(key: SecKey, keyId: String) {
-    self.key = key
-    self.keyId = keyId
-  }
-  
-  /// Returns the private key
-  public func getPrivateKey() -> SecKey {
-    return key
-  }
-  
-  /// Returns the public key
-  public func getPublicKey() -> SecKey? {
-    return SecKeyCopyPublicKey(key)
-  }
-  
-  /// Returns the public key in ASN.1 format
-  public func getPublicKeyExternalRepresentation() throws -> Data? {
-    guard let publicKey = getPublicKey() else {
-      throw CryptographyError(code: -1, description: "Cannot retrieve public key")
-    }
-    
-    var error: Unmanaged<CFError>?
-    if let data = SecKeyCopyExternalRepresentation(publicKey, &error) {
-      return data as Data
-    }
-    
-    if let error = error?.takeUnretainedValue() {
-      throw error
-    }
-    
-    return nil
-  }
-  
-  /// Deletes the key from the secure-enclave and keychain
-  @discardableResult
-  public func delete() -> Error? {
-    let error = SecItemDelete([
-      kSecClass: kSecClassKey,
-      kSecAttrApplicationTag: keyId.data(using: .utf8)!
-    ] as CFDictionary)
-    
-    if error == errSecSuccess || error == errSecItemNotFound {
-      return nil
-    }
-    
-    return CryptographyError(code: error)
-  }
-  
-  /// Signs a "message" with the key and returns the signature
-  public func sign(message: String) throws -> Data {
-    var error: Unmanaged<CFError>?
-    let signature = SecKeyCreateSignature(key,
-                                          .ecdsaSignatureMessageX962SHA256,
-                                          message.data(using: .utf8)! as CFData,
-                                          &error)
-    
-    if let error = error?.takeUnretainedValue() {
-      throw error as Error
-    }
-    
-    guard let result = signature as Data? else {
-      throw CryptographyError(code: -1, description: "Cannot sign message with cryptographic key.")
-    }
-    
-    return result
-  }
-}
-
-/// A class used for generating cryptographic keys
-public class Cryptography {
-  
-  /// The access control flags for any keys generated
-  public static let accessControlFlags = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenUnlockedThisDeviceOnly, [.privateKeyUsage, .biometryAny], nil)
-  
-  /// Retrieves an existing key from the secure-enclave
-  public class func getExistingKey(id: String) throws -> CryptographicKey? {
-    let query: [CFString: Any] = [
-      kSecClass: kSecClassKey,
-      kSecAttrApplicationTag: id.data(using: .utf8)!,
-      kSecMatchLimit: kSecMatchLimitOne,
-      kSecReturnRef: kCFBooleanTrue as Any
-    ]
-    
-    var result: CFTypeRef?
-    let error = SecItemCopyMatching(query as CFDictionary, &result)
-    if error == errSecSuccess || error == errSecDuplicateItem || error == errSecInteractionNotAllowed {
-      if let res = result {
-        return CryptographicKey(key: res as! SecKey, keyId: id) //swiftlint:disable:this force_cast
-      }
-      return nil
-    }
-    
-    if error == errSecItemNotFound {
-      return nil
-    }
-    
-    throw CryptographyError(code: error)
-  }
-  
-  /// Generates a new key and stores it in the secure-enclave
-  /// If a key with the specified ID already exists, it retrieves the existing key instead
-  public class func generateKey(id: String,
-                                bits: UInt16 = 256,
-                                storeInKeychain: Bool = true,
-                                secureEnclave: Bool = true,
-                                controlFlags: SecAccessControl? = Cryptography.accessControlFlags) throws -> CryptographicKey? {
-    
-    if let key = try getExistingKey(id: id) {
-      return key
-    }
-    
-    let attributes: [CFString: Any] = [
-      kSecClass: kSecClassKey,
-      kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
-      kSecAttrKeySizeInBits: bits,
-      kSecAttrCreator: "com.brave.security.cryptography",
-      kSecAttrTokenID: (secureEnclave ? kSecAttrTokenIDSecureEnclave : nil) as Any,
-      kSecPrivateKeyAttrs: [
-        kSecAttrIsPermanent: storeInKeychain,
-        kSecAttrApplicationTag: id.data(using: .utf8)!,
-        kSecAttrAccessControl: (controlFlags ?? nil) as Any
-      ]
-    ]
-    
-    var error: Unmanaged<CFError>?
-    let key = SecKeyCreateRandomKey(attributes as CFDictionary, &error)
-    
-    if let error = error?.takeUnretainedValue() {
-      throw error as Error
-    }
-    
-    guard let pKey = key else {
-      throw CryptographyError(code: -1, description: "Cannot generate cryptographic key.")
-    }
-    
-    return CryptographicKey(key: pKey, keyId: id)
-  }
 }
 
 class DeviceCheckFlow {
   
+  // The ID of the private-key stored in the secure-enclave chip
   private static let privateKeyId = "com.brave.device.check.private.key"
   
+  // Registers a device with the server using the device-check token
   public func registerDevice(enrollment: DeviceCheckRegistration, _ completion: @escaping (Error?) -> Void) {
     do {
       var request = URLRequest(url: URL(string: "/v1/devicecheck/enrollments")!)
@@ -273,6 +129,7 @@ class DeviceCheckFlow {
     }
   }
   
+  // Retrieves existing attestations for this device and returns a nonce if any
   public func getAttestation(paymentId: String, _ completion: @escaping (AttestationBlob?, Error?) -> Void) {
     do {
       guard let privateKey = try Cryptography.getExistingKey(id: DeviceCheckFlow.privateKeyId) else {
@@ -280,12 +137,13 @@ class DeviceCheckFlow {
       }
       
       //Honestly not sure why this is in the query parameters..
-      guard let publicKeyData = try privateKey.getPublicKeyExternalRepresentation()?.base64EncodedString() else {
+      //Documentation doesn't specify what format the key should be in the query parameters.. so we send ASN.1 DER (PEM) encoding and URL encode it
+      guard let publicKeyData = try privateKey.getPublicKeyExternalRepresentation(), let publicKey = String(data: publicKeyData, encoding: .utf8) else {
         throw CryptographyError(code: -1, description: "Unable to retrieve public key")
       }
       
       let parameters = [
-        "publicKey": publicKeyData,
+        "publicKey": publicKey,
         "paymentId": paymentId
       ]
       
@@ -331,6 +189,7 @@ class DeviceCheckFlow {
     }
   }
   
+  // Sends the attestation to the server along with the nonce and the challenge signature
   public func setAttestation(nonce: String, _ completion: @escaping (Error?) -> Void) {
     do {
       guard let privateKey = try Cryptography.getExistingKey(id: DeviceCheckFlow.privateKeyId) else {
@@ -374,6 +233,7 @@ class DeviceCheckFlow {
     }
   }
   
+  // Generates a device-check token
   public func generateToken(_ completion: @escaping (String, Error?) -> Void) {
         DCDevice.current.generateToken { data, error in
           if let error = error {
@@ -388,20 +248,21 @@ class DeviceCheckFlow {
     }
   }
   
+  // generates an enrollment structure to be used with `registerDevice`
   public func generateEnrollment(paymentId: String, token: String, _ completion: (DeviceCheckRegistration?, Error?) -> Void) {
     do {
       guard let privateKey = try Cryptography.generateKey(id: DeviceCheckFlow.privateKeyId) else {
         throw CryptographyError(code: -1, description: "Unable to generate private key")
       }
       
-      guard let publicKeyData = try privateKey.getPublicKeyExternalRepresentation()?.base64EncodedString() else {
+      guard let publicKeyData = try privateKey.getPublicKeyExternalRepresentation(), let publicKey = String(data: publicKeyData, encoding: .utf8) else {
         throw CryptographyError(code: -1, description: "Unable to retrieve public key")
       }
       
-      let signature = try privateKey.sign(message: publicKeyData + token).base64EncodedString()
+      let signature = try privateKey.sign(message: publicKey + token).base64EncodedString()
       
       let enrollmentBlob = DeviceCheckEnrollment(paymentID: paymentId,
-                                                       publicKey: publicKeyData,
+                                                       publicKey: publicKey,
                                                        deviceToken: token)
       let registration = DeviceCheckRegistration(enrollmentBlob: enrollmentBlob,
                                                        signature: signature)
