@@ -56,6 +56,9 @@ class AutoContributeDetailViewController: UIViewController {
       self.publishers = publishersList
       self.hasMoreContent = publishersList.count == AutoContributeDetailViewController.pageSize
       self.contentView.tableView.reloadData()
+      if !self.contentView.tableView.isEditing {
+        self.navigationItem.rightBarButtonItem?.isEnabled = !self.publishers.isEmpty
+      }
     }
   }
   
@@ -147,6 +150,7 @@ class AutoContributeDetailViewController: UIViewController {
   @objc private func tappedDoneButton() {
     contentView.tableView.setEditing(false, animated: true)
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
+    navigationItem.rightBarButtonItem?.isEnabled = !self.publishers.isEmpty
   }
 }
 
