@@ -71,6 +71,9 @@ class TipsDetailViewController: UIViewController {
       guard let self = self else { return }
       infoList.forEach({$0.category = Int32(RewardsCategory.recurringTip.rawValue)})
       self.tipsList.insert(contentsOf: infoList, at: 0)
+      if !self.tipsView.tableView.isEditing {
+        self.navigationItem.rightBarButtonItem?.isEnabled = !self.tipsList.filter { $0.rewardsCategory == .recurringTip }.isEmpty
+      }
       (self.view as? View)?.tableView.reloadData()
     }
   }
@@ -100,6 +103,7 @@ class TipsDetailViewController: UIViewController {
   @objc private func tappedDoneButton() {
     tipsView.tableView.setEditing(false, animated: true)
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(tappedEditButton))
+    navigationItem.rightBarButtonItem?.isEnabled = !self.tipsList.filter { $0.rewardsCategory == .recurringTip }.isEmpty
   }
 }
 
