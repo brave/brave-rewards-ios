@@ -15,6 +15,9 @@ public class AdsViewController: UIViewController {
     let animatedOut: () -> Void
   }
   
+  /// The number of seconds until the ad is automatically dismissed
+  private let automaticDismissalInterval: TimeInterval = 8
+  
   private var displayedAds: [AdView: DisplayedAd] = [:]
   private(set) var visibleAdView: AdView?
   
@@ -88,7 +91,7 @@ public class AdsViewController: UIViewController {
       // Invalidate and reschedule
       timer.invalidate()
     }
-    dismissTimers[adView] = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { [weak self] _ in
+    dismissTimers[adView] = Timer.scheduledTimer(withTimeInterval: automaticDismissalInterval, repeats: false, block: { [weak self] _ in
       guard let self = self, let handler = self.displayedAds[adView] else { return }
       self.hide(adView: adView)
       handler.handler(handler.ad, .timedOut)
