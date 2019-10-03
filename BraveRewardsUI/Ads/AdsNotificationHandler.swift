@@ -24,6 +24,9 @@ public class AdsNotificationHandler: BraveAdsNotificationHandler {
   public var actionOccured: ((AdsNotification, Action) -> Void)?
   /// The ads object
   public let ads: BraveAds
+  /// Whether or not we should currently show ads currently based on exteranl
+  /// factors such as private mode
+  public var canShowNotifications: (() -> Bool)?
   /// The controller which we will show notifications on top of
   public private(set) weak var presentingController: UIViewController?
   
@@ -114,6 +117,7 @@ public class AdsNotificationHandler: BraveAdsNotificationHandler {
     }
     let isTopController = presentingController == topViewController(startingFrom: rootVC)
     let isTopWindow = presentingController.view.window?.isKeyWindow == true
-    return isTopController && isTopWindow
+    let canShowAds = canShowNotifications?() ?? true
+    return isTopController && isTopWindow && canShowAds
   }
 }
