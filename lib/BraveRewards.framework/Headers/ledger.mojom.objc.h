@@ -61,11 +61,27 @@ typedef NS_ENUM(NSInteger, BATResult) {
   BATResultPendingNotEnoughFunds = 22,
   BATResultRecurringTableEmpty = 23,
   BATResultExpiredToken = 24,
+  BATResultBatNotAllowed = 25,
+  BATResultAlreadyExists = 26,
 } NS_SWIFT_NAME(Result);
 
 
+typedef NS_ENUM(NSInteger, BATPublisherStatus) {
+  BATPublisherStatusNotVerified = 0,
+  BATPublisherStatusConnected = 1,
+  BATPublisherStatusVerified = 2,
+} NS_SWIFT_NAME(PublisherStatus);
 
-@class BATContributionInfo, BATPublisherInfo, BATPublisherBanner, BATPendingContribution, BATPendingContributionInfo, BATVisitData, BATGrant, BATWalletProperties, BATBalance, BATAutoContributeProps, BATMediaEventInfo, BATExternalWallet, BATBalanceReportInfo, BATActivityInfoFilterOrderPair, BATActivityInfoFilter, BATReconcileInfo, BATRewardsInternalsInfo;
+
+typedef NS_ENUM(NSInteger, BATRewardsCategory) {
+  BATRewardsCategoryAutoContribute = 2,
+  BATRewardsCategoryOneTimeTip = 8,
+  BATRewardsCategoryRecurringTip = 16,
+} NS_SWIFT_NAME(RewardsCategory);
+
+
+
+@class BATContributionInfo, BATPublisherInfo, BATPublisherBanner, BATPendingContribution, BATPendingContributionInfo, BATVisitData, BATGrant, BATWalletProperties, BATBalance, BATAutoContributeProps, BATMediaEventInfo, BATExternalWallet, BATBalanceReportInfo, BATActivityInfoFilterOrderPair, BATActivityInfoFilter, BATReconcileInfo, BATRewardsInternalsInfo, BATServerPublisherInfo, BATTransferFee;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -87,7 +103,7 @@ NS_SWIFT_NAME(PublisherInfo)
 @property (nonatomic) int32_t excluded;
 @property (nonatomic) int32_t category;
 @property (nonatomic) uint64_t reconcileStamp;
-@property (nonatomic) bool verified;
+@property (nonatomic) BATPublisherStatus status;
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, copy) NSString * url;
 @property (nonatomic, copy) NSString * provider;
@@ -105,8 +121,8 @@ NS_SWIFT_NAME(PublisherBanner)
 @property (nonatomic, copy) NSString * logo;
 @property (nonatomic, copy) NSArray<NSNumber *> * amounts;
 @property (nonatomic, copy) NSString * provider;
-@property (nonatomic, copy) NSDictionary<NSString *, NSString *> * social;
-@property (nonatomic) bool verified;
+@property (nonatomic, copy) NSDictionary<NSString *, NSString *> * links;
+@property (nonatomic) BATPublisherStatus status;
 @end
 
 NS_SWIFT_NAME(PendingContribution)
@@ -115,14 +131,14 @@ NS_SWIFT_NAME(PendingContribution)
 @property (nonatomic) double amount;
 @property (nonatomic) uint64_t addedDate;
 @property (nonatomic, copy) NSString * viewingId;
-@property (nonatomic) int32_t category;
+@property (nonatomic) BATRewardsCategory category;
 @end
 
 NS_SWIFT_NAME(PendingContributionInfo)
 @interface BATPendingContributionInfo : NSObject <NSCopying>
 @property (nonatomic, copy) NSString * publisherKey;
-@property (nonatomic) int32_t category;
-@property (nonatomic) bool verified;
+@property (nonatomic) BATRewardsCategory category;
+@property (nonatomic) BATPublisherStatus status;
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic, copy) NSString * url;
 @property (nonatomic, copy) NSString * provider;
@@ -158,8 +174,6 @@ NS_SWIFT_NAME(WalletProperties)
 @interface BATWalletProperties : NSObject <NSCopying>
 @property (nonatomic) double feeAmount;
 @property (nonatomic, copy) NSArray<NSNumber *> * parametersChoices;
-@property (nonatomic, copy) NSArray<NSNumber *> * parametersRange;
-@property (nonatomic) uint32_t parametersDays;
 @property (nonatomic, copy) NSArray<BATGrant *> * grants;
 @end
 
@@ -249,6 +263,23 @@ NS_SWIFT_NAME(RewardsInternalsInfo)
 @property (nonatomic, copy) NSString * userId;
 @property (nonatomic) uint64_t bootStamp;
 @property (nonatomic, copy) NSDictionary<NSString *, BATReconcileInfo *> * currentReconciles;
+@end
+
+NS_SWIFT_NAME(ServerPublisherInfo)
+@interface BATServerPublisherInfo : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * publisherKey;
+@property (nonatomic) BATPublisherStatus status;
+@property (nonatomic) bool excluded;
+@property (nonatomic, copy) NSString * address;
+@property (nonatomic, copy, nullable) BATPublisherBanner * banner;
+@end
+
+NS_SWIFT_NAME(TransferFee)
+@interface BATTransferFee : NSObject <NSCopying>
+@property (nonatomic, copy) NSString * id;
+@property (nonatomic) double amount;
+@property (nonatomic) uint64_t executionTimestamp;
+@property (nonatomic) uint32_t executionId;
 @end
 
 NS_ASSUME_NONNULL_END

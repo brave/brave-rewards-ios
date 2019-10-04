@@ -201,16 +201,16 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       publisherView.setCheckAgainIsLoading(true)
       let date = Date()
       
-      self.state.ledger.refreshPublisher(withId: publisher.id, completion: { isVerified in
+      self.state.ledger.refreshPublisher(withId: publisher.id, completion: { status in
         let updateStates = {
           publisherView.setCheckAgainIsLoading(false)
           publisherView.checkAgainButton.isHidden = true
-          publisherView.setVerified(isVerified)
+          publisherView.setStatus(status)
         }
 
         // Create an artificial delay so user sees something is happening
         let delay = max(0, min(2.5, 2.5 - Date().timeIntervalSince(date)))
-        if isVerified {
+        if status == .verified {
           updateStates()
         } else {
           DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
@@ -245,6 +245,7 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       attentionView.valueLabel.text = "0%"
       
       publisherView.checkAgainButton.isHidden = publisher != nil
+      publisherView.setCheckAgainIsLoading(state.ledger.isLoadingPublisherList)
       
       state.dataSource?.retrieveFavicon(for: state.url, faviconURL: URL(string: publisher?.faviconUrl ?? "") ?? state.faviconURL, completion: { [weak self] faviconData in
         guard let data = faviconData else { return }
@@ -257,15 +258,15 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
       
       guard let publisher = publisher else {
         publisherView.updatePublisherName(state.dataSource?.displayString(for: state.url) ?? "", provider: "")
-        publisherView.setVerified(false)
+        publisherView.setStatus(.notVerified)
         return
       }
       
       let provider = " \(publisher.provider.isEmpty ? "" : String(format: Strings.OnProviderText, publisher.providerDisplayString))"
       publisherView.updatePublisherName(publisher.name, provider: provider)
       
-      publisherView.setVerified(publisher.verified)
-      publisherView.checkAgainButton.isHidden = publisher.verified
+      publisherView.setStatus(publisher.status)
+      publisherView.checkAgainButton.isHidden = publisher.status != .notVerified
       
       self.publisherSummaryView.setAutoContribute(enabled:
         publisher.excluded != PublisherExclude.excluded.rawValue)
@@ -526,6 +527,10 @@ extension WalletViewController {
         self.publisher?.percent = activity.percent
       }
       self.reloadPublisherDetails()
+    }
+    ledgerObserver.publisherListUpdated = { [weak self] in
+      guard let self = self else { return }
+      self.publisherSummaryView.publisherView.setCheckAgainIsLoading(self.state.ledger.isLoadingPublisherList)
     }
     ledgerObserver.fetchedBalance = { [weak self] in
       self?.updateWalletHeader()

@@ -48,15 +48,17 @@ extension RewardsSummaryProtocol {
     }
     
     let ledger = state.ledger
-    let balance = ledger.balanceReport(for: activityMonth, year: Int32(now.currentYear))
-    let activities = [
-      Activity(balance.grants, title: Strings.TotalGrantsClaimed, color: BraveUX.adsTintColor),
-      Activity(balance.earningFromAds, title: Strings.EarningFromAds, color: BraveUX.adsTintColor),
-      Activity(balance.autoContribute, title: Strings.AutoContribute, color: BraveUX.autoContributeTintColor),
-      Activity(balance.oneTimeDonation, title: Strings.OneTimeTips, color: BraveUX.tipsTintColor),
-      Activity(balance.recurringDonation, title: Strings.MonthlyTips, color: BraveUX.tipsTintColor)
-    ].compactMap { $0 }
-    
+    var activities: [Activity] = []
+    ledger.balanceReport(for: activityMonth, year: Int32(now.currentYear)) { balance in
+      guard let balance = balance else { return }
+      activities = [
+        Activity(balance.grants, title: Strings.TotalGrantsClaimed, color: BraveUX.adsTintColor),
+        Activity(balance.earningFromAds, title: Strings.EarningFromAds, color: BraveUX.adsTintColor),
+        Activity(balance.autoContribute, title: Strings.AutoContribute, color: BraveUX.autoContributeTintColor),
+        Activity(balance.oneTimeDonation, title: Strings.OneTimeTips, color: BraveUX.tipsTintColor),
+        Activity(balance.recurringDonation, title: Strings.MonthlyTips, color: BraveUX.tipsTintColor)
+      ].compactMap { $0 }
+    }
     return activities.map {
       let bat = $0.value.displayString
       let usd = ledger.dollarStringForBATAmount(bat)

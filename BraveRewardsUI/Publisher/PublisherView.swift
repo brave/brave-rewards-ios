@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import UIKit
+import BraveRewards
 
 class PublisherView: UIStackView {
   
@@ -10,16 +11,16 @@ class PublisherView: UIStackView {
     verifiedLabelStackView.isHidden = hidden
   }
   
-  func setVerified(_ status: Bool) {
-    if status {
+  func setStatus(_ status: PublisherStatus) {
+    if status != .notVerified {
       verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-verify")
       verifiedLabel.text = Strings.Verified
-      unverifiedDisclaimerView.isHidden = true
     } else {
       verificationSymbolImageView.image = UIImage(frameworkResourceNamed: "icn-unverified")
       verifiedLabel.text = Strings.NotYetVerified
-      unverifiedDisclaimerView.isHidden = false
     }
+    // Shows if the publisher is also .connected
+    unverifiedDisclaimerView.isHidden = status == .verified
   }
   
   func updatePublisherName(_ name: String, provider: String) {

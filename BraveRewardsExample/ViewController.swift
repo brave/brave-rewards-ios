@@ -72,7 +72,7 @@ class UIMockLedger: BraveLedger {
     }
   }
   
-  override func balanceReport(for month: ActivityMonth, year: Int32) -> BalanceReportInfo {
+  override func balanceReport(for month: ActivityMonth, year: Int32, completion: (BalanceReportInfo?) -> Void) {
     // Returns the same values for all months at the moment.
     // Could expand this to play with different values based on month or year.
     let info = BalanceReportInfo()
@@ -82,7 +82,7 @@ class UIMockLedger: BraveLedger {
     info.oneTimeDonation = "0"
     info.recurringDonation = "-20"
     
-    return info
+    completion(info)
   }
   
   override var reservedAmount: Double { return 25.5 }
@@ -140,12 +140,12 @@ class ViewController: UIViewController {
   
   func setupRewards() {
     if (useMockLedgerSwitch.isOn) {
-      rewards = BraveRewards(configuration: .default, delegate: self, ledgerClass: UIMockLedger.self, adsClass: nil)
+      rewards = BraveRewards(configuration: .production, delegate: self, ledgerClass: UIMockLedger.self, adsClass: nil)
       // Simulate visiting a sample url to test publisher verification.
       let url = URL(string: ViewController.testPublisherURL)!
       rewards.ledger.fetchPublisherActivity(from: url, faviconURL: url, publisherBlob: nil, tabId: 1)
     } else {
-      rewards = BraveRewards(configuration: .default)
+      rewards = BraveRewards(configuration: .production)
       rewards.delegate = self
     }
     notificationsHandler = AdsNotificationHandler(ads: rewards.ads, presentingController: self)

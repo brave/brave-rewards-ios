@@ -191,7 +191,7 @@ extension TipsDetailViewController: UITableViewDataSource, UITableViewDelegate {
       
       cell.siteImageView.image = UIImage(frameworkResourceNamed: "defaultFavicon")
       setFavicon(identifier: tip.id, pageURL: tip.url, faviconURL: tip.faviconUrl)
-      cell.verifiedStatusImageView.isHidden = !tip.verified
+      cell.verifiedStatusImageView.isHidden = tip.status != .verified
       switch tip.rewardsCategory {
       case .oneTimeTip:
         cell.typeNameLabel.text = Strings.OneTimeText + Date.stringFrom(reconcileStamp: tip.reconcileStamp)
@@ -268,7 +268,11 @@ extension TipsDetailViewController {
   fileprivate func getTipsThisMonth() -> BalanceReportInfo {
     let month = Date().currentMonthNumber
     let year = Date().currentYear
-    return state.ledger.balanceReport(for: ActivityMonth(rawValue: month) ?? .any, year: Int32(year))
+    var report = BalanceReportInfo()
+    state.ledger.balanceReport(for: ActivityMonth(rawValue: month) ?? .any, year: Int32(year)) {
+      if let balance = $0 { report = balance }
+    }
+    return report
   }
   
   fileprivate func setFavicon(identifier: String, pageURL: String, faviconURL: String?) {
