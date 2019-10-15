@@ -1,13 +1,11 @@
 # brave-rewards-ios
 
+**Note: The code in this repo has been relocated to [brave-ios](https://github.com/brave/brave-ios)**
+
+---
+
+
 A UI framework for consuming Brave Rewards on [brave-ios](https://github.com/brave/brave-ios). The core logic around BraveRewards resides in brave-core
-
-The latest BraveRewards.framework was built on:
-
-```
-brave-browser/ac0137d1622399515d6f98f8204a86f881e9efee
-brave-core/ae16439da9cd4764a1a9d3249cd521495832b4eb
-```
 
 Building the code
 -----------------
